@@ -1,5 +1,5 @@
-import project1 from "../assets/projects/project-1.jpg";
-import project2 from "../assets/projects/project-2.jpg";
+import eCommerce from "../assets/projects/ecommerce.png";
+import mernEstate from "../assets/projects/mern-estate.png";
 import portfolio from "../assets/projects/portfolio.png";
 import mernBlog from "../assets/projects/mern-blog.png";
 
@@ -40,20 +40,20 @@ export const EXPERIENCES = [
 
 export const PROJECTS = [
   {
-    title: "E-Commerce Website",
-    image: project1,
+    title: "Blog Website",
+    image: mernBlog,
     description:
-      "A fully functional e-commerce website with features like product listing, shopping cart, and user authentication.",
-    url: "#",
-    technologies: ["HTML", "CSS", "React", "Node.js", "MongoDB"],
+      "A platform for creating and publishing blog posts, with features like admin dashboards, rich text editing, comments management, users management and advanced search...",
+    url: "https://mern-blog-6atr.onrender.com/",
+    technologies: ["React", "Node.js", "Express", "MongoDB", "Firebase", "Tailwind", "Flowbite"],
   },
   {
-    title: "Task Management App",
-    image: project2,
+    title: "Real Estate Website",
+    image: mernEstate,
     description:
-      "An application for managing tasks and projects, with features such as task creation, assignment, and progress tracking.",
-    url: "#",
-    technologies: ["HTML", "CSS", "Angular", "Firebase"],
+      "An application for creating and publishing listings of real estate properties, with features such as advanced property search filters and real-time listings to connect buyers with their ideal homes.",
+    url: "https://mern-estate-zw5b.onrender.com/",
+    technologies: ["React", "Tailwind", "Node.js", "Express", "MongoDB", "Firebase"],
   },
   {
     title: "Portfolio Website",
@@ -61,16 +61,17 @@ export const PROJECTS = [
     description:
       "A personal portfolio website showcasing projects, skills, and contact information.",
     url: "#",
-    technologies: ["HTML", "CSS", "React", "Tailwind"],
+    technologies: ["React", "Tailwind", "Framer Motion"],
   },
   {
-    title: "Blogging Platform",
-    image: mernBlog,
+    title: "E-Commerce Website",
+    image: eCommerce,
     description:
-      "A platform for creating and publishing blog posts, with features like rich text editing, commenting, user profiles, and admin dashboards.",
-    url: "https://mern-blog-6atr.onrender.com/",
-    technologies: ["React", "Node.js", "Express", "MongoDB", "Firebase", "Tailwind", "Flowbite"],
-  },
+      "A front-end-only e-commerce website with features like product listing, shopping cart.",
+    url: "https://liuyuelintop.github.io/ecommerce-website-react/",
+    technologies: ["HTML", "CSS", "React"],
+  }
+
 ];
 
 export const CONTACT = {
