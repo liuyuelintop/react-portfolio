@@ -53,7 +53,7 @@ export const PROJECTS = [
     image: portfolio,
     description:
       "A personal portfolio website showcasing projects, skills, and contact information.",
-    url: "#",
+    url: "https://react-portfolio-iaih31qdi-yuelin-lius-projects.vercel.app/",
     technologies: ["React", "Tailwind", "Framer Motion"],
   },
   {
@@ -62,7 +62,7 @@ export const PROJECTS = [
     description:
       "A front-end-only e-commerce website with features like product listing, shopping cart.",
     url: "https://liuyuelintop.github.io/ecommerce-website-react/",
-    technologies: ["HTML", "CSS", "React"],
+    technologies: ["HTML", "CSS", "React", "Vercel"],
   }
 
 ];
