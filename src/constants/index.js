@@ -53,7 +53,7 @@ export const PROJECTS = [
     image: portfolio,
     description:
       "A personal portfolio website showcasing projects, skills, and contact information.",
-    url: "https://react-portfolio-iaih31qdi-yuelin-lius-projects.vercel.app/",
+    url: "https://react-portfolio-tau-eight-56.vercel.app/",
     technologies: ["React", "Tailwind", "Framer Motion"],
   },
   {
