@@ -11,7 +11,7 @@ export default function Projects() {
                 className="my-20 text-center text-4xl">
                 Projects
             </motion.h2>
-            <div className="">
+            <div className="flex flex-col">
                 {PROJECTS.map((project, index) => (
                     <div key={index} className="mb-8 flex flex-wrap lg:justify-center">
                         <motion.div
