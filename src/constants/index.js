@@ -77,7 +77,7 @@ export const PROJECTS = [
     image: mernChat,
     description:
       "A realtime chat app is built on a robust MERN stack integrated with Socket.io for real-time interactions, and styled using TailwindCSS and Daisy UI. Key features include user authentication and authorization via JWT, real-time messaging, and online user status updates. It leverages Zustand for global state management and ensures thorough error handling on both server and client sides.",
-    url: "#",
+    url: "https://mern-chat-app-9ybq.onrender.com/",
     technologies: [
       "React",
       "Node",
