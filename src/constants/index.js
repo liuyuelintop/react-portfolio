@@ -4,11 +4,27 @@ import portfolio from "../assets/projects/portfolio.png";
 import mernBlog from "../assets/projects/mern-blog.png";
 import gameHub from "../assets/projects/game-hub.png";
 import mernChat from "../assets/projects/mern-chat.png";
+import biomechAnalysis from "../assets/projects/biomech-analysis.png";
 export const HERO_CONTENT = `I am a passionate full stack developer with a knack for crafting robust and scalable web applications. With 1.5 years of hands-on experience, I have honed my skills in front-end technologies like React and Next.js, as well as back-end technologies like Node.js, Express, MySQL, PostgreSQL, and MongoDB. My goal is to leverage my expertise to create innovative solutions that drive business growth and deliver exceptional user experiences.`;
 
 export const ABOUT_TEXT = `I am a dedicated and versatile full stack developer with a passion for creating efficient and user-friendly web applications. With 1.5 years of professional experience, I have worked with a variety of technologies, including React, Node.js, MongoDB, MySQL, and PostgreSQL. My journey in web development began with a deep curiosity for how things work, and it has evolved into a career where I continuously strive to learn and adapt to new challenges. I thrive in collaborative environments and enjoy solving complex problems to deliver high-quality solutions. Outside of coding, I enjoy staying active, exploring new technologies, and contributing to open-source projects.`;
 
 export const EXPERIENCES = [
+  {
+    year: "April 2024 - Present",
+    role: "Software Engineer Internship",
+    company: "Deakin University",
+    description:
+      "In the Biomech Analysis Pipeline project, I led the integration of advanced keypoints detection models like YOLOv8-pose and AlphaPose, optimizing video input processing across single and multi-view camera setups. I automated the transformation of detected keypoints into OpenSim format using Open2Sim, and conducted initial simulations to ensure accuracy. Additionally, I developed a user-friendly, interactive dashboard using React for real-time visualization and managed a robust data backend with SQL and NoSQL databases to efficiently store and retrieve extensive biomechanical data sets.",
+    technologies: [
+      "YOLOv8-pose",
+      "AlphaPose",
+      "React",
+      "Open2Sim",
+      "SQL",
+      "NoSQL",
+    ],
+  },
   {
     year: "2023 - Present",
     role: "Frontend Developer",
@@ -87,6 +103,21 @@ export const PROJECTS = [
       "TailwindCSS",
       "Daisy UI",
       "Vercel",
+    ],
+  },
+  {
+    title: "Biomech Analysis Pipeline",
+    image: biomechAnalysis, // You'll need to replace this with the actual variable or path to the image in your project files.
+    description:
+      "This project entailed leading the integration of advanced keypoints detection using technologies like YOLOv8-pose and AlphaPose to optimize video input processing for biomechanical analysis. It involved automating the transformation of keypoints into OpenSim format for accurate simulation and developing a React-based dashboard for real-time data visualization. The backend was managed with both SQL and NoSQL databases to efficiently store and process large datasets.",
+    url: "#",
+    technologies: [
+      "YOLOv8-pose",
+      "AlphaPose",
+      "React",
+      "Open2Sim",
+      "SQL",
+      "NoSQL",
     ],
   },
   {
