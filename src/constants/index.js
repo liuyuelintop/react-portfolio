@@ -6,6 +6,7 @@ import gameHub from "../assets/projects/game-hub.png";
 import mernChat from "../assets/projects/mern-chat.png";
 import biomechAnalysis from "../assets/projects/biomech-analysis.png";
 import googleNext from "../assets/projects/google-next.png";
+import nextBlog from "../assets/projects/next-blog.png";
 export const HERO_CONTENT = `I am a passionate full stack developer with a knack for crafting robust and scalable web applications. With 1.5 years of hands-on experience, I have honed my skills in front-end technologies like React and Next.js, as well as back-end technologies like Node.js, Express, MySQL, PostgreSQL, and MongoDB. My goal is to leverage my expertise to create innovative solutions that drive business growth and deliver exceptional user experiences.`;
 
 export const ABOUT_TEXT = `I am a dedicated and versatile full stack developer with a passion for creating efficient and user-friendly web applications. With 1.5 years of professional experience, I have worked with a variety of technologies, including React, Node.js, MongoDB, MySQL, and PostgreSQL. My journey in web development began with a deep curiosity for how things work, and it has evolved into a career where I continuously strive to learn and adapt to new challenges. I thrive in collaborative environments and enjoy solving complex problems to deliver high-quality solutions. Outside of coding, I enjoy staying active, exploring new technologies, and contributing to open-source projects.`;
@@ -51,7 +52,23 @@ export const EXPERIENCES = [
 
 export const PROJECTS = [
   {
-    title: "Blog Website",
+    title: "Next Markdown Blog",
+    image: nextBlog,
+    description:
+      "It is a markdown static blog, features include MDX Components,Shadcn UI, Pagination, Dynamic Open Graph Image and Syntax Highlighting in code block.",
+    url: "https://next-blog-alpha-sable-40.vercel.app",
+    technologies: [
+      "ReactJS 18",
+      "NextJS 14",
+      "NextJS SEO",
+      "TailwindCSS",
+      "Shadcn/ui",
+      "Velite",
+      "Vercel",
+    ],
+  },
+  {
+    title: "Rich Text Blog Website",
     image: mernBlog,
     description:
       "A platform for creating and publishing blog posts, with features like admin dashboards, rich text editing, comments management, users management and advanced search...",
@@ -82,22 +99,6 @@ export const PROJECTS = [
     ],
   },
   {
-    title: "Google Next",
-    image: googleNext,
-    description:
-      "Google Next is an open source Google-Clone project using React, Next.js and TailwindCSS, aiming for learning Next.js framework",
-    url: "https://google-clone-blond.vercel.app/",
-    technologies: ["React", "Next.js", "TailwindCSS", "Vercel"],
-  },
-  {
-    title: "Game Hub",
-    image: gameHub,
-    description:
-      "Game Hub is an engaging online platform where gamers can explore and enjoy a variety of browser-based games. It offers a diverse library of games across multiple genres, providing entertainment for players of all ages and interests.",
-    url: "https://google-next-blond.vercel.app/",
-    technologies: ["vanilla CSS", "React", "TypeScript", "Vercel"],
-  },
-  {
     title: "Real Time Chat App",
     image: mernChat,
     description:
@@ -113,6 +114,22 @@ export const PROJECTS = [
       "Daisy UI",
       "Vercel",
     ],
+  },
+  {
+    title: "Game Hub",
+    image: gameHub,
+    description:
+      "Game Hub is an engaging online platform where gamers can explore and enjoy a variety of browser-based games. It offers a diverse library of games across multiple genres, providing entertainment for players of all ages and interests.",
+    url: "https://google-next-blond.vercel.app/",
+    technologies: ["vanilla CSS", "React", "TypeScript", "Vercel"],
+  },
+  {
+    title: "Google Next",
+    image: googleNext,
+    description:
+      "Google Next is an open source Google-Clone project using React, Next.js and TailwindCSS, aiming for learning Next.js framework",
+    url: "https://google-clone-blond.vercel.app/",
+    technologies: ["React", "Next.js", "TailwindCSS", "Vercel"],
   },
   {
     title: "Biomech Analysis Pipeline",
