@@ -120,7 +120,7 @@ export const PROJECTS = [
     image: gameHub,
     description:
       "Game Hub is an engaging online platform where gamers can explore and enjoy a variety of browser-based games. It offers a diverse library of games across multiple genres, providing entertainment for players of all ages and interests.",
-    url: "https://google-next-blond.vercel.app/",
+    url: "https://game-hub-two-zeta.vercel.app/",
     technologies: ["vanilla CSS", "React", "TypeScript", "Vercel"],
   },
   {
