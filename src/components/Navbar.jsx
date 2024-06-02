@@ -9,7 +9,7 @@ export default function Navbar() {
             <div className="flex gap-4 items-center flex-shrink-0">
                 <img className="mx-2 w-10" src={logo} alt="logo" />
                 <a
-                    href="https://raw.githubusercontent.com/liuyuelintop/yl-resume/main/Yuelin_Liu_resume.pdf"
+                    href="https://raw.githubusercontent.com/liuyuelintop/yl-resume/main/Yuelin_Liu_resume.docx"
                     download
                     className="px-4 py-2 bg-indigo-600 text-neural font-semibold rounded-lg shadow-lg hover:bg-indigo-700 hover:shadow-xl transition duration-300"
                 >
