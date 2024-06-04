@@ -10,8 +10,8 @@ const ProjectCard = ({ project, index }) => {
                 className="w-full lg:w-1/4">
                 <a href={project.url} target="_blank" rel="noopener noreferrer">
                     <img className="mb-6 rounded"
-                        width={150}
-                        height={150}
+                        width={200}
+                        // height={150}
                         src={project.image}
                         alt={project.title} />
                 </a>

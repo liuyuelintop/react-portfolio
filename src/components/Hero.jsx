@@ -42,6 +42,7 @@ export default function Hero() {
                 <div className="full sm:w-1/2 lg:p-8">
                     <div className="flex justify-center">
                         <motion.img
+                            className="rounded-2xl"
                             initial={{ x: 100, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             transition={{ duration: 1, delay: 1.2 }}

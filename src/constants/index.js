@@ -7,6 +7,7 @@ import mernChat from "../assets/projects/mern-chat.png";
 import biomechAnalysis from "../assets/projects/biomech-analysis.png";
 import googleNext from "../assets/projects/google-next.png";
 import nextBlog from "../assets/projects/next-blog.png";
+import twitterClone from "../assets/projects/twitter-clone.png";
 export const HERO_CONTENT = `I am a passionate full stack developer with a knack for crafting robust and scalable web applications. With 1.5 years of hands-on experience, I have honed my skills in front-end technologies like React and Next.js, as well as back-end technologies like Node.js, Express, MySQL, PostgreSQL, and MongoDB. My goal is to leverage my expertise to create innovative solutions that drive business growth and deliver exceptional user experiences.`;
 
 export const ABOUT_TEXT = `I am a dedicated and versatile full stack developer with a passion for creating efficient and user-friendly web applications. With 1.5 years of professional experience, I have worked with a variety of technologies, including React, Node.js, MongoDB, MySQL, and PostgreSQL. My journey in web development began with a deep curiosity for how things work, and it has evolved into a career where I continuously strive to learn and adapt to new challenges. I thrive in collaborative environments and enjoy solving complex problems to deliver high-quality solutions. Outside of coding, I enjoy staying active, exploring new technologies, and contributing to open-source projects.`;
@@ -51,6 +52,35 @@ export const EXPERIENCES = [
 ];
 
 export const PROJECTS = [
+  {
+    title: "Twitter Clone",
+    image: twitterClone,
+    description: `⚛️ Tech Stack: React.js, MongoDB, Node.js, Express, Tailwind
+      🔐 Authentication with JSONWEBTOKENS (JWT)
+      🔥 React Query for Data Fetching, Caching etc.
+      👥 Suggested Users to Follow
+      ✍️ Creating Posts
+      🗑️ Deleting Posts
+      💬 Commenting on Posts
+      ❤️ Liking Posts
+      🔒 Delete Posts (if you are the owner)
+      📝 Edit Profile Info
+      🖼️ Edit Cover Image and Profile Image
+      📷 Image Uploads using Cloudinary
+      🔔 Send Notifications
+      🌐 Deployment`,
+    url: "https://twitter-clone-qhpp.onrender.com/",
+    technologies: [
+      "React.js",
+      "React Query",
+      "MongoDB",
+      "Node.js",
+      "Express",
+      "Tailwind",
+      "DaisyUI",
+      "JWT",
+    ],
+  },
   {
     title: "Next Markdown Blog",
     image: nextBlog,
