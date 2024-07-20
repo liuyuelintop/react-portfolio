@@ -8,6 +8,8 @@ import biomechAnalysis from "../assets/projects/biomech-analysis.png";
 import googleNext from "../assets/projects/google-next.png";
 import nextBlog from "../assets/projects/next-blog.png";
 import twitterClone from "../assets/projects/twitter-clone.png";
+import mernPoetry from "../assets/projects/mern-chinese-poetry.png";
+import tsPokerGame from "../assets/projects/ts-poker-game.png";
 export const HERO_CONTENT = `I am a passionate and result-driven full stack developer with a knack for crafting robust and scalable web applications. With 2 years of hands-on experience, I have honed my skills in front-end technologies like React and Next.js, as well as back-end technologies like Node.js, Express, MySQL, PostgreSQL, and MongoDB. My goal is to leverage my expertise to create innovative solutions that drive business growth and deliver exceptional user experiences.`;
 
 export const ABOUT_TEXT = `I am a dedicated and versatile full stack developer with a passion for creating efficient and user-friendly web applications. With 2 years of professional experience, I have worked with a variety of technologies, including React, Node.js, MongoDB, MySQL, and PostgreSQL. My journey in web development began with a deep curiosity for how things work, and it has evolved into a career where I continuously strive to learn and adapt to new challenges. I thrive in collaborative environments and enjoy solving complex problems to deliver high-quality solutions. Outside of coding, I enjoy staying active, exploring new technologies, and contributing to open-source projects.`;
@@ -30,10 +32,18 @@ export const EXPERIENCES = [
   },
   {
     year: "2023 - Present",
-    role: "Frontend Developer",
+    role: "Fullstack Developer - Partime",
     company: "Expresso Carwash Pty Ltd.",
-    description: `I lead a team at Expresso Carwash, overseeing operations, customer service, and system management for optimal efficiency. Designed and developed user interfaces for web applications using JavaScript, React.js and worked closely with non-technical stakeholders`,
-    technologies: ["Javascript", "React.js", "Tailwind"],
+    description: `•	Enhanced User Experience: Implemented React.js and Tailwind CSS for responsive web apps \n •	Optimized Data Handling: Conducted custom hooks and Redux Toolkit for improved data fetching and global state management.\n •	Streamlined Backend: Designed robust RESTful APIs with Node.js, Express, and MongoDB.\n •	Improved Code Quality: Integrated TypeScript, Unit Testing, and Integrating Testing, reducing runtime errors and bugs, and enhancing code reliability and robustness. \n •	Boosted Team Efficiency: Wrote technical docs, reducing new member onboarding time.\n •	Achieved Business Goals: Collaborated with stakeholders to meet business objectives.
+`,
+    technologies: [
+      "React",
+      "JavaScript",
+      "TypeScript",
+      "Tailwind CSS",
+      "NodeJS",
+      "Jest",
+    ],
   },
   {
     year: "2020 - 2021",
@@ -98,7 +108,7 @@ export const PROJECTS = [
     ],
   },
   {
-    title: "Rich Text Blog Website",
+    title: "MERN-Stack Blog Website",
     image: mernBlog,
     description:
       "A platform for creating and publishing blog posts, with features like admin dashboards, rich text editing, comments management, users management and advanced search...",
@@ -152,6 +162,31 @@ export const PROJECTS = [
       "Game Hub is an engaging online platform where gamers can explore and enjoy a variety of browser-based games. It offers a diverse library of games across multiple genres, providing entertainment for players of all ages and interests.",
     url: "https://game-hub-two-zeta.vercel.app/",
     technologies: ["vanilla CSS", "React", "TypeScript", "Vercel"],
+  },
+  {
+    title: "MERN Chinese Poetry",
+    image: mernPoetry,
+    description:
+      "This project is a full-stack web application that allows users to search for Chinese poetry based on different dynasties, including Tang and Song poems, as well as Shijing. The application uses React for the frontend and Node.js/Express for the backend. View Random classic Poems at Home Page,Search poems by dynasty (Tang, Song) - Search Shijing poems - Pagination support for browsing multiple pages of results - Responsive design with Tailwind CSS - RESTful API backend with Express and MongoDB",
+    url: "https://mern-chinese-poetry.vercel.app/",
+    technologies: [
+      "React.js",
+      "Tailwind CSS",
+      "React Query",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "Render",
+      "Vercel",
+    ],
+  },
+  {
+    title: "TypeScript React Poker Game",
+    image: tsPokerGame,
+    url: "https://ts-react-card-game.vercel.app/",
+    description:
+      "This project is a TypeScript and React application for displaying and shuffling a deck of cards, styled with Tailwind CSS. ",
+    technologies: ["React.js", "TypeScript", "Tailwind CSS", "Vercel"],
   },
   {
     title: "Google Next",
