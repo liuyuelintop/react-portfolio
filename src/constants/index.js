@@ -10,6 +10,7 @@ import nextBlog from "../assets/projects/next-blog.png";
 import twitterClone from "../assets/projects/twitter-clone.png";
 import mernPoetry from "../assets/projects/mern-chinese-poetry.png";
 import tsPokerGame from "../assets/projects/ts-poker-game.png";
+import mernNetflixClone from "../assets/projects/mern-netflix-clone.png";
 export const HERO_CONTENT = `I am a passionate and result-driven full stack developer with a knack for crafting robust and scalable web applications. With 2 years of hands-on experience, I have honed my skills in front-end technologies like React and Next.js, as well as back-end technologies like Node.js, Express, MySQL, PostgreSQL, and MongoDB. My goal is to leverage my expertise to create innovative solutions that drive business growth and deliver exceptional user experiences.`;
 
 export const ABOUT_TEXT = `I am a dedicated and versatile full stack developer with a passion for creating efficient and user-friendly web applications. With 2 years of professional experience, I have worked with a variety of technologies, including React, Node.js, MongoDB, MySQL, and PostgreSQL. My journey in web development began with a deep curiosity for how things work, and it has evolved into a career where I continuously strive to learn and adapt to new challenges. I thrive in collaborative environments and enjoy solving complex problems to deliver high-quality solutions. Outside of coding, I enjoy staying active, exploring new technologies, and contributing to open-source projects.`;
@@ -62,6 +63,21 @@ export const EXPERIENCES = [
 ];
 
 export const PROJECTS = [
+  {
+    title: "Netflix Clone",
+    image: mernNetflixClone,
+    description: `🔐 Authentication with JWT,📱 Responsive UI,🎬 Fetch Movies and Tv Show,🔎 Search for Actors and Movies,🎥 Watch Trailers,🔥  Fetch Search History,🐱‍👤 Get  Similar Movies/Tv Shows,💙 Awesome Landing Page,🌐 Deployment,🚀 And Many More Cool Features`,
+    url: "https://mern-netflix-clone-mj1d.onrender.com/",
+    technologies: [
+      "React.js",
+      "Zustand",
+      "MongoDB",
+      "Node.js",
+      "Express",
+      "Tailwind",
+      "JWT",
+    ],
+  },
   {
     title: "Twitter Clone",
     image: twitterClone,
