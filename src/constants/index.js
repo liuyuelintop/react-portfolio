@@ -76,6 +76,10 @@ export const PROJECTS = [
       "Express",
       "Tailwind",
       "JWT",
+      "AWS",
+      "SystemD",
+      "Caddy",
+      "Route 53",
     ],
   },
   {
