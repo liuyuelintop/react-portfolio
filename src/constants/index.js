@@ -67,7 +67,7 @@ export const PROJECTS = [
     title: "Netflix Clone",
     image: mernNetflixClone,
     description: `🔐 Authentication with JWT,📱 Responsive UI,🎬 Fetch Movies and Tv Show,🔎 Search for Actors and Movies,🎥 Watch Trailers,🔥  Fetch Search History,🐱‍👤 Get  Similar Movies/Tv Shows,💙 Awesome Landing Page,🌐 Deployment,🚀 And Many More Cool Features`,
-    url: "https://mern-netflix-clone-mj1d.onrender.com/",
+    url: "https://netflix-clone.liuyuelin.xyz/",
     technologies: [
       "React.js",
       "Zustand",
