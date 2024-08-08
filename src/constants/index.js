@@ -11,26 +11,27 @@ import twitterClone from "../assets/projects/twitter-clone.png";
 import mernPoetry from "../assets/projects/mern-chinese-poetry.png";
 import tsPokerGame from "../assets/projects/ts-poker-game.png";
 import mernNetflixClone from "../assets/projects/mern-netflix-clone.png";
+import nextStripeStarter from "../assets/projects/next-stripe-starter.png";
 export const HERO_CONTENT = `I am a passionate and result-driven full stack developer with a knack for crafting robust and scalable web applications. With 2 years of hands-on experience, I have honed my skills in front-end technologies like React and Next.js, as well as back-end technologies like Node.js, Express, MySQL, PostgreSQL, and MongoDB. My goal is to leverage my expertise to create innovative solutions that drive business growth and deliver exceptional user experiences.`;
 
 export const ABOUT_TEXT = `I am a dedicated and versatile full stack developer with a passion for creating efficient and user-friendly web applications. With 2 years of professional experience, I have worked with a variety of technologies, including React, Node.js, MongoDB, MySQL, and PostgreSQL. My journey in web development began with a deep curiosity for how things work, and it has evolved into a career where I continuously strive to learn and adapt to new challenges. I thrive in collaborative environments and enjoy solving complex problems to deliver high-quality solutions. Outside of coding, I enjoy staying active, exploring new technologies, and contributing to open-source projects.`;
 
 export const EXPERIENCES = [
-  {
-    year: "April 2024 - Present",
-    role: "Software Engineer Internship",
-    company: "Deakin University",
-    description:
-      "In the Biomech Analysis Pipeline project, I led the integration of advanced keypoints detection models like YOLOv8-pose and AlphaPose, optimizing video input processing across single and multi-view camera setups. I automated the transformation of detected keypoints into OpenSim format using Open2Sim, and conducted initial simulations to ensure accuracy. Additionally, I developed a user-friendly, interactive dashboard using React for real-time visualization and managed a robust data backend with SQL and NoSQL databases to efficiently store and retrieve extensive biomechanical data sets.",
-    technologies: [
-      "YOLOv8-pose",
-      "AlphaPose",
-      "React",
-      "Open2Sim",
-      "SQL",
-      "NoSQL",
-    ],
-  },
+  // {
+  //   year: "April 2024 - Present",
+  //   role: "Software Engineer Internship",
+  //   company: "Deakin University",
+  //   description:
+  //     "In the Biomech Analysis Pipeline project, I led the integration of advanced keypoints detection models like YOLOv8-pose and AlphaPose, optimizing video input processing across single and multi-view camera setups. I automated the transformation of detected keypoints into OpenSim format using Open2Sim, and conducted initial simulations to ensure accuracy. Additionally, I developed a user-friendly, interactive dashboard using React for real-time visualization and managed a robust data backend with SQL and NoSQL databases to efficiently store and retrieve extensive biomechanical data sets.",
+  //   technologies: [
+  //     "YOLOv8-pose",
+  //     "AlphaPose",
+  //     "React",
+  //     "Open2Sim",
+  //     "SQL",
+  //     "NoSQL",
+  //   ],
+  // },
   {
     year: "2023 - Present",
     role: "Fullstack Developer - Partime",
@@ -63,6 +64,20 @@ export const EXPERIENCES = [
 ];
 
 export const PROJECTS = [
+  {
+    title: "Stripe Subscription Starter",
+    image: nextStripeStarter,
+    description: `⚛️ Tech Stack: Next.js 14, TypeScript, Prisma, MongoDB, Stripe, 🔐 Authentication with Kinde Auth, 💸 Monthly and Annually Subscriptions with Stripe, 💵 Building a Stripe Billing Portal, 🛠️ What are Webhooks, 🔄 Stripe Event Types, 🌗 Light/Dark Mode, 🌐 Deployment`,
+    url: "https://stripe-subscriptions-yl.vercel.app/",
+    technologies: [
+      "Next.js 14",
+      "Prisma",
+      "Stripe",
+      "MongoDB",
+      "Kinde Auth",
+      "Vercel",
+    ],
+  },
   {
     title: "Netflix Clone",
     image: mernNetflixClone,
