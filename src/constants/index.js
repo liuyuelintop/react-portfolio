@@ -12,6 +12,7 @@ import mernPoetry from "../assets/projects/mern-chinese-poetry.png";
 import tsPokerGame from "../assets/projects/ts-poker-game.png";
 import mernNetflixClone from "../assets/projects/mern-netflix-clone.png";
 import nextStripeStarter from "../assets/projects/next-stripe-starter.png";
+import expenseTracker from "../assets/projects/expense-tracker.png";
 export const HERO_CONTENT = `I am a passionate and result-driven full stack developer with a knack for crafting robust and scalable web applications. With 2 years of hands-on experience, I have honed my skills in front-end technologies like React and Next.js, as well as back-end technologies like Node.js, Express, MySQL, PostgreSQL, and MongoDB. My goal is to leverage my expertise to create innovative solutions that drive business growth and deliver exceptional user experiences.`;
 
 export const ABOUT_TEXT = `I am a dedicated and versatile full stack developer with a passion for creating efficient and user-friendly web applications. With 2 years of professional experience, I have worked with a variety of technologies, including React, Node.js, MongoDB, MySQL, and PostgreSQL. My journey in web development began with a deep curiosity for how things work, and it has evolved into a career where I continuously strive to learn and adapt to new challenges. I thrive in collaborative environments and enjoy solving complex problems to deliver high-quality solutions. Outside of coding, I enjoy staying active, exploring new technologies, and contributing to open-source projects.`;
@@ -64,6 +65,23 @@ export const EXPERIENCES = [
 ];
 
 export const PROJECTS = [
+  {
+    title: "GraphQL Expense Tracker",
+    image: expenseTracker,
+    description: `This project is a GraphQL Expense Tracker App built using the MERN stack (MongoDB, Express.js, React.js, Node.js) and Apollo GraphQL. It features user authentication with Passport.js, data fetching and mutations through GraphQL, and integrates tools like Tailwind CSS for UI design. The app allows efficient management of expenses with secure user sign-up and login, CRUD operations for transactions, and category-based data analysis. It showcases best practices in GraphQL and provides insights into transitioning from traditional REST APIs.`,
+    url: "https://graphql-expense-tracker-v1.onrender.com/",
+    technologies: [
+      "React",
+      "GraphQL",
+      "Apollo Server/Client",
+      "Chart.js",
+      "MongoDB",
+      "Passport.js",
+      "Session Authentication",
+      "Render",
+      "Corn job",
+    ],
+  },
   {
     title: "Stripe Subscription Starter",
     image: nextStripeStarter,
