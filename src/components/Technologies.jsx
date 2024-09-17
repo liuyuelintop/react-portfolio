@@ -4,6 +4,7 @@ import { SiMongodb } from 'react-icons/si';
 import { SiTypescript } from "react-icons/si";
 import { FaNodeJs } from 'react-icons/fa';
 import { BiLogoPostgresql } from 'react-icons/bi';
+import { SiGraphql } from "react-icons/si";
 import { motion } from "framer-motion";
 
 const iconVariants = (duration) => ({
@@ -65,11 +66,11 @@ export default function Technologies() {
                     <TbBrandNextjs className='text-7xl' />
                 </motion.div>
                 <motion.div
-                    variants={iconVariants(4)}
+                    variants={iconVariants(3)}
                     initial="initial"
                     animate="animate"
                     className="rounded-2xl border-4 border-neutral-800 p-4">
-                    <BiLogoPostgresql className='text-7xl text-sky-700' />
+                    <SiGraphql className='text-7xl text-pink-700' />
                 </motion.div>
             </motion.div>
         </div>

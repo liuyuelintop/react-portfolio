@@ -15,8 +15,8 @@ export default function Navbar() {
                 <a target="_blank" href="https://next-blog-alpha-sable-40.vercel.app/"><IoBookSharp /></a>
                 <a
                     className="flex items-center"
-                    href="https://raw.githubusercontent.com/liuyuelintop/yl-resume/main/Yuelin_Liu_resume.docx"
-                    download
+                    target="_blank"
+                    href="https://drive.google.com/file/d/1fXgTRPyUQBYm7QINTSQvcNWuce9z8CUU/view"
                 >
                     <HiOutlineDocumentDownload /> cv
                 </a>
