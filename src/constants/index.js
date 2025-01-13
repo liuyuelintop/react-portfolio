@@ -12,11 +12,16 @@ import mernPoetry from "../assets/projects/mern-chinese-poetry.png";
 import tsPokerGame from "../assets/projects/ts-poker-game.png";
 import mernNetflixClone from "../assets/projects/mern-netflix-clone.png";
 import nextStripeStarter from "../assets/projects/next-stripe-starter.png";
-import expenseTracker from "../assets/projects/expense-tracker.png";
-export const HERO_CONTENT = `I am a passionate and result-driven full stack developer with a knack for crafting robust and scalable web applications. With 2 years of hands-on experience, I have honed my skills in front-end technologies like React and Next.js, as well as back-end technologies like Node.js, Express, MySQL, PostgreSQL, and MongoDB. My goal is to leverage my expertise to create innovative solutions that drive business growth and deliver exceptional user experiences.`;
+export const HERO_CONTENT = `I am a passionate and result-driven full stack developer with a knack for crafting robust and scalable web applications. 
+                            With 2 years of hands-on experience, I have honed my skills in front-end technologies like React and Next.js, 
+                            as well as back-end technologies like Node.js, Express, RESTful API, MySQL and MongoDB. 
+                            My goal is to leverage my expertise to create innovative solutions that drive business growth and deliver exceptional user experiences.`;
 
-export const ABOUT_TEXT = `I am a dedicated and versatile full stack developer with a passion for creating efficient and user-friendly web applications. With 2 years of professional experience, I have worked with a variety of technologies, including React, Node.js, MongoDB, MySQL, and PostgreSQL. My journey in web development began with a deep curiosity for how things work, and it has evolved into a career where I continuously strive to learn and adapt to new challenges. I thrive in collaborative environments and enjoy solving complex problems to deliver high-quality solutions. Outside of coding, I enjoy staying active, exploring new technologies, and contributing to open-source projects.`;
-
+export const ABOUT_TEXT = `I am a dedicated and versatile full stack developer with a passion for creating efficient and user-friendly web applications. 
+                          With 2 years of professional experience, I have worked with a variety of technologies, including React, Node.js, RESTful API, MongoDB and MySQL. 
+                          My journey in web development began with a deep curiosity for how things work,
+                          and it has evolved into a career where I continuously strive to learn and adapt to new challenges. 
+                          I thrive in collaborative environments and enjoy solving complex problems to deliver high-quality solutions. Outside of coding, I enjoy staying active, exploring new technologies, and contributing to open-source projects.`;
 export const EXPERIENCES = [
   // {
   //   year: "April 2024 - Present",
@@ -34,11 +39,13 @@ export const EXPERIENCES = [
   //   ],
   // },
   {
-    year: "2023 - Present",
-    role: "Fullstack Developer - Partime",
+    year: "June. 2023 - Oct. 2024",
+    role: "Graduate Fullstack Developer - Partime",
     company: "Expresso Carwash Pty Ltd.",
-    description: `•	Enhanced User Experience: Implemented React.js and Tailwind CSS for responsive web apps \n •	Optimized Data Handling: Conducted custom hooks and Redux Toolkit for improved data fetching and global state management.\n •	Streamlined Backend: Designed robust RESTful APIs with Node.js, Express, and MongoDB.\n •	Improved Code Quality: Integrated TypeScript, Unit Testing, and Integrating Testing, reducing runtime errors and bugs, and enhancing code reliability and robustness. \n •	Boosted Team Efficiency: Wrote technical docs, reducing new member onboarding time.\n •	Achieved Business Goals: Collaborated with stakeholders to meet business objectives.
-`,
+    description: `• Aligned technical solutions with project goals through clear communication with stakeholders.
+                  • Built responsive web interfaces with React and Tailwind CSS, enhancing cross-device user experience.
+                  • Implemented Redux Toolkit and custom hooks to optimise state management and reduce rendering overhead.
+                  • Designed and integrated RESTful APIs with Node.js and Express, ensuring secure and efficient client-server communication.`,
     technologies: [
       "React",
       "JavaScript",
@@ -49,53 +56,34 @@ export const EXPERIENCES = [
     ],
   },
   {
-    year: "2020 - 2021",
-    role: "Fullstack Developer Internship",
+    year: "Sept. 2019 - Feb. 2021",
+    role: "Web Dev Intern",
     company: "Shanghai Anling Computer Technology Co.,Ltd",
-    description: `Contributed to the development web applications using JavaScript, React.js. Integrated PHP and MySQL for RESTful APIs for data communication. Collaborated with cross-functional teams to deliver high-quality software products on schedule.`,
-    technologies: ["JavaScript", "HTML", "PHP", "MySQL"],
-  },
-  {
-    year: "2019 - 2020",
-    role: "Frontend Developer",
-    company: "Beijing Caihuahengyi Technology Co., Ltd",
-    description: `Contributed to the development web applications using Ruby on Rails and MVC framework, deployed applications to production environments using Heroku and managed server configurations and optimizations on Apache.`,
-    technologies: ["Ruby", "MVC", "Heroku", "Apache"],
+    description: `• Developed responsive front-end pages using HTML, CSS, and JavaScript, improving usability.
+                  • Streamlined data processing workflows using PHP and Ruby on Rails, reducing server response times.
+                  • Collaborated in Agile teams to meet project deadlines with maintainable and high-quality code.`,
+    technologies: ["JavaScript", "HTML", "CSS", "PHP", "MySQL"],
   },
 ];
 
 export const PROJECTS = [
-  {
-    title: "GraphQL Expense Tracker",
-    image: expenseTracker,
-    description: `This project is a GraphQL Expense Tracker App built using the MERN stack (MongoDB, Express.js, React.js, Node.js) and Apollo GraphQL. It features user authentication with Passport.js, data fetching and mutations through GraphQL, and integrates tools like Tailwind CSS for UI design. The app allows efficient management of expenses with secure user sign-up and login, CRUD operations for transactions, and category-based data analysis. It showcases best practices in GraphQL and provides insights into transitioning from traditional REST APIs.`,
-    url: "https://graphql-expense-tracker-v1.onrender.com/",
-    technologies: [
-      "React",
-      "GraphQL",
-      "Apollo Server/Client",
-      "Chart.js",
-      "MongoDB",
-      "Passport.js",
-      "Session Authentication",
-      "Render",
-      "Corn job",
-    ],
-  },
-  {
-    title: "Stripe Subscription Starter",
-    image: nextStripeStarter,
-    description: `⚛️ Tech Stack: Next.js 14, TypeScript, Prisma, MongoDB, Stripe, 🔐 Authentication with Kinde Auth, 💸 Monthly and Annually Subscriptions with Stripe, 💵 Building a Stripe Billing Portal, 🛠️ What are Webhooks, 🔄 Stripe Event Types, 🌗 Light/Dark Mode, 🌐 Deployment`,
-    url: "https://stripe-subscriptions-yl.vercel.app/",
-    technologies: [
-      "Next.js 14",
-      "Prisma",
-      "Stripe",
-      "MongoDB",
-      "Kinde Auth",
-      "Vercel",
-    ],
-  },
+  // {
+  //   title: "GraphQL Expense Tracker",
+  //   image: expenseTracker,
+  //   description: `This project is a GraphQL Expense Tracker App built using the MERN stack (MongoDB, Express.js, React.js, Node.js) and Apollo GraphQL. It features user authentication with Passport.js, data fetching and mutations through GraphQL, and integrates tools like Tailwind CSS for UI design. The app allows efficient management of expenses with secure user sign-up and login, CRUD operations for transactions, and category-based data analysis. It showcases best practices in GraphQL and provides insights into transitioning from traditional REST APIs.`,
+  //   url: "https://graphql-expense-tracker-v1.onrender.com/",
+  //   technologies: [
+  //     "React",
+  //     "GraphQL",
+  //     "Apollo Server/Client",
+  //     "Chart.js",
+  //     "MongoDB",
+  //     "Passport.js",
+  //     "Session Authentication",
+  //     "Render",
+  //     "Corn job",
+  //   ],
+  // },
   {
     title: "Netflix Clone",
     image: mernNetflixClone,
@@ -113,6 +101,20 @@ export const PROJECTS = [
       "SystemD",
       "Caddy",
       "Route 53",
+    ],
+  },
+  {
+    title: "Stripe Subscription Starter",
+    image: nextStripeStarter,
+    description: `⚛️ Tech Stack: Next.js 14, TypeScript, Prisma, MongoDB, Stripe, 🔐 Authentication with Kinde Auth, 💸 Monthly and Annually Subscriptions with Stripe, 💵 Building a Stripe Billing Portal, 🛠️ What are Webhooks, 🔄 Stripe Event Types, 🌗 Light/Dark Mode, 🌐 Deployment`,
+    url: "https://stripe-subscriptions-yl.vercel.app/",
+    technologies: [
+      "Next.js 14",
+      "Prisma",
+      "Stripe",
+      "MongoDB",
+      "Kinde Auth",
+      "Vercel",
     ],
   },
   {
