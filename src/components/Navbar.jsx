@@ -16,7 +16,7 @@ export default function Navbar() {
                 <a
                     className="flex items-center"
                     target="_blank"
-                    href="https://drive.google.com/file/d/1JQGtV_NkWaPeU-Vy52JlJ74cyztR3Wdb/view?usp=sharing"
+                    href="https://drive.google.com/file/d/15smQi846a6C5F8SZwHICnILB8wCzMJk5/view?usp=drive_link"
                 >
                     <HiOutlineDocumentDownload /> cv
                 </a>
