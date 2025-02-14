@@ -12,7 +12,7 @@ export default function Navbar() {
             <div className="m-8 flex items-center justify-center gap-4 text-2xl">
                 <a target="_blank" href="https://www.linkedin.com/in/yuelin-liu-867ab6259/"> <FaLinkedin /></a>
                 <a target="_blank" href="https://github.com/liuyuelintop"><FaGithub /></a>
-                <a target="_blank" href="https://next-blog-alpha-sable-40.vercel.app/"><IoBookSharp /></a>
+                <a target="_blank" href="https://blog.liuyuelin.dev/"><IoBookSharp /></a>
                 <a
                     className="flex items-center"
                     target="_blank"
