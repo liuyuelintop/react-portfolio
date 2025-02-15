@@ -11,6 +11,8 @@ export default function Navbar() {
 
     useEffect(() => {
         getLatestCV().then(url => setCvUrl(url));
+        console.log(cvUrl);
+
     }, []);
     return (
         <nav className="mb-20 flex items-center justify-between py-6">
