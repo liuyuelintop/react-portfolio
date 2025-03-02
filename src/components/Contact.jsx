@@ -1,29 +1,40 @@
 import { CONTACT } from "../constants/constants";
-import { motion } from "framer-motion";
 
 export default function Contact() {
     return (
-        <div className="border-b border-neutral-900 pb-4">
-            <motion.h1
-                whileInView={{ opacity: 1, y: 0 }}
-                initial={{ opacity: 0, y: -100 }}
-                transition={{ duration: 0.5 }}
-                className="my-20 text-center text-4xl">
+        <section
+            className="border-b border-neutral-900 py-16 px-6 sm:px-12">
+            {/* 标题 */}
+            <h1
+                className="text-center text-3xl sm:text-4xl font-semibold mb-8 text-white">
                 Get in Touch
-            </motion.h1>
-            <div className="text-center tracking-tighter">
-                <motion.p
-                    whileInView={{ opacity: 1, x: 0 }}
-                    initial={{ opacity: 0, x: -100 }}
-                    transition={{ duration: 1 }}
-                    className="my-4">{CONTACT.address}</motion.p>
-                <motion.p
-                    whileInView={{ opacity: 1, x: 0 }}
-                    initial={{ opacity: 0, x: -200 }}
-                    transition={{ duration: 1 }}
-                    className="my-4">{CONTACT.phoneNo}</motion.p>
-                <a href='#' className="border-b">{CONTACT.email}</a>
+            </h1>
+
+            {/* 内容区域 */}
+            <div className="max-w-lg mx-auto flex flex-col gap-6 text-center text-neutral-300">
+                {/* 地址 */}
+                <div className="flex flex-col items-center">
+                    <span className="text-sm font-medium uppercase text-neutral-500">Address</span>
+                    <p className="text-lg">{CONTACT.address}</p>
+                </div>
+
+                {/* 电话号码 */}
+                <div className="flex flex-col items-center">
+                    <span className="text-sm font-medium uppercase text-neutral-500">Phone</span>
+                    <p className="text-lg">{CONTACT.phoneNo}</p>
+                </div>
+
+                {/* 邮箱 */}
+                <div className="flex flex-col items-center">
+                    <span className="text-sm font-medium uppercase text-neutral-500">Email</span>
+                    <a
+                        href={`mailto:${CONTACT.email}`}
+                        className="text-lg text-purple-400 font-medium hover:text-purple-300 transition-all"
+                    >
+                        {CONTACT.email}
+                    </a>
+                </div>
             </div>
-        </div>
-    )
+        </section>
+    );
 }

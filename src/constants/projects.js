@@ -33,7 +33,7 @@ export const PROJECTS = [
     image: projectImages.nextBlog,
     description:
       "It is a markdown static blog, features include MDX Components,Shadcn UI, Pagination, Dynamic Open Graph Image and Syntax Highlighting in code block.",
-    url: "https://next-blog-alpha-sable-40.vercel.app",
+    url: "https://blog.liuyuelin.dev/",
     technologies: [
       "ReactJS 18",
       "NextJS 14",

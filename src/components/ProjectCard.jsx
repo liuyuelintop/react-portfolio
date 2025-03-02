@@ -1,54 +1,50 @@
-import { motion } from "framer-motion";
-import { memo, useMemo } from "react";
+import { Card, CardHeader, CardContent, CardFooter } from "./ui/Card";
+import { useState } from "react";
 
-const cardVariants = {
-    hidden: { opacity: 0, x: -100 },
-    visible: { opacity: 1, x: 0, transition: { duration: 1 } },
-};
-
-const ProjectCard = memo(({ project }) => {
-    // 避免不必要的渲染
-    const techBadges = useMemo(
-        () =>
-            project.technologies.map((tech, index) => (
-                <span
-                    key={index}
-                    className="mr-1 mt-2 rounded bg-neutral-900 px-2 py-1 text-xs sm:text-sm font-medium text-purple-800"
-                >
-                    {tech}
-                </span>
-            )),
-        [project.technologies]
-    );
+const ProjectCard = ({ project }) => {
+    const [expanded, setExpanded] = useState(false);
 
     return (
-        <motion.div
-            className="mb-8 flex flex-col md:flex-row items-center md:items-start"
-            variants={cardVariants}
-            initial="hidden"
-            whileInView="visible"
-        >
-            {/* 项目图片 */}
-            <div className="w-full md:w-1/3 flex justify-center">
-                <a href={project.url} target="_blank" rel="noopener noreferrer">
-                    <img
-                        className="mb-4 md:mb-0 rounded w-32 sm:w-40 md:w-48 lg:w-64"
-                        src={project.image}
-                        alt={project.title}
-                    />
-                </a>
-            </div>
+        <div className="w-full transition-all hover:scale-105">
+            <Card className="flex flex-col min-h-[380px]"> {/* 统一卡片高度 */}
+                <CardHeader className="flex justify-center">
+                    <a href={project.url} target="_blank" rel="noopener noreferrer">
+                        <img
+                            src={project.image}
+                            alt={project.title}
+                            className="rounded-lg w-full h-48 md:h-56 object-cover transition-all hover:scale-105"
+                        />
+                    </a>
+                </CardHeader>
 
-            {/* 项目文本 */}
-            <div className="w-full md:w-2/3 text-center md:text-left px-4">
-                <a href={project.url} target="_blank" rel="noopener noreferrer">
-                    <h6 className="mb-2 text-lg sm:text-xl font-semibold">{project.title}</h6>
-                </a>
-                <p className="mb-4 text-sm sm:text-base text-neutral-400">{project.description}</p>
-                <div className="flex flex-wrap justify-center md:justify-start">{techBadges}</div>
-            </div>
-        </motion.div>
+                <CardContent>
+                    <h6 className="text-lg font-bold text-white text-center pb-2">{project.title}</h6>
+
+                    <p className={`text-sm text-neutral-400 ${expanded ? "max-h-full" : "line-clamp-2"}`}>
+                        {project.description}
+                    </p>
+
+                    <button
+                        className="text-xs text-purple-400 mt-2 hover:underline"
+                        onClick={() => setExpanded(!expanded)}
+                    >
+                        {expanded ? "Show Less" : "Read More"}
+                    </button>
+
+                    <div className="flex flex-wrap gap-2 mt-3">
+                        {project.technologies.map((tech, index) => (
+                            <span
+                                key={index}
+                                className="rounded bg-neutral-800 px-2 py-1 text-xs font-medium text-purple-300"
+                            >
+                                {tech}
+                            </span>
+                        ))}
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
     );
-});
+};
 
 export default ProjectCard;
