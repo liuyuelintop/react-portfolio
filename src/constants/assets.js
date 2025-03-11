@@ -14,7 +14,7 @@ import tsPokerGame from "../assets/projects/ts-poker-game.webp";
 import mernNetflixClone from "../assets/projects/mern-netflix-clone.webp";
 import nextStripeStarter from "../assets/projects/next-stripe-starter.webp";
 import nextRemoteInterviewPlatform from "../assets/projects/nextRemoteInterviewPlatform.webp";
-
+import mernEcommerce from "../assets/projects/mern-ecommerce.webp";
 // 其他资源
 import profilePic from "../assets/Profile.jpg";
 import logo from "../assets/Logo.png";
@@ -36,6 +36,7 @@ export const projectImages = {
   mernNetflixClone,
   nextStripeStarter,
   nextRemoteInterviewPlatform,
+  mernEcommerce,
 };
 
 export const generalImages = {

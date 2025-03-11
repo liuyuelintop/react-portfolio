@@ -45,20 +45,6 @@ export const PROJECTS = [
     ],
   },
   {
-    title: "Stripe Subscription Starter",
-    image: projectImages.nextStripeStarter,
-    description: `⚛️ Tech Stack: Next.js 14, TypeScript, Prisma, MongoDB, Stripe, 🔐 Authentication with Kinde Auth, 💸 Monthly and Annually Subscriptions with Stripe, 💵 Building a Stripe Billing Portal, 🛠️ What are Webhooks, 🔄 Stripe Event Types, 🌗 Light/Dark Mode, 🌐 Deployment`,
-    url: "https://stripe-subscriptions-yl.vercel.app/",
-    technologies: [
-      "Next.js 14",
-      "Prisma",
-      "Stripe",
-      "MongoDB",
-      "Kinde Auth",
-      "Vercel",
-    ],
-  },
-  {
     title: "Twitter Clone",
     image: projectImages.twitterClone,
     description: `⚛️ Tech Stack: React.js, MongoDB, Node.js, Express, Tailwind
@@ -88,36 +74,35 @@ export const PROJECTS = [
     ],
   },
   {
-    title: "MERN-Stack Blog Website",
-    image: projectImages.mernBlog,
+    title: "MERN-Stack E-commerce Platform",
+    image: projectImages.mernEcommerce,
     description:
-      "A platform for creating and publishing blog posts, with features like admin dashboards, rich text editing, comments management, users management and advanced search...",
-    url: "https://mern-blog-6atr.onrender.com/",
+      "A E-commerce platform with features like product listing, shopping cart, user authentication, payment integration, order management and sales analytics.",
+    url: "https://mern-e-commerce-store-8w0a.onrender.com/",
     technologies: [
-      "React",
-      "Node.js",
-      "Express",
-      "MongoDB",
-      "Firebase",
-      "Tailwind",
-      "Flowbite",
+      "MERN",
+      "Zustand",
+      "Tailwind CSS",
+      "Cloudinary",
+      "Redis",
+      "Stripe",
     ],
   },
   {
-    title: "Real Estate Website",
-    image: projectImages.mernEstate,
-    description:
-      "An application for creating and publishing listings of real estate properties, with features such as advanced property search filters and real-time listings to connect buyers with their ideal homes.",
-    url: "https://mern-estate-zw5b.onrender.com/",
+    title: "Stripe Subscription Starter",
+    image: projectImages.nextStripeStarter,
+    description: `⚛️ Tech Stack: Next.js 14, TypeScript, Prisma, MongoDB, Stripe, 🔐 Authentication with Kinde Auth, 💸 Monthly and Annually Subscriptions with Stripe, 💵 Building a Stripe Billing Portal, 🛠️ What are Webhooks, 🔄 Stripe Event Types, 🌗 Light/Dark Mode, 🌐 Deployment`,
+    url: "https://stripe-subscriptions-yl.vercel.app/",
     technologies: [
-      "React",
-      "Tailwind",
-      "Node.js",
-      "Express",
+      "Next.js 14",
+      "Prisma",
+      "Stripe",
       "MongoDB",
-      "Firebase",
+      "Kinde Auth",
+      "Vercel",
     ],
   },
+
   {
     title: "Real Time Chat App",
     image: projectImages.mernChat,
@@ -136,12 +121,43 @@ export const PROJECTS = [
     ],
   },
   {
+    title: "Real Estate Website",
+    image: projectImages.mernEstate,
+    description:
+      "An application for creating and publishing listings of real estate properties, with features such as advanced property search filters and real-time listings to connect buyers with their ideal homes.",
+    url: "https://mern-estate-zw5b.onrender.com/",
+    technologies: [
+      "React",
+      "Tailwind",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "Firebase",
+    ],
+  },
+  {
     title: "Game Hub",
     image: projectImages.gameHub,
     description:
       "Game Hub is an engaging online platform where gamers can explore and enjoy a variety of browser-based games. It offers a diverse library of games across multiple genres, providing entertainment for players of all ages and interests.",
     url: "https://game-hub-two-zeta.vercel.app/",
     technologies: ["vanilla CSS", "React", "TypeScript", "Vercel"],
+  },
+  {
+    title: "MERN-Stack Blog Website",
+    image: projectImages.mernBlog,
+    description:
+      "A platform for creating and publishing blog posts, with features like admin dashboards, rich text editing, comments management, users management and advanced search...",
+    url: "https://mern-blog-6atr.onrender.com/",
+    technologies: [
+      "React",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "Firebase",
+      "Tailwind",
+      "Flowbite",
+    ],
   },
   {
     title: "MERN Chinese Poetry",
