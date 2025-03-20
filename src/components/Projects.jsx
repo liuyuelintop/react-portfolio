@@ -1,28 +1,63 @@
 import { PROJECTS } from "../constants/projects";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import ProjectCard from "./ProjectCard";
-import { useMemo } from "react";
+import { useRef } from "react";
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.2,
+            delayChildren: 0.3
+        }
+    }
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            type: "spring",
+            stiffness: 120
+        }
+    }
+};
 
 export default function Projects() {
-    const projectList = useMemo(
-        () => PROJECTS.map((project) => <ProjectCard key={project.title} project={project} />),
-        [PROJECTS]
-    );
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, margin: "-100px" });
 
     return (
-        <section className="border-b border-neutral-900 pb-12 lg:pb-24">
-            <motion.h2
-                whileInView={{ opacity: 1, y: 0 }}
-                initial={{ opacity: 0, y: -50 }}
-                transition={{ duration: 0.5 }}
-                className="my-10 text-center text-3xl sm:text-4xl font-semibold px-4"
+        <section
+            ref={ref}
+            className="border-b border-neutral-800 py-20 lg:py-32 px-4 lg:px-8"
+        >
+            <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6 }}
+                className="max-w-7xl mx-auto"
             >
-                Projects
-            </motion.h2>
+                <h2 className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-purple-400 via-indigo-400 to-blue-400 bg-clip-text text-transparent mb-12 text-center">
+                    My Projects
+                </h2>
 
-            <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-6">
-                {projectList}
-            </div>
+                <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate={isInView ? "visible" : ""}
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                >
+                    {PROJECTS.map((project, index) => (
+                        <motion.div key={project.title} variants={itemVariants}>
+                            <ProjectCard project={project} index={index} />
+                        </motion.div>
+                    ))}
+                </motion.div>
+            </motion.div>
         </section>
     );
 }

@@ -4,7 +4,7 @@ export function Card({ className, children }) {
     return (
         <div
             className={clsx(
-                "bg-neutral-900 border border-neutral-800 rounded-xl shadow-lg hover:shadow-xl transition-all",
+                "bg-neutral-900 border border-neutral-800 rounded-xl shadow-lg hover:shadow-xl hover:border-blue-500/70 transition-all duration-300",
                 className
             )}
         >

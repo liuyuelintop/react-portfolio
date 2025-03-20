@@ -60,7 +60,7 @@ export default function Navbar() {
 
             {/* Mobile Menu */}
             {isOpen && (
-                <div className="absolute top-16 left-0 w-full bg-black/90 p-6 flex flex-col items-center gap-4 text-white md:hidden rounded-b-lg shadow-lg">
+                <div className="absolute top-16 left-0 w-full bg-black/70 p-6 flex flex-col items-center gap-4 text-white md:hidden rounded-b-lg shadow-lg">
                     <a target="_blank" href="https://www.linkedin.com/in/liuyuelintop" className="hover:text-purple-400 transition flex items-center gap-2 text-lg" onClick={() => setIsOpen(false)}>
                         <FaLinkedin /> LinkedIn
                     </a>

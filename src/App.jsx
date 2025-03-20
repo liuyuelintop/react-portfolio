@@ -19,10 +19,8 @@ function App() {
           </div>
         </div>
 
-        {/* ✅ 将 Navbar 独立于 container 外部 */}
         <Navbar />
 
-        {/* ✅ 主要内容区域 */}
         <div className="container mx-auto px-8 pt-20 md:pt-24">
           <Hero />
           <Technologies />

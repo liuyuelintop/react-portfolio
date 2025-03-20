@@ -2,201 +2,257 @@ import { projectImages } from "./assets";
 
 export const PROJECTS = [
   {
+    title: "SaaS IDE Platform",
+    image: projectImages.nextCodeCraft,
+    description: {
+      summary:
+        "Next.js IDE inspired by VS Code with real-time collaboration tools.",
+      features: [
+        "Real-time code editing with multiplayer support",
+        "Secure payment gateway integration",
+        "Code snippet sharing system",
+        "VS Code-like interface customization",
+      ],
+    },
+    url: "https://codecraft.liuyuelin.dev/",
+    technologies: {
+      main: ["Next.js", "Convex", "Webhooks", "Clerk"],
+      others: ["Lemon Squeezy", "SaaS"],
+    },
+  },
+  {
     title: "Remote Interview Platform",
     image: projectImages.nextRemoteInterviewPlatform,
-    description: `Integrated Video Interview Suite​: - Real-time video/audio calls with screen sharing (Stream SDK). - Live reactions & session recording (WebRockets API). -Candidate performance tracking with timestamped feedback ​VS Code-like Editor​: -Multi-language support (JavaScript, Python, Java). -Real-time code collaboration (Operational Transform). -Preloaded coding challenges with test cases. Admin Dashboard​: -User role management (Clerk authentication flows). - Interview scheduling & analytics. - Secure session history storage (Convex file system).`,
+    description: {
+      summary:
+        "Integrated technical interview solution with coding environment.",
+      features: [
+        "Real-time video/audio with screen recording",
+        "Live code collaboration with OT algorithms",
+        "Preloaded coding challenges library",
+        "Candidate performance analytics dashboard",
+      ],
+    },
     url: "https://codeinterview.liuyuelin.dev/",
-    technologies: ["Next.js", "Clerk", "Convext", "Stream", "Shadcn ui", "SEO"],
+    technologies: {
+      main: ["Next.js", "Stream", "Convex", "Shadcn/ui"],
+      others: ["WebRockets API", "Clerk"],
+    },
   },
-
   {
     title: "Netflix Clone",
     image: projectImages.mernNetflixClone,
-    description: `🔐 Authentication with JWT,📱 Responsive UI,🎬 Fetch Movies and Tv Show,🔎 Search for Actors and Movies,🎥 Watch Trailers,🔥  Fetch Search History,🐱‍👤 Get  Similar Movies/Tv Shows,💙 Awesome Landing Page,🌐 Deployment,🚀 And Many More Cool Features`,
+    description: {
+      summary: "Feature-rich video streaming platform clone.",
+      features: [
+        "JWT authentication system",
+        "Dynamic content recommendation engine",
+        "Advanced search with actor/film filters",
+        "Responsive cross-device UI",
+      ],
+    },
     url: "https://netwatch.liuyuelin.xyz/",
-    technologies: [
-      "React.js",
-      "Zustand",
-      "MongoDB",
-      "Node.js",
-      "Express",
-      "Tailwind",
-      "JWT",
-      "AWS",
-      "SystemD",
-      "Caddy",
-      "Route 53",
-    ],
+    technologies: {
+      main: ["MERN", "Zustand", "AWS"],
+      others: [],
+    },
   },
   {
     title: "Next Markdown Blog",
     image: projectImages.nextBlog,
-    description:
-      "It is a markdown static blog, features include MDX Components,Shadcn UI, Pagination, Dynamic Open Graph Image and Syntax Highlighting in code block.",
+    description: {
+      summary: "Modern static site generator for technical content.",
+      features: [
+        "MDX components support",
+        "Dynamic Open Graph generation",
+        "Syntax highlighting with Prism",
+        "Automated content pagination",
+      ],
+    },
     url: "https://blog.liuyuelin.dev/",
-    technologies: [
-      "ReactJS 18",
-      "NextJS 14",
-      "NextJS SEO",
-      "TailwindCSS",
-      "Shadcn/ui",
-      "Velite",
-      "Vercel",
-    ],
+    technologies: {
+      main: ["Next.js", "Shadcn/ui", "Velite", "SEO"],
+      others: ["Tailwind CSS", "Vercel"],
+    },
   },
   {
     title: "Twitter Clone",
     image: projectImages.twitterClone,
-    description: `⚛️ Tech Stack: React.js, MongoDB, Node.js, Express, Tailwind
-      🔐 Authentication with JSONWEBTOKENS (JWT)
-      🔥 React Query for Data Fetching, Caching etc.
-      👥 Suggested Users to Follow
-      ✍️ Creating Posts
-      🗑️ Deleting Posts
-      💬 Commenting on Posts
-      ❤️ Liking Posts
-      🔒 Delete Posts (if you are the owner)
-      📝 Edit Profile Info
-      🖼️ Edit Cover Image and Profile Image
-      📷 Image Uploads using Cloudinary
-      🔔 Send Notifications
-      🌐 Deployment`,
+    description: {
+      summary: "Full-stack social media platform replica.",
+      features: [
+        "Real-time post creation/deletion",
+        "Interactive comment threads",
+        "Cloudinary image management",
+        "Push notification system",
+      ],
+    },
     url: "https://twitter-clone-qhpp.onrender.com/",
-    technologies: [
-      "React.js",
-      "React Query",
-      "MongoDB",
-      "Node.js",
-      "Express",
-      "Tailwind",
-      "DaisyUI",
-      "JWT",
-    ],
+    technologies: {
+      main: ["MERN", "React Query", "Cloudinary", "JWT"],
+      others: ["DaisyUI"],
+    },
   },
   {
-    title: "MERN-Stack E-commerce Platform",
+    title: "MERN E-commerce",
     image: projectImages.mernEcommerce,
-    description:
-      "A E-commerce platform with features like product listing, shopping cart, user authentication, payment integration, order management and sales analytics.",
+    description: {
+      summary: "Complete online retail solution.",
+      features: [
+        "Stripe payment integration",
+        "Redis caching system",
+        "Product variant management",
+        "Real-time sales analytics",
+      ],
+    },
     url: "https://mern-e-commerce-store-8w0a.onrender.com/",
-    technologies: [
-      "MERN",
-      "Zustand",
-      "Tailwind CSS",
-      "Cloudinary",
-      "Redis",
-      "Stripe",
-    ],
+    technologies: {
+      main: ["MERN", "Stripe", "Redis", "Zustand"],
+      others: ["Cloudinary", "Tailwind"],
+    },
   },
   {
-    title: "Stripe Subscription Starter",
+    title: "Stripe Subscriptions",
     image: projectImages.nextStripeStarter,
-    description: `⚛️ Tech Stack: Next.js 14, TypeScript, Prisma, MongoDB, Stripe, 🔐 Authentication with Kinde Auth, 💸 Monthly and Annually Subscriptions with Stripe, 💵 Building a Stripe Billing Portal, 🛠️ What are Webhooks, 🔄 Stripe Event Types, 🌗 Light/Dark Mode, 🌐 Deployment`,
+    description: {
+      summary: "Subscription management system with Stripe.",
+      features: [
+        "Recurring payment workflows",
+        "Dark/light theme system",
+        "Webhook event handling",
+        "Kinde authentication",
+      ],
+    },
     url: "https://stripe-subscriptions-yl.vercel.app/",
-    technologies: [
-      "Next.js 14",
-      "Prisma",
-      "Stripe",
-      "MongoDB",
-      "Kinde Auth",
-      "Vercel",
-    ],
+    technologies: {
+      main: ["Next.js", "Stripe", "Prisma", "Kinde"],
+      others: ["MongoDB", "Vercel"],
+    },
   },
-
   {
-    title: "Real Time Chat App",
+    title: "Real-Time Chat",
     image: projectImages.mernChat,
-    description:
-      "A realtime chat app is built on a robust MERN stack integrated with Socket.io for real-time interactions, and styled using TailwindCSS and Daisy UI. Key features include user authentication and authorization via JWT, real-time messaging, and online user status updates. It leverages Zustand for global state management and ensures thorough error handling on both server and client sides.",
+    description: {
+      summary: "Instant messaging platform with presence detection.",
+      features: [
+        "Socket.io real-time engine",
+        "Online status indicators",
+        "Message history persistence",
+        "Error boundary handling",
+      ],
+    },
     url: "https://mern-chat-app-9ybq.onrender.com/",
-    technologies: [
-      "React",
-      "Node",
-      "Express",
-      "MongoDB",
-      "Socket.io",
-      "TailwindCSS",
-      "Daisy UI",
-      "Vercel",
-    ],
+    technologies: {
+      main: ["MERN", "Daisy UI", "Socket.io", "JWT"],
+      others: [],
+    },
   },
   {
-    title: "Real Estate Website",
+    title: "Real Estate Portal",
     image: projectImages.mernEstate,
-    description:
-      "An application for creating and publishing listings of real estate properties, with features such as advanced property search filters and real-time listings to connect buyers with their ideal homes.",
+    description: {
+      summary: "Property listing marketplace.",
+      features: [
+        "Advanced search filters",
+        "Geolocation tagging",
+        "Image gallery management",
+        "Lead generation system",
+      ],
+    },
     url: "https://mern-estate-zw5b.onrender.com/",
-    technologies: [
-      "React",
-      "Tailwind",
-      "Node.js",
-      "Express",
-      "MongoDB",
-      "Firebase",
-    ],
+    technologies: {
+      main: ["MERN", "Firebase", "Tailwind"],
+      others: [],
+    },
   },
   {
     title: "Game Hub",
     image: projectImages.gameHub,
-    description:
-      "Game Hub is an engaging online platform where gamers can explore and enjoy a variety of browser-based games. It offers a diverse library of games across multiple genres, providing entertainment for players of all ages and interests.",
+    description: {
+      summary: "Multi-genre browser gaming platform.",
+      features: [
+        "Cross-browser compatibility",
+        "Game progress saving",
+        "Social sharing integration",
+        "Responsive controls",
+      ],
+    },
     url: "https://game-hub-two-zeta.vercel.app/",
-    technologies: ["vanilla CSS", "React", "TypeScript", "Vercel"],
+    technologies: {
+      main: ["React", "TypeScript", "CSS", "Vercel"],
+      others: [],
+    },
   },
   {
-    title: "MERN-Stack Blog Website",
+    title: "Blog Platform",
     image: projectImages.mernBlog,
-    description:
-      "A platform for creating and publishing blog posts, with features like admin dashboards, rich text editing, comments management, users management and advanced search...",
+    description: {
+      summary: "Content management system for publishers.",
+      features: [
+        "Rich text editor with embeds",
+        "Role-based access control",
+        "SEO-friendly markup",
+        "Comment moderation tools",
+      ],
+    },
     url: "https://mern-blog-6atr.onrender.com/",
-    technologies: [
-      "React",
-      "Node.js",
-      "Express",
-      "MongoDB",
-      "Firebase",
-      "Tailwind",
-      "Flowbite",
-    ],
+    technologies: {
+      main: ["MERN", "Firebase", "Tailwind", "Flowbite"],
+      others: [],
+    },
   },
   {
-    title: "MERN Chinese Poetry",
+    title: "Chinese Poetry",
     image: projectImages.mernPoetry,
-    description:
-      "This project is a full-stack web application that allows users to search for Chinese poetry based on different dynasties, including Tang and Song poems, as well as Shijing. The application uses React for the frontend and Node.js/Express for the backend. View Random classic Poems at Home Page,Search poems by dynasty (Tang, Song) - Search Shijing poems - Pagination support for browsing multiple pages of results - Responsive design with Tailwind CSS - RESTful API backend with Express and MongoDB",
+    description: {
+      summary: "Classical Chinese literature database.",
+      features: [
+        "Dynasty-based categorization",
+        "Poem metadata search",
+        "Responsive typography",
+        "REST API endpoints",
+      ],
+    },
     url: "https://mern-chinese-poetry.vercel.app/",
-    technologies: [
-      "React.js",
-      "Tailwind CSS",
-      "React Query",
-      "Node.js",
-      "Express",
-      "MongoDB",
-      "Render",
-      "Vercel",
-    ],
+    technologies: {
+      main: ["React", "MongoDB", "Tailwind", "React Query"],
+      others: ["Node.js", "Express"],
+    },
   },
   {
-    title: "Biomech Analysis Pipeline",
-    image: projectImages.biomechAnalysis, // You'll need to replace this with the actual variable or path to the image in your project files.
-    description:
-      "This project entailed leading the integration of advanced keypoints detection using technologies like YOLOv8-pose and AlphaPose to optimize video input processing for biomechanical analysis. It involved automating the transformation of keypoints into OpenSim format for accurate simulation and developing a React-based dashboard for real-time data visualization. The backend was managed with both SQL and NoSQL databases to efficiently store and process large datasets.",
+    title: "Biomech Analysis",
+    image: projectImages.biomechAnalysis,
+    description: {
+      summary: "Motion capture data processing pipeline.",
+      features: [
+        "YOLOv8 pose estimation",
+        "OpenSim model conversion",
+        "Real-time visualization",
+        "Multi-database storage",
+      ],
+    },
     url: "#",
-    technologies: [
-      "YOLOv8-pose",
-      "AlphaPose",
-      "React",
-      "Open2Sim",
-      "SQL",
-      "NoSQL",
-    ],
+    technologies: {
+      main: ["React", "YOLOv8", "OpenSim", "SQL"],
+      others: ["NoSQL", "Python"],
+    },
   },
   {
-    title: "E-Commerce Website",
+    title: "E-Commerce Demo",
     image: projectImages.eCommerce,
-    description:
-      "A front-end-only e-commerce website with features like product listing, shopping cart.",
+    description: {
+      summary: "Frontend-focused online store prototype.",
+      features: [
+        "Product carousel display",
+        "Cart state management",
+        "Responsive product grid",
+        "Checkout workflow mockup",
+      ],
+    },
     url: "https://liuyuelintop.github.io/ecommerce-website-react/",
-    technologies: ["HTML", "CSS", "React", "Vercel"],
+    technologies: {
+      main: ["React", "CSS", "Vercel"],
+      others: [],
+    },
   },
 ];
