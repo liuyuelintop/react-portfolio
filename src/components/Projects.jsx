@@ -33,7 +33,7 @@ export default function Projects() {
     return (
         <section
             ref={ref}
-            className="border-b border-neutral-800 py-20 lg:py-32 px-4 lg:px-8"
+            className="border-b border-neutral-900/50 py-20 lg:py-32 px-4 lg:px-8"
         >
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
@@ -41,7 +41,7 @@ export default function Projects() {
                 transition={{ duration: 0.6 }}
                 className="max-w-7xl mx-auto"
             >
-                <h2 className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-purple-400 via-indigo-400 to-blue-400 bg-clip-text text-transparent mb-12 text-center">
+                <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-400 via-indigo-400 to-blue-400 bg-clip-text text-transparent mb-12 text-center">
                     My Projects
                 </h2>
 

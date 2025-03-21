@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@material-tailwind/react": "^2.1.10",
     "@tailwindcss/line-clamp": "^0.4.4",
     "clsx": "^2.1.1",

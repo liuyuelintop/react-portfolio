@@ -202,24 +202,6 @@ export const PROJECTS = [
     },
   },
   {
-    title: "Chinese Poetry",
-    image: projectImages.mernPoetry,
-    description: {
-      summary: "Classical Chinese literature database.",
-      features: [
-        "Dynasty-based categorization",
-        "Poem metadata search",
-        "Responsive typography",
-        "REST API endpoints",
-      ],
-    },
-    url: "https://mern-chinese-poetry.vercel.app/",
-    technologies: {
-      main: ["React", "MongoDB", "Tailwind", "React Query"],
-      others: ["Node.js", "Express"],
-    },
-  },
-  {
     title: "Biomech Analysis",
     image: projectImages.biomechAnalysis,
     description: {
@@ -235,24 +217,6 @@ export const PROJECTS = [
     technologies: {
       main: ["React", "YOLOv8", "OpenSim", "SQL"],
       others: ["NoSQL", "Python"],
-    },
-  },
-  {
-    title: "E-Commerce Demo",
-    image: projectImages.eCommerce,
-    description: {
-      summary: "Frontend-focused online store prototype.",
-      features: [
-        "Product carousel display",
-        "Cart state management",
-        "Responsive product grid",
-        "Checkout workflow mockup",
-      ],
-    },
-    url: "https://liuyuelintop.github.io/ecommerce-website-react/",
-    technologies: {
-      main: ["React", "CSS", "Vercel"],
-      others: [],
     },
   },
 ];
