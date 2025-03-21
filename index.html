@@ -7,59 +7,126 @@
       content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
     />
     <meta name="theme-color" content="#09090b" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
 
-    <!-- Primary Meta Tags -->
-    <title>Yuelin Liu | Full Stack Developer & AI Integration Specialist</title>
+    <title>Yuelin Liu | Full Stack Developer & AI Solutions Architect</title>
     <meta
       name="title"
-      content="Yuelin Liu | Full Stack Developer & AI Integration Specialist"
+      content="Yuelin Liu | React/Next.js Expert & AI Integration Specialist"
     />
     <meta
       name="description"
-      content="Professional portfolio of Yuelin Liu, expert in React/Next.js development, Node.js REST APIs, and AI-enhanced system integration. View projects and contact information."
+      content="Melbourne-based full-stack developer specializing in AI-enhanced SaaS solutions. 5+ years experience in React/Next.js, Node.js REST APIs, and cloud-native architectures."
     />
     <meta name="author" content="Yuelin Liu" />
-
-    <!-- Keywords -->
     <meta
       name="keywords"
-      content="React, Next.js, Node.js, REST APIs, SQL, NoSQL, MongoDB, AI Integration, LLM, Cloud Architecture, Full Stack Developer, SaaS Solutions, Web Development"
+      content="React development, Next.js optimization, AI system integration, AWS certified engineer, Full-stack developer resume, Melbourne tech specialist, SaaS architecture, Cloud-native solutions"
     />
 
-    <!-- Structured Data -->
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content="Yuelin Liu | Technical Portfolio" />
+    <meta property="og:url" content="https://liuyuelin.dev" />
+    <meta
+      property="og:image"
+      content="https://liuyuelin.dev/assets/og-image.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Yuelin Liu's portfolio cover - Full Stack Development & AI Solutions Expert"
+    />
+    <meta
+      property="og:description"
+      content="Explore React/Next.js project cases, AI integration solutions, and cloud architecture technical blog"
+    />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@YuelinLiu_Dev" />
+    <meta name="twitter:title" content="Yuelin Liu's Technical Portfolio" />
+    <meta
+      name="twitter:image"
+      content="https://liuyuelin.dev/assets/og-image.jpg"
+    />
+
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Person",
         "name": "Yuelin Liu",
-        "jobTitle": "Full Stack Developer",
+        "image": "https://liuyuelin.dev/assets/og-image.jpg",
+        "jobTitle": "Full Stack Developer & AI Solutions Architect",
         "url": "https://liuyuelin.dev",
         "sameAs": [
           "https://linkedin.com/in/your-profile",
           "https://github.com/your-profile",
           "https://blog.liuyuelin.dev/"
         ],
-        "description": "Specializing in React/Next.js development and AI system integration with expertise in cloud architecture.",
+        "description": "Certified AWS Solutions Architect with expertise in building AI-integrated web applications",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Melbourne",
           "addressRegion": "VIC",
           "addressCountry": "Australia"
         },
-        "email": "liuyuelintop@gmail.com"
+        "alumniOf": {
+          "@type": "EducationalOrganization",
+          "name": "University of Melbourne",
+          "url": "https://www.unimelb.edu.au"
+        },
+        "hasCredential": {
+          "@type": "EducationalOccupationalCredential",
+          "name": "AWS Certified Solutions Architect - Professional"
+        }
       }
     </script>
 
-    <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-    <!-- Canonical URL -->
+    <link rel="dns-prefetch" href="//cdn.example.com" />
     <link rel="canonical" href="https://liuyuelin.dev" />
+
+    <meta name="apple-mobile-web-app-title" content="Yuelin's Portfolio" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
   </head>
 
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <div id="root">
+      <main itemscope itemtype="http://schema.org/WebPage">
+        <h1 hidden itemprop="name">
+          Yuelin Liu's Technical Portfolio | Full Stack Development & AI
+          Solutions
+        </h1>
+        <section aria-labelledby="featured-projects">
+          <h2 id="featured-projects" class="visually-hidden">
+            Featured Projects
+          </h2>
+          <article
+            itemprop="mainEntity"
+            itemscope
+            itemtype="https://schema.org/SoftwareSourceCode"
+          ></article>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="/src/main.jsx" async></script>
+
+    <footer hidden>
+      <meta itemprop="copyrightYear" content="2025" />
+      <meta itemprop="copyrightHolder" content="Yuelin Liu" />
+      <link
+        itemprop="license"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+      />
+    </footer>
   </body>
 </html>
