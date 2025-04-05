@@ -1,5 +1,34 @@
 export const EXPERIENCES = [
   {
+    period: "Mar 2025 – Present",
+    role: "Full-Stack Developer Intern",
+    company: {
+      name: "ByteCroniX",
+      url: "#",
+    },
+    type: "Internship",
+    highlights: [
+      "Delivered 6+ production-ready features for Co-PR, an AI-powered SaaS platform supporting Australian PR applicants across Web, iOS, and Android",
+      "Designed backend architecture with Node.js using Clean Architecture and BFF (Backend-for-Frontend) patterns to decouple client and service logic",
+      "Built a shared controller layer to unify API contracts across multiple frontends and mobile platforms",
+      "Streamlined deployment workflows with Docker, Kubernetes, and CI/CD pipelines, enabling reproducible builds and smooth rollouts",
+      "Implemented basic load balancing and reverse proxy strategies to enhance platform reliability and scalability",
+      "Improved developer experience by debugging infra blockers, refactoring app startup flow, and documenting internal workflows with Confluence",
+    ],
+    techStack: {
+      frontend: ["React", "Next.js", "Tailwind CSS"],
+      backend: ["Node.js", "Express", "MongoDB", "Firebase", "RESTful APIs"],
+      architecture: [
+        "Clean Architecture",
+        "BFF Pattern",
+        "Microservices",
+        "Shared Controller",
+      ],
+      devops: ["Docker", "Kubernetes", "CI/CD", "Load Balancing"],
+      tools: ["Git", "Swagger", "Postman", "Jira", "Confluence", "Slack"],
+    },
+  },
+  {
     period: "Jun 2023 - Oct. 2024",
     role: "Graduate Fullstack Developer",
     company: {
