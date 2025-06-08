@@ -40,12 +40,25 @@ function App() {
         <Navbar />
 
         <main className="container mx-auto px-4 md:px-8">
-          <Hero />
+          <section id="hero">
+            <Hero />
+          </section>
           <div className="space-y-18 md:space-y-36 [&>section]:scroll-m-20">
-            <Projects />
-            <Experience />
-            <Technologies />
-            <Contact />
+            <section id="experience">
+              <Experience />
+            </section>
+
+            <section id="projects">
+              <Projects />
+            </section>
+
+            <section id="technologies">
+              <Technologies />
+            </section>
+
+            <section id="contact">
+              <Contact />
+            </section>
           </div>
         </main>
       </div>

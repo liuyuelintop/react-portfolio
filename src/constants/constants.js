@@ -1,12 +1,14 @@
 export const HERO_CONTENT = {
-  summary:
-    "Result-driven Full Stack Developer specializing in AI-enhanced systems and SaaS solutions",
+  summary: `Hi, I’m Yuelin — a full stack developer who thrives in ambiguity and enjoys turning messy, undefined problems into clear, scalable systems. When others are still figuring out where to start, I’m already prototyping and shipping.
+            At ByteCronix, I’ve built real-world SaaS features for an AI-powered PR guidance platform, leading development on dockerised microservices, secure cross-platform auth, and scalable backend APIs using Clean Architecture and BFF principles. I also improved team velocity through CI/CD pipelines and comprehensive technical documentation.
+            I care deeply about performance, clarity, and developer empathy — from backend logic to frontend polish. Let’s build something meaningful.`,
   highlights: [
-    "React/Next.js Expert",
-    "Node.js REST APIs",
-    "SQL & NoSQL Databases",
+    "Fast in Ambiguity",
+    "Clean Architecture",
+    "React.js & Next.js",
+    "Secure Auth & APIs",
     "LLM Integration",
-    "Cloud Architecture",
+    "CI/CD & Docker",
   ],
 };
 

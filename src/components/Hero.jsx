@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { HERO_CONTENT, CONTACT } from "../constants/constants";
-import { generalImages } from "../constants/assets";
 import { EnvelopeIcon, PhoneIcon } from "@heroicons/react/24/outline";
 import { FiGithub, FiLinkedin, FiExternalLink } from "react-icons/fi";
 
@@ -36,74 +35,27 @@ export default function Hero() {
                     initial="hidden"
                     animate="visible"
                     variants={containerVariants}
-                    className="flex flex-col lg:flex-row items-center gap-12 lg:gap-24"
+                    className="flex flex-col items-center gap-12"
                 >
-                    {/* Profile Section - Enhanced Design */}
-                    <motion.div
-                        variants={itemVariants}
-                        className="relative group flex-1 max-w-md order-1"
-                    >
-                        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-blue-500/10 blur-xl rounded-[2.5rem] -z-10" />
-                        <div className="overflow-hidden rounded-[2.5rem] border-2 border-purple-900/50 group-hover:border-purple-400/30 transition-all duration-300 shadow-2xl shadow-purple-900/20 ">
-                            <img
-                                src={generalImages.profilePic}
-                                alt="Yuelin Liu"
-                                className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-300"
-                            />
-                        </div>
-                    </motion.div>
-
                     {/* Content Section */}
-                    <div className="flex-1 space-y-6 order-2">
+                    <div className="flex-1 space-y-6 w-full max-w-3xl">
                         <motion.h1
                             variants={itemVariants}
-                            className="text-3xl md:text-5xl text-white font-bold drop-shadow-[0_4px_12px_rgba(255,255,255,0.25)]"
+                            className="text-3xl md:text-5xl text-white font-bold drop-shadow-[0_4px_12px_rgba(255,255,255,0.25)] text-center"
                         >
                             Yuelin Liu
                         </motion.h1>
 
                         <motion.div variants={itemVariants} className="space-y-8">
                             <div className="space-y-4">
-                                <h2 className="text-xl md:text-2xl text-purple-300 font-medium">
+                                <h2 className="text-xl md:text-2xl text-purple-300 font-medium text-center">
                                     Full Stack Developer
                                 </h2>
 
-                                <p className="text-lg text-neutral-300 leading-relaxed max-w-2xl">
+                                <p className="text-lg text-neutral-300 leading-relaxed max-w-2xl mx-auto text-center">
                                     {HERO_CONTENT.summary}
                                 </p>
                             </div>
-                            {/* 新增社交链接按钮组 */}
-                            <motion.div
-                                variants={itemVariants}
-                                className="flex gap-4 mt-6"
-                            >
-                                <a
-                                    href={CONTACT.socials.github}
-                                    target="_blank"
-                                    className="p-3 rounded-xl bg-neutral-900/50 border border-purple-900/30 hover:border-purple-400/50 transition-colors flex items-center gap-2"
-                                >
-                                    <FiGithub className="h-6 w-6 text-purple-400" />
-                                    <span className="text-purple-300 text-sm">GitHub</span>
-                                </a>
-
-                                <a
-                                    href={CONTACT.socials.linkedin}
-                                    target="_blank"
-                                    className="p-3 rounded-xl bg-neutral-900/50 border border-purple-900/30 hover:border-purple-400/50 transition-colors flex items-center gap-2"
-                                >
-                                    <FiLinkedin className="h-6 w-6 text-purple-400" />
-                                    <span className="text-purple-300 text-sm">LinkedIn</span>
-                                </a>
-
-                                <a
-                                    href={CONTACT.socials.blog}
-                                    target="_blank"
-                                    className="p-3 rounded-xl bg-neutral-900/50 border border-purple-900/30 hover:border-purple-400/50 transition-colors flex items-center gap-2"
-                                >
-                                    <FiExternalLink className="h-6 w-6 text-purple-400" />
-                                    <span className="text-purple-300 text-sm">Blog</span>
-                                </a>
-                            </motion.div>
 
                             {/* Skills Grid */}
                             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -120,26 +72,6 @@ export default function Hero() {
                                 ))}
                             </div>
 
-                            {/* Contact Info */}
-                            <motion.div
-                                variants={itemVariants}
-                                className="flex flex-col gap-4 text-neutral-300"
-                            >
-                                <a
-                                    href={`mailto:${CONTACT.email}`}
-                                    className="flex items-center gap-3 hover:text-purple-300 transition-colors"
-                                >
-                                    <EnvelopeIcon className="h-6 w-6 text-purple-400" />
-                                    <span className="truncate">{CONTACT.email}</span>
-                                </a>
-                                <a
-                                    href={`tel:${CONTACT.phoneNo}`}
-                                    className="flex items-center gap-3 hover:text-purple-300 transition-colors"
-                                >
-                                    <PhoneIcon className="h-6 w-6 text-purple-400" />
-                                    <span>{CONTACT.phoneNo}</span>
-                                </a>
-                            </motion.div>
                         </motion.div>
                     </div>
                 </motion.div>

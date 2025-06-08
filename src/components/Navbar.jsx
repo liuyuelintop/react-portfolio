@@ -5,7 +5,15 @@ import { IoBookSharp } from 'react-icons/io5';
 import { HiOutlineDocumentDownload } from 'react-icons/hi';
 import { useCV } from '../hooks/useCV';
 
-const NAV_ITEMS = [
+const SECTION_LINKS = [
+    { label: 'Me', href: '#hero' },
+    { label: 'Experience', href: '#experience' },
+    { label: 'Projects', href: '#projects' },
+    { label: 'Technologies', href: '#technologies' },
+    { label: 'Contact', href: '#contact' },
+];
+
+const EXTERNAL_LINKS = [
     {
         label: 'LinkedIn',
         icon: <FaLinkedin className="text-xl" />,
@@ -31,35 +39,28 @@ export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const menuRef = useRef(null);
     const buttonRef = useRef(null);
-    // Click outside handler
+
     useEffect(() => {
         const handleClickOutside = (event) => {
-            // Check if click is outside both menu and button
             const isOutsideMenu = menuRef.current && !menuRef.current.contains(event.target);
             const isOutsideButton = buttonRef.current && !buttonRef.current.contains(event.target);
-
             if (isOpen && isOutsideMenu && isOutsideButton) {
                 setIsOpen(false);
             }
         };
-
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [isOpen]);
-    // Fixed toggle function
 
-    const toggleMenu = () => {
-        setIsOpen(prev => !prev); // Direct state toggle
-    };
+    const toggleMenu = () => setIsOpen(prev => !prev);
 
-    // Memoized CV content
     const cvContent = useMemo(() => {
         if (isLoading) return <span className="animate-pulse">Loading...</span>;
         if (error) return <span className="text-red-400" title={error}>Retry CV</span>;
         return (
             <>
                 <HiOutlineDocumentDownload className="text-xl" />
-                <span>CV</span>
+                <span className="hidden sm:inline">CV</span>
             </>
         );
     }, [isLoading, error]);
@@ -77,20 +78,15 @@ export default function Navbar() {
 
                     {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center space-x-6">
-                        {NAV_ITEMS.map((item) => (
+                        {SECTION_LINKS.map((item) => (
                             <a
                                 key={item.label}
                                 href={item.href}
-                                target={item.target}
-                                rel="noopener noreferrer"
-                                className="flex items-center space-x-2 text-neutral-300 hover:text-purple-400 transition-colors duration-200"
+                                className="text-neutral-300 hover:text-purple-400 transition-colors duration-200 text-sm font-medium"
                             >
-                                {item.icon}
-                                <span className="text-sm font-medium">{item.label}</span>
+                                {item.label}
                             </a>
                         ))}
-
-                        {/* CV Download */}
                         <a
                             href={cvUrl}
                             onClick={(e) => {
@@ -102,16 +98,30 @@ export default function Navbar() {
                         >
                             {cvContent}
                         </a>
+                        {/* External icons */}
+                        <div className="flex items-center space-x-3 ml-2">
+                            {EXTERNAL_LINKS.map((item) => (
+                                <a
+                                    key={item.label}
+                                    href={item.href}
+                                    target={item.target}
+                                    rel="noopener noreferrer"
+                                    className="text-neutral-400 hover:text-purple-400 transition-colors"
+                                    aria-label={item.label}
+                                >
+                                    {item.icon}
+                                </a>
+                            ))}
+                        </div>
                     </div>
 
                     {/* Mobile Menu Button */}
                     <button
                         ref={buttonRef}
-
                         aria-label="Toggle navigation menu"
                         aria-expanded={isOpen}
                         className="md:hidden p-2 rounded-lg text-neutral-300 hover:text-purple-400 hover:bg-purple-400/10 transition-colors"
-                        onClick={toggleMenu} // Use direct toggle function
+                        onClick={toggleMenu}
                     >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -145,22 +155,18 @@ export default function Navbar() {
                                     duration: 0.15
                                 }
                             }}
-                            className="md:hidden py-4 space-y-4 bg-neutral-900/95 border-t border-neutral-800"
+                            className="md:hidden py-4 space-y-2 bg-neutral-900/95 border-t border-neutral-800"
                         >
-                            {NAV_ITEMS.map((item) => (
+                            {SECTION_LINKS.map((item) => (
                                 <a
                                     key={item.label}
                                     href={item.href}
-                                    target={item.target}
-                                    rel="noopener noreferrer"
-                                    className="flex items-center space-x-3 px-4 py-2 text-neutral-300 hover:text-purple-400 hover:bg-purple-400/10 rounded-lg transition-colors"
+                                    className="block px-4 py-2 text-neutral-300 hover:text-purple-400 hover:bg-purple-400/10 rounded-lg transition-colors text-base font-medium"
                                     onClick={() => setIsOpen(false)}
                                 >
-                                    {item.icon}
-                                    <span className="text-sm font-medium">{item.label}</span>
+                                    {item.label}
                                 </a>
                             ))}
-
                             <a
                                 href={cvUrl}
                                 onClick={(e) => {
@@ -168,11 +174,27 @@ export default function Navbar() {
                                     if (error) retry();
                                     setIsOpen(false);
                                 }}
-                                className={`flex items-center space-x-3 px-4 py-2 rounded-lg border border-purple-400/20 ${isLoading ? 'cursor-progress' : 'hover:border-purple-400/40 hover:bg-purple-400/10'
+                                className={`flex items-center space-x-2 px-4 py-2 rounded-lg border border-purple-400/20 mt-2 ${isLoading ? 'cursor-progress' : 'hover:border-purple-400/40 hover:bg-purple-400/10'
                                     }`}
                             >
                                 {cvContent}
                             </a>
+                            {/* External icons row */}
+                            <div className="flex items-center space-x-6 px-4 pt-4 border-t border-neutral-800">
+                                {EXTERNAL_LINKS.map((item) => (
+                                    <a
+                                        key={item.label}
+                                        href={item.href}
+                                        target={item.target}
+                                        rel="noopener noreferrer"
+                                        className="text-neutral-400 hover:text-purple-400 transition-colors text-2xl"
+                                        aria-label={item.label}
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        {item.icon}
+                                    </a>
+                                ))}
+                            </div>
                         </motion.div>
                     )}
                 </AnimatePresence>

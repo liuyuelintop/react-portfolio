@@ -1,22 +1,23 @@
 export const EXPERIENCES = [
   {
     period: "Mar 2025 – Present",
-    role: "Full-Stack Developer Intern",
+    role: "Full-Stack Developer",
     company: {
       name: "ByteCroniX",
       url: "#",
     },
-    type: "Internship",
+    type: "Full-time",
     highlights: [
-      "Delivered 6+ production-ready features for Co-PR, an AI-powered SaaS platform supporting Australian PR applicants across Web, iOS, and Android",
-      "Designed backend architecture with Node.js using Clean Architecture and BFF (Backend-for-Frontend) patterns to decouple client and service logic",
-      "Built a shared controller layer to unify API contracts across multiple frontends and mobile platforms",
-      "Streamlined deployment workflows with Docker, Kubernetes, and CI/CD pipelines, enabling reproducible builds and smooth rollouts",
-      "Implemented basic load balancing and reverse proxy strategies to enhance platform reliability and scalability",
-      "Improved developer experience by debugging infra blockers, refactoring app startup flow, and documenting internal workflows with Confluence",
+      "Contributed full-time to an early-stage SaaS product as a core engineer across microservices, CI/CD, and API architecture.",
+      "Delivered 6+ production-ready features for Co-PR, an AI-driven SaaS platform guiding Australian PR applicants across Web, iOS, and Android",
+      "Architected Node.js backends using Clean Architecture and BFF patterns to decouple microservices from client logic, improving testability and scale",
+      "Unified API contracts across frontend and mobile platforms by developing a shared controller layer",
+      "Automated deployment workflows with Docker, Kubernetes, and CI/CD, enabling reproducible builds and frictionless staging-to-prod releases",
+      "Implemented reverse proxy and load balancing strategies to stabilise traffic handling during high user demand",
+      "Boosted developer velocity by debugging infra blockers, refactoring cold-start logic, and authoring internal technical docs via Confluence",
     ],
     techStack: {
-      frontend: ["React", "Next.js", "Tailwind CSS"],
+      frontend: ["Next.js", "TypeScript", "Tailwind CSS"],
       backend: ["Node.js", "Express", "MongoDB", "Firebase", "RESTful APIs"],
       architecture: [
         "Clean Architecture",
@@ -37,10 +38,10 @@ export const EXPERIENCES = [
     },
     type: "Part-time",
     highlights: [
-      "Aligned technical solutions with project goals through clear communication with stakeholders",
-      "Built responsive web interfaces with React and Tailwind CSS, enhancing cross-device user experience",
-      "Implemented Redux Toolkit and custom hooks to optimize state management and reduce rendering overhead",
-      "Designed and integrated RESTful APIs with Node.js and Express, ensuring secure client-server communication",
+      "Translated business needs into technical solutions by collaborating with non-technical stakeholders across sprints",
+      "Built responsive SPA interfaces using React and Tailwind CSS, enhancing user experience on mobile and tablet devices",
+      "Streamlined global state logic using Redux Toolkit and custom hooks, reducing unnecessary re-renders and improving UX consistency",
+      "Designed and secured RESTful API endpoints with Node.js and Express to support booking, payment, and auth workflows",
     ],
     techStack: {
       frontend: ["React", "JavaScript", "Redux Toolkit", "Tailwind CSS"],
@@ -57,9 +58,9 @@ export const EXPERIENCES = [
     },
     type: "Internship",
     highlights: [
-      "Developed responsive front-end pages using HTML, CSS, and JavaScript, improving usability metrics by 40%",
-      "Streamlined data processing workflows using PHP and Ruby on Rails, reducing server response times by 25%",
-      "Collaborated in Agile teams to deliver 15+ features meeting strict deadlines with maintainable code",
+      "Built mobile-responsive webpages with HTML, CSS, and JavaScript, improving usability and session time by 40%",
+      "Optimised server-side workflows using PHP and Ruby on Rails, reducing average API response time by 25%",
+      "Delivered 15+ features under tight deadlines in an Agile team, maintaining consistent code quality and peer reviews",
     ],
     techStack: {
       frontend: ["JavaScript", "HTML5", "CSS3"],
