@@ -8,7 +8,7 @@ export default function Experience() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+                className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8"
             >
                 <motion.h2
                     initial={{ opacity: 0 }}
@@ -72,14 +72,14 @@ export default function Experience() {
                                 <div className="space-y-3">
                                     {Object.entries(exp.techStack).map(([category, technologies]) => (
                                         <div key={category} className="space-y-2">
-                                            <span className="text-xs font-semibold text-purple-400/80 uppercase tracking-wider">
+                                            <span className="text-sm font-semibold text-purple-400/80 uppercase tracking-wider">
                                                 {category}
                                             </span>
                                             <div className="flex flex-wrap gap-2">
                                                 {technologies.map((tech, techIndex) => (
                                                     <span
                                                         key={techIndex}
-                                                        className="px-3 py-1 rounded-full bg-neutral-800/50 text-purple-300 text-sm backdrop-blur-sm hover:bg-purple-400/10 transition-colors"
+                                                        className="px-3 py-1 rounded-full bg-neutral-800/50 text-purple-300 text-md font-medium backdrop-blur-sm hover:bg-purple-400/10 transition-colors"
                                                     >
                                                         {tech}
                                                     </span>

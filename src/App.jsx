@@ -5,6 +5,7 @@ const Navbar = lazy(() => import("./components/Navbar"));
 const Hero = lazy(() => import("./components/Hero"));
 const Projects = lazy(() => import("./components/Projects"));
 const Experience = lazy(() => import("./components/Experience"));
+const ReferenceSection = lazy(() => import("./components/ReferenceSection"));
 const Technologies = lazy(() => import("./components/Technologies"));
 const Contact = lazy(() => import("./components/Contact"));
 
@@ -43,9 +44,13 @@ function App() {
           <section id="hero">
             <Hero />
           </section>
-          <div className="space-y-18 md:space-y-36 [&>section]:scroll-m-20">
+          <div className="space-y-8 md:space-y-8 [&>section]:scroll-m-20">
             <section id="experience">
               <Experience />
+            </section>
+
+            <section id="references">
+              <ReferenceSection />
             </section>
 
             <section id="projects">
@@ -61,6 +66,7 @@ function App() {
             </section>
           </div>
         </main>
+
       </div>
     </Suspense>
   );

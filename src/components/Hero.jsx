@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
-import { HERO_CONTENT, CONTACT } from "../constants/constants";
-import { EnvelopeIcon, PhoneIcon } from "@heroicons/react/24/outline";
-import { FiGithub, FiLinkedin, FiExternalLink } from "react-icons/fi";
+import { HERO_CONTENT } from "../constants/constants";
+
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -63,14 +62,15 @@ export default function Hero() {
                                     <motion.div
                                         key={skill}
                                         variants={itemVariants}
-                                        className="group p-3 rounded-xl bg-neutral-900/50 border border-purple-900/30 hover:border-purple-400/50 transition-colors"
+                                        className="group px-4 py-2 rounded-lg bg-neutral-800/60 border border-purple-700/30 hover:border-purple-400/60 shadow-sm hover:shadow-md transition-all duration-200"
                                     >
-                                        <span className="text-purple-300 text-sm md:text-base group-hover:text-purple-400">
+                                        <span className="text-purple-300 text-sm md:text-base font-medium group-hover:text-purple-400 text-center block">
                                             {skill}
                                         </span>
                                     </motion.div>
                                 ))}
                             </div>
+
 
                         </motion.div>
                     </div>

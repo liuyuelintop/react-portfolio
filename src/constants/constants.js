@@ -1,14 +1,15 @@
 export const HERO_CONTENT = {
-  summary: `Hi, I’m Yuelin — a full stack developer who thrives in ambiguity and enjoys turning messy, undefined problems into clear, scalable systems. When others are still figuring out where to start, I’m already prototyping and shipping.
-            At ByteCronix, I’ve built real-world SaaS features for an AI-powered PR guidance platform, leading development on dockerised microservices, secure cross-platform auth, and scalable backend APIs using Clean Architecture and BFF principles. I also improved team velocity through CI/CD pipelines and comprehensive technical documentation.
-            I care deeply about performance, clarity, and developer empathy — from backend logic to frontend polish. Let’s build something meaningful.`,
+  summary: `Hi, I’m Yuelin — a full stack developer who thrives in ambiguity and enjoys turning messy, undefined problems into clear, scalable systems.
+            At ByteCronix, I’ve led the delivery of real-world SaaS features for an AI-powered PR platform, building dockerised microservices, secure auth, and scalable APIs using Clean Architecture and BFF principles. I also improved team velocity through CI/CD pipelines and technical documentation.
+            I care deeply about performance, clarity, and developer empathy — from backend logic to frontend polish.
+            Let’s build something meaningful.`,
   highlights: [
-    "Fast in Ambiguity",
-    "Clean Architecture",
-    "React.js & Next.js",
-    "Secure Auth & APIs",
-    "LLM Integration",
-    "CI/CD & Docker",
+  "Thrive in Ambiguity",
+  "Clean Architecture",
+  "React & Next.js",
+  "Secure Auth & APIs",
+  "LLM / AI Integration",
+  "CI/CD & Docker",
   ],
 };
 

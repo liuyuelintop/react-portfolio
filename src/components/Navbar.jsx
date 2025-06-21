@@ -8,6 +8,7 @@ import { useCV } from '../hooks/useCV';
 const SECTION_LINKS = [
     { label: 'Me', href: '#hero' },
     { label: 'Experience', href: '#experience' },
+    { label: 'References', href: '#references' },
     { label: 'Projects', href: '#projects' },
     { label: 'Technologies', href: '#technologies' },
     { label: 'Contact', href: '#contact' },
