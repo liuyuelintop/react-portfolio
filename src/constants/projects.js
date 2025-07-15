@@ -1,6 +1,25 @@
 import { projectImages } from "./assets";
 
 export const PROJECTS = [
+    {
+    title: "ApeUni FIB Extractor Monorepo",
+    image: projectImages.apeUniFibExtractor,  // make sure you add this asset to your `projectImages`
+    description: {
+      summary:
+        "Unified toolkit for extracting, copying, and exporting “Fill in the Blank” answers from ApeUni practice pages.",
+      features: [
+        "Accurate extraction for both Reading and Writing FIB questions",
+        "SPA navigation support with per-question caching",
+        "Modern floating UI for instant copy, preview, and export",
+        "Dual output: Tampermonkey userscript & Chrome extension"
+      ]
+    },
+    url: "https://github.com/liuyuelintop/apeuni-fib-extractor-monorepo",  // replace with your actual repo URL
+    technologies: {
+      main: ["JavaScript", "Userscript", "Chrome Extension", "Monorepo"],
+      others: ["TypeScript", "ESBuild", "npm"]
+    }
+  },
   {
     title: "SaaS IDE Platform",
     image: projectImages.nextCodeCraft,

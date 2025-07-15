@@ -16,8 +16,8 @@ import nextStripeStarter from "../assets/projects/next-stripe-starter.webp";
 import portfolio from "../assets/projects/portfolio.webp";
 import tsPokerGame from "../assets/projects/ts-poker-game.webp";
 import twitterClone from "../assets/projects/twitter-clone.webp";
-
-// 其他资源
+import apeUniFibExtractor from "../assets/projects/apeUniFibExtractor.webp";
+// 其他资源 
 import logo from "../assets/Logo.png";
 import profilePic from "../assets/Profile.jpg";
 
@@ -40,6 +40,7 @@ export const projectImages = {
   portfolio,
   tsPokerGame,
   twitterClone,
+  apeUniFibExtractor,
 };
 
 export const generalImages = {
