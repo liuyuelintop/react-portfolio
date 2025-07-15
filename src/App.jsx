@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const Navbar = lazy(() => import("./components/Navbar"));
 const Hero = lazy(() => import("./components/Hero"));
-const Projects = lazy(() => import("./components/Projects"));
+const Projects = lazy(() => import("./components/ProjectSection/Projects"));
 const Experience = lazy(() => import("./components/Experience"));
 const ReferenceSection = lazy(() => import("./components/ReferenceSection"));
 const Technologies = lazy(() => import("./components/Technologies"));
