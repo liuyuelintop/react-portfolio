@@ -3,7 +3,7 @@ import Modal from "../ui/Modal";
 import { useState } from "react";
 
 const BottomActions = ({ project, onClose }) => (
-  <div className="sticky bottom-0 left-0 bg-neutral-900/95 pt-4 pb-4 flex flex-col gap-2 z-10">
+  <div className="bg-neutral-900/95 pt-4 pb-4 flex flex-col gap-2 z-10">
     {project.url && (
       <a
         href={project.url}
@@ -31,9 +31,8 @@ export default function ProjectModal({ project, onClose }) {
     <Modal open={!!project} onClose={onClose}>
       <div
         className="
-          flex flex-col h-full w-full
-          max-w-[96vw] sm:max-w-lg md:max-w-xl lg:max-w-2xl
-          max-h-[96svh] bg-neutral-900 rounded-xl
+          flex flex-col w-full h-full
+          px-3 pt-2 pb-0 md:px-6 md:pt-4 md:pb-0
         "
         style={{ minWidth: 0, minHeight: 0 }}
       >
@@ -45,7 +44,7 @@ export default function ProjectModal({ project, onClose }) {
           onDragEnd={(e, info) => {
             if (info.offset.y > 80) onClose();
           }}
-          className="flex items-center justify-between mb-2 sticky top-0 z-20 bg-neutral-900/95 rounded-t-xl touch-pan-y cursor-grab active:cursor-grabbing select-none"
+          className="flex items-center justify-between mb-2 sticky top-0 z-20 bg-neutral-900/95 rounded-t-xl"
           style={{ WebkitUserSelect: "none" }}
         >
           <button
@@ -59,29 +58,29 @@ export default function ProjectModal({ project, onClose }) {
           <span className="w-10" />
         </motion.div>
 
-        {/* Content area */}
-        <div className="flex-1 overflow-y-auto px-1 pb-2">
-          <div className="w-full relative mb-3">
-            {/* skeleton placeholder */}
-            {!imgLoaded && (
-              <div className="w-full aspect-video rounded-lg bg-neutral-700 animate-pulse" />
-            )}
-            {/* image */}
-            <img
-              src={project.image}
-              alt={project.title}
-              className={`
-                w-full max-h-[30vh] object-contain rounded-lg
-                ${imgLoaded ? "opacity-100" : "opacity-0"}
-                transition-opacity duration-500
-              `}
-              onLoad={() => setImgLoaded(true)}
-              loading="lazy"
-              style={{ position: imgLoaded ? "static" : "absolute", top: 0, left: 0 }}
-            />
+        {/* Main Content (scrollable) */}
+        <div className="flex-1 min-h-0 overflow-y-auto px-0 pb-1">
+          <div className="w-full rounded-lg overflow-hidden mb-3 flex items-center justify-center" style={{ minHeight: 0 }}>
+            {/* Image always aspect-ratio, smaller on desktop */}
+            <div className="w-full aspect-video max-h-40 md:max-h-56 lg:max-h-64 flex items-center justify-center bg-neutral-800">
+              {!imgLoaded && (
+                <div className="w-full h-full bg-neutral-700 animate-pulse absolute top-0 left-0" />
+              )}
+              <img
+                src={project.image}
+                alt={project.title}
+                className={`
+                  w-full h-full object-contain rounded-lg
+                  transition-opacity duration-500
+                  ${imgLoaded ? "opacity-100" : "opacity-0"}
+                `}
+                onLoad={() => setImgLoaded(true)}
+                loading="lazy"
+              />
+            </div>
           </div>
 
-          <p className="text-neutral-300 mb-3">{project.description.summary}</p>
+          <p className="text-neutral-300 mb-2 text-sm md:text-base">{project.description.summary}</p>
           <ul className="mb-3 pl-4 list-disc text-neutral-400 text-sm space-y-1">
             {project.description.features.map((f, i) => (
               <li key={i}>{f}</li>

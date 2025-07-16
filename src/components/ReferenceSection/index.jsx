@@ -65,7 +65,7 @@ export default function ReferenceSection() {
       <div
         {...(isMobile ? handlers : {})}
         className="relative w-full flex items-center justify-center"
-        style={{ minHeight: 340 }}
+        style={{ minHeight: 400 }}
       >
         <button
           aria-label="Previous"

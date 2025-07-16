@@ -1,4 +1,4 @@
-// src/components/ui/Modal.jsx
+// Only the max-h and max-w breakpoints are changed here
 import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import FocusLock from "react-focus-lock";
@@ -9,10 +9,7 @@ export default function Modal({ open, onClose, children }) {
   useEffect(() => {
     if (!open) return;
     document.body.style.overflow = "hidden";
-    // automatically focus the first actionable element
-    setTimeout(() => {
-      ref.current?.focus();
-    }, 0);
+    setTimeout(() => { ref.current?.focus(); }, 0);
     const handler = (e) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", handler);
     return () => {
@@ -37,7 +34,14 @@ export default function Modal({ open, onClose, children }) {
           <motion.div
             ref={ref}
             tabIndex={-1}
-            className="relative bg-neutral-900 rounded-xl sm:p-8 p-3 w-[97vw] max-w-lg max-h-[80vh] sm:max-h-[90vh] flex flex-col shadow-2xl overflow-hidden outline-none"
+            className="
+              relative bg-neutral-900 rounded-xl p-0
+              w-[97vw] max-w-lg
+              md:max-w-xl lg:max-w-2xl
+              h-auto
+              max-h-[75svh] md:max-h-[60vh] lg:max-h-[55vh]
+              flex flex-col shadow-2xl overflow-hidden outline-none
+            "
             initial={{ opacity: 0, scale: 0.98, y: 40 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.98, y: 40 }}
