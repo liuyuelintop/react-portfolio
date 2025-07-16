@@ -57,7 +57,7 @@ export default function ReferenceSection() {
   });
 
   return (
-    <section className="py-20 px-6 max-w-2xl mx-auto flex flex-col items-center">
+    <section className="py-8 px-6 max-w-2xl mx-auto flex flex-col items-center">
       <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-12 tracking-tight">
         What Others Say
       </h2>

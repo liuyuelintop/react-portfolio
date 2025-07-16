@@ -1,184 +1,86 @@
-import { DiRedis } from "react-icons/di";
-import {
-  FaAws,
-  FaNodeJs,
-  FaPaintBrush,
-  FaDocker,
-  FaSlack,
-} from "react-icons/fa";
-import { RiReactjsLine } from "react-icons/ri";
-import { MdArchitecture } from "react-icons/md";
+// techStackData.js
+import { RiReactjsLine, RiBearSmileLine } from "react-icons/ri";
 import { TbBrandNextjs } from "react-icons/tb";
-import {
-  SiClerk,
-  SiFirebase,
-  SiJest,
-  SiKubernetes,
-  SiMongodb,
-  SiOpenai,
-  SiPostman,
-  SiShadcnui,
-  SiSwagger,
-  SiTailwindcss,
-  SiTypescript,
-  SiVercel,
-  SiConfluence,
-  SiRedux,
-} from "react-icons/si";
+import { SiTypescript, SiZod, SiRedux, SiTailwindcss, SiShadcnui, SiVite, SiStorybook } from "react-icons/si";
+import { FaNodeJs, FaSlack } from "react-icons/fa";
+import { FaMasksTheater, FaAws } from "react-icons/fa6";
+import { SiExpress, SiPrisma, SiMongodb, SiSupabase, SiRedis, SiGraphql } from "react-icons/si";
+import { FaDocker } from "react-icons/fa";
+import { SiKubernetes, SiVercel, SiTurborepo, SiConfluence } from "react-icons/si";
+import { SiOpenai, SiLangchain, SiOllama } from "react-icons/si";
+import { SiJest, SiPostman, SiSwagger } from "react-icons/si";
+import { SiClerk } from "react-icons/si";
 
 export const TECH_STACK = [
   {
-    name: "React",
-    icon: RiReactjsLine,
-    color: "text-cyan-400",
-    usage: "primary",
-    docs: "https://react.dev",
+    group: "Core Frontend",
+    items: [
+      { name: "React", icon: RiReactjsLine, color: "text-cyan-400" },
+      { name: "Next.js", icon: TbBrandNextjs, color: "text-neutral-100" },
+      { name: "TypeScript", icon: SiTypescript, color: "text-blue-400" },
+      { name: "Zustand", icon: RiBearSmileLine, color: "text-gray-400" },
+      { name: "Zod", icon: SiZod, color: "text-purple-400" },
+      { name: "Redux Toolkit", icon: SiRedux, color: "text-purple-500" },
+      { name: "Tailwind CSS", icon: SiTailwindcss, color: "text-cyan-400" },
+      { name: "shadcn/ui", icon: SiShadcnui, color: "text-sky-400" },
+      { name: "Vite", icon: SiVite, color: "text-yellow-400" },
+      { name: "Storybook", icon: SiStorybook, color: "text-pink-300" }
+    ]
   },
   {
-    name: "Next.js",
-    icon: TbBrandNextjs,
-    color: "text-neutral-100",
-    usage: "primary",
-    docs: "https://nextjs.org",
+    group: "Core Backend",
+    items: [
+      { name: "Node.js", icon: FaNodeJs, color: "text-green-600" },
+      { name: "Express.js", icon: SiExpress, color: "text-blue-400" },
+      { name: "Prisma", icon: SiPrisma, color: "text-green-400" },
+      { name: "MongoDB", icon: SiMongodb, color: "text-green-500" },
+      { name: "Supabase", icon: SiSupabase, color: "text-lime-400" },
+      { name: "Redis", icon: SiRedis, color: "text-red-500" },
+      { name: "GraphQL", icon: SiGraphql, color: "text-pink-500" },
+    ]
   },
   {
-    name: "Node.js",
-    icon: FaNodeJs,
-    color: "text-green-600",
-    usage: "backend",
-    docs: "https://nodejs.org",
+    group: "Cloud & DevOps",
+    items: [
+      { name: "Docker", icon: FaDocker, color: "text-blue-500" },
+      { name: "Kubernetes", icon: SiKubernetes, color: "text-blue-600" },
+      { name: "AWS", icon: FaAws, color: "text-amber-600" },
+      { name: "Vercel", icon: SiVercel, color: "text-black dark:text-white" },
+      { name: "Turborepo", icon: SiTurborepo, color: "text-neutral-400" },
+      { name: "CI/CD", icon: SiConfluence, color: "text-blue-400" },
+    ]
   },
   {
-    name: "TypeScript",
-    icon: SiTypescript,
-    color: "text-blue-400",
-    usage: "core",
-    docs: "https://typescriptlang.org",
+    group: "AI, LLM & Data",
+    items: [
+      { name: "OpenAI", icon: SiOpenai, color: "text-green-400/80" },
+      { name: "LangChain", icon: SiLangchain, color: "text-yellow-300" },
+      { name: "LlamaIndex", icon: SiOpenai, color: "text-green-500" },
+      { name: "Ollama", icon: SiOllama, color: "text-emerald-400" },
+    ]
   },
   {
-    name: "Tailwind CSS",
-    icon: SiTailwindcss,
-    color: "text-cyan-400",
-    usage: "styling",
-    docs: "https://tailwindcss.com",
+    group: "Testing & Automation",
+    items: [
+      { name: "Jest", icon: SiJest, color: "text-red-500" },
+      { name: "Playwright", icon: FaMasksTheater, color: "text-pink-400" },
+      { name: "Postman", icon: SiPostman, color: "text-orange-500" },
+      { name: "Swagger", icon: SiSwagger, color: "text-yellow-400" },
+    ]
   },
   {
-    name: "Redux Toolkit",
-    icon: SiRedux,
-    color: "text-purple-500",
-    usage: "state",
-    docs: "https://redux-toolkit.js.org/",
+    group: "Communication & Auth",
+    items: [
+      { name: "Clerk", icon: SiClerk, color: "text-purple-500/80" },
+      { name: "Slack", icon: FaSlack, color: "text-purple-400" },
+    ]
   },
   {
-    name: "MongoDB",
-    icon: SiMongodb,
-    color: "text-green-500",
-    usage: "database",
-    docs: "https://mongodb.com",
-  },
-  {
-    name: "Redis",
-    icon: DiRedis,
-    color: "text-red-500",
-    usage: "database",
-    docs: "https://redis.io",
-  },
-  {
-    name: "Firebase",
-    icon: SiFirebase,
-    color: "text-yellow-500",
-    usage: "authentication",
-    docs: "https://firebase.google.com",
-  },
-  {
-    name: "Swagger",
-    icon: SiSwagger,
-    color: "text-yellow-400",
-    usage: "api",
-    docs: "https://swagger.io",
-  },
-  {
-    name: "Postman",
-    icon: SiPostman,
-    color: "text-orange-500",
-    usage: "api",
-    docs: "https://postman.com",
-  },
-  {
-    name: "Docker",
-    icon: FaDocker,
-    color: "text-blue-500",
-    usage: "infrastructure",
-    docs: "https://www.docker.com/",
-  },
-  {
-    name: "Kubernetes",
-    icon: SiKubernetes,
-    color: "text-blue-600",
-    usage: "infrastructure",
-    docs: "https://kubernetes.io",
-  },
-  {
-    name: "CI/CD",
-    icon: MdArchitecture,
-    color: "text-pink-500",
-    usage: "deployment",
-    docs: "https://www.atlassian.com/continuous-delivery/ci-vs-cd",
-  },
-  {
-    name: "Vercel",
-    icon: SiVercel,
-    color: "text-black dark:text-white",
-    usage: "deployment",
-    docs: "https://vercel.com",
-  },
-  {
-    name: "AWS",
-    icon: FaAws,
-    color: "text-amber-600",
-    usage: "cloud",
-    docs: "https://aws.amazon.com",
-  },
-  {
-    name: "Clerk",
-    icon: SiClerk,
-    color: "text-purple-500/80",
-    usage: "authentication",
-    docs: "https://clerk.dev",
-  },
-  {
-    name: "shadcn/ui",
-    icon: SiShadcnui,
-    color: "text-sky-400",
-    usage: "components",
-    docs: "https://ui.shadcn.com",
-  },
-  {
-    name: "Jest",
-    icon: SiJest,
-    color: "text-red-500",
-    usage: "testing",
-    docs: "https://jestjs.io",
-  },
-  {
-    name: "Confluence",
-    icon: SiConfluence,
-    color: "text-blue-400",
-    usage: "documentation",
-    docs: "https://www.atlassian.com/software/confluence",
-  },
-  {
-    name: "Slack",
-    icon: FaSlack,
-    color: "text-purple-400",
-    usage: "communication",
-    docs: "https://slack.com",
-  },
-  {
-    name: "ChatGPT",
-    icon: SiOpenai,
-    color: "text-green-400/80",
-    usage: "ai",
-    docs: "https://openai.com/chatgpt",
+    group: "Learning & Next Focus",
+    items: [
+      { name: "LangChain", icon: SiLangchain, color: "text-yellow-300" },
+      { name: "LlamaIndex", icon: SiOpenai, color: "text-green-500" },
+      { name: "Ollama", icon: SiOllama, color: "text-emerald-400" },
+    ]
   },
 ];
