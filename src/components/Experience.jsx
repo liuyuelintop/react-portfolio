@@ -61,7 +61,7 @@ export default function Experience() {
                                     {exp.highlights.map((highlight, i) => (
                                         <li
                                             key={i}
-                                            className="flex items-start text-neutral-300 text-sm sm:text-base leading-relaxed"
+                                            className="flex items-start text-neutral-300 text-base sm:text-lg leading-relaxed"
                                         >
                                             <span className="text-purple-400 mr-2 mt-1">▹</span>
                                             {highlight}

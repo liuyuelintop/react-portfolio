@@ -5,29 +5,50 @@
 
 ---
 
-A modern, visually stunning personal portfolio website built with React, Tailwind CSS, and Framer Motion. Showcases your projects, professional journey, references, and technical skills with interactive UI and smooth animations.
+A modern, visually stunning personal portfolio built with **React 18**, **Tailwind CSS**, and **Framer Motion**. Showcase your projects, professional journey, tech stack, and references in a fast, interactive, and mobile-friendly UI.
 
 ![Portfolio Screenshot](./src/assets/og-image.png)
 
 ## ✨ Features
 
-* **Animated Hero Section:** Eye-catching intro with summary and highlights.
-* **Professional Timeline:** Interactive, animated experience timeline.
-* **Project Gallery:** Project Gallery: Responsive grid of project cards with quick modal access to full project details.
-* **Polished Project Modal:**
+* **Animated Hero Section:**
+  Custom gradient headline, motion intro, and quick summary.
+  Smooth entry animations, with keyboard and screen reader accessibility.
 
-  * Responsive modal with skeleton image loading for better perceived performance
-  * Sticky action buttons always visible
-  * Drag-to-close gesture and bottom “Close” button are currently available on all devices  
-  * Desktop users get a clean experience with “X”/ESC closing and optimized width
-* **References Carousel:** Swipeable, animated testimonials with LinkedIn links.
-* **Tech Stack Grid:** Icon-based, animated display of technologies.
-* **Contact Section:** Accessible contact info with email and phone links.
-* **Responsive Design:** Fully mobile-friendly and accessible.
-* **Dark Mode:** Sleek, dark-themed UI.
-* **SEO Optimized:** Semantic HTML, Open Graph, and Twitter meta tags.
-* **CV Download:** Dynamic CV link powered by Google Drive API.
-* **Performance:** Code-splitting, lazy loading, and optimized assets.
+* **Professional Experience Timeline:**
+  Clean vertical timeline showing company, role, tech stack, and key results.
+  Animated card reveal, company logos, and improved mobile layout.
+
+* **Project Gallery:**
+  Responsive grid of project cards.
+  Modal pops up with full details, always-sticky actions, and drag-to-close on mobile.
+
+* **References Carousel:**
+  Animated, swipeable reference cards with avatars and LinkedIn links.
+
+* **Tech Stack Section:**
+  **Refactored:**
+
+  * Responsive grid on desktop with tighter gaps, color-highlighted group titles (including yellow "Learning & Next Focus")
+  * Mobile-first carousel: swipeable, snap-to-item, and shows 3 cards per row for better visibility
+  * Animated, clickable icon cards with fast, subtle hover effects
+  * No unnecessary labels—just icon, name, and color
+  * Performance-optimized, no re-renders or slowdowns with lots of icons
+
+* **Contact Section:**
+  Accessible contact info, with email and phone click-to-copy.
+
+* **Dark Mode:**
+  Consistent dark background, accessible color palette.
+
+* **SEO Optimized:**
+  Semantic HTML, Open Graph, Twitter cards, and dynamic meta.
+
+* **Performance:**
+  Code-splitting, lazy loading, optimized images and assets.
+
+* **Accessibility:**
+  Keyboard navigation, focus ring, semantic markup, and null-safe data everywhere.
 
 ## 🛠️ Tech Stack
 
@@ -35,10 +56,10 @@ A modern, visually stunning personal portfolio website built with React, Tailwin
 * [Vite](https://vitejs.dev/)
 * [Tailwind CSS](https://tailwindcss.com/)
 * [Framer Motion](https://www.framer.com/motion/)
+* [Swiper](https://swiperjs.com/) (TechStack Carousel)
 * [React Icons](https://react-icons.github.io/react-icons/)
-* [React Swipeable](https://www.npmjs.com/package/react-swipeable)
-* [Google Drive API](https://developers.google.com/drive)
 * [clsx](https://github.com/lukeed/clsx)
+* [Google Drive API](https://developers.google.com/drive)
 * [dotenv](https://www.npmjs.com/package/dotenv)
 
 ## 📦 Getting Started
@@ -46,7 +67,7 @@ A modern, visually stunning personal portfolio website built with React, Tailwin
 ### 1. Clone the Repo
 
 ```sh
-git clone https://github.com/your-username/react-portfolio.git
+git clone https://github.com/liuyuelintop/react-portfolio.git
 cd react-portfolio
 ```
 
@@ -83,11 +104,11 @@ npm run build
 
 ```
 src/
-  components/         # UI components (Hero, Projects, Experience, etc.)
-  constants/          # Data for projects, experiences, references, etc.
+  components/         # All UI components (Hero, Experience, Projects, Technologies, etc.)
+  constants/          # Data for projects, experiences, tech stack, references, etc.
   assets/             # Images and static assets
   hooks/              # Custom React hooks
-  utils/              # Utility functions (API, etc.)
+  utils/              # Utility functions (API, formatting, etc.)
   App.jsx             # Main app entry
   main.jsx            # ReactDOM render
   index.css           # Tailwind and global styles
@@ -95,24 +116,37 @@ src/
 
 ## 🆕 What’s New
 
-* **Fully Responsive Project Modal:**
-  Mobile users get a smooth drag-to-close experience, always-visible sticky buttons, and image skeleton loading for slower networks.
-  Desktop users enjoy wide modals, instant close with the X button or ESC, and a clutter-free UI.
-* **Robust Null Safety:**
-  No more runtime errors even if project data is missing.
-* **Performance Improvements:**
-  Lazy image loading, lightweight skeletons, and no blocking rendering.
+* **Tech Stack Section Refactor**
+
+  * Desktop: responsive grid, tight spacing, color-highlighted group headings (with yellow for "Learning & Next Focus")
+  * Mobile: swipeable carousel (3 visible at a time), infinite looping, touch navigation
+  * Polished icon cards: responsive, animated, and minimal—no label spam
+  * Hover: super fast, scale and shadow effect for instant feedback
+  * Cleaned up data structure (name, icon, color only)
+
+* **Hero & Experience Section Overhaul**
+
+  * Hero: more lively gradient, motion elements, and summary improvements
+  * Experience: clearer timeline, better tech highlights, improved mobile stacking
+
+* **Performance & Accessibility**
+
+  * More granular code-splitting and lazy loading
+  * Null safety for all data-driven components
+  * Focus/keyboard/ARIA improvements
+
+* **SEO & Meta**
+
+  * Updated Open Graph and Twitter meta tags for every page
 
 ## 📈 GitHub Profile Boost
 
-* **Pinned Project:** Pin this repo to your GitHub profile for maximum visibility.
-* **GitHub Actions:** Add CI/CD for auto-deploy (e.g., Vercel, Netlify, or GitHub Pages).
-* **Open Source:** Encourage contributions and star-gazing.
-* **SEO:** Project is optimized for search engines and social sharing.
+* **Pin this repo** to your profile
+* **CI/CD:** Set up auto-deploy (Vercel/Netlify)
+* **Open Source:** Issues and PRs welcome
+* **SEO:** All best practices included
 
 ## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome!
 
 1. Fork the repo
 2. Create your feature branch (`git checkout -b feature/your-feature`)
@@ -131,4 +165,4 @@ Contributions, issues, and feature requests are welcome!
 
 ---
 
-> If you like this project, please ⭐️ star it on [GitHub](https://github.com/liuyuelintop/react-portfolio)!
+> If you like this project, please ⭐️ star it on GitHub!

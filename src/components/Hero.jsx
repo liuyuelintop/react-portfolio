@@ -41,7 +41,7 @@ export default function Hero() {
                             <h2 className="text-lg md:text-xl text-purple-300 font-medium text-center mb-3">
                                 Full Stack Developer
                             </h2>
-                            <p className="text-base md:text-lg text-neutral-300 leading-relaxed max-w-2xl mx-auto text-center mb-2">
+                            <p className="text-lg md:text-xl text-neutral-300 leading-relaxed max-w-2xl mx-auto text-center mb-2">
                                 {HERO_CONTENT.summary}
                             </p>
                         </motion.div>
