@@ -26,7 +26,6 @@ export const REFERENCES = [
     image: "https://media.licdn.com/dms/image/v2/D5603AQFaRsgz2HGQaw/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1698386936398?e=1755734400&v=beta&t=53tiFdI3f3V-_n2hA7QYytCbrSMpEUWiYjCY-CBoSrE",
     linkedIn: "https://www.linkedin.com/in/kelvinchoo-iisri/",
   },
-
   {
     name: "Vincent Wijaya",
     title: "Junior Software Engineer",
