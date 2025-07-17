@@ -71,7 +71,7 @@ export default function ProjectModal({ project, onClose }) {
                 src={project.image}
                 alt={project.title}
                 className={`
-                  w-full h-full object-contain rounded-lg
+                  w-full h-full object-cover rounded-lg
                   transition-opacity duration-500
                   ${imgLoaded ? "opacity-100" : "opacity-0"}
                 `}
