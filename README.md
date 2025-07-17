@@ -1,6 +1,6 @@
 # React Portfolio 🚀
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-blue?style=flat-square\&logo=vercel)](https://liuyuelin.dev)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-blue?style=flat-square&logo=vercel)](https://liuyuelin.dev)
 [![Stars](https://img.shields.io/github/stars/liuyuelintop/react-portfolio?style=social)](https://github.com/liuyuelintop/react-portfolio/stargazers)
 
 ---
@@ -9,31 +9,55 @@ A modern, visually stunning personal portfolio built with **React 18**, **Tailwi
 
 ![Portfolio Screenshot](./src/assets/og-image.png)
 
+---
+
+## 🚦 Lighthouse Report
+
+| Category       | Desktop | Mobile  |
+| -------------- | ------- | ------- |
+| Performance    | **100** | **89**  |
+| Accessibility  | **96**  | **96**  |
+| Best Practices | **96**  | **96**  |
+| SEO            | **100** | **100** |
+
+- **Core Web Vitals: excellent scores for CLS, LCP, and FCP**
+- **Desktop: perfect 100 performance, ultra-fast**
+- **Mobile: smooth experience, all scores well above industry average**
+- **SEO, Accessibility & Best Practices: exceeds modern standards**
+
+> [View Desktop Report (July 2025)](https://pagespeed.web.dev/analysis/https-www-liuyuelin-dev/df2ampev8u?form_factor=desktop)  
+> [View Mobile Report (July 2025)](https://pagespeed.web.dev/analysis/https-www-liuyuelin-dev/df2ampev8u?form_factor=mobile)
+
+---
+
 ## ✨ Features
 
+* **⚡ Blazing Fast Performance:**
+  - Lighthouse Performance 100 (Desktop), 89 (Mobile)
+  - Code-splitting, lazy loading, optimised images and assets
+  - Zero layout shift, smooth load and interactions
+
 * **Animated Hero Section:**
-  Custom gradient headline, motion intro, and quick summary.
-  Smooth entry animations, with keyboard and screen reader accessibility.
+  - Custom gradient headline, motion intro, and quick summary.
+  - Smooth entry animations, with keyboard and screen reader accessibility.
 
 * **Professional Experience Timeline:**
-  Clean vertical timeline showing company, role, tech stack, and key results.
-  Animated card reveal, company logos, and improved mobile layout.
+  - Clean vertical timeline showing company, role, tech stack, and key results.
+  - Animated card reveal, company logos, and improved mobile layout.
 
 * **Project Gallery:**
-  Responsive grid of project cards.
-  Modal pops up with full details, always-sticky actions, and drag-to-close on mobile.
+  - Responsive grid of project cards.
+  - Modal pops up with full details, always-sticky actions, and drag-to-close on mobile.
 
 * **References Carousel:**
   Animated, swipeable reference cards with avatars and LinkedIn links.
 
 * **Tech Stack Section:**
-  **Refactored:**
-
-  * Responsive grid on desktop with tighter gaps, color-highlighted group titles (including yellow "Learning & Next Focus")
-  * Mobile-first carousel: swipeable, snap-to-item, and shows 3 cards per row for better visibility
-  * Animated, clickable icon cards with fast, subtle hover effects
-  * No unnecessary labels—just icon, name, and color
-  * Performance-optimized, no re-renders or slowdowns with lots of icons
+  - Responsive grid on desktop with tighter gaps, color-highlighted group titles (including yellow "Learning & Next Focus")
+  - Mobile-first carousel: swipeable, snap-to-item, and shows 3 cards per row for better visibility
+  - Animated, clickable icon cards with fast, subtle hover effects
+  - No unnecessary labels—just icon, name, and color
+  - Performance-optimized, no re-renders or slowdowns with lots of icons
 
 * **Contact Section:**
   Accessible contact info, with email and phone click-to-copy.
@@ -44,11 +68,10 @@ A modern, visually stunning personal portfolio built with **React 18**, **Tailwi
 * **SEO Optimized:**
   Semantic HTML, Open Graph, Twitter cards, and dynamic meta.
 
-* **Performance:**
-  Code-splitting, lazy loading, optimized images and assets.
-
 * **Accessibility:**
   Keyboard navigation, focus ring, semantic markup, and null-safe data everywhere.
+
+---
 
 ## 🛠️ Tech Stack
 
@@ -62,6 +85,8 @@ A modern, visually stunning personal portfolio built with **React 18**, **Tailwi
 * [Google Drive API](https://developers.google.com/drive)
 * [dotenv](https://www.npmjs.com/package/dotenv)
 
+---
+
 ## 📦 Getting Started
 
 ### 1. Clone the Repo
@@ -69,7 +94,7 @@ A modern, visually stunning personal portfolio built with **React 18**, **Tailwi
 ```sh
 git clone https://github.com/liuyuelintop/react-portfolio.git
 cd react-portfolio
-```
+````
 
 ### 2. Install Dependencies
 
@@ -100,6 +125,8 @@ Visit [http://localhost:5173](http://localhost:5173) in your browser.
 npm run build
 ```
 
+---
+
 ## 🖼️ Project Structure
 
 ```
@@ -113,6 +140,8 @@ src/
   main.jsx            # ReactDOM render
   index.css           # Tailwind and global styles
 ```
+
+---
 
 ## 🆕 What’s New
 
@@ -139,12 +168,16 @@ src/
 
   * Updated Open Graph and Twitter meta tags for every page
 
+---
+
 ## 📈 GitHub Profile Boost
 
 * **Pin this repo** to your profile
 * **CI/CD:** Set up auto-deploy (Vercel/Netlify)
 * **Open Source:** Issues and PRs welcome
 * **SEO:** All best practices included
+
+---
 
 ## 🤝 Contributing
 
@@ -154,9 +187,13 @@ src/
 4. Push to the branch (`git push origin feature/your-feature`)
 5. Open a Pull Request
 
+---
+
 ## 📝 License
 
 [MIT](LICENSE)
+
+---
 
 ## 🙋‍♂️ Author
 
