@@ -28,10 +28,10 @@ export default function TechnologiesCarousel({ items }) {
         {/* Custom arrows: show if more than 3 techs */}
         {items.length > 3 && (
           <>
-            <button className="swiper-prev absolute left-[-8px] top-1/2 -translate-y-1/2 z-10 bg-black/30 p-1 rounded-full">
+            <button aria-label="Previous" className="swiper-prev absolute left-[-8px] top-1/2 -translate-y-1/2 z-10 bg-black/30 p-1 rounded-full">
               <ChevronLeft size={20} />
             </button>
-            <button className="swiper-next absolute right-[-8px] top-1/2 -translate-y-1/2 z-10 bg-black/30 p-1 rounded-full">
+            <button aria-label="Next" className="swiper-next absolute right-[-8px] top-1/2 -translate-y-1/2 z-10 bg-black/30 p-1 rounded-full">
               <ChevronRight size={20} />
             </button>
           </>

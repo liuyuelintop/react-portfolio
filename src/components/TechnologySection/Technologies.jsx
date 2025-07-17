@@ -39,6 +39,7 @@ export default function Technologies() {
                 {isMobile && !showAll && (
                     <div className="flex justify-center mt-4">
                         <button
+                            aria-label="Show All Technologies"
                             className="text-sm px-4 py-2 bg-neutral-800 rounded-lg text-purple-300 hover:bg-purple-800 transition"
                             onClick={() => setShowAll(true)}
                         >

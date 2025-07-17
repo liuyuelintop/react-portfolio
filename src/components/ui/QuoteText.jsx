@@ -39,6 +39,7 @@ const QuoteText = ({ text }) => {
       </p>
       {isTruncated && (
         <button
+          aria-label="Toggle Quote Expansion"
           onClick={() => setExpanded(!expanded)}
           className="mt-2 text-purple-400 hover:underline text-sm font-medium"
         >

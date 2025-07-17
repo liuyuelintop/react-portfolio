@@ -6,7 +6,7 @@ const Hero = lazy(() => import("./components/Hero"));
 const Projects = lazy(() => import("./components/ProjectSection/Projects"));
 const Experience = lazy(() => import("./components/Experience"));
 const ReferenceSection = lazy(() => import("./components/ReferenceSection"));
-const Technologies = lazy(() => import("./components/Technologies/Technologies"));
+const Technologies = lazy(() => import("./components/TechnologySection/Technologies"));
 const Contact = lazy(() => import("./components/Contact"));
 
 function App() {

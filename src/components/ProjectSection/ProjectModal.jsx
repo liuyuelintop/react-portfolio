@@ -16,6 +16,7 @@ const BottomActions = ({ project, onClose }) => (
     )}
     <button
       onClick={onClose}
+      aria-label="Close Modal"
       className="w-full text-center bg-neutral-800 hover:bg-neutral-700 text-purple-300 font-semibold rounded-md px-6 py-3 transition text-base"
     >
       Close

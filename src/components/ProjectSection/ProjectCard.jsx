@@ -4,6 +4,7 @@ const ProjectCard = ({ project, onReadMore }) => (
             <img
                 src={project.image}
                 alt={project.title}
+                loading="lazy"
                 className="w-full aspect-video object-cover rounded-lg mb-4"
             />
         </a>
@@ -15,6 +16,7 @@ const ProjectCard = ({ project, onReadMore }) => (
         </p>
         <button
             onClick={onReadMore}
+            aria-label="Read More"
             className="text-purple-400 hover:text-purple-300 text-sm font-medium mt-4 flex items-center"
         >
             Read More <span className="ml-2">→</span>

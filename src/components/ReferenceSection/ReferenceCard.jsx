@@ -12,6 +12,7 @@ const ReferenceCard = ({ name, title, company, quote, image, linkedIn }) => (
       <img
         src={image}
         alt={name}
+        loading="lazy"
         className="w-14 h-14 rounded-full object-cover border-2 border-purple-700/40 shadow"
       />
       <div className="flex-1 min-w-0">

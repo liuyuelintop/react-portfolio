@@ -19,7 +19,6 @@ import twitterClone from "../assets/projects/twitter-clone.webp";
 import apeUniFibExtractor from "../assets/projects/apeUniFibExtractor.webp";
 // 其他资源 
 import logo from "../assets/Logo.png";
-import profilePic from "../assets/Profile.jpg";
 
 // 统一导出
 export const projectImages = {
@@ -45,5 +44,4 @@ export const projectImages = {
 
 export const generalImages = {
   logo,
-  profilePic,
 };

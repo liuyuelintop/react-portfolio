@@ -1,4 +1,3 @@
-// hooks/useCV.js
 import { useCallback, useEffect, useRef, useState } from "react";
 import { getLatestCV } from "../utils/api";
 
@@ -11,18 +10,24 @@ export function useCV() {
   });
 
   const fetchCV = useCallback(async () => {
-    abortController.current.abort(); // 取消前次请求
+    abortController.current.abort();
     abortController.current = new AbortController();
 
     setState((prev) => ({ ...prev, isLoading: true, error: null }));
 
     try {
-      const url = await getLatestCV(abortController.current.signal);
+      let url;
+      if (import.meta.env.PROD) {
+        url = await getLatestCV(abortController.current.signal);
+      } else {
+        // In dev, return a mock or skip fetching
+        url = "/#"; // or just "#"
+      }
       setState({ cvUrl: url, isLoading: false, error: null });
     } catch (error) {
       if (error.name !== "AbortError") {
         setState((prev) => ({
-          cvUrl: prev.cvUrl, // 保留上次成功值
+          cvUrl: prev.cvUrl,
           isLoading: false,
           error: error.message,
         }));
