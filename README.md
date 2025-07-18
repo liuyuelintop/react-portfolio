@@ -28,6 +28,15 @@ A modern, visually stunning personal portfolio built with **React 18**, **Tailwi
 > [View Desktop Report (July 2025)](https://pagespeed.web.dev/analysis/https-www-liuyuelin-dev/df2ampev8u?form_factor=desktop)  
 > [View Mobile Report (July 2025)](https://pagespeed.web.dev/analysis/https-www-liuyuelin-dev/df2ampev8u?form_factor=mobile)
 
+### 🚦 Lighthouse Score Card Component
+
+- **Animated Circular Progress:** Each score animates smoothly using SVG and requestAnimationFrame for best performance.
+- **Memoized & Optimized:** The card and progress components are memoized to avoid unnecessary re-renders and improve runtime efficiency.
+- **Accessible:** ARIA labels, semantic markup, and keyboard navigation for full accessibility.
+- **Responsive Design:** Looks great on all devices, with adaptive layout and color contrast.
+- **External Report Link:** Quick access to the full Lighthouse report via a secure external link.
+- **Scores & Metadata:** All scores and report info are managed via constants for maintainability and fast updates.
+- **Code-Splitting:** Loaded via React.lazy for faster initial load and reduced unused JS.
 ---
 
 ## ✨ Features

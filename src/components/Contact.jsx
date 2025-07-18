@@ -27,7 +27,7 @@ const itemVariants = {
 
 export default function Contact() {
     return (
-        <section className="py-16 md:py-24 px-4 md:px-8 bg-neutral-950">
+        <section className="py-16 md:py-16 px-4 md:px-8 bg-neutral-950">
             <div className="max-w-4xl mx-auto">
                 <motion.div
                     initial="hidden"

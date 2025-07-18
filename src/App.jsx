@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 
 const Navbar = lazy(() => import("./components/Navbar"));
 const Hero = lazy(() => import("./components/Hero"));
+const LighthouseScoreCard = lazy(() => import("./components/LighthouseScoreCard"));
 const Projects = lazy(() => import("./components/ProjectSection/Projects"));
 const Experience = lazy(() => import("./components/Experience"));
 const ReferenceSection = lazy(() => import("./components/ReferenceSection"));
@@ -43,7 +44,11 @@ function App() {
         <main className="container mx-auto px-4 md:px-8">
           <section id="hero">
             <Hero />
+
           </section>
+
+          {/* Lighthouse Score Card with proper spacing */}
+          {/* <LighthouseScoreCard /> */}
           <div className="space-y-8 md:space-y-8 [&>section]:scroll-m-20">
             <section id="experience">
               <Experience />
@@ -60,7 +65,8 @@ function App() {
             <section id="technologies">
               <Technologies />
             </section>
-
+            {/* Contact Section */}
+            <LighthouseScoreCard />
             <section id="contact">
               <Contact />
             </section>
