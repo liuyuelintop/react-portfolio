@@ -17,6 +17,7 @@ import portfolio from "../assets/projects/portfolio.webp";
 import tsPokerGame from "../assets/projects/ts-poker-game.webp";
 import twitterClone from "../assets/projects/twitter-clone.webp";
 import apeUniFibExtractor from "../assets/projects/apeUniFibExtractor.webp";
+import melbUniUltimate from "../assets/projects/melbUniUltimate.webp";
 // 其他资源 
 import logo from "../assets/Logo.png";
 
@@ -40,6 +41,7 @@ export const projectImages = {
   tsPokerGame,
   twitterClone,
   apeUniFibExtractor,
+  melbUniUltimate,
 };
 
 export const generalImages = {

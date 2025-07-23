@@ -48,7 +48,7 @@ export default function Hero() {
 
                         {/* Skills Grid */}
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 max-w-2xl mx-auto">
-                            {HERO_CONTENT.highlights.map((skill, index) => (
+                            {HERO_CONTENT.highlights.map((skill) => (
                                 <motion.div
                                     key={skill}
                                     variants={itemVariants}

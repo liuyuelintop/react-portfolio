@@ -2,6 +2,42 @@ import { projectImages } from "./assets";
 
 export const PROJECTS = [
     {
+    title: "Melbourne University Ultimate Frisbee Club",
+    image: projectImages.melbUniUltimate, // Add the relevant image to your assets
+    description: {
+      summary:
+        "A modern, open-source web platform for ultimate frisbee clubs. Built for the Melbourne University Ultimate community—ready for your team!",
+      features: [
+        "Beautiful, modern UI with Tailwind, shadcn/ui, and Lucide icons",
+        "All-in-one club management: events, announcements, roster, alumni, tournaments, and more",
+        "Admin dashboard for easy content and user management",
+        "Open source, MIT licensed – ready for your club or team",
+        "Easy deploy to Vercel (or your own server)",
+        "Role-based access with NextAuth.js (admin/member/public)",
+        "Trusted by the Melbourne University Ultimate community"
+      ]
+    },
+    url: "https://melb-uni-ultimate.vercel.app",
+    technologies: {
+      main: [
+        "Next.js 15",
+        "TypeScript",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "MongoDB",
+        "NextAuth.js"
+      ],
+      others: [
+        "Lucide React",
+        "Jest",
+        "ESLint",
+        "Prettier",
+        "Husky",
+        "Vercel"
+      ]
+    }
+    },
+    {
     title: "ApeUni FIB Extractor Monorepo",
     image: projectImages.apeUniFibExtractor,  // make sure you add this asset to your `projectImages`
     description: {
