@@ -15,7 +15,7 @@ export default function FloatingResumeButton() {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       // Quick PDF download
-      const googleDriveFileId = process.env.VITE_GOOGLE_FOLDER_ID;
+      const googleDriveFileId = import.meta.env.VITE_GOOGLE_FOLDER_ID;
       if (googleDriveFileId) {
         const downloadUrl = `https://drive.google.com/uc?export=download&id=${googleDriveFileId}`;
         const link = document.createElement('a');

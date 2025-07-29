@@ -5,7 +5,7 @@ import { useTheme } from '../contexts/ThemeContext';
 // Resume download configuration
 const RESUME_CONFIG = {
   // You can add your Google Drive file ID here
-  googleDriveFileId: process.env.VITE_GOOGLE_FOLDER_ID, // Reusing existing env var
+  googleDriveFileId: import.meta.env.VITE_GOOGLE_FOLDER_ID, // Reusing existing env var
   
   // Multiple format options
   formats: [
