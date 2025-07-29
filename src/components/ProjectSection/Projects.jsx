@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import ProjectCard from "./ProjectCard";
 import ProjectModal from "./ProjectModal";
 import { PROJECTS } from "../../constants/projects";
+import { cardContainerVariants } from "./animations";
 
 const INITIAL_VISIBLE = 6;
 
@@ -12,11 +14,21 @@ export default function Projects() {
     const visibleProjects = PROJECTS.slice(0, visibleCount);
 
     return (
-        <section className="max-w-5xl mx-auto py-8 px-4 lg:px-8">
-            <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 via-indigo-400 to-blue-400 bg-clip-text text-transparent">
+        <section className="max-w-6xl mx-auto py-8 px-4 lg:px-8">
+            <motion.h2 
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="text-3xl md:text-4xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 via-indigo-400 to-blue-400 bg-clip-text text-transparent"
+            >
                 My Projects
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            </motion.h2>
+            <motion.div 
+                variants={cardContainerVariants}
+                initial="hidden"
+                animate="visible"
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            >
                 {visibleProjects.map((project) => (
                     <ProjectCard
                         key={project.title}
@@ -24,7 +36,7 @@ export default function Projects() {
                         onReadMore={() => setActiveProject(project)}
                     />
                 ))}
-            </div>
+            </motion.div>
             {visibleCount < PROJECTS.length && (
                 <div className="flex justify-center mt-8">
                     <button

@@ -9,6 +9,7 @@ const Experience = lazy(() => import("./components/Experience"));
 const ReferenceSection = lazy(() => import("./components/ReferenceSection"));
 const Technologies = lazy(() => import("./components/TechnologySection/Technologies"));
 const Contact = lazy(() => import("./components/Contact"));
+const FloatingNavigation = lazy(() => import("./components/FloatingNavigation"));
 
 function App() {
   return (
@@ -73,6 +74,8 @@ function App() {
           </div>
         </main>
 
+        {/* Floating Navigation */}
+        <FloatingNavigation />
       </div>
     </Suspense>
   );
