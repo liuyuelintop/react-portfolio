@@ -12,6 +12,11 @@ export default function Projects() {
     const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
 
     const visibleProjects = PROJECTS.slice(0, visibleCount);
+    
+    // DEBUG: Log the data
+    console.log('PROJECTS:', PROJECTS);
+    console.log('visibleProjects:', visibleProjects);
+    console.log('visibleCount:', visibleCount);
 
     return (
         <section className="max-w-6xl mx-auto py-8 px-4 lg:px-8">
@@ -29,13 +34,20 @@ export default function Projects() {
                 animate="visible"
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16 projects-grid"
             >
-                {visibleProjects.map((project) => (
-                    <ProjectCard
-                        key={project.title}
-                        project={project}
-                        onReadMore={() => setActiveProject(project)}
-                    />
-                ))}
+                {visibleProjects.length > 0 ? (
+                    visibleProjects.map((project) => (
+                        <ProjectCard
+                            key={project.title}
+                            project={project}
+                            onReadMore={() => setActiveProject(project)}
+                        />
+                    ))
+                ) : (
+                    <div className="col-span-full text-center text-white">
+                        <p>No projects found. Total projects: {PROJECTS.length}</p>
+                        <p>Debug: visibleCount = {visibleCount}</p>
+                    </div>
+                )}
             </motion.div>
             {visibleCount < PROJECTS.length && (
                 <div className="flex justify-center mt-8">
