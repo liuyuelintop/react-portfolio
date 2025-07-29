@@ -1,11 +1,21 @@
 import { FaQuoteLeft } from "react-icons/fa";
 import { FiLinkedin } from "react-icons/fi";
 import QuoteText from "../ui/QuoteText";
+import { useTheme } from "../../contexts/ThemeContext";
 
-const ReferenceCard = ({ name, title, company, quote, image, linkedIn }) => (
-  <div className="bg-gradient-to-br from-[#232347] to-[#181825] max-w-[480px] w-full min-h-[390px] md:min-h-[360px] rounded-2xl shadow-xl border border-purple-800/30 hover:shadow-2xl transition-all duration-200 mx-auto flex flex-col justify-between">
+const ReferenceCard = ({ name, title, company, quote, image, linkedIn }) => {
+  const { currentTheme } = useTheme();
+  
+  return (
+  <div className={`max-w-[480px] w-full min-h-[390px] md:min-h-[360px] rounded-2xl shadow-xl border hover:shadow-2xl transition-all duration-200 mx-auto flex flex-col justify-between ${
+    currentTheme === 'minimal'
+      ? 'bg-white border-gray-200'
+      : 'bg-gradient-to-br from-[#232347] to-[#181825] border-purple-800/30'
+  }`}>
     <div className="flex flex-col flex-1 p-6 md:p-8">
-      <FaQuoteLeft className="text-purple-400 text-2xl mb-3" />
+      <FaQuoteLeft className={`text-2xl mb-3 ${
+        currentTheme === 'minimal' ? 'text-gray-500' : 'text-purple-400'
+      }`} />
       <QuoteText text={quote} />
     </div>
     <div className="flex items-center gap-4 px-6 pb-6 md:px-8">
@@ -33,6 +43,7 @@ const ReferenceCard = ({ name, title, company, quote, image, linkedIn }) => (
       </div>
     </div>
   </div>
-);
+  );
+};
 
 export default ReferenceCard;
