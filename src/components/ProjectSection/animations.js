@@ -32,15 +32,19 @@ export const cardVariants = {
 export const card3DVariants = {
   rest: {
     rotateY: 0,
+    rotateX: 0,
     z: 0,
+    scale: 1,
     transition: {
       duration: 0.4,
       ease: "easeOut",
     },
   },
   hover: {
-    rotateY: 5,
-    z: 50,
+    rotateY: -3,
+    rotateX: 2,
+    z: 30,
+    scale: 1.01,
     transition: {
       duration: 0.3,
       ease: "easeOut",
@@ -48,8 +52,10 @@ export const card3DVariants = {
   },
   flip: {
     rotateY: 180,
+    scale: 1.02,
+    z: 40,
     transition: {
-      duration: 0.6,
+      duration: 0.8,
       ease: "easeInOut",
     },
   },

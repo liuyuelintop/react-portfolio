@@ -27,3 +27,21 @@
     transform: rotateY(180deg);
   }
 }
+
+/* Project Cards Grid Anti-Overlap */
+@layer components {
+  .project-card-container {
+    /* Ensure cards don't overlap during transforms */
+    contain: layout style paint;
+    transform-style: preserve-3d;
+    isolation: isolate;
+  }
+  
+  .project-card-container:hover {
+    z-index: 20 !important;
+  }
+  
+  .project-card-container[data-flipped="true"] {
+    z-index: 30 !important;
+  }
+}

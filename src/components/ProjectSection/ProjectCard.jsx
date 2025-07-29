@@ -18,9 +18,14 @@ const ProjectCard = ({ project, onReadMore }) => {
             variants={cardVariants}
             initial="hidden"
             animate="visible"
-            whileHover="hover"
-            className="relative h-full perspective-1000"
-            style={{ perspective: "1000px" }}
+            className="relative h-full group project-card-container"
+            data-flipped={isFlipped}
+            style={{ 
+                perspective: "1200px",
+                // Add padding to prevent overlap during transforms
+                padding: "25px",
+                margin: "-25px",
+            }}
         >
             <motion.div
                 variants={card3DVariants}
@@ -30,17 +35,27 @@ const ProjectCard = ({ project, onReadMore }) => {
                 className="relative w-full h-full cursor-pointer preserve-3d"
                 style={{ 
                     transformStyle: "preserve-3d",
-                    backfaceVisibility: "hidden"
+                    backfaceVisibility: "hidden",
+                    filter: "drop-shadow(0 25px 50px rgba(0, 0, 0, 0.5)) drop-shadow(0 10px 20px rgba(147, 51, 234, 0.3))",
+                    // Ensure transforms don't escape the container
+                    willChange: "transform",
+                    // Use contain to isolate the transform effects
+                    contain: "layout style paint",
                 }}
             >
                 {/* Front Face */}
                 <div className="absolute inset-0 w-full h-full backface-hidden">
-                    <div className="bg-neutral-800/60 backdrop-blur-sm rounded-xl p-6 shadow-2xl border border-neutral-700/50 hover:border-purple-500/30 flex flex-col h-full transition-all duration-300">
+                    <div className="bg-gradient-to-br from-neutral-800/70 via-neutral-800/60 to-neutral-900/80 backdrop-blur-sm rounded-xl p-6 border border-neutral-700/60 group-hover:border-purple-500/50 flex flex-col h-full transition-all duration-500 relative overflow-hidden">
+                        {/* Subtle glow effect */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl" />
+                        
+                        {/* 3D lighting effect */}
+                        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-60 rounded-xl pointer-events-none" />
                         <motion.a 
                             href={project.url} 
                             target="_blank" 
                             rel="noopener noreferrer"
-                            className="block overflow-hidden rounded-lg mb-4"
+                            className="block overflow-hidden rounded-lg mb-4 relative z-10 shadow-lg"
                             whileHover="hover"
                             variants={cardImageVariants}
                         >
@@ -49,15 +64,17 @@ const ProjectCard = ({ project, onReadMore }) => {
                                 alt={project.title}
                                 loading="lazy"
                                 variants={cardImageVariants}
-                                className="w-full aspect-video object-cover"
+                                className="w-full aspect-video object-cover transition-all duration-300"
                             />
+                            {/* Image overlay for depth */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
                         </motion.a>
                         
-                        <h3 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2">
+                        <h3 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2 relative z-10">
                             {project.title}
                         </h3>
                         
-                        <p className="text-neutral-300 text-sm flex-1 line-clamp-3 mb-4">
+                        <p className="text-neutral-300 text-sm flex-1 line-clamp-3 mb-4 relative z-10 leading-relaxed">
                             {project.description.summary}
                         </p>
                         
@@ -104,10 +121,15 @@ const ProjectCard = ({ project, onReadMore }) => {
                     className="absolute inset-0 w-full h-full backface-hidden"
                     style={{ transform: "rotateY(180deg)" }}
                 >
-                    <div className="bg-gradient-to-br from-purple-900/20 to-blue-900/20 backdrop-blur-sm rounded-xl p-6 shadow-2xl border border-purple-500/30 flex flex-col h-full">
-                        <h3 className="text-lg font-bold text-purple-300 mb-4">Tech Stack</h3>
+                    <div className="bg-gradient-to-br from-purple-900/30 via-blue-900/25 to-indigo-900/30 backdrop-blur-md rounded-xl p-6 border border-purple-400/50 flex flex-col h-full relative overflow-hidden">
+                        {/* Enhanced glow for back face */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-blue-500/10 to-indigo-500/10 rounded-xl" />
                         
-                        <div className="flex-1 space-y-3">
+                        {/* 3D lighting for back */}
+                        <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-bl from-white/10 via-transparent to-transparent opacity-80 rounded-xl pointer-events-none" />
+                        <h3 className="text-lg font-bold text-purple-200 mb-4 relative z-10">Tech Stack</h3>
+                        
+                        <div className="flex-1 space-y-3 relative z-10">
                             <div>
                                 <h4 className="text-sm font-semibold text-blue-300 mb-2">Main Technologies</h4>
                                 <div className="flex flex-wrap gap-1">
