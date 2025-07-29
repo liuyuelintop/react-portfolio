@@ -6,7 +6,6 @@ const NAVIGATION_SECTIONS = [
   { id: 'experience', label: 'Experience', icon: '💼' },
   { id: 'references', label: 'References', icon: '⭐' },
   { id: 'projects', label: 'Projects', icon: '🚀' },
-  { id: 'technologies', label: 'Tech', icon: '⚡' },
   { id: 'skills', label: 'Skills', icon: '📊' },
   { id: 'brand', label: 'Brand', icon: '💎' },
   { id: 'github', label: 'GitHub', icon: '🐙' },
@@ -20,17 +19,17 @@ export default function FloatingNavigation() {
 
   useEffect(() => {
     let ticking = false;
-    
+
     const handleScroll = () => {
       if (!ticking) {
         requestAnimationFrame(() => {
           const scrollY = window.scrollY;
           const windowHeight = window.innerHeight;
           const documentHeight = document.documentElement.scrollHeight;
-          
+
           // Show floating nav after scrolling past hero with smoother transition
           setIsVisible(scrollY > windowHeight * 0.2);
-          
+
           // Calculate scroll progress with smoother calculation
           const progress = (scrollY / (documentHeight - windowHeight)) * 100;
           setScrollProgress(Math.min(100, Math.max(0, progress)));
@@ -50,7 +49,7 @@ export default function FloatingNavigation() {
             const visibleTop = Math.max(0, rect.top);
             const visibleBottom = Math.min(windowHeight, rect.bottom);
             const visibleHeight = Math.max(0, visibleBottom - visibleTop);
-            
+
             if (visibleHeight > maxVisibleHeight) {
               maxVisibleHeight = visibleHeight;
               mostVisibleSection = section;
@@ -60,7 +59,7 @@ export default function FloatingNavigation() {
           if (mostVisibleSection && maxVisibleHeight > 100) {
             setActiveSection(mostVisibleSection.id);
           }
-          
+
           ticking = false;
         });
         ticking = true;
@@ -69,14 +68,14 @@ export default function FloatingNavigation() {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll(); // Initial call
-    
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ 
+      element.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
       });
@@ -84,13 +83,13 @@ export default function FloatingNavigation() {
   };
 
   const navVariants = {
-    hidden: { 
-      y: 120, 
+    hidden: {
+      y: 120,
       opacity: 0,
       scale: 0.8,
     },
-    visible: { 
-      y: 0, 
+    visible: {
+      y: 0,
       opacity: 1,
       scale: 1,
       transition: {
@@ -156,7 +155,7 @@ export default function FloatingNavigation() {
             <motion.div
               className="h-full bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 shadow-lg"
               style={{ width: `${scrollProgress}%` }}
-              transition={{ 
+              transition={{
                 duration: 0.1,
                 ease: "easeOut"
               }}
@@ -168,7 +167,7 @@ export default function FloatingNavigation() {
               transition={{ duration: 0.1 }}
             />
           </div>
-          
+
           {/* Enhanced Navigation Pills */}
           <div className="flex items-center gap-3 bg-neutral-900/95 backdrop-blur-xl rounded-full px-6 py-4 border border-neutral-600/40 shadow-2xl relative overflow-hidden">
             {/* Background glow */}
@@ -187,7 +186,7 @@ export default function FloatingNavigation() {
                 <span className={`text-lg transition-transform duration-200 ${activeSection === section.id ? 'scale-110' : ''}`}>
                   {section.icon}
                 </span>
-                
+
                 {/* Enhanced label with better animation */}
                 <AnimatePresence mode="wait">
                   {activeSection === section.id && (
@@ -195,7 +194,7 @@ export default function FloatingNavigation() {
                       initial={{ width: 0, opacity: 0, x: -10 }}
                       animate={{ width: 'auto', opacity: 1, x: 0 }}
                       exit={{ width: 0, opacity: 0, x: 10 }}
-                      transition={{ 
+                      transition={{
                         duration: 0.3,
                         ease: "easeInOut"
                       }}
@@ -205,15 +204,15 @@ export default function FloatingNavigation() {
                     </motion.span>
                   )}
                 </AnimatePresence>
-                
+
                 {/* Enhanced active indicator */}
                 {activeSection === section.id && (
                   <motion.div
                     layoutId="activeIndicator"
                     className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full shadow-lg"
-                    transition={{ 
-                      type: 'spring', 
-                      stiffness: 400, 
+                    transition={{
+                      type: 'spring',
+                      stiffness: 400,
                       damping: 30,
                       duration: 0.3
                     }}

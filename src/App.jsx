@@ -10,7 +10,7 @@ const LighthouseScoreCard = lazy(() => import("./components/LighthouseScoreCard"
 const Projects = lazy(() => import("./components/ProjectSection/Projects"));
 const Experience = lazy(() => import("./components/Experience"));
 const ReferenceSection = lazy(() => import("./components/ReferenceSection"));
-const Technologies = lazy(() => import("./components/TechnologySection/Technologies"));
+// const Technologies = lazy(() => import("./components/TechnologySection/Technologies"));
 const SkillsVisualization = lazy(() => import("./components/SkillsVisualization"));
 const PersonalBranding = lazy(() => import("./components/PersonalBranding"));
 const GitHubActivity = lazy(() => import("./components/GitHubActivity"));
@@ -20,7 +20,7 @@ const ThemeSwitcher = lazy(() => import("./components/ThemeSwitcher"));
 
 function AppContent() {
   const { theme, currentTheme } = useTheme();
-  
+
   const getBackgroundGradient = () => {
     switch (currentTheme) {
       case 'neon':
@@ -35,15 +35,14 @@ function AppContent() {
   };
 
   return (
-    <div className={`overflow-x-hidden antialiased transition-colors duration-500 ${
-      currentTheme === 'minimal' ? 'text-gray-700' : 'text-neutral-300'
-    }`}>
+    <div className={`overflow-x-hidden antialiased transition-colors duration-500 ${currentTheme === 'minimal' ? 'text-gray-700' : 'text-neutral-300'
+      }`}>
       {/* Scroll Progress Bar */}
       <ScrollProgressBar />
-      
+
       {/* Enhanced Parallax Background */}
       {/* <ParallaxBackground /> */}
-      
+
       {/* Theme-aware Animated Background */}
       <div className="fixed top-0 -z-20 h-full w-full">
         <motion.div
@@ -52,11 +51,10 @@ function AppContent() {
           className={`absolute top-0 h-screen w-screen transition-all duration-500 ${getBackgroundGradient()}`}
         >
           <motion.div
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              currentTheme === 'minimal' 
-                ? 'bg-[url("./assets/grid.svg")] opacity-5' 
+            className={`absolute inset-0 transition-opacity duration-1000 ${currentTheme === 'minimal'
+                ? 'bg-[url("./assets/grid.svg")] opacity-5'
                 : 'bg-[url("./assets/grid.svg")] opacity-10'
-            }`}
+              }`}
             animate={{ opacity: currentTheme === 'neon' ? [0.1, 0.2, 0.1] : [0.05, 0.1, 0.05] }}
             transition={{ duration: 4, repeat: Infinity }}
           />
@@ -83,24 +81,24 @@ function AppContent() {
             <Projects />
           </section>
 
-          <section id="technologies">
+          {/* <section id="technologies">
             <Technologies />
-          </section>
-          
+          </section> */}
+
           <section id="skills">
             <SkillsVisualization />
           </section>
-          
+
           <section id="brand">
             <PersonalBranding />
           </section>
-          
+
           <section id="github">
             <GitHubActivity />
           </section>
-          
+
           <LighthouseScoreCard />
-          
+
           <section id="contact">
             <Contact />
           </section>
@@ -109,7 +107,7 @@ function AppContent() {
 
       {/* Floating Navigation */}
       <FloatingNavigation />
-      
+
       {/* Theme Switcher */}
       <ThemeSwitcher />
     </div>
@@ -131,7 +129,7 @@ function App() {
         }
       >
         <AppContent />
-    </Suspense>
+      </Suspense>
     </ThemeProvider>
   );
 }
