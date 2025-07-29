@@ -52,8 +52,8 @@ function AppContent() {
         >
           <motion.div
             className={`absolute inset-0 transition-opacity duration-1000 ${currentTheme === 'minimal'
-                ? 'bg-[url("./assets/grid.svg")] opacity-5'
-                : 'bg-[url("./assets/grid.svg")] opacity-10'
+              ? 'bg-[url("./assets/grid.svg")] opacity-5'
+              : 'bg-[url("./assets/grid.svg")] opacity-10'
               }`}
             animate={{ opacity: currentTheme === 'neon' ? [0.1, 0.2, 0.1] : [0.05, 0.1, 0.05] }}
             transition={{ duration: 4, repeat: Infinity }}
@@ -63,7 +63,7 @@ function AppContent() {
 
       <Navbar />
 
-      <main className="container mx-auto px-4 md:px-8">
+      <main className="container mx-auto px-4 md:px-8 pb-32 md:pb-24">
         <section id="hero">
           <Hero />
         </section>

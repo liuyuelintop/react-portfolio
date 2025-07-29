@@ -33,8 +33,7 @@ export default function Contact() {
     const theme = useTheme();
 
     return (
-        <section key={activeTab} className={`py-16 md:py-20 px-4 md:px-8 ${theme.currentTheme === 'minimal' ? 'bg-gray-50' : 'bg-neutral-950'
-            }`}>
+        <section key={activeTab} className={`py-16 md:py-20 px-4 md:px-8 `}>
             <div className="max-w-6xl mx-auto">
                 <motion.div
                     initial="hidden"

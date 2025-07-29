@@ -7,13 +7,13 @@ export default function ThemeSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
 
   const containerVariants = {
-    hidden: { 
-      opacity: 0, 
+    hidden: {
+      opacity: 0,
       scale: 0.8,
       y: 20,
     },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       scale: 1,
       y: 0,
       transition: {
@@ -34,12 +34,12 @@ export default function ThemeSwitcher() {
   };
 
   const itemVariants = {
-    hidden: { 
-      opacity: 0, 
+    hidden: {
+      opacity: 0,
       x: -10,
     },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       x: 0,
     },
   };
@@ -47,17 +47,17 @@ export default function ThemeSwitcher() {
   const currentThemeData = themes[currentTheme];
 
   return (
-    <div className="fixed top-6 right-6 z-50">
+    <div className="fixed top-2 right-20 z-50">
       {/* Theme Toggle Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         className={`
-          relative w-14 h-14 rounded-full backdrop-blur-md border shadow-2xl
+          relative w-12 h-12 rounded-full backdrop-blur-md border shadow-2xl
           transition-all duration-300 overflow-hidden group
-          ${currentTheme === 'minimal' 
-            ? 'bg-white/90 border-gray-200 text-gray-700' 
+          ${currentTheme === 'minimal'
+            ? 'bg-white/90 border-gray-200 text-gray-700'
             : 'bg-neutral-900/90 border-neutral-700/50 text-white'
           }
           ${isTransitioning ? 'animate-pulse' : ''}
@@ -67,30 +67,30 @@ export default function ThemeSwitcher() {
         {/* Background glow effect */}
         <div className={`
           absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300
-          ${currentTheme === 'neon' 
-            ? 'bg-gradient-to-r from-cyan-400/20 to-pink-500/20' 
+          ${currentTheme === 'neon'
+            ? 'bg-gradient-to-r from-cyan-400/20 to-pink-500/20'
             : currentTheme === 'minimal'
-            ? 'bg-gradient-to-r from-gray-400/20 to-gray-600/20'
-            : 'bg-gradient-to-r from-purple-500/20 to-blue-500/20'
+              ? 'bg-gradient-to-r from-gray-400/20 to-gray-600/20'
+              : 'bg-gradient-to-r from-purple-500/20 to-blue-500/20'
           }
         `} />
-        
+
         {/* Theme icon */}
         <span className="relative z-10 text-2xl">
           {currentThemeData.icon}
         </span>
-        
+
         {/* Indicator dot */}
         <div className={`
           absolute -top-1 -right-1 w-4 h-4 rounded-full border-2
           ${currentTheme === 'minimal' ? 'border-white' : 'border-neutral-900'}
-          ${currentTheme === 'neon' 
-            ? 'bg-cyan-400' 
+          ${currentTheme === 'neon'
+            ? 'bg-cyan-400'
             : currentTheme === 'minimal'
-            ? 'bg-gray-600'
-            : currentTheme === 'corporate'
-            ? 'bg-blue-600'
-            : 'bg-purple-500'
+              ? 'bg-gray-600'
+              : currentTheme === 'corporate'
+                ? 'bg-blue-600'
+                : 'bg-purple-500'
           }
         `} />
       </motion.button>
@@ -105,8 +105,8 @@ export default function ThemeSwitcher() {
             exit="exit"
             className={`
               absolute top-16 right-0 min-w-48 rounded-xl backdrop-blur-xl border shadow-2xl overflow-hidden
-              ${currentTheme === 'minimal' 
-                ? 'bg-white/95 border-gray-200' 
+              ${currentTheme === 'minimal'
+                ? 'bg-white/95 border-gray-200'
                 : 'bg-neutral-900/95 border-neutral-700/50'
               }
             `}
@@ -114,8 +114,8 @@ export default function ThemeSwitcher() {
             {/* Header */}
             <div className={`
               px-4 py-3 border-b
-              ${currentTheme === 'minimal' 
-                ? 'border-gray-200 text-gray-700' 
+              ${currentTheme === 'minimal'
+                ? 'border-gray-200 text-gray-700'
                 : 'border-neutral-700/50 text-white'
               }
             `}>
@@ -137,19 +137,19 @@ export default function ThemeSwitcher() {
                   className={`
                     w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left
                     transition-all duration-200 group
-                    ${key === currentTheme 
+                    ${key === currentTheme
                       ? currentTheme === 'minimal'
                         ? 'bg-gray-100 text-gray-900'
                         : 'bg-neutral-800 text-white'
                       : currentTheme === 'minimal'
-                      ? 'hover:bg-gray-50 text-gray-700'
-                      : 'hover:bg-neutral-800/50 text-neutral-300'
+                        ? 'hover:bg-gray-50 text-gray-700'
+                        : 'hover:bg-neutral-800/50 text-neutral-300'
                     }
                   `}
                 >
                   {/* Theme icon */}
                   <span className="text-xl">{theme.icon}</span>
-                  
+
                   {/* Theme info */}
                   <div className="flex-1">
                     <div className="font-medium text-sm">{theme.name}</div>
@@ -163,20 +163,20 @@ export default function ThemeSwitcher() {
                       {key === 'corporate' && 'Business ready'}
                     </div>
                   </div>
-                  
+
                   {/* Active indicator */}
                   {key === currentTheme && (
                     <motion.div
                       layoutId="activeTheme"
                       className={`
                         w-2 h-2 rounded-full
-                        ${currentTheme === 'neon' 
-                          ? 'bg-cyan-400' 
+                        ${currentTheme === 'neon'
+                          ? 'bg-cyan-400'
                           : currentTheme === 'minimal'
-                          ? 'bg-gray-600'
-                          : currentTheme === 'corporate'
-                          ? 'bg-blue-600'
-                          : 'bg-purple-500'
+                            ? 'bg-gray-600'
+                            : currentTheme === 'corporate'
+                              ? 'bg-blue-600'
+                              : 'bg-purple-500'
                         }
                       `}
                       transition={{
@@ -193,8 +193,8 @@ export default function ThemeSwitcher() {
             {/* Footer tip */}
             <div className={`
               px-4 py-3 border-t text-xs
-              ${currentTheme === 'minimal' 
-                ? 'border-gray-200 text-gray-500' 
+              ${currentTheme === 'minimal'
+                ? 'border-gray-200 text-gray-500'
                 : 'border-neutral-700/50 text-neutral-400'
               }
             `}>
