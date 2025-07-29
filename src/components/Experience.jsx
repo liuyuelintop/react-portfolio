@@ -1,154 +1,296 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { EXPERIENCES } from "../constants/experiences";
 import { useTheme } from "../contexts/ThemeContext";
 
-export default function Experience() {
-    const { currentTheme } = useTheme();
-    
-    return (
-        <section className={`border-b pb-8 sm:pb-12 ${
-            currentTheme === 'minimal' ? 'border-gray-200' : 'border-neutral-900/50'
-        }`}>
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="max-w-md sm:max-w-3xl mx-auto px-2 sm:px-6 lg:px-8"
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 30, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
+
+// Experience card component
+const ExperienceCard = ({ experience, index, isExpanded, onToggle, theme }) => {
+  const isCurrentRole = experience.period.includes("Present");
+  
+  return (
+    <motion.div
+      variants={cardVariants}
+      whileHover={{ y: -5, scale: 1.01 }}
+      className={`relative rounded-2xl p-6 md:p-8 border transition-all duration-300 cursor-pointer group ${
+        theme === 'minimal'
+          ? 'bg-white border-gray-200 hover:border-gray-300 hover:shadow-xl shadow-lg'
+          : 'bg-neutral-800/50 border-neutral-700 hover:border-neutral-600 hover:shadow-2xl shadow-xl shadow-black/10'
+      }`}
+      onClick={onToggle}
+    >
+      {isCurrentRole && (
+        <div className="absolute -top-3 -right-3">
+          <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
+            theme === 'minimal'
+              ? 'bg-green-100 text-green-700 border border-green-200'
+              : 'bg-green-900/30 text-green-400 border border-green-500/30'
+          }`}>
+            Current Role
+          </div>
+        </div>
+      )}
+
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
+        <div className="flex-1">
+          <h3 className={`text-xl md:text-2xl font-bold mb-2 ${
+            theme === 'minimal' ? 'text-gray-900' : 'text-white'
+          }`}>
+            {experience.role}
+          </h3>
+          
+          <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+            <a
+              href={experience.company.url}
+              onClick={(e) => e.stopPropagation()}
+              className={`text-lg font-semibold transition-colors ${
+                theme === 'minimal'
+                  ? 'text-blue-600 hover:text-blue-700'
+                  : 'text-blue-400 hover:text-blue-300'
+              }`}
             >
-                <motion.h2
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ duration: 0.6 }}
-                    className={`text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r bg-clip-text text-transparent text-center py-6 sm:py-10 ${
-                        currentTheme === 'minimal'
-                            ? 'from-gray-800 to-gray-600'
-                            : 'from-purple-400 to-blue-400'
+              @{experience.company.name}
+            </a>
+            
+            {experience.type && (
+              <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
+                theme === 'minimal'
+                  ? 'bg-gray-100 text-gray-700'
+                  : 'bg-neutral-700 text-neutral-300'
+              }`}>
+                {experience.type}
+              </span>
+            )}
+          </div>
+        </div>
+        
+        <div className="flex flex-col items-end gap-2">
+          <span className={`text-sm font-medium px-3 py-1 rounded-full ${
+            theme === 'minimal'
+              ? 'bg-gray-100 text-gray-700'
+              : 'bg-neutral-700/50 text-neutral-300'
+          }`}>
+            {experience.period}
+          </span>
+          
+          <motion.div
+            animate={{ rotate: isExpanded ? 180 : 0 }}
+            transition={{ duration: 0.3 }}
+            className={`text-sm ${
+              theme === 'minimal' ? 'text-gray-500' : 'text-neutral-400'
+            }`}
+          >
+            ▼
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Key Highlights Preview */}
+      <div className="mb-6">
+        <p className={`text-sm md:text-base leading-relaxed ${
+          theme === 'minimal' ? 'text-gray-700' : 'text-neutral-300'
+        }`}>
+          {experience.highlights[0]}
+        </p>
+        
+        {experience.highlights.length > 1 && (
+          <p className={`text-sm mt-2 ${
+            theme === 'minimal' ? 'text-gray-500' : 'text-neutral-400'
+          }`}>
+            +{experience.highlights.length - 1} more achievements
+          </p>
+        )}
+      </div>
+
+      {/* Tech Stack Preview */}
+      <div className="flex flex-wrap gap-2">
+        {Object.entries(experience.techStack)
+          .slice(0, 2)
+          .map(([category, technologies]) => 
+            technologies.slice(0, 3).map((tech, techIndex) => (
+              <span
+                key={`${category}-${techIndex}`}
+                className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
+                  theme === 'minimal'
+                    ? 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    : 'bg-neutral-700/50 text-neutral-300 hover:bg-neutral-600/50'
+                }`}
+              >
+                {tech}
+              </span>
+            ))
+          )}
+        
+        <span className={`px-2.5 py-1 rounded-lg text-xs font-medium ${
+          theme === 'minimal'
+            ? 'bg-gray-100 text-gray-500'
+            : 'bg-neutral-700/30 text-neutral-400'
+        }`}>
+          +more
+        </span>
+      </div>
+
+      {/* Expanded Content */}
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="mt-6 pt-6 border-t border-gray-200 dark:border-neutral-700"
+          >
+            {/* All Highlights */}
+            <div className="mb-6">
+              <h4 className={`text-sm font-semibold mb-4 uppercase tracking-wider ${
+                theme === 'minimal' ? 'text-gray-600' : 'text-neutral-400'
+              }`}>
+                Key Achievements
+              </h4>
+              
+              <ul className="space-y-3">
+                {experience.highlights.map((highlight, i) => (
+                  <motion.li
+                    key={i}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                    className={`flex items-start text-sm md:text-base leading-relaxed ${
+                      theme === 'minimal' ? 'text-gray-700' : 'text-neutral-300'
                     }`}
-                >
-                    Professional Journey
-                </motion.h2>
-
-                <div className="grid gap-6 sm:gap-8 md:gap-12 relative">
-                    {/* Timeline line (hide on mobile) */}
-                    <div className={`hidden sm:block absolute left-4 md:left-1/4 w-0.5 h-full ${
-                        currentTheme === 'minimal' ? 'bg-gray-300' : 'bg-neutral-800/50'
+                  >
+                    <span className={`mr-3 mt-2 w-1.5 h-1.5 rounded-full flex-shrink-0 ${
+                      theme === 'minimal' ? 'bg-gray-400' : 'bg-purple-400'
                     }`} />
+                    {highlight}
+                  </motion.li>
+                ))}
+              </ul>
+            </div>
 
-                    {EXPERIENCES.map((exp, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ delay: index * 0.1 + 0.3 }}
-                            className="relative pl-0 sm:pl-12 md:pl-16 group"
+            {/* Complete Tech Stack */}
+            <div>
+              <h4 className={`text-sm font-semibold mb-4 uppercase tracking-wider ${
+                theme === 'minimal' ? 'text-gray-600' : 'text-neutral-400'
+              }`}>
+                Technology Stack
+              </h4>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {Object.entries(experience.techStack).map(([category, technologies]) => (
+                  <div key={category} className="space-y-2">
+                    <span className={`text-xs font-semibold uppercase tracking-wider ${
+                      theme === 'minimal' ? 'text-gray-600' : 'text-purple-400/80'
+                    }`}>
+                      {category}
+                    </span>
+                    
+                    <div className="flex flex-wrap gap-1.5">
+                      {technologies.map((tech, techIndex) => (
+                        <span
+                          key={techIndex}
+                          className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
+                            theme === 'minimal'
+                              ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                              : 'bg-neutral-700/50 text-purple-300 hover:bg-purple-400/10'
+                          }`}
                         >
-                            {/* Timeline dot (hide on mobile) */}
-                            <div className={`hidden sm:block absolute left-0 top-4 w-4 h-4 rounded-full border-2 transform -translate-x-1/2 ${
-                                currentTheme === 'minimal'
-                                    ? 'bg-gray-400 border-gray-500'
-                                    : 'bg-purple-400/80 border-purple-400'
-                            }`} />
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+};
 
-                            <div className={`rounded-xl p-4 sm:p-6 border shadow-lg transition-all ${
-                                currentTheme === 'minimal'
-                                    ? 'bg-white border-gray-200 hover:shadow-gray-200/50'
-                                    : 'bg-neutral-900/50 border-neutral-800 hover:shadow-purple-900/20'
-                            }`}>
-                                <div className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-4 mb-2 sm:mb-4">
-                                    <div className="space-y-1">
-                                        <h3 className={`text-lg sm:text-xl font-semibold mb-0.5 ${
-                                            currentTheme === 'minimal' ? 'text-gray-900' : 'text-white'
-                                        }`}>
-                                            {exp.role}
-                                            {exp.type && (
-                                                <span className={`ml-1 sm:ml-2 text-xs sm:text-sm font-medium ${
-                                                    currentTheme === 'minimal' ? 'text-gray-600' : 'text-purple-400'
-                                                }`}>
-                                                    ({exp.type})
-                                                </span>
-                                            )}
-                                        </h3>
-                                        <a
-                                            href={exp.company.url}
-                                            className={`text-sm sm:text-md transition-colors ${
-                                                currentTheme === 'minimal'
-                                                    ? 'text-blue-600 hover:text-blue-700'
-                                                    : 'text-blue-400 hover:text-blue-300'
-                                            }`}
-                                        >
-                                            @{exp.company.name}
-                                        </a>
-                                    </div>
-                                    <div className={`text-xs sm:text-sm sm:text-right ${
-                                        currentTheme === 'minimal' ? 'text-gray-500' : 'text-neutral-400'
-                                    }`}>
-                                        {exp.period}
-                                    </div>
-                                </div>
+export default function Experience() {
+  const { currentTheme } = useTheme();
+  const [expandedCard, setExpandedCard] = useState(null);
 
-                                <ul className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
-                                    {exp.highlights.map((highlight, i) => (
-                                        <li
-                                            key={i}
-                                            className={`flex items-start text-base sm:text-lg leading-relaxed ${
-                                                currentTheme === 'minimal' ? 'text-gray-700' : 'text-neutral-300'
-                                            }`}
-                                        >
-                                            <span className={`mr-2 mt-1 ${
-                                                currentTheme === 'minimal' ? 'text-gray-600' : 'text-purple-400'
-                                            }`}>▹</span>
-                                            {highlight}
-                                        </li>
-                                    ))}
-                                </ul>
+  const toggleCard = (index) => {
+    setExpandedCard(expandedCard === index ? null : index);
+  };
 
-                                {/* Tech Stack: limit visible categories/tags on mobile, show all on desktop */}
-                                <div className="space-y-2 sm:space-y-3">
-                                    {Object.entries(exp.techStack).map(([category, technologies]) => (
-                                        <div
-                                            key={category}
-                                            className={`
-                                                ${["frontend", "backend"].includes(category) ? "" : "hidden sm:block"}
-                                                space-y-1
-                                            `}
-                                        >
-                                            <span className={`text-xs sm:text-sm font-semibold uppercase tracking-wider ${
-                                                currentTheme === 'minimal' ? 'text-gray-600' : 'text-purple-400/80'
-                                            }`}>
-                                                {category}
-                                            </span>
-                                            <div className="flex flex-wrap gap-1 sm:gap-2">
-                                                {technologies.slice(0, 4).map((tech, techIndex) => (
-                                                    <span
-                                                        key={techIndex}
-                                                        className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs sm:text-sm font-medium backdrop-blur-sm transition-colors ${
-                                                            currentTheme === 'minimal'
-                                                                ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                                                : 'bg-neutral-800/50 text-purple-300 hover:bg-purple-400/10'
-                                                        }`}
-                                                    >
-                                                        {tech}
-                                                    </span>
-                                                ))}
-                                                {/* If more than 4, show "+N" badge on mobile */}
-                                                {technologies.length > 4 && (
-                                                    <span className={`px-2 py-0.5 rounded-full text-xs font-semibold sm:hidden ${
-                                                        currentTheme === 'minimal'
-                                                            ? 'bg-gray-200 text-gray-600'
-                                                            : 'bg-purple-800/40 text-purple-200'
-                                                    }`}>
-                                                        +{technologies.length - 4}
-                                                    </span>
-                                                )}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
-            </motion.div>
-        </section>
-    );
+  return (
+    <section className="max-w-6xl mx-auto py-12 px-4 lg:px-8">
+      {/* Header */}
+      <div className="text-center mb-16">
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className={`text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r bg-clip-text text-transparent ${
+            currentTheme === 'minimal'
+              ? 'from-gray-800 via-gray-700 to-gray-600'
+              : 'from-purple-400 via-indigo-400 to-blue-400'
+          }`}
+        >
+          Professional Experience
+        </motion.h2>
+        
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+          className={`text-lg max-w-2xl mx-auto ${
+            currentTheme === 'minimal' ? 'text-gray-600' : 'text-neutral-400'
+          }`}
+        >
+          My journey through full-stack development, from graduate roles to senior engineering positions.
+          Click on any experience to explore detailed achievements and technologies.
+        </motion.p>
+      </div>
+
+      {/* Experience Cards */}
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="space-y-6"
+      >
+        {EXPERIENCES.map((experience, index) => (
+          <ExperienceCard
+            key={index}
+            experience={experience}
+            index={index}
+            isExpanded={expandedCard === index}
+            onToggle={() => toggleCard(index)}
+            theme={currentTheme}
+          />
+        ))}
+      </motion.div>
+    </section>
+  );
 }
