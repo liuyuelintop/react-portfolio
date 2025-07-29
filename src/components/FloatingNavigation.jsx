@@ -4,9 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 const NAVIGATION_SECTIONS = [
   { id: 'hero', label: 'Hero', icon: '🏠' },
   { id: 'experience', label: 'Experience', icon: '💼' },
-  { id: 'references', label: 'References', icon: '⭐' },
-  { id: 'projects', label: 'Projects', icon: '🚀' },
   { id: 'skills', label: 'Skills', icon: '📊' },
+  { id: 'projects', label: 'Projects', icon: '🚀' },
+  { id: 'references', label: 'References', icon: '⭐' },
   { id: 'brand', label: 'Brand', icon: '💎' },
   { id: 'github', label: 'GitHub', icon: '🐙' },
   { id: 'contact', label: 'Contact', icon: '📧' },

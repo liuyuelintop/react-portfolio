@@ -4,13 +4,16 @@ import { FaLinkedin, FaGithub } from 'react-icons/fa';
 import { IoBookSharp } from 'react-icons/io5';
 import { HiOutlineDocumentDownload } from 'react-icons/hi';
 import { useCV } from '../hooks/useCV';
+import { useTheme } from '../contexts/ThemeContext';
 
 const SECTION_LINKS = [
     { label: 'Me', href: '#hero' },
     { label: 'Experience', href: '#experience' },
-    { label: 'References', href: '#references' },
+    { label: 'Skills', href: '#skills' },
     { label: 'Projects', href: '#projects' },
-    { label: 'Technologies', href: '#technologies' },
+    { label: 'References', href: '#references' },
+    { label: 'Brand', href: '#brand' },
+    { label: 'GitHub', href: '#github' },
     { label: 'Contact', href: '#contact' },
 ];
 
@@ -37,6 +40,7 @@ const EXTERNAL_LINKS = [
 
 export default function Navbar() {
     const { cvUrl, isLoading, error, retry } = useCV();
+    const { currentTheme } = useTheme();
     const [isOpen, setIsOpen] = useState(false);
     const menuRef = useRef(null);
     const buttonRef = useRef(null);
@@ -67,12 +71,20 @@ export default function Navbar() {
     }, [isLoading, error]);
 
     return (
-        <nav className="fixed top-0 w-full bg-neutral-900/80 backdrop-blur-lg shadow-xl z-50 border-b border-neutral-800">
+        <nav className={`fixed top-0 w-full backdrop-blur-lg shadow-xl z-50 border-b transition-colors duration-300 ${
+            currentTheme === 'minimal' 
+                ? 'bg-white/90 border-gray-200' 
+                : 'bg-neutral-900/80 border-neutral-800'
+        }`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
                     <div className="flex-shrink-0">
-                        <span className="text-white text-xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                        <span className={`text-xl font-bold bg-gradient-to-r bg-clip-text text-transparent ${
+                            currentTheme === 'minimal'
+                                ? 'from-gray-800 to-gray-600'
+                                : 'from-purple-400 to-blue-400'
+                        }`}>
                             Yuelin's Portfolio
                         </span>
                     </div>
@@ -83,7 +95,11 @@ export default function Navbar() {
                             <a
                                 key={item.label}
                                 href={item.href}
-                                className="text-neutral-300 hover:text-purple-400 transition-colors duration-200 text-sm font-medium"
+                                className={`transition-colors duration-200 text-sm font-medium ${
+                                    currentTheme === 'minimal'
+                                        ? 'text-gray-600 hover:text-gray-900'
+                                        : 'text-neutral-300 hover:text-purple-400'
+                                }`}
                             >
                                 {item.label}
                             </a>
@@ -94,8 +110,11 @@ export default function Navbar() {
                                 if (isLoading || error) e.preventDefault();
                                 if (error) retry();
                             }}
-                            className={`flex items-center space-x-2 px-4 py-2 rounded-lg border border-purple-400/20 hover:border-purple-400/40 transition-all ${isLoading ? 'cursor-progress' : 'hover:bg-purple-400/10'
-                                }`}
+                            className={`flex items-center space-x-2 px-4 py-2 rounded-lg border transition-all ${
+                                currentTheme === 'minimal'
+                                    ? `border-gray-300 hover:border-gray-400 ${isLoading ? 'cursor-progress' : 'hover:bg-gray-50'}`
+                                    : `border-purple-400/20 hover:border-purple-400/40 ${isLoading ? 'cursor-progress' : 'hover:bg-purple-400/10'}`
+                            }`}
                         >
                             {cvContent}
                         </a>
@@ -107,7 +126,11 @@ export default function Navbar() {
                                     href={item.href}
                                     target={item.target}
                                     rel="noopener noreferrer"
-                                    className="text-neutral-400 hover:text-purple-400 transition-colors"
+                                    className={`transition-colors ${
+                                        currentTheme === 'minimal'
+                                            ? 'text-gray-500 hover:text-gray-700'
+                                            : 'text-neutral-400 hover:text-purple-400'
+                                    }`}
                                     aria-label={item.label}
                                 >
                                     {item.icon}
@@ -121,7 +144,11 @@ export default function Navbar() {
                         ref={buttonRef}
                         aria-label="Toggle navigation menu"
                         aria-expanded={isOpen}
-                        className="md:hidden p-2 rounded-lg text-neutral-300 hover:text-purple-400 hover:bg-purple-400/10 transition-colors"
+                        className={`md:hidden p-2 rounded-lg transition-colors ${
+                            currentTheme === 'minimal'
+                                ? 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                                : 'text-neutral-300 hover:text-purple-400 hover:bg-purple-400/10'
+                        }`}
                         onClick={toggleMenu}
                     >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -156,13 +183,21 @@ export default function Navbar() {
                                     duration: 0.15
                                 }
                             }}
-                            className="md:hidden py-4 space-y-2 bg-neutral-900/95 border-t border-neutral-800"
+                            className={`md:hidden py-4 space-y-2 border-t transition-colors ${
+                                currentTheme === 'minimal'
+                                    ? 'bg-white/95 border-gray-200'
+                                    : 'bg-neutral-900/95 border-neutral-800'
+                            }`}
                         >
                             {SECTION_LINKS.map((item) => (
                                 <a
                                     key={item.label}
                                     href={item.href}
-                                    className="block px-4 py-2 text-neutral-300 hover:text-purple-400 hover:bg-purple-400/10 rounded-lg transition-colors text-base font-medium"
+                                    className={`block px-4 py-2 rounded-lg transition-colors text-base font-medium ${
+                                        currentTheme === 'minimal'
+                                            ? 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                                            : 'text-neutral-300 hover:text-purple-400 hover:bg-purple-400/10'
+                                    }`}
                                     onClick={() => setIsOpen(false)}
                                 >
                                     {item.label}
@@ -175,20 +210,29 @@ export default function Navbar() {
                                     if (error) retry();
                                     setIsOpen(false);
                                 }}
-                                className={`flex items-center space-x-2 px-4 py-2 rounded-lg border border-purple-400/20 mt-2 ${isLoading ? 'cursor-progress' : 'hover:border-purple-400/40 hover:bg-purple-400/10'
-                                    }`}
+                                className={`flex items-center space-x-2 px-4 py-2 rounded-lg border mt-2 transition-all ${
+                                    currentTheme === 'minimal'
+                                        ? `border-gray-300 ${isLoading ? 'cursor-progress' : 'hover:border-gray-400 hover:bg-gray-50'}`
+                                        : `border-purple-400/20 ${isLoading ? 'cursor-progress' : 'hover:border-purple-400/40 hover:bg-purple-400/10'}`
+                                }`}
                             >
                                 {cvContent}
                             </a>
                             {/* External icons row */}
-                            <div className="flex items-center space-x-6 px-4 pt-4 border-t border-neutral-800">
+                            <div className={`flex items-center space-x-6 px-4 pt-4 border-t ${
+                                currentTheme === 'minimal' ? 'border-gray-200' : 'border-neutral-800'
+                            }`}>
                                 {EXTERNAL_LINKS.map((item) => (
                                     <a
                                         key={item.label}
                                         href={item.href}
                                         target={item.target}
                                         rel="noopener noreferrer"
-                                        className="text-neutral-400 hover:text-purple-400 transition-colors text-2xl"
+                                        className={`transition-colors text-2xl ${
+                                            currentTheme === 'minimal'
+                                                ? 'text-gray-500 hover:text-gray-700'
+                                                : 'text-neutral-400 hover:text-purple-400'
+                                        }`}
                                         aria-label={item.label}
                                         onClick={() => setIsOpen(false)}
                                     >

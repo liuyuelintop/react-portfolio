@@ -9,9 +9,8 @@ const Hero = lazy(() => import("./components/Hero"));
 const LighthouseScoreCard = lazy(() => import("./components/LighthouseScoreCard"));
 const Projects = lazy(() => import("./components/ProjectSection/Projects"));
 const Experience = lazy(() => import("./components/Experience"));
-const ReferenceSection = lazy(() => import("./components/ReferenceSection"));
-// const Technologies = lazy(() => import("./components/TechnologySection/Technologies"));
 const SkillsVisualization = lazy(() => import("./components/SkillsVisualization"));
+const ReferenceSection = lazy(() => import("./components/ReferenceSection"));
 const PersonalBranding = lazy(() => import("./components/PersonalBranding"));
 const GitHubActivity = lazy(() => import("./components/GitHubActivity"));
 const Contact = lazy(() => import("./components/Contact"));
@@ -73,20 +72,16 @@ function AppContent() {
             <Experience />
           </section>
 
-          <section id="references">
-            <ReferenceSection />
+          <section id="skills">
+            <SkillsVisualization />
           </section>
 
           <section id="projects">
             <Projects />
           </section>
 
-          {/* <section id="technologies">
-            <Technologies />
-          </section> */}
-
-          <section id="skills">
-            <SkillsVisualization />
+          <section id="references">
+            <ReferenceSection />
           </section>
 
           <section id="brand">

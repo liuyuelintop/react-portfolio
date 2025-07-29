@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { HERO_CONTENT } from "../constants/constants";
 import { useTypingAnimation } from "../hooks/useTypingAnimation";
+import { useTheme } from "../contexts/ThemeContext";
 import { 
   containerVariants, 
   itemVariants, 
@@ -11,6 +12,7 @@ import {
 } from "./Hero/animations";
 
 export default function Hero() {
+    const { currentTheme } = useTheme();
     const typedRole = useTypingAnimation(HERO_CONTENT.roles, 150, 100, 2000);
     
     // Check for reduced motion preference
@@ -57,21 +59,31 @@ export default function Hero() {
                     <div className="w-full space-y-6">
                         <motion.h1
                             variants={titleVariants}
-                            className="text-4xl md:text-6xl text-white font-bold text-center bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent"
+                            className={`text-4xl md:text-6xl font-bold text-center bg-gradient-to-r bg-clip-text text-transparent ${
+                                currentTheme === 'minimal'
+                                    ? 'from-gray-900 via-gray-700 to-gray-800'
+                                    : 'from-white via-purple-200 to-blue-200'
+                            }`}
                         >
                             {HERO_CONTENT.name}
                         </motion.h1>
 
                         <motion.div variants={itemVariants} className="text-center">
-                            <div className="text-xl md:text-2xl text-purple-300 font-medium mb-4 h-8 flex items-center justify-center">
+                            <div className={`text-xl md:text-2xl font-medium mb-4 h-8 flex items-center justify-center ${
+                                currentTheme === 'minimal' ? 'text-gray-700' : 'text-purple-300'
+                            }`}>
                                 <span className="mr-2">{typedRole}</span>
                                 <motion.span
                                     variants={cursorGlowVariants}
                                     animate="blink"
-                                    className="inline-block w-0.5 h-6 bg-purple-400 rounded-full"
+                                    className={`inline-block w-0.5 h-6 rounded-full ${
+                                        currentTheme === 'minimal' ? 'bg-gray-600' : 'bg-purple-400'
+                                    }`}
                                 />
                             </div>
-                            <p className="text-lg md:text-xl text-neutral-300 leading-relaxed max-w-2xl mx-auto mb-2">
+                            <p className={`text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-2 ${
+                                currentTheme === 'minimal' ? 'text-gray-600' : 'text-neutral-300'
+                            }`}>
                                 {HERO_CONTENT.summary}
                             </p>
                         </motion.div>
@@ -87,9 +99,17 @@ export default function Hero() {
                                         y: -2,
                                         transition: { duration: 0.2 }
                                     }}
-                                    className="group px-4 py-3 rounded-lg bg-neutral-800/70 border border-purple-700/40 hover:border-purple-400/80 shadow-lg hover:shadow-purple-500/20 backdrop-blur-sm transition-all duration-300 text-center cursor-pointer"
+                                    className={`group px-4 py-3 rounded-lg border shadow-lg backdrop-blur-sm transition-all duration-300 text-center cursor-pointer ${
+                                        currentTheme === 'minimal'
+                                            ? 'bg-white/70 border-gray-300 hover:border-gray-400 hover:shadow-gray-300/20'
+                                            : 'bg-neutral-800/70 border-purple-700/40 hover:border-purple-400/80 hover:shadow-purple-500/20'
+                                    }`}
                                 >
-                                    <span className="text-purple-300 text-sm md:text-base font-medium group-hover:text-purple-100 transition-colors duration-200">
+                                    <span className={`text-sm md:text-base font-medium transition-colors duration-200 ${
+                                        currentTheme === 'minimal'
+                                            ? 'text-gray-700 group-hover:text-gray-900'
+                                            : 'text-purple-300 group-hover:text-purple-100'
+                                    }`}>
                                         {skill}
                                     </span>
                                 </motion.div>
