@@ -5,14 +5,14 @@ import ProjectModal from "./ProjectModal";
 import { PROJECTS } from "../../constants/projects";
 import { cardContainerVariants } from "./animations";
 
-const INITIAL_VISIBLE = 6;
+const INITIAL_VISIBLE = 3;
 
 export default function Projects() {
     const [activeProject, setActiveProject] = useState(null);
     const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
 
     const visibleProjects = PROJECTS.slice(0, visibleCount);
-    
+
     // DEBUG: Log the data
     console.log('PROJECTS:', PROJECTS);
     console.log('visibleProjects:', visibleProjects);
@@ -20,7 +20,7 @@ export default function Projects() {
 
     return (
         <section className="max-w-6xl mx-auto py-8 px-4 lg:px-8">
-            <motion.h2 
+            <motion.h2
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
@@ -28,7 +28,7 @@ export default function Projects() {
             >
                 My Projects
             </motion.h2>
-            <motion.div 
+            <motion.div
                 variants={cardContainerVariants}
                 initial="hidden"
                 animate="visible"
