@@ -27,11 +27,7 @@ export default function Projects() {
                 variants={cardContainerVariants}
                 initial="hidden"
                 animate="visible"
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16"
-                style={{ 
-                    perspective: '1200px',
-                    perspectiveOrigin: 'center center'
-                }}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16 projects-grid"
             >
                 {visibleProjects.map((project) => (
                     <ProjectCard

@@ -32,16 +32,15 @@
 @layer components {
   .project-card-container {
     /* Ensure cards don't overlap during transforms */
-    contain: layout style paint;
-    transform-style: preserve-3d;
-    isolation: isolate;
+    position: relative;
+    z-index: 1;
   }
   
   .project-card-container:hover {
-    z-index: 20 !important;
+    z-index: 10;
   }
   
   .project-card-container[data-flipped="true"] {
-    z-index: 30 !important;
+    z-index: 20;
   }
 }

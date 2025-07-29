@@ -22,9 +22,6 @@ const ProjectCard = ({ project, onReadMore }) => {
             data-flipped={isFlipped}
             style={{ 
                 perspective: "1200px",
-                // Add padding to prevent overlap during transforms
-                padding: "25px",
-                margin: "-25px",
             }}
         >
             <motion.div
