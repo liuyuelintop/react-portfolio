@@ -37,24 +37,23 @@ export const PROJECTS = [
       ]
     }
     },
-    {
-    title: "ApeUni FIB Extractor Monorepo",
-    image: projectImages.apeUniFibExtractor,  // make sure you add this asset to your `projectImages`
+  {
+    title: "Netflix Clone",
+    image: projectImages.mernNetflixClone,
     description: {
-      summary:
-        "Unified toolkit for extracting, copying, and exporting “Fill in the Blank” answers from ApeUni practice pages.",
+      summary: "Feature-rich video streaming platform clone.",
       features: [
-        "Accurate extraction for both Reading and Writing FIB questions",
-        "SPA navigation support with per-question caching",
-        "Modern floating UI for instant copy, preview, and export",
-        "Dual output: Tampermonkey userscript & Chrome extension"
-      ]
+        "JWT authentication system",
+        "Dynamic content recommendation engine",
+        "Advanced search with actor/film filters",
+        "Responsive cross-device UI",
+      ],
     },
-    url: "https://github.com/liuyuelintop/apeuni-fib-extractor-monorepo",  // replace with your actual repo URL
+    url: "https://netwatch.liuyuelin.xyz/",
     technologies: {
-      main: ["JavaScript", "Userscript", "Chrome Extension", "Monorepo"],
-      others: ["TypeScript", "ESBuild", "npm"]
-    }
+      main: ["MERN", "Zustand", "AWS"],
+      others: [],
+    },
   },
   {
     title: "SaaS IDE Platform",
@@ -94,23 +93,24 @@ export const PROJECTS = [
       others: ["WebRockets API", "Clerk"],
     },
   },
-  {
-    title: "Netflix Clone",
-    image: projectImages.mernNetflixClone,
+    {
+    title: "ApeUni FIB Extractor Monorepo",
+    image: projectImages.apeUniFibExtractor,  // make sure you add this asset to your `projectImages`
     description: {
-      summary: "Feature-rich video streaming platform clone.",
+      summary:
+        "Unified toolkit for extracting, copying, and exporting “Fill in the Blank” answers from ApeUni practice pages.",
       features: [
-        "JWT authentication system",
-        "Dynamic content recommendation engine",
-        "Advanced search with actor/film filters",
-        "Responsive cross-device UI",
-      ],
+        "Accurate extraction for both Reading and Writing FIB questions",
+        "SPA navigation support with per-question caching",
+        "Modern floating UI for instant copy, preview, and export",
+        "Dual output: Tampermonkey userscript & Chrome extension"
+      ]
     },
-    url: "https://netwatch.liuyuelin.xyz/",
+    url: "https://github.com/liuyuelintop/apeuni-fib-extractor-monorepo",  // replace with your actual repo URL
     technologies: {
-      main: ["MERN", "Zustand", "AWS"],
-      others: [],
-    },
+      main: ["JavaScript", "Userscript", "Chrome Extension", "Monorepo"],
+      others: ["TypeScript", "ESBuild", "npm"]
+    }
   },
   {
     title: "Next Markdown Blog",

@@ -2,54 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 import LighthouseScoreCard from './LighthouseScoreCard';
-
-// Enhanced skills data with proficiency levels and categories
-const SKILLS_DATA = {
-  "Frontend Development": {
-    icon: "🎨",
-    color: "from-blue-500 to-cyan-500",
-    skills: [
-      { name: "React/Next.js", level: 95, years: 3, projects: 15 },
-      { name: "TypeScript", level: 90, years: 2, projects: 12 },
-      { name: "Tailwind CSS", level: 92, years: 2, projects: 20 },
-      { name: "Framer Motion", level: 85, years: 1, projects: 8 },
-      { name: "JavaScript ES6+", level: 93, years: 4, projects: 25 },
-    ]
-  },
-  "Backend Development": {
-    icon: "⚙️",
-    color: "from-green-500 to-emerald-500",
-    skills: [
-      { name: "Node.js", level: 88, years: 3, projects: 18 },
-      { name: "Express.js", level: 85, years: 3, projects: 15 },
-      { name: "MongoDB", level: 82, years: 2, projects: 12 },
-      { name: "PostgreSQL", level: 78, years: 2, projects: 10 },
-      { name: "GraphQL", level: 75, years: 1, projects: 6 },
-    ]
-  },
-  "AI & Machine Learning": {
-    icon: "🤖",
-    color: "from-purple-500 to-pink-500",
-    skills: [
-      { name: "LangChain", level: 85, years: 1, projects: 5 },
-      { name: "OpenAI API", level: 88, years: 1, projects: 8 },
-      { name: "Vector Databases", level: 80, years: 1, projects: 4 },
-      { name: "RAG Systems", level: 82, years: 1, projects: 6 },
-      { name: "Python", level: 75, years: 2, projects: 10 },
-    ]
-  },
-  "Cloud & DevOps": {
-    icon: "☁️",
-    color: "from-orange-500 to-red-500",
-    skills: [
-      { name: "AWS", level: 78, years: 2, projects: 12 },
-      { name: "Vercel", level: 92, years: 2, projects: 25 },
-      { name: "Docker", level: 80, years: 2, projects: 8 },
-      { name: "CI/CD", level: 85, years: 2, projects: 15 },
-      { name: "Git", level: 95, years: 4, projects: 30 },
-    ]
-  }
-};
+import { SKILLS_DATA, QUICK_STATS } from '../constants/skills';
 
 const SkillBar = ({ skill, index, isVisible, theme }) => {
   const [animatedLevel, setAnimatedLevel] = useState(0);
@@ -202,8 +155,8 @@ const CategoryCard = ({ category, data, index, activeCategory, setActiveCategory
           <span
             key={skill.name}
             className={`text-xs px-2 py-1 rounded-full ${theme.currentTheme === 'minimal'
-                ? 'bg-gray-100 text-gray-600'
-                : 'bg-neutral-700 text-neutral-300'
+              ? 'bg-gray-100 text-gray-600'
+              : 'bg-neutral-700 text-neutral-300'
               }`}
           >
             {skill.name}
@@ -211,8 +164,8 @@ const CategoryCard = ({ category, data, index, activeCategory, setActiveCategory
         ))}
         {data.skills.length > 3 && (
           <span className={`text-xs px-2 py-1 rounded-full ${theme.currentTheme === 'minimal'
-              ? 'bg-gray-100 text-gray-500'
-              : 'bg-neutral-700 text-neutral-400'
+            ? 'bg-gray-100 text-gray-500'
+            : 'bg-neutral-700 text-neutral-400'
             }`}>
             +{data.skills.length - 3} more
           </span>
@@ -315,12 +268,7 @@ export default function SkillsVisualization() {
         transition={{ delay: 0.8, duration: 0.6 }}
         className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4"
       >
-        {[
-          { label: "Years Experience", value: "4+", icon: "📅" },
-          { label: "Projects Built", value: "50+", icon: "🚀" },
-          { label: "Technologies", value: "20+", icon: "⚡" },
-          { label: "Certifications", value: "5+", icon: "🏆" },
-        ].map((stat, index) => (
+        {QUICK_STATS.map((stat, index) => (
           <motion.div
             key={stat.label}
             whileHover={{ scale: 1.05, y: -5 }}

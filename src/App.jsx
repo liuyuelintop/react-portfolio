@@ -2,10 +2,9 @@ import { lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import { ThemeProvider, useTheme } from "./contexts/ThemeContext";
 import { ScrollProgressBar } from "./components/ScrollAnimations/ScrollEffects";
-import AnimatedSection from "./components/ScrollAnimations/AnimatedSection";
 
 const Navbar = lazy(() => import("./components/Navbar"));
-const Hero = lazy(() => import("./components/Hero"));
+const Hero = lazy(() => import("./components/Hero/Hero"));
 const Projects = lazy(() => import("./components/ProjectSection/Projects"));
 const Experience = lazy(() => import("./components/Experience"));
 const SkillsVisualization = lazy(() => import("./components/SkillsVisualization"));
