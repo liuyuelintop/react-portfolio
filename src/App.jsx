@@ -6,7 +6,6 @@ import AnimatedSection from "./components/ScrollAnimations/AnimatedSection";
 
 const Navbar = lazy(() => import("./components/Navbar"));
 const Hero = lazy(() => import("./components/Hero"));
-const LighthouseScoreCard = lazy(() => import("./components/LighthouseScoreCard"));
 const Projects = lazy(() => import("./components/ProjectSection/Projects"));
 const Experience = lazy(() => import("./components/Experience"));
 const SkillsVisualization = lazy(() => import("./components/SkillsVisualization"));
@@ -91,8 +90,6 @@ function AppContent() {
           <section id="github">
             <GitHubActivity />
           </section>
-
-          <LighthouseScoreCard />
 
           <section id="contact">
             <Contact />

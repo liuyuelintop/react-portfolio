@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useTheme } from '../contexts/ThemeContext';
+import { useTheme } from '../contexts/ThemeContext';\nimport LighthouseScoreCard from './LighthouseScoreCard';
 
 // Enhanced skills data with proficiency levels and categories
 const SKILLS_DATA = {
@@ -300,6 +300,23 @@ export default function SkillsVisualization() {
           />
         ))}
       </div>
+
+      {/* Performance Metrics */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.7, duration: 0.6 }}
+        className="mt-16 mb-8"
+      >
+        <h3 className={`text-2xl font-bold text-center mb-8 ${
+          theme.currentTheme === 'minimal' ? 'text-gray-800' : 'text-white'
+        }`}>
+          Performance Metrics
+        </h3>
+        <div className="flex justify-center">
+          <LighthouseScoreCard />
+        </div>
+      </motion.div>
 
       {/* Quick Stats */}
       <motion.div

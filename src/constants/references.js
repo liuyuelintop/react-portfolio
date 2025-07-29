@@ -26,13 +26,4 @@ export const REFERENCES = [
     image: "https://media.licdn.com/dms/image/v2/D5603AQFaRsgz2HGQaw/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1698386936398?e=1755734400&v=beta&t=53tiFdI3f3V-_n2hA7QYytCbrSMpEUWiYjCY-CBoSrE",
     linkedIn: "https://www.linkedin.com/in/kelvinchoo-iisri/",
   },
-  {
-    name: "Vincent Wijaya",
-    title: "Junior Software Engineer",
-    company: "ByteCronix",
-    quote:
-      "Yuelin isn’t just a fast learner — he’s a multiplier. Working with him, I’ve seen how he translates vague requirements into features that work well and look polished. He’s a teammate who makes hard problems feel solvable.",
-    image: "https://media.licdn.com/dms/image/v2/D5635AQFgLMLuR9fXog/profile-framedphoto-shrink_400_400/B56ZXpb1e8GQAc-/0/1743378143495?e=1751040000&v=beta&t=0gpp8wPb1daINn9uk4mUE4fOylEUPp_-tqFWOBZm4sk",
-    linkedIn: "https://www.linkedin.com/in/vincenwi/",
-  },
 ];

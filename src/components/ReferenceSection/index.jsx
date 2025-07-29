@@ -59,29 +59,40 @@ export default function ReferenceSection() {
   });
 
   return (
-    <section className="py-8 px-6 max-w-2xl mx-auto flex flex-col items-center">
-      <h2 className={`text-3xl md:text-4xl font-bold text-center mb-12 tracking-tight ${
-        currentTheme === 'minimal' ? 'text-gray-900' : 'text-white'
-      }`}>
-        What Others Say
-      </h2>
+    <section className="py-12 px-6 max-w-4xl mx-auto flex flex-col items-center">
+      <div className="text-center mb-16">
+        <h2 className={`text-3xl md:text-4xl font-bold mb-4 tracking-tight bg-gradient-to-r bg-clip-text text-transparent ${
+          currentTheme === 'minimal' 
+            ? 'from-gray-800 via-gray-700 to-gray-600' 
+            : 'from-purple-400 via-indigo-400 to-blue-400'
+        }`}>
+          Professional References
+        </h2>
+        <p className={`text-lg max-w-2xl mx-auto ${
+          currentTheme === 'minimal' ? 'text-gray-600' : 'text-neutral-400'
+        }`}>
+          Testimonials from colleagues and supervisors who have worked with me directly.
+        </p>
+      </div>
 
       <div
         {...(isMobile ? handlers : {})}
         className="relative w-full flex items-center justify-center"
         style={{ minHeight: 400 }}
       >
-        <button
-          aria-label="Previous"
+        <motion.button
+          aria-label="Previous reference"
           onClick={() => paginate(-1)}
-          className={`hidden md:flex absolute left-[-2.5rem] top-1/2 -translate-y-1/2 z-10 p-2 rounded-full transition ${
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          className={`hidden md:flex absolute left-[-3rem] top-1/2 -translate-y-1/2 z-10 p-3 rounded-full transition-all duration-300 shadow-lg ${
             currentTheme === 'minimal'
-              ? 'bg-gray-200 hover:bg-gray-300 text-gray-700'
-              : 'bg-neutral-800/70 hover:bg-purple-700/80 text-white'
+              ? 'bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 shadow-gray-200/50'
+              : 'bg-neutral-800/80 hover:bg-purple-700/80 text-white border border-neutral-600 shadow-black/20'
           }`}
         >
-          <FiChevronLeft size={28} />
-        </button>
+          <FiChevronLeft size={24} />
+        </motion.button>
 
         <AnimatePresence
           custom={direction}
@@ -105,22 +116,24 @@ export default function ReferenceSection() {
           </motion.div>
         </AnimatePresence>
 
-        <button
-          aria-label="Next"
+        <motion.button
+          aria-label="Next reference"
           onClick={() => paginate(1)}
-          className={`hidden md:flex absolute right-[-2.5rem] top-1/2 -translate-y-1/2 z-10 p-2 rounded-full transition ${
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          className={`hidden md:flex absolute right-[-3rem] top-1/2 -translate-y-1/2 z-10 p-3 rounded-full transition-all duration-300 shadow-lg ${
             currentTheme === 'minimal'
-              ? 'bg-gray-200 hover:bg-gray-300 text-gray-700'
-              : 'bg-neutral-800/70 hover:bg-purple-700/80 text-white'
+              ? 'bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 shadow-gray-200/50'
+              : 'bg-neutral-800/80 hover:bg-purple-700/80 text-white border border-neutral-600 shadow-black/20'
           }`}
         >
-          <FiChevronRight size={28} />
-        </button>
+          <FiChevronRight size={24} />
+        </motion.button>
       </div>
 
-      <div className="flex gap-2 mt-6">
+      <div className="flex items-center gap-3 mt-8">
         {REFERENCES.map((_, i) => (
-          <button
+          <motion.button
             key={i}
             onClick={() => {
               if (isAnimating || i === index) return;
@@ -128,14 +141,33 @@ export default function ReferenceSection() {
               setIndex(i);
               setIsAnimating(true);
             }}
-            className={`h-2 w-6 rounded-full transition-all duration-200 ${
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.9 }}
+            className={`relative h-3 w-3 rounded-full transition-all duration-300 ${
               i === index 
-                ? (currentTheme === 'minimal' ? 'bg-gray-600' : 'bg-purple-400')
-                : (currentTheme === 'minimal' ? 'bg-gray-300' : 'bg-neutral-700')
+                ? (currentTheme === 'minimal' ? 'bg-gray-700' : 'bg-purple-400')
+                : (currentTheme === 'minimal' ? 'bg-gray-300 hover:bg-gray-400' : 'bg-neutral-600 hover:bg-neutral-500')
             }`}
             aria-label={`Go to reference ${i + 1}`}
-          />
+          >
+            {i === index && (
+              <motion.div
+                layoutId="activeIndicator"
+                className={`absolute inset-0 rounded-full ${
+                  currentTheme === 'minimal' ? 'bg-gray-700' : 'bg-purple-400'
+                }`}
+                style={{ scale: 1.5, opacity: 0.3 }}
+              />
+            )}
+          </motion.button>
         ))}
+        
+        {/* Progress text */}
+        <span className={`ml-4 text-sm font-medium ${
+          currentTheme === 'minimal' ? 'text-gray-500' : 'text-neutral-400'
+        }`}>
+          {index + 1} of {REFERENCES.length}
+        </span>
       </div>
     </section>
   );

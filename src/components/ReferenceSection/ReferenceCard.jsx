@@ -7,10 +7,10 @@ const ReferenceCard = ({ name, title, company, quote, image, linkedIn }) => {
   const { currentTheme } = useTheme();
   
   return (
-  <div className={`max-w-[480px] w-full min-h-[390px] md:min-h-[360px] rounded-2xl shadow-xl border hover:shadow-2xl transition-all duration-200 mx-auto flex flex-col justify-between ${
+  <div className={`max-w-[520px] w-full min-h-[400px] rounded-2xl shadow-xl border hover:shadow-2xl transition-all duration-300 mx-auto flex flex-col justify-between ${
     currentTheme === 'minimal'
-      ? 'bg-white border-gray-200'
-      : 'bg-gradient-to-br from-[#232347] to-[#181825] border-purple-800/30'
+      ? 'bg-white border-gray-200 hover:border-gray-300'
+      : 'bg-gradient-to-br from-[#232347] to-[#181825] border-purple-800/30 hover:border-purple-700/40'
   }`}>
     <div className="flex flex-col flex-1 p-6 md:p-8">
       <FaQuoteLeft className={`text-2xl mb-3 ${
@@ -23,11 +23,17 @@ const ReferenceCard = ({ name, title, company, quote, image, linkedIn }) => {
         src={image}
         alt={name}
         loading="lazy"
-        className="w-14 h-14 rounded-full object-cover border-2 border-purple-700/40 shadow"
+        className={`w-16 h-16 rounded-full object-cover border-2 shadow-md ${
+          currentTheme === 'minimal' ? 'border-gray-300' : 'border-purple-700/40'
+        }`}
       />
       <div className="flex-1 min-w-0">
-        <p className="text-white font-semibold text-base truncate">{name}</p>
-        <p className="text-xs text-gray-400 truncate">
+        <p className={`font-semibold text-base truncate ${
+          currentTheme === 'minimal' ? 'text-gray-900' : 'text-white'
+        }`}>{name}</p>
+        <p className={`text-xs truncate ${
+          currentTheme === 'minimal' ? 'text-gray-600' : 'text-gray-400'
+        }`}>
           {title} at {company}
         </p>
         {linkedIn && (
@@ -35,7 +41,9 @@ const ReferenceCard = ({ name, title, company, quote, image, linkedIn }) => {
             href={linkedIn}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-xs text-purple-400 hover:underline mt-1"
+            className={`inline-flex items-center gap-1 text-xs hover:underline mt-1 ${
+              currentTheme === 'minimal' ? 'text-blue-600' : 'text-purple-400'
+            }`}
           >
             <FiLinkedin /> LinkedIn
           </a>

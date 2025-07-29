@@ -4,13 +4,31 @@ import { useTheme } from "../../contexts/ThemeContext";
 
 // Animation variants for card flip
 const card3DVariants = {
-    rest: { rotateY: 0, transition: { duration: 0.5 } },
-    flip: { rotateY: 180, transition: { duration: 0.5 } },
-    hover: { scale: 1.03 }
+    rest: { 
+        rotateY: 0, 
+        scale: 1,
+        transition: { duration: 0.4, ease: "easeOut" } 
+    },
+    flip: { 
+        rotateY: 180, 
+        scale: 1.02,
+        transition: { duration: 0.6, ease: "easeInOut" } 
+    },
+    hover: { 
+        scale: 1.02, 
+        y: -5,
+        transition: { duration: 0.3, ease: "easeOut" }
+    }
 };
+
 const cardVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+    hidden: { opacity: 0, y: 30, scale: 0.95 },
+    visible: { 
+        opacity: 1, 
+        y: 0, 
+        scale: 1,
+        transition: { duration: 0.6, ease: "easeOut" } 
+    },
 };
 
 const ProjectCard = ({ project, onReadMore }) => {
@@ -48,7 +66,7 @@ const ProjectCard = ({ project, onReadMore }) => {
                 className="relative w-full h-full cursor-pointer"
                 style={{
                     transformStyle: "preserve-3d",
-                    minHeight: "400px", // set min height to prevent jump
+                    minHeight: "420px", // consistent height for all cards
                 }}
             >
                 {/* Front Face */}
@@ -59,10 +77,10 @@ const ProjectCard = ({ project, onReadMore }) => {
                         WebkitBackfaceVisibility: "hidden",
                     }}
                 >
-                    <div className={`rounded-xl p-6 border flex flex-col h-full ${
+                    <div className={`rounded-xl p-6 border flex flex-col h-full transition-all duration-300 ${
                         currentTheme === 'minimal'
-                            ? 'bg-white border-gray-200 shadow-lg'
-                            : 'bg-neutral-800 border-neutral-700'
+                            ? 'bg-white border-gray-200 shadow-lg hover:shadow-xl hover:border-gray-300'
+                            : 'bg-neutral-800 border-neutral-700 shadow-lg hover:shadow-2xl hover:border-neutral-600 shadow-black/20'
                     }`}>
                         <img
                             src={project.image}
@@ -102,10 +120,10 @@ const ProjectCard = ({ project, onReadMore }) => {
                         WebkitBackfaceVisibility: "hidden",
                     }}
                 >
-                    <div className={`rounded-xl p-6 border flex flex-col h-full ${
+                    <div className={`rounded-xl p-6 border flex flex-col h-full transition-all duration-300 ${
                         currentTheme === 'minimal'
-                            ? 'bg-gray-50 border-gray-300'
-                            : 'bg-purple-900 border-purple-400'
+                            ? 'bg-gray-50 border-gray-300 shadow-lg'
+                            : 'bg-purple-900 border-purple-400 shadow-lg shadow-purple-900/20'
                     }`}>
                         <h3 className={`text-lg font-bold mb-4 ${
                             currentTheme === 'minimal' ? 'text-gray-900' : 'text-white'
