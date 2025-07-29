@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useTheme } from "../../contexts/ThemeContext";
 
 // Animation variants for card flip
 const card3DVariants = {
@@ -13,6 +14,7 @@ const cardVariants = {
 };
 
 const ProjectCard = ({ project, onReadMore }) => {
+    const { currentTheme } = useTheme();
     const [isFlipped, setIsFlipped] = useState(false);
 
     const handleCardClick = (e) => {
@@ -57,24 +59,34 @@ const ProjectCard = ({ project, onReadMore }) => {
                         WebkitBackfaceVisibility: "hidden",
                     }}
                 >
-                    <div className="bg-neutral-800 rounded-xl p-6 border border-neutral-700 flex flex-col h-full">
+                    <div className={`rounded-xl p-6 border flex flex-col h-full ${
+                        currentTheme === 'minimal'
+                            ? 'bg-white border-gray-200 shadow-lg'
+                            : 'bg-neutral-800 border-neutral-700'
+                    }`}>
                         <img
                             src={project.image}
                             alt={project.title}
                             className="w-full aspect-video object-cover rounded-lg mb-4"
                         />
 
-                        <h3 className="text-xl font-bold text-white mb-2">
+                        <h3 className={`text-xl font-bold mb-2 ${
+                            currentTheme === 'minimal' ? 'text-gray-900' : 'text-white'
+                        }`}>
                             {project.title}
                         </h3>
 
-                        <p className="text-neutral-300 text-sm flex-1">
+                        <p className={`text-sm flex-1 ${
+                            currentTheme === 'minimal' ? 'text-gray-600' : 'text-neutral-300'
+                        }`}>
                             {project.description.summary}
                         </p>
 
                         <button
                             onClick={onReadMore}
-                            className="text-purple-400 text-sm mt-auto"
+                            className={`text-sm mt-auto ${
+                                currentTheme === 'minimal' ? 'text-blue-600 hover:text-blue-700' : 'text-purple-400 hover:text-purple-300'
+                            }`}
                         >
                             Read More →
                         </button>
@@ -90,16 +102,28 @@ const ProjectCard = ({ project, onReadMore }) => {
                         WebkitBackfaceVisibility: "hidden",
                     }}
                 >
-                    <div className="bg-purple-900 rounded-xl p-6 border border-purple-400 flex flex-col h-full">
-                        <h3 className="text-lg font-bold text-white mb-4">Tech Stack</h3>
+                    <div className={`rounded-xl p-6 border flex flex-col h-full ${
+                        currentTheme === 'minimal'
+                            ? 'bg-gray-50 border-gray-300'
+                            : 'bg-purple-900 border-purple-400'
+                    }`}>
+                        <h3 className={`text-lg font-bold mb-4 ${
+                            currentTheme === 'minimal' ? 'text-gray-900' : 'text-white'
+                        }`}>Tech Stack</h3>
 
                         <div className="flex-1">
-                            <h4 className="text-sm font-semibold text-blue-300 mb-2">Technologies:</h4>
+                            <h4 className={`text-sm font-semibold mb-2 ${
+                                currentTheme === 'minimal' ? 'text-gray-700' : 'text-blue-300'
+                            }`}>Technologies:</h4>
                             <div className="flex flex-wrap gap-1">
                                 {project.technologies.main.map((tech) => (
                                     <span
                                         key={tech}
-                                        className="px-2 py-1 bg-purple-500 rounded text-xs text-white"
+                                        className={`px-2 py-1 rounded text-xs ${
+                                            currentTheme === 'minimal'
+                                                ? 'bg-gray-200 text-gray-700'
+                                                : 'bg-purple-500 text-white'
+                                        }`}
                                     >
                                         {tech}
                                     </span>
@@ -111,7 +135,11 @@ const ProjectCard = ({ project, onReadMore }) => {
                             href={project.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-4 py-2 bg-blue-500 rounded text-white text-sm text-center mt-4"
+                            className={`px-4 py-2 rounded text-sm text-center mt-4 transition-colors ${
+                                currentTheme === 'minimal'
+                                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                                    : 'bg-blue-500 hover:bg-blue-400 text-white'
+                            }`}
                         >
                             Visit Live Site
                         </a>
