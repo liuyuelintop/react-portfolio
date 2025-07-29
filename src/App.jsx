@@ -14,10 +14,8 @@ const Technologies = lazy(() => import("./components/TechnologySection/Technolog
 const SkillsVisualization = lazy(() => import("./components/SkillsVisualization"));
 const PersonalBranding = lazy(() => import("./components/PersonalBranding"));
 const GitHubActivity = lazy(() => import("./components/GitHubActivity"));
-const ResumeDownload = lazy(() => import("./components/ResumeDownload"));
 const Contact = lazy(() => import("./components/Contact"));
 const FloatingNavigation = lazy(() => import("./components/FloatingNavigation"));
-const FloatingResumeButton = lazy(() => import("./components/FloatingResumeButton"));
 const ThemeSwitcher = lazy(() => import("./components/ThemeSwitcher"));
 
 function AppContent() {
@@ -101,10 +99,6 @@ function AppContent() {
             <GitHubActivity />
           </section>
           
-          <section id="resume">
-            <ResumeDownload />
-          </section>
-          
           <LighthouseScoreCard />
           
           <section id="contact">
@@ -115,9 +109,6 @@ function AppContent() {
 
       {/* Floating Navigation */}
       <FloatingNavigation />
-      
-      {/* Floating Resume Button */}
-      <FloatingResumeButton />
       
       {/* Theme Switcher */}
       <ThemeSwitcher />
