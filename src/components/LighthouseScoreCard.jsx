@@ -2,6 +2,8 @@ import { useState, useEffect, memo } from 'react';
 import { ExternalLink, Zap } from 'lucide-react';
 import { LIGHTHOUSE_SCORES, LIGHTHOUSE_DATE, LIGHTHOUSE_REPORT_URL } from '../constants/lighthouseScores';
 import { useLighthouseScoreAnimation } from '../hooks/useLighthouseScoreAnimation';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { motion } from 'framer-motion';
 
 // Memoized CircularProgress for performance
 const CircularProgress = memo(function CircularProgress({ value, size = 50, strokeWidth = 4, color = '#4caf50' }) {

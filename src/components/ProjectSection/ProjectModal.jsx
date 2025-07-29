@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import Modal from "../ui/Modal";
 import { useState } from "react";
+import LiveDemoPreview from "./LiveDemoPreview";
 
 const BottomActions = ({ project, onClose, onPreview }) => (
   <div className="bg-neutral-900/95 pt-4 pb-4 flex flex-col gap-2 z-10">
@@ -13,7 +14,7 @@ const BottomActions = ({ project, onClose, onPreview }) => (
             whileTap={{ scale: 0.98 }}
             className="flex-1 text-center bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-400 hover:to-purple-400 text-white font-semibold rounded-md px-6 py-3 transition text-base"
           >
-            Preview Demo
+            Launch Live Demo
           </motion.button>
           <motion.a
             href={project.url}
@@ -82,26 +83,17 @@ export default function ProjectModal({ project, onClose }) {
 
         {/* Main Content (scrollable) */}
         <div className="flex-1 min-h-0 overflow-y-auto px-0 pb-1">
-          <div className="w-full rounded-lg overflow-hidden mb-3 flex items-center justify-center" style={{ minHeight: 0 }}>
-            {showPreview && project.url ? (
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3 }}
-                className="w-full aspect-video max-h-40 md:max-h-56 lg:max-h-64 bg-neutral-800 rounded-lg overflow-hidden"
-              >
-                <iframe
-                  src={project.url}
-                  title={`${project.title} Live Preview`}
-                  className="w-full h-full border-0"
-                  loading="lazy"
-                  sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-                />
-                <div className="absolute top-2 right-2 bg-black/50 text-white px-2 py-1 rounded text-xs">
-                  Live Preview
-                </div>
-              </motion.div>
-            ) : (
+          {/* Enhanced Live Demo Preview */}
+          {showPreview && project.url ? (
+            <div className="mb-6">
+              <LiveDemoPreview 
+                project={project}
+                isVisible={showPreview}
+                onClose={() => setShowPreview(false)}
+              />
+            </div>
+          ) : (
+            <div className="w-full rounded-lg overflow-hidden mb-3 flex items-center justify-center" style={{ minHeight: 0 }}>
               <div className="w-full aspect-video max-h-40 md:max-h-56 lg:max-h-64 flex items-center justify-center bg-neutral-800 relative">
                 {!imgLoaded && (
                   <div className="w-full h-full bg-neutral-700 animate-pulse absolute top-0 left-0" />
@@ -129,13 +121,13 @@ export default function ProjectModal({ project, onClose }) {
                   >
                     <div className="bg-purple-500 text-white px-4 py-2 rounded-lg flex items-center gap-2">
                       <span>▶</span>
-                      <span>Preview Demo</span>
+                      <span>Launch Live Demo</span>
                     </div>
                   </motion.div>
                 )}
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
           <p className="text-neutral-300 mb-2 text-sm md:text-base">{project.description.summary}</p>
           <ul className="mb-3 pl-4 list-disc text-neutral-400 text-sm space-y-1">

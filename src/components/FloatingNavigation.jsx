@@ -7,6 +7,10 @@ const NAVIGATION_SECTIONS = [
   { id: 'references', label: 'References', icon: '⭐' },
   { id: 'projects', label: 'Projects', icon: '🚀' },
   { id: 'technologies', label: 'Tech', icon: '⚡' },
+  { id: 'skills', label: 'Skills', icon: '📊' },
+  { id: 'brand', label: 'Brand', icon: '💎' },
+  { id: 'github', label: 'GitHub', icon: '🐙' },
+  { id: 'resume', label: 'Resume', icon: '📄' },
   { id: 'contact', label: 'Contact', icon: '📧' },
 ];
 

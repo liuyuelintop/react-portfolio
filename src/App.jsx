@@ -1,6 +1,8 @@
 import { lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import { ThemeProvider, useTheme } from "./contexts/ThemeContext";
+import { ScrollProgressBar } from "./components/ScrollAnimations/ScrollEffects";
+import AnimatedSection from "./components/ScrollAnimations/AnimatedSection";
 
 const Navbar = lazy(() => import("./components/Navbar"));
 const Hero = lazy(() => import("./components/Hero"));
@@ -9,8 +11,13 @@ const Projects = lazy(() => import("./components/ProjectSection/Projects"));
 const Experience = lazy(() => import("./components/Experience"));
 const ReferenceSection = lazy(() => import("./components/ReferenceSection"));
 const Technologies = lazy(() => import("./components/TechnologySection/Technologies"));
+const SkillsVisualization = lazy(() => import("./components/SkillsVisualization"));
+const PersonalBranding = lazy(() => import("./components/PersonalBranding"));
+const GitHubActivity = lazy(() => import("./components/GitHubActivity"));
+const ResumeDownload = lazy(() => import("./components/ResumeDownload"));
 const Contact = lazy(() => import("./components/Contact"));
 const FloatingNavigation = lazy(() => import("./components/FloatingNavigation"));
+const FloatingResumeButton = lazy(() => import("./components/FloatingResumeButton"));
 const ThemeSwitcher = lazy(() => import("./components/ThemeSwitcher"));
 
 function AppContent() {
@@ -33,8 +40,14 @@ function AppContent() {
     <div className={`overflow-x-hidden antialiased transition-colors duration-500 ${
       currentTheme === 'minimal' ? 'text-gray-700' : 'text-neutral-300'
     }`}>
+      {/* Scroll Progress Bar */}
+      <ScrollProgressBar />
+      
+      {/* Enhanced Parallax Background */}
+      {/* <ParallaxBackground /> */}
+      
       {/* Theme-aware Animated Background */}
-      <div className="fixed top-0 -z-10 h-full w-full">
+      <div className="fixed top-0 -z-20 h-full w-full">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -76,6 +89,22 @@ function AppContent() {
             <Technologies />
           </section>
           
+          <section id="skills">
+            <SkillsVisualization />
+          </section>
+          
+          <section id="brand">
+            <PersonalBranding />
+          </section>
+          
+          <section id="github">
+            <GitHubActivity />
+          </section>
+          
+          <section id="resume">
+            <ResumeDownload />
+          </section>
+          
           <LighthouseScoreCard />
           
           <section id="contact">
@@ -86,6 +115,9 @@ function AppContent() {
 
       {/* Floating Navigation */}
       <FloatingNavigation />
+      
+      {/* Floating Resume Button */}
+      <FloatingResumeButton />
       
       {/* Theme Switcher */}
       <ThemeSwitcher />

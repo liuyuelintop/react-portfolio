@@ -6,6 +6,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import TechnologiesCarousel from "./TechnologiesCarousel";
 import { useState } from "react";
+// import { AnimatedGrid, AnimatedGridItem, AnimatedText } from "../ScrollAnimations/AnimatedSection";
 
 export default function Technologies() {
     const isMobile = useMediaQuery({ maxWidth: 768 });
@@ -17,12 +18,18 @@ export default function Technologies() {
     return (
         <section className="border-b border-neutral-900/50 py-24 px-4 md:px-8">
             <div className="max-w-5xl mx-auto">
-                <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent text-center mb-12">
-                    Tech Stack
-                </h2>
-                {visibleTechStack.map(({ group, items }) => (
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                        Tech Stack
+                    </h2>
+                </div>
+                
+                {visibleTechStack.map(({ group, items }, groupIndex) => (
                     <div key={group} className="mb-12">
-                        <h3 className={`text-xl md:text-2xl font-semibold mb-6 ${group === "Learning & Next Focus" ? "text-blue-300" : "text-purple-300"}`}>{group}</h3>
+                        <h3 className={`text-xl md:text-2xl font-semibold mb-6 ${group === "Learning & Next Focus" ? "text-blue-300" : "text-purple-300"}`}>
+                            {group}
+                        </h3>
+                        
                         {isMobile ? (
                             <TechnologiesCarousel items={items} />
                         ) : (
