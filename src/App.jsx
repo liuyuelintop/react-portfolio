@@ -48,13 +48,11 @@ function AppContent() {
           animate={{ opacity: 1 }}
           className={`absolute top-0 h-screen w-screen transition-all duration-500 ${getBackgroundGradient()}`}
         >
-          <motion.div
-            className={`absolute inset-0 transition-opacity duration-1000 ${currentTheme === 'minimal'
+          <div
+            className={`absolute inset-0 ${currentTheme === 'minimal'
               ? 'bg-[url("./assets/grid.svg")] opacity-5'
               : 'bg-[url("./assets/grid.svg")] opacity-10'
               }`}
-            animate={{ opacity: currentTheme === 'neon' ? [0.1, 0.2, 0.1] : [0.05, 0.1, 0.05] }}
-            transition={{ duration: 4, repeat: Infinity }}
           />
         </motion.div>
       </div>

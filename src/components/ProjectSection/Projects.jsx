@@ -75,21 +75,21 @@ export default function Projects() {
                         onClick={() => setVisibleCount((c) => c + INITIAL_VISIBLE)}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className={`group flex items-center gap-2 px-8 py-3 rounded-xl font-medium transition-all duration-300 border ${
+                        className={`group relative flex items-center gap-2 px-8 py-3 rounded-xl font-medium transition-all duration-300 border overflow-hidden ${
                             currentTheme === 'minimal'
                                 ? 'bg-white border-gray-300 text-gray-700 hover:border-gray-400 hover:shadow-lg shadow-gray-200/50'
                                 : 'bg-neutral-800/50 border-neutral-600 text-purple-300 hover:bg-purple-800/20 hover:border-purple-500 hover:shadow-lg shadow-purple-900/20'
                         }`}
                     >
-                        <span>Load More Projects</span>
+                        <span className="relative z-10">Load More Projects</span>
                         <motion.span
-                            className="text-lg"
+                            className="text-lg relative z-10"
                             animate={{ rotate: visibleCount >= PROJECTS.length ? 180 : 0 }}
                             transition={{ duration: 0.3 }}
                         >
                             ↓
                         </motion.span>
-                        <span className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-10 transition-opacity ${
+                        <span className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-10 transition-opacity duration-300 ${
                             currentTheme === 'minimal' ? 'bg-gray-900' : 'bg-purple-500'
                         }`} />
                     </motion.button>
