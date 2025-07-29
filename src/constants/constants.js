@@ -1,4 +1,11 @@
 export const HERO_CONTENT = {
+  name: "Yuelin Liu",
+  roles: [
+    "Full Stack Developer",
+    "AI Engineer",
+    "React Specialist",
+    "Product Builder"
+  ],
   summary: `Builder of robust SaaS products, clean code, and scalable APIs. At ByteCronix, I shipped real-world AI/PR features across microservices, infra, and UI. I thrive in ambiguity and deliver high-velocity results—frontend to backend, infra to UI polish.`,
   highlights: [
   "LangChain & RAG",

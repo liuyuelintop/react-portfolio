@@ -23,6 +23,7 @@
     "react-icons": "^5.5.0",
     "react-responsive": "^10.0.1",
     "react-swipeable": "^7.0.2",
+    "react-typewriter-effect": "^1.1.0",
     "sharp": "^0.33.5",
     "swiper": "^11.2.10",
     "tailwind-merge": "^3.0.2"
