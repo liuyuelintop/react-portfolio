@@ -57,7 +57,6 @@ src/
 │   ├── ui/                        # Reusable UI components
 │   │   ├── animations/
 │   │   │   └── ScrollAnimations/
-│   │   │       ├── AnimatedSection.jsx
 │   │   │       └── ScrollEffects.jsx
 │   │   ├── common/               # Common UI elements
 │   │   │   ├── Card.jsx
