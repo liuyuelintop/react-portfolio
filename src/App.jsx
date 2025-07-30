@@ -1,19 +1,19 @@
 import { lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import { ThemeProvider, useTheme } from "./contexts/ThemeContext";
-import { ScrollProgressBar } from "./components/ScrollAnimations/ScrollEffects";
+import { ScrollProgressBar } from "./components/ui/animations/ScrollAnimations/ScrollEffects";
 
-const Navbar = lazy(() => import("./components/Navbar"));
-const Hero = lazy(() => import("./components/Hero/Hero"));
-const Projects = lazy(() => import("./components/ProjectSection/Projects"));
-const Experience = lazy(() => import("./components/Experience"));
-const SkillsVisualization = lazy(() => import("./components/SkillsVisualization"));
-const ReferenceSection = lazy(() => import("./components/ReferenceSection"));
-const PersonalBranding = lazy(() => import("./components/PersonalBranding"));
-const GitHubActivity = lazy(() => import("./components/GitHubActivity"));
-const Contact = lazy(() => import("./components/Contact"));
-const FloatingNavigation = lazy(() => import("./components/FloatingNavigation"));
-const ThemeSwitcher = lazy(() => import("./components/ThemeSwitcher"));
+const Navbar = lazy(() => import("./components/layout/Navbar"));
+const Hero = lazy(() => import("./components/sections/Hero/Hero"));
+const Projects = lazy(() => import("./components/sections/Projects"));
+const Experience = lazy(() => import("./components/sections/Experience"));
+const SkillsVisualization = lazy(() => import("./components/sections/Skills"));
+const ReferenceSection = lazy(() => import("./components/sections/References"));
+const PersonalBranding = lazy(() => import("./components/sections/PersonalBranding"));
+const GitHubActivity = lazy(() => import("./components/sections/GitHubActivity"));
+const Contact = lazy(() => import("./components/sections/Contact"));
+const FloatingNavigation = lazy(() => import("./components/layout/FloatingNavigation"));
+const ThemeSwitcher = lazy(() => import("./components/ui/common/ThemeSwitcher"));
 
 function AppContent() {
   const { theme, currentTheme } = useTheme();
