@@ -215,64 +215,25 @@ export default function LiveDemoPreview({ project, isVisible, onClose, embedded 
   if (embedded) {
     return (
       <div className="space-y-4">
-        {/* Mobile Controls Row - Combined controls for better space usage */}
-        {isMobile && (
-          <div className="flex flex-col gap-2 mb-3">
-            {/* Device Controls + Preview Mode Switcher in one row */}
-            <div className="flex gap-2">
-              {/* Compact Device Switcher */}
-              {showIframe && previewOptions.canPreview && (
-                <div
-                  className={`
-                  flex-1 p-2 rounded-lg border
-                  ${theme.currentTheme === "minimal" ? "bg-white border-gray-200" : "bg-neutral-800 border-neutral-700"}
-                `}
-                >
-                  <div className="flex gap-1 justify-center">
-                    {["desktop", "tablet", "mobile"].map((deviceType) => (
-                      <motion.button
-                        key={deviceType}
-                        onClick={() => setDevice(deviceType)}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className={`
-                          px-2 py-1 rounded text-xs transition-colors flex items-center gap-1
-                          ${device === deviceType
-                            ? theme.currentTheme === "minimal"
-                              ? "bg-gray-200 text-gray-800"
-                              : "bg-purple-500 text-white"
-                            : theme.currentTheme === "minimal"
-                              ? "hover:bg-gray-100 text-gray-600"
-                              : "hover:bg-neutral-700 text-neutral-400"
-                          }
-                        `}
-                      >
-                        <span className="text-xs">
-                          {deviceType === "desktop" && "🖥️"}
-                          {deviceType === "tablet" && "📱"}
-                          {deviceType === "mobile" && "📱"}
-                        </span>
-                      </motion.button>
-                    ))}
-                  </div>
-                </div>
-              )}
-              
-              {/* Preview Mode Switcher (for auth-required projects) */}
-              {projectType === PROJECT_TYPES.AUTH_REQUIRED && (
-                <div
-                  className={`
-                  flex gap-1 p-1 rounded-lg backdrop-blur-md
-                  ${theme.currentTheme === "minimal" ? "bg-white/90 border border-gray-200" : "bg-neutral-900/90 border border-neutral-700"}
-                `}
-                >
+        {/* Mobile Controls - Clean and simple */}
+        {isMobile && showIframe && previewOptions.canPreview && (
+          <div className="mb-3">
+            <div
+              className={`
+              p-2 rounded-lg border
+              ${theme.currentTheme === "minimal" ? "bg-white border-gray-200" : "bg-neutral-800 border-neutral-700"}
+            `}
+            >
+              <div className="flex gap-1 justify-center">
+                {["desktop", "tablet", "mobile"].map((deviceType) => (
                   <motion.button
-                    onClick={() => setShowIframe(true)}
+                    key={deviceType}
+                    onClick={() => setDevice(deviceType)}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     className={`
-                      px-2 py-1 rounded text-xs transition-colors
-                      ${showIframe
+                      px-3 py-1.5 rounded text-xs transition-colors flex items-center gap-1
+                      ${device === deviceType
                         ? theme.currentTheme === "minimal"
                           ? "bg-gray-200 text-gray-800"
                           : "bg-purple-500 text-white"
@@ -282,28 +243,63 @@ export default function LiveDemoPreview({ project, isVisible, onClose, embedded 
                       }
                     `}
                   >
-                    iframe
+                    <span className="text-xs">
+                      {deviceType === "desktop" && "🖥️"}
+                      {deviceType === "tablet" && "📱"}
+                      {deviceType === "mobile" && "📱"}
+                    </span>
                   </motion.button>
-                  <motion.button
-                    onClick={() => setShowIframe(false)}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className={`
-                      px-2 py-1 rounded text-xs transition-colors
-                      ${!showIframe
-                        ? theme.currentTheme === "minimal"
-                          ? "bg-gray-200 text-gray-800"
-                          : "bg-purple-500 text-white"
-                        : theme.currentTheme === "minimal"
-                          ? "hover:bg-gray-100 text-gray-600"
-                          : "hover:bg-neutral-700 text-neutral-400"
-                      }
-                    `}
-                  >
-                    Alt
-                  </motion.button>
-                </div>
-              )}
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Mobile Preview Mode Switcher (for auth-required projects) */}
+        {isMobile && projectType === PROJECT_TYPES.AUTH_REQUIRED && (
+          <div className="mb-3">
+            <div
+              className={`
+              flex gap-1 p-1 rounded-lg justify-center
+              ${theme.currentTheme === "minimal" ? "bg-white/90 border border-gray-200" : "bg-neutral-900/90 border border-neutral-700"}
+            `}
+            >
+              <motion.button
+                onClick={() => setShowIframe(true)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={`
+                  px-4 py-1.5 rounded text-xs transition-colors
+                  ${showIframe
+                    ? theme.currentTheme === "minimal"
+                      ? "bg-gray-200 text-gray-800"
+                      : "bg-purple-500 text-white"
+                    : theme.currentTheme === "minimal"
+                      ? "hover:bg-gray-100 text-gray-600"
+                      : "hover:bg-neutral-700 text-neutral-400"
+                  }
+                `}
+              >
+                Live Preview
+              </motion.button>
+              <motion.button
+                onClick={() => setShowIframe(false)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={`
+                  px-4 py-1.5 rounded text-xs transition-colors
+                  ${!showIframe
+                    ? theme.currentTheme === "minimal"
+                      ? "bg-gray-200 text-gray-800"
+                      : "bg-purple-500 text-white"
+                    : theme.currentTheme === "minimal"
+                      ? "hover:bg-gray-100 text-gray-600"
+                      : "hover:bg-neutral-700 text-neutral-400"
+                  }
+                `}
+              >
+                Alternative
+              </motion.button>
             </div>
           </div>
         )}
@@ -538,63 +534,24 @@ export default function LiveDemoPreview({ project, isVisible, onClose, embedded 
         {/* Demo Container */}
         <div className="p-2 sm:p-4 h-full min-h-[250px] sm:min-h-[400px]">
           {/* Mobile Controls - Show above content on mobile */}
-          {isMobile && (
-            <div className="flex flex-col gap-2 mb-3">
-              {/* Device Controls + Preview Mode Switcher in one row */}
-              <div className="flex gap-2">
-                {/* Compact Device Switcher */}
-                {showIframe && previewOptions.canPreview && (
-                  <div
-                    className={`
-                    flex-1 p-2 rounded-lg border
-                    ${theme.currentTheme === "minimal" ? "bg-white border-gray-200" : "bg-neutral-800 border-neutral-700"}
-                  `}
-                  >
-                    <div className="flex gap-1 justify-center">
-                      {["desktop", "tablet", "mobile"].map((deviceType) => (
-                        <motion.button
-                          key={deviceType}
-                          onClick={() => setDevice(deviceType)}
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                          className={`
-                            px-2 py-1 rounded text-xs transition-colors flex items-center gap-1
-                            ${device === deviceType
-                              ? theme.currentTheme === "minimal"
-                                ? "bg-gray-200 text-gray-800"
-                                : "bg-purple-500 text-white"
-                              : theme.currentTheme === "minimal"
-                                ? "hover:bg-gray-100 text-gray-600"
-                                : "hover:bg-neutral-700 text-neutral-400"
-                            }
-                          `}
-                        >
-                          <span className="text-xs">
-                            {deviceType === "desktop" && "🖥️"}
-                            {deviceType === "tablet" && "📱"}
-                            {deviceType === "mobile" && "📱"}
-                          </span>
-                        </motion.button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                
-                {/* Preview Mode Switcher (for auth-required projects) */}
-                {projectType === PROJECT_TYPES.AUTH_REQUIRED && (
-                  <div
-                    className={`
-                    flex gap-1 p-1 rounded-lg backdrop-blur-md
-                    ${theme.currentTheme === "minimal" ? "bg-white/90 border border-gray-200" : "bg-neutral-900/90 border border-neutral-700"}
-                  `}
-                  >
+          {isMobile && showIframe && previewOptions.canPreview && (
+            <div className="mb-3">
+              <div
+                className={`
+                p-2 rounded-lg border
+                ${theme.currentTheme === "minimal" ? "bg-white border-gray-200" : "bg-neutral-800 border-neutral-700"}
+              `}
+              >
+                <div className="flex gap-1 justify-center">
+                  {["desktop", "tablet", "mobile"].map((deviceType) => (
                     <motion.button
-                      onClick={() => setShowIframe(true)}
+                      key={deviceType}
+                      onClick={() => setDevice(deviceType)}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       className={`
-                        px-2 py-1 rounded text-xs transition-colors
-                        ${showIframe
+                        px-3 py-1.5 rounded text-xs transition-colors flex items-center gap-1
+                        ${device === deviceType
                           ? theme.currentTheme === "minimal"
                             ? "bg-gray-200 text-gray-800"
                             : "bg-purple-500 text-white"
@@ -604,28 +561,63 @@ export default function LiveDemoPreview({ project, isVisible, onClose, embedded 
                         }
                       `}
                     >
-                      iframe
+                      <span className="text-xs">
+                        {deviceType === "desktop" && "🖥️"}
+                        {deviceType === "tablet" && "📱"}
+                        {deviceType === "mobile" && "📱"}
+                      </span>
                     </motion.button>
-                    <motion.button
-                      onClick={() => setShowIframe(false)}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className={`
-                        px-2 py-1 rounded text-xs transition-colors
-                        ${!showIframe
-                          ? theme.currentTheme === "minimal"
-                            ? "bg-gray-200 text-gray-800"
-                            : "bg-purple-500 text-white"
-                          : theme.currentTheme === "minimal"
-                            ? "hover:bg-gray-100 text-gray-600"
-                            : "hover:bg-neutral-700 text-neutral-400"
-                        }
-                      `}
-                    >
-                      Alt
-                    </motion.button>
-                  </div>
-                )}
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+          
+          {/* Mobile Preview Mode Switcher (for auth-required projects) */}
+          {isMobile && projectType === PROJECT_TYPES.AUTH_REQUIRED && (
+            <div className="mb-3">
+              <div
+                className={`
+                flex gap-1 p-1 rounded-lg justify-center
+                ${theme.currentTheme === "minimal" ? "bg-white/90 border border-gray-200" : "bg-neutral-900/90 border border-neutral-700"}
+              `}
+              >
+                <motion.button
+                  onClick={() => setShowIframe(true)}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`
+                    px-4 py-1.5 rounded text-xs transition-colors
+                    ${showIframe
+                      ? theme.currentTheme === "minimal"
+                        ? "bg-gray-200 text-gray-800"
+                        : "bg-purple-500 text-white"
+                      : theme.currentTheme === "minimal"
+                        ? "hover:bg-gray-100 text-gray-600"
+                        : "hover:bg-neutral-700 text-neutral-400"
+                    }
+                  `}
+                >
+                  Live Preview
+                </motion.button>
+                <motion.button
+                  onClick={() => setShowIframe(false)}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`
+                    px-4 py-1.5 rounded text-xs transition-colors
+                    ${!showIframe
+                      ? theme.currentTheme === "minimal"
+                        ? "bg-gray-200 text-gray-800"
+                        : "bg-purple-500 text-white"
+                      : theme.currentTheme === "minimal"
+                        ? "hover:bg-gray-100 text-gray-600"
+                        : "hover:bg-neutral-700 text-neutral-400"
+                    }
+                  `}
+                >
+                  Alternative
+                </motion.button>
               </div>
             </div>
           )}
