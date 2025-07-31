@@ -380,7 +380,6 @@ export default function ProjectModal({ project, onClose }) {
                       project={project}
                       isVisible={showLivePreview}
                       onClose={() => setShowLivePreview(false)}
-                      embedded={true}
                     />
                   </div>
                   <div className={`text-xs sm:text-sm ${styles.textSecondary} text-center`}>
