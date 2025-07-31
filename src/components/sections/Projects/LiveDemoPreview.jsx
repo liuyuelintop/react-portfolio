@@ -317,52 +317,6 @@ export default function LiveDemoPreview({ project, isVisible, onClose, embedded 
             />
           )}
 
-          {/* Desktop Preview Mode Switcher (for auth-required projects) */}
-          {!isMobile && projectType === PROJECT_TYPES.AUTH_REQUIRED && (
-            <div
-              className={`
-              absolute top-16 left-4 z-20 flex gap-1 p-1 rounded-lg backdrop-blur-md
-              ${theme.currentTheme === "minimal" ? "bg-white/90 border border-gray-200" : "bg-neutral-900/90 border border-neutral-700"}
-            `}
-            >
-              <motion.button
-                onClick={() => setShowIframe(true)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`
-                  px-2 sm:px-3 py-1 rounded text-xs transition-colors
-                  ${showIframe
-                    ? theme.currentTheme === "minimal"
-                      ? "bg-gray-200 text-gray-800"
-                      : "bg-purple-500 text-white"
-                    : theme.currentTheme === "minimal"
-                      ? "hover:bg-gray-100 text-gray-600"
-                      : "hover:bg-neutral-700 text-neutral-400"
-                  }
-                `}
-              >
-                Try iframe
-              </motion.button>
-              <motion.button
-                onClick={() => setShowIframe(false)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`
-                  px-2 sm:px-3 py-1 rounded text-xs transition-colors
-                  ${!showIframe
-                    ? theme.currentTheme === "minimal"
-                      ? "bg-gray-200 text-gray-800"
-                      : "bg-purple-500 text-white"
-                    : theme.currentTheme === "minimal"
-                      ? "hover:bg-gray-100 text-gray-600"
-                      : "hover:bg-neutral-700 text-neutral-400"
-                  }
-                `}
-              >
-                Alt view
-              </motion.button>
-            </div>
-          )}
 
           {/* Demo Content - More flexible height on mobile */}
           <div className="min-h-[200px] sm:min-h-[400px]">
@@ -466,52 +420,6 @@ export default function LiveDemoPreview({ project, isVisible, onClose, embedded 
           />
         )}
 
-        {/* Preview Mode Switcher (for auth-required projects) */}
-        {projectType === PROJECT_TYPES.AUTH_REQUIRED && (
-          <div
-            className={`
-            absolute top-4 left-4 z-20 flex gap-1 p-1 rounded-lg backdrop-blur-md
-            ${theme.currentTheme === "minimal" ? "bg-white/90 border border-gray-200" : "bg-neutral-900/90 border border-neutral-700"}
-          `}
-          >
-            <motion.button
-              onClick={() => setShowIframe(true)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`
-                px-2 sm:px-3 py-1 rounded text-xs transition-colors
-                ${showIframe
-                  ? theme.currentTheme === "minimal"
-                    ? "bg-gray-200 text-gray-800"
-                    : "bg-purple-500 text-white"
-                  : theme.currentTheme === "minimal"
-                    ? "hover:bg-gray-100 text-gray-600"
-                    : "hover:bg-neutral-700 text-neutral-400"
-                }
-              `}
-            >
-              Try iframe
-            </motion.button>
-            <motion.button
-              onClick={() => setShowIframe(false)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`
-                px-2 sm:px-3 py-1 rounded text-xs transition-colors
-                ${!showIframe
-                  ? theme.currentTheme === "minimal"
-                    ? "bg-gray-200 text-gray-800"
-                    : "bg-purple-500 text-white"
-                  : theme.currentTheme === "minimal"
-                    ? "hover:bg-gray-100 text-gray-600"
-                    : "hover:bg-neutral-700 text-neutral-400"
-                }
-              `}
-            >
-              Alt view
-            </motion.button>
-          </div>
-        )}
 
         {/* Close Button for Fullscreen */}
         {isFullscreen && (
