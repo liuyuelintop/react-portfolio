@@ -42,7 +42,7 @@ export default function Contact() {
                     variants={containerVariants}
                 >
                     {/* Header */}
-                    <motion.div variants={itemVariants}>
+                    <motion.div className="text-center" variants={itemVariants}>
                         <SectionHeading level="section">
                             Get in Touch
                         </SectionHeading>
