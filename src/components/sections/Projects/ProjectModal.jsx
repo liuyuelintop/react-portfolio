@@ -47,7 +47,9 @@ export default function ProjectModal({ project, onClose }) {
   const { currentTheme } = useTheme()
   const [activeTab, setActiveTab] = useState("overview")
   const [showLivePreview, setShowLivePreview] = useState(false)
+  const [showScrollTop, setShowScrollTop] = useState(false)
   const modalRef = useRef(null)
+  const contentRef = useRef(null)
   const firstFocusableRef = useRef(null)
 
   // Get theme-specific styles
@@ -150,13 +152,39 @@ export default function ProjectModal({ project, onClose }) {
   // Add live preview tab if project has URL
   const tabs = project?.url ? [...baseTabs, { id: "preview", label: "Live Preview", icon: "🚀" }] : baseTabs
 
-  // Handle tab change - manage live preview state
+  // Handle tab change - manage live preview state and scroll
   const handleTabChange = (tabId) => {
     setActiveTab(tabId)
     if (tabId === "preview") {
       setShowLivePreview(true)
     } else {
       setShowLivePreview(false)
+    }
+    // Scroll to top when changing tabs
+    if (contentRef.current) {
+      contentRef.current.scrollTop = 0
+    }
+  }
+
+  // Handle scroll in content area to show/hide scroll-to-top button
+  useEffect(() => {
+    const handleScroll = () => {
+      if (contentRef.current) {
+        const { scrollTop } = contentRef.current
+        setShowScrollTop(scrollTop > 200)
+      }
+    }
+
+    const contentElement = contentRef.current
+    if (contentElement) {
+      contentElement.addEventListener('scroll', handleScroll)
+      return () => contentElement.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
+  const scrollToTop = () => {
+    if (contentRef.current) {
+      contentRef.current.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }
 
@@ -185,8 +213,8 @@ export default function ProjectModal({ project, onClose }) {
           aria-labelledby="modal-title"
           aria-describedby="modal-description"
         >
-          {/* Header */}
-          <div className={`flex items-start justify-between p-4 sm:p-6 border-b ${styles.divider}`}>
+          {/* Header - Fixed position for mobile accessibility */}
+          <div className={`sticky top-0 z-10 flex items-start justify-between p-4 sm:p-6 border-b ${styles.divider} ${styles.modal}`}>
             <div className="flex-1 min-w-0 pr-3">
               <h2
                 id="modal-title"
@@ -208,8 +236,8 @@ export default function ProjectModal({ project, onClose }) {
             </button>
           </div>
 
-          {/* Navigation Tabs - Scrollable on mobile */}
-          <div className={`flex border-b ${styles.divider} overflow-x-auto scrollbar-hide`}>
+          {/* Navigation Tabs - Sticky and scrollable on mobile */}
+          <div className={`sticky top-[72px] sm:top-[88px] z-10 flex border-b ${styles.divider} ${styles.modal} overflow-x-auto scrollbar-hide`}>
             {tabs.map((tab) => (
               <button
                 key={tab.id}
@@ -225,8 +253,11 @@ export default function ProjectModal({ project, onClose }) {
             ))}
           </div>
 
-          {/* Content Area */}
-          <div className="flex-1 min-h-0 overflow-y-auto">
+          {/* Content Area - Improved scroll behavior */}
+          <div 
+            ref={contentRef}
+            className="flex-1 min-h-0 overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-600 scrollbar-track-transparent"
+          >
             <motion.div
               key={activeTab}
               variants={contentVariants}
@@ -447,6 +478,30 @@ export default function ProjectModal({ project, onClose }) {
               </Button>
             </div>
           </div>
+
+          {/* Scroll to top button for mobile */}
+          <AnimatePresence>
+            {showScrollTop && (
+              <motion.button
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                onClick={scrollToTop}
+                className={`
+                  absolute bottom-4 right-4 p-3 rounded-full shadow-lg z-20
+                  ${styles.buttonPrimary}
+                  md:hidden
+                `}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                aria-label="Scroll to top"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                </svg>
+              </motion.button>
+            )}
+          </AnimatePresence>
         </motion.div>
       </motion.div>
     </AnimatePresence>

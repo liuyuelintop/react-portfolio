@@ -17,7 +17,6 @@ const PersonalBranding = lazy(() => import("./components/sections/PersonalBrandi
 const GitHubActivity = lazy(() => import("./components/sections/GitHubActivity"));
 const Contact = lazy(() => import("./components/sections/Contact"));
 const FloatingNavigation = lazy(() => import("./components/layout/FloatingNavigation"));
-const ThemeSwitcher = lazy(() => import("./components/ui/common/ThemeSwitcher"));
 
 function AppContent() {
   const { currentTheme } = useTheme();
@@ -131,9 +130,6 @@ function AppContent() {
 
       {/* Floating Navigation */}
       <FloatingNavigation />
-
-      {/* Theme Switcher */}
-      <ThemeSwitcher />
     </div>
   );
 }

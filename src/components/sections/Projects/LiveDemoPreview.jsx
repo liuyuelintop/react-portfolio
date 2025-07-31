@@ -51,8 +51,8 @@ const ErrorState = ({ onRetry, theme }) => (
 
 const DeviceFrame = ({ children, device = "desktop", theme }) => {
   const frameStyles = {
-    desktop: "aspect-video",
-    tablet: "aspect-[4/3]",
+    desktop: "aspect-video max-w-full",
+    tablet: "aspect-[4/3] max-w-md mx-auto",
     mobile: "aspect-[9/16] max-w-xs mx-auto",
   }
 
@@ -88,7 +88,7 @@ const DeviceFrame = ({ children, device = "desktop", theme }) => {
           </span>
         </div>
         {/* Content Area */}
-        <div className="h-[calc(100%-1.5rem)] sm:h-[calc(100%-2rem)] overflow-hidden">{children}</div>
+        <div className="h-[calc(100%-1.5rem)] sm:h-[calc(100%-2rem)] overflow-hidden relative">{children}</div>
       </div>
     </div>
   )
@@ -393,7 +393,13 @@ export default function LiveDemoPreview({ project, isVisible, onClose }) {
           )}
 
           {showIframe && previewOptions.canPreview ? (
-            <DeviceFrame device={device} theme={theme}>
+            <motion.div
+              key={device}
+              initial={{ opacity: 0.8, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+            >
+              <DeviceFrame device={device} theme={theme}>
               {demoState === DEMO_STATES.LOADING && <LoadingSpinner theme={theme} />}
               {demoState === DEMO_STATES.ERROR && <ErrorState onRetry={handleRetry} theme={theme} />}
               <motion.iframe
@@ -404,13 +410,20 @@ export default function LiveDemoPreview({ project, isVisible, onClose }) {
                   w-full h-full border-0 transition-opacity duration-300
                   ${demoState === DEMO_STATES.LOADED ? "opacity-100" : "opacity-0"}
                 `}
+                style={{
+                  transform: device === 'mobile' ? 'scale(0.8)' : device === 'tablet' ? 'scale(0.9)' : 'scale(1)',
+                  transformOrigin: 'top left',
+                  width: device === 'mobile' ? '125%' : device === 'tablet' ? '111%' : '100%',
+                  height: device === 'mobile' ? '125%' : device === 'tablet' ? '111%' : '100%'
+                }}
                 onLoad={handleIframeLoad}
                 onError={handleIframeError}
                 loading="lazy"
                 sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-downloads"
                 referrerPolicy="strict-origin-when-cross-origin"
               />
-            </DeviceFrame>
+              </DeviceFrame>
+            </motion.div>
           ) : (
             <AlternativePreview project={project} previewOptions={previewOptions} />
           )}
