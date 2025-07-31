@@ -1,3 +1,5 @@
+"use client"
+
 import { motion, AnimatePresence } from "framer-motion"
 import { useState, useRef, useEffect } from "react"
 import PropTypes from "prop-types"
@@ -47,9 +49,7 @@ export default function ProjectModal({ project, onClose }) {
   const { currentTheme } = useTheme()
   const [activeTab, setActiveTab] = useState("overview")
   const [showLivePreview, setShowLivePreview] = useState(false)
-  const [showScrollTop, setShowScrollTop] = useState(false)
   const modalRef = useRef(null)
-  const contentRef = useRef(null)
   const firstFocusableRef = useRef(null)
 
   // Get theme-specific styles
@@ -152,39 +152,13 @@ export default function ProjectModal({ project, onClose }) {
   // Add live preview tab if project has URL
   const tabs = project?.url ? [...baseTabs, { id: "preview", label: "Live Preview", icon: "🚀" }] : baseTabs
 
-  // Handle tab change - manage live preview state and scroll
+  // Handle tab change - manage live preview state
   const handleTabChange = (tabId) => {
     setActiveTab(tabId)
     if (tabId === "preview") {
       setShowLivePreview(true)
     } else {
       setShowLivePreview(false)
-    }
-    // Scroll to top when changing tabs
-    if (contentRef.current) {
-      contentRef.current.scrollTop = 0
-    }
-  }
-
-  // Handle scroll in content area to show/hide scroll-to-top button
-  useEffect(() => {
-    const handleScroll = () => {
-      if (contentRef.current) {
-        const { scrollTop } = contentRef.current
-        setShowScrollTop(scrollTop > 200)
-      }
-    }
-
-    const contentElement = contentRef.current
-    if (contentElement) {
-      contentElement.addEventListener('scroll', handleScroll)
-      return () => contentElement.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
-
-  const scrollToTop = () => {
-    if (contentRef.current) {
-      contentRef.current.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }
 
@@ -213,8 +187,8 @@ export default function ProjectModal({ project, onClose }) {
           aria-labelledby="modal-title"
           aria-describedby="modal-description"
         >
-          {/* Header - Fixed position for mobile accessibility */}
-          <div className={`sticky top-0 z-10 flex items-start justify-between p-4 sm:p-6 border-b ${styles.divider} ${styles.modal}`}>
+          {/* Header */}
+          <div className={`flex items-start justify-between p-4 sm:p-6 border-b ${styles.divider}`}>
             <div className="flex-1 min-w-0 pr-3">
               <h2
                 id="modal-title"
@@ -236,8 +210,8 @@ export default function ProjectModal({ project, onClose }) {
             </button>
           </div>
 
-          {/* Navigation Tabs - Sticky and scrollable on mobile */}
-          <div className={`sticky top-[72px] sm:top-[88px] z-10 flex border-b ${styles.divider} ${styles.modal} overflow-x-auto scrollbar-hide`}>
+          {/* Navigation Tabs - Scrollable on mobile */}
+          <div className={`flex border-b ${styles.divider} overflow-x-auto scrollbar-hide`}>
             {tabs.map((tab) => (
               <button
                 key={tab.id}
@@ -253,11 +227,8 @@ export default function ProjectModal({ project, onClose }) {
             ))}
           </div>
 
-          {/* Content Area - Improved scroll behavior */}
-          <div 
-            ref={contentRef}
-            className="flex-1 min-h-0 overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-600 scrollbar-track-transparent"
-          >
+          {/* Content Area */}
+          <div className="flex-1 min-h-0 overflow-y-auto">
             <motion.div
               key={activeTab}
               variants={contentVariants}
@@ -274,19 +245,6 @@ export default function ProjectModal({ project, onClose }) {
                       alt={project.title}
                       className="w-full aspect-video object-cover"
                     />
-                    {project.url && (
-                      <div className="absolute inset-0 bg-black/20 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <a
-                          href={project.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={`px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-transform hover:scale-105 text-sm sm:text-base ${styles.buttonPrimary} ${getThemeFocusRing(currentTheme)}`}
-                        >
-                          <span className="mr-2">🚀</span>
-                          View Live Project
-                        </a>
-                      </div>
-                    )}
                   </div>
 
                   {/* Project Description */}
@@ -413,12 +371,21 @@ export default function ProjectModal({ project, onClose }) {
 
               {activeTab === "preview" && project.url && (
                 <div className="space-y-3 sm:space-y-4">
-                  <LiveDemoPreview
-                    project={project}
-                    isVisible={showLivePreview}
-                    onClose={() => setShowLivePreview(false)}
-                    embedded={true}
-                  />
+                  <div className="flex items-center justify-between mb-3 sm:mb-4">
+                    <h3 className={`text-base sm:text-lg font-semibold ${styles.header}`}>Interactive Live Preview</h3>
+                    <span className={`text-xs px-2 py-1 rounded-full ${styles.badge}`}>Live Site</span>
+                  </div>
+                  <div className={`rounded-lg border overflow-hidden ${styles.divider}`}>
+                    <LiveDemoPreview
+                      project={project}
+                      isVisible={showLivePreview}
+                      onClose={() => setShowLivePreview(false)}
+                      embedded={true}
+                    />
+                  </div>
+                  <div className={`text-xs sm:text-sm ${styles.textSecondary} text-center`}>
+                    <p>💡 Tip: Click the device icons above to switch between desktop, tablet, and mobile views</p>
+                  </div>
                 </div>
               )}
             </motion.div>
@@ -459,30 +426,6 @@ export default function ProjectModal({ project, onClose }) {
               </Button>
             </div>
           </div>
-
-          {/* Scroll to top button for mobile */}
-          <AnimatePresence>
-            {showScrollTop && (
-              <motion.button
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                onClick={scrollToTop}
-                className={`
-                  absolute bottom-4 right-4 p-3 rounded-full shadow-lg z-20
-                  ${styles.buttonPrimary}
-                  md:hidden
-                `}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                aria-label="Scroll to top"
-              >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                </svg>
-              </motion.button>
-            )}
-          </AnimatePresence>
         </motion.div>
       </motion.div>
     </AnimatePresence>

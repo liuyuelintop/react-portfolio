@@ -5,12 +5,14 @@ import ProjectModal from "./ProjectModal";
 import { PROJECTS } from "../../../constants/projects";
 import { cardContainerVariants } from "./animations";
 import { useTheme } from "../../../contexts/ThemeContext";
+import { useUI } from "../../../contexts/UIContext";
 import SectionHeading from "../../ui/common/SectionHeading";
 
 const INITIAL_VISIBLE = 3;
 
 export default function Projects() {
     const { currentTheme } = useTheme();
+    const { setIsProjectModalOpen } = useUI();
     const [activeProject, setActiveProject] = useState(null);
     const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
 
@@ -45,7 +47,10 @@ export default function Projects() {
                         <ProjectCard
                             key={project.title}
                             project={project}
-                            onReadMore={() => setActiveProject(project)}
+                            onReadMore={() => {
+                                setActiveProject(project);
+                                setIsProjectModalOpen(true);
+                            }}
                         />
                     ))
                 ) : (
@@ -89,7 +94,10 @@ export default function Projects() {
             )}
             <ProjectModal
                 project={activeProject}
-                onClose={() => setActiveProject(null)}
+                onClose={() => {
+                    setActiveProject(null);
+                    setIsProjectModalOpen(false);
+                }}
             />
         </section>
     );
