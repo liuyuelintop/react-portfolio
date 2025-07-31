@@ -5,6 +5,7 @@ import ReferenceCard from "./ReferenceCard";
 import { REFERENCES } from "../../../constants/references";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { useTheme } from "../../../contexts/ThemeContext";
+import SectionHeading from "../../ui/common/SectionHeading";
 
 const variants = {
   enter: (direction) => ({
@@ -61,13 +62,9 @@ export default function ReferenceSection() {
   return (
     <section className="py-12 px-6 max-w-4xl mx-auto flex flex-col items-center">
       <div className="text-center mb-16">
-        <h2 className={`text-3xl md:text-4xl font-bold mb-4 tracking-tight bg-gradient-to-r bg-clip-text text-transparent ${
-          currentTheme === 'minimal' 
-            ? 'from-gray-800 via-gray-700 to-gray-600' 
-            : 'from-purple-400 via-indigo-400 to-blue-400'
-        }`}>
+        <SectionHeading level="section">
           Professional References
-        </h2>
+        </SectionHeading>
         <p className={`text-lg max-w-2xl mx-auto ${
           currentTheme === 'minimal' ? 'text-gray-600' : 'text-neutral-400'
         }`}>

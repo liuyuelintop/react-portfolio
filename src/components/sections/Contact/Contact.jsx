@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { CONTACT } from "../../../constants/constants";
 import { useTheme } from "../../../contexts/ThemeContext";
 import ProfessionalContactForm from "./ProfessionalContactForm";
+import SectionHeading from "../../ui/common/SectionHeading";
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -41,12 +42,11 @@ export default function Contact() {
                     variants={containerVariants}
                 >
                     {/* Header */}
-                    <motion.h2
-                        variants={itemVariants}
-                        className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent text-center mb-4"
-                    >
-                        Get in Touch
-                    </motion.h2>
+                    <motion.div variants={itemVariants}>
+                        <SectionHeading level="section">
+                            Get in Touch
+                        </SectionHeading>
+                    </motion.div>
 
                     <motion.p
                         variants={itemVariants}

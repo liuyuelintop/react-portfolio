@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../../contexts/ThemeContext';
 import LighthouseScoreCard from './LighthouseScoreCard';
 import { SKILLS_DATA, QUICK_STATS } from '../../../constants/skills';
+import SectionHeading from '../../ui/common/SectionHeading';
 
 const SkillBar = ({ skill, index, isVisible, theme }) => {
   const [animatedLevel, setAnimatedLevel] = useState(0);
@@ -220,9 +221,9 @@ export default function SkillsVisualization() {
         transition={{ duration: 0.6 }}
         className="text-center mb-12"
       >
-        <h2 className={`text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent`}>
+        <SectionHeading level="section">
           Skills & Expertise
-        </h2>
+        </SectionHeading>
         <p className={`text-lg max-w-2xl mx-auto ${theme.currentTheme === 'minimal' ? 'text-gray-600' : 'text-neutral-400'
           }`}>
           Interactive visualization of my technical skills, experience levels, and project involvement.

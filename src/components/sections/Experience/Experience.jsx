@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { EXPERIENCES } from "../../../constants/experiences";
 import { useTheme } from "../../../contexts/ThemeContext";
+import SectionHeading from "../../ui/common/SectionHeading";
 
 // Animation variants
 const containerVariants = {
@@ -247,18 +248,9 @@ export default function Experience() {
     <section className="max-w-6xl mx-auto py-12 px-4 lg:px-8">
       {/* Header */}
       <div className="text-center mb-16">
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className={`text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r bg-clip-text text-transparent ${
-            currentTheme === 'minimal'
-              ? 'from-gray-800 via-gray-700 to-gray-600'
-              : 'from-purple-400 via-indigo-400 to-blue-400'
-          }`}
-        >
+        <SectionHeading level="section">
           Professional Experience
-        </motion.h2>
+        </SectionHeading>
         
         <motion.p
           initial={{ opacity: 0, y: 20 }}
