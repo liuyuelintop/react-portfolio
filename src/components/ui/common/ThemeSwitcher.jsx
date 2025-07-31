@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../../contexts/ThemeContext';
+import { useToast } from './Toast';
 
 export default function ThemeSwitcher() {
   const { currentTheme, themes, switchTheme, isTransitioning } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
+  const { toast } = useToast();
 
   const containerVariants = {
     hidden: {
@@ -129,8 +131,16 @@ export default function ThemeSwitcher() {
                   key={key}
                   variants={itemVariants}
                   onClick={() => {
+                    const previousTheme = currentTheme;
                     switchTheme(key);
                     setIsOpen(false);
+                    
+                    // Show toast notification
+                    if (key !== previousTheme) {
+                      toast.success(`Switched to ${themes[key].name} theme`, {
+                        duration: 2000
+                      });
+                    }
                   }}
                   whileHover={{ x: 4 }}
                   whileTap={{ scale: 0.98 }}

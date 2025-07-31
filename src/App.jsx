@@ -1,7 +1,11 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ThemeProvider, useTheme } from "./contexts/ThemeContext";
 import { ScrollProgressBar } from "./components/ui/animations/ScrollAnimations/ScrollEffects";
+import ErrorBoundary from "./components/ui/common/ErrorBoundary";
+import useKeyboardShortcuts from "./hooks/useKeyboardShortcuts";
+import { createSkipLink } from "./utils/accessibility";
+import { ToastProvider } from "./components/ui/common/Toast";
 
 const Navbar = lazy(() => import("./components/layout/Navbar"));
 const Hero = lazy(() => import("./components/sections/Hero/Hero"));
@@ -16,7 +20,22 @@ const FloatingNavigation = lazy(() => import("./components/layout/FloatingNaviga
 const ThemeSwitcher = lazy(() => import("./components/ui/common/ThemeSwitcher"));
 
 function AppContent() {
-  const { theme, currentTheme } = useTheme();
+  const { currentTheme } = useTheme();
+  
+  // Enable keyboard shortcuts
+  useKeyboardShortcuts();
+  
+  // Add skip link for accessibility
+  useEffect(() => {
+    const skipLink = createSkipLink();
+    document.body.insertBefore(skipLink, document.body.firstChild);
+    
+    return () => {
+      if (skipLink.parentNode) {
+        skipLink.parentNode.removeChild(skipLink);
+      }
+    };
+  }, []);
 
   const getBackgroundGradient = () => {
     switch (currentTheme) {
@@ -58,39 +77,55 @@ function AppContent() {
 
       <Navbar />
 
-      <main className="container mx-auto px-4 md:px-8 pb-32 md:pb-24">
-        <section id="hero">
-          <Hero />
-        </section>
+      <main id="main-content" className="container mx-auto px-4 md:px-8 pb-32 md:pb-24" tabIndex="-1">
+        <ErrorBoundary sectionName="hero section">
+          <section id="hero">
+            <Hero />
+          </section>
+        </ErrorBoundary>
 
         <div className="space-y-8 md:space-y-8 [&>section]:scroll-m-20">
-          <section id="experience">
-            <Experience />
-          </section>
+          <ErrorBoundary sectionName="experience section">
+            <section id="experience">
+              <Experience />
+            </section>
+          </ErrorBoundary>
 
-          <section id="skills">
-            <SkillsVisualization />
-          </section>
+          <ErrorBoundary sectionName="skills section">
+            <section id="skills">
+              <SkillsVisualization />
+            </section>
+          </ErrorBoundary>
 
-          <section id="projects">
-            <Projects />
-          </section>
+          <ErrorBoundary sectionName="projects section">
+            <section id="projects">
+              <Projects />
+            </section>
+          </ErrorBoundary>
 
-          <section id="references">
-            <ReferenceSection />
-          </section>
+          <ErrorBoundary sectionName="references section">
+            <section id="references">
+              <ReferenceSection />
+            </section>
+          </ErrorBoundary>
 
-          <section id="brand">
-            <PersonalBranding />
-          </section>
+          <ErrorBoundary sectionName="personal branding section">
+            <section id="brand">
+              <PersonalBranding />
+            </section>
+          </ErrorBoundary>
 
-          <section id="github">
-            <GitHubActivity />
-          </section>
+          <ErrorBoundary sectionName="GitHub activity section">
+            <section id="github">
+              <GitHubActivity />
+            </section>
+          </ErrorBoundary>
 
-          <section id="contact">
-            <Contact />
-          </section>
+          <ErrorBoundary sectionName="contact section">
+            <section id="contact">
+              <Contact />
+            </section>
+          </ErrorBoundary>
         </div>
       </main>
 
@@ -106,19 +141,21 @@ function AppContent() {
 function App() {
   return (
     <ThemeProvider>
-      <Suspense
-        fallback={
-          <div className="flex h-screen items-center justify-center bg-neutral-950">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-              className="h-12 w-12 rounded-full border-4 border-t-purple-500 border-transparent"
-            />
-          </div>
-        }
-      >
-        <AppContent />
-      </Suspense>
+      <ToastProvider>
+        <Suspense
+          fallback={
+            <div className="flex h-screen items-center justify-center bg-neutral-950">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                className="h-12 w-12 rounded-full border-4 border-t-purple-500 border-transparent"
+              />
+            </div>
+          }
+        >
+          <AppContent />
+        </Suspense>
+      </ToastProvider>
     </ThemeProvider>
   );
 }

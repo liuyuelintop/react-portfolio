@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import Modal from "../../ui/common/Modal";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import LiveDemoPreview from "./LiveDemoPreview";
+import { trapFocus } from "../../../utils/accessibility";
+import OptimizedImage from "../../ui/common/OptimizedImage";
 
 const BottomActions = ({ project, onClose, onPreview }) => (
   <div className="bg-neutral-900/95 pt-4 pb-4 flex flex-col gap-2 z-10">
@@ -45,14 +47,43 @@ export default function ProjectModal({ project, onClose }) {
   if (!project) return null;
   const [imgLoaded, setImgLoaded] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+  const modalRef = useRef(null);
+  const previouslyFocused = useRef(null);
 
   const handlePreview = () => {
     setShowPreview(!showPreview);
   };
 
+  const handleClose = () => {
+    onClose();
+    // Return focus to previously focused element
+    if (previouslyFocused.current) {
+      previouslyFocused.current.focus();
+    }
+  };
+
+  // Focus management
+  useEffect(() => {
+    if (project) {
+      // Store previously focused element
+      previouslyFocused.current = document.activeElement;
+      
+      // Set up focus trap when modal opens
+      if (modalRef.current) {
+        const cleanup = trapFocus(modalRef.current);
+        return cleanup;
+      }
+    }
+  }, [project]);
+
   return (
-    <Modal open={!!project} onClose={onClose}>
+    <Modal open={!!project} onClose={handleClose}>
       <div
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
         className="
           flex flex-col w-full h-full
           px-3 pt-2 pb-0 md:px-6 md:pt-4 md:pb-0
@@ -72,17 +103,18 @@ export default function ProjectModal({ project, onClose }) {
         >
           <button
             className="p-2 text-neutral-300 hover:text-purple-400 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-400 text-2xl"
-            onClick={onClose}
-            aria-label="Close"
+            onClick={handleClose}
+            aria-label="Close modal"
+            data-close
           >×</button>
-          <span className="flex-1 text-center font-bold text-lg sm:text-2xl bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent px-2">
+          <h2 id="modal-title" className="flex-1 text-center font-bold text-lg sm:text-2xl bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent px-2">
             {project.title}
-          </span>
+          </h2>
           <span className="w-10" />
         </motion.div>
 
         {/* Main Content (scrollable) */}
-        <div className="flex-1 min-h-0 overflow-y-auto px-0 pb-1">
+        <div id="modal-description" className="flex-1 min-h-0 overflow-y-auto px-0 pb-1">
           {/* Enhanced Live Demo Preview */}
           {showPreview && project.url ? (
             <div className="mb-6">
@@ -152,7 +184,7 @@ export default function ProjectModal({ project, onClose }) {
           )}
         </div>
         {/* Bottom actions */}
-        <BottomActions project={project} onClose={onClose} onPreview={handlePreview} />
+        <BottomActions project={project} onClose={handleClose} onPreview={handlePreview} />
       </div>
     </Modal>
   );

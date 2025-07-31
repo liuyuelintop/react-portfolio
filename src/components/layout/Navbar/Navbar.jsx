@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../../contexts/ThemeContext';
+import { getThemeFocusRing } from '../../../utils/accessibility';
 
 const SECTION_LINKS = [
     { label: 'Me', href: '#hero' },
@@ -92,7 +93,7 @@ export default function Navbar() {
                                     <motion.a
                                         key={item.label}
                                         href={item.href}
-                                        className={`relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
+                                        className={`relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${getThemeFocusRing(currentTheme)} ${
                                             isActive
                                                 ? currentTheme === 'minimal'
                                                     ? 'text-white bg-gray-900 shadow-lg'
@@ -103,6 +104,7 @@ export default function Navbar() {
                                         }`}
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
+                                        aria-current={isActive ? 'page' : undefined}
                                     >
                                         {item.label}
                                         {isActive && (

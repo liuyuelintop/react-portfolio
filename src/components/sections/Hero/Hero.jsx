@@ -5,6 +5,7 @@ import { useTheme } from "../../../contexts/ThemeContext";
 import { HiDownload, HiMail, HiLocationMarker } from 'react-icons/hi';
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
 import { useCV } from '../../../hooks/useCV';
+import Button from '../../ui/common/Button';
 import {
     containerVariants,
     itemVariants,
@@ -120,31 +121,28 @@ export default function Hero() {
                             variants={itemVariants}
                             className="flex flex-wrap gap-4"
                         >
-                            <motion.a
+                            <Button
+                                as="a"
                                 href={cvUrl}
-                                className={`group flex items-center gap-3 px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${currentTheme === 'minimal'
-                                        ? 'bg-gray-900 text-white hover:bg-gray-800 shadow-lg hover:shadow-xl'
-                                        : 'bg-purple-600 text-white hover:bg-purple-700 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40'
-                                    } ${isLoading ? 'cursor-progress opacity-75' : ''}`}
-                                whileHover={{ scale: 1.05, y: -2 }}
-                                whileTap={{ scale: 0.95 }}
+                                variant="primary"
+                                size="lg"
+                                loading={isLoading}
+                                className="group"
                             >
                                 <HiDownload className="text-xl transition-transform group-hover:scale-110" />
                                 <span>Download CV</span>
-                            </motion.a>
+                            </Button>
 
-                            <motion.a
+                            <Button
+                                as="a"
                                 href="#contact"
-                                className={`group flex items-center gap-3 px-6 py-3 rounded-xl font-semibold border-2 transition-all duration-300 ${currentTheme === 'minimal'
-                                        ? 'border-gray-300 text-gray-700 hover:border-gray-900 hover:bg-gray-900 hover:text-white'
-                                        : 'border-purple-400/50 text-purple-400 hover:border-purple-400 hover:bg-purple-400 hover:text-white'
-                                    }`}
-                                whileHover={{ scale: 1.05, y: -2 }}
-                                whileTap={{ scale: 0.95 }}
+                                variant="secondary"
+                                size="lg"
+                                className="group"
                             >
                                 <HiMail className="text-xl transition-transform group-hover:scale-110" />
                                 <span>Get In Touch</span>
-                            </motion.a>
+                            </Button>
                         </motion.div>
                     </div>
 

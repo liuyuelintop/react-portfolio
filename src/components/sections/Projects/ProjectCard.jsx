@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useTheme } from "../../../contexts/ThemeContext";
+import OptimizedImage from "../../ui/common/OptimizedImage";
 
 // Animation variants for card flip
 const card3DVariants = {
@@ -82,10 +83,11 @@ const ProjectCard = ({ project, onReadMore }) => {
                             ? 'bg-white border-gray-200 shadow-lg hover:shadow-xl hover:border-gray-300'
                             : 'bg-neutral-800 border-neutral-700 shadow-lg hover:shadow-2xl hover:border-neutral-600 shadow-black/20'
                     }`}>
-                        <img
+                        <OptimizedImage
                             src={project.image}
                             alt={project.title}
-                            className="w-full aspect-video object-cover rounded-lg mb-4"
+                            className="rounded-lg mb-4"
+                            aspectRatio="aspect-video"
                         />
 
                         <h3 className={`text-xl font-bold mb-2 ${
