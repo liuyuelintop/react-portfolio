@@ -413,31 +413,12 @@ export default function ProjectModal({ project, onClose }) {
 
               {activeTab === "preview" && project.url && (
                 <div className="space-y-3 sm:space-y-4">
-                  <div className="flex items-center justify-between mb-3 sm:mb-4">
-                    <h3 className={`text-base sm:text-lg font-semibold ${styles.header}`}>Interactive Live Preview</h3>
-                    <div className="flex items-center gap-1 sm:gap-2">
-                      <span className={`text-xs px-2 py-1 rounded-full ${styles.badge}`}>Live Site</span>
-                      <a
-                        href={project.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`text-xs px-2 sm:px-3 py-1 rounded-full transition-colors ${styles.button} ${getThemeFocusRing(currentTheme)}`}
-                        title="Open in new tab"
-                      >
-                        Open External ↗
-                      </a>
-                    </div>
-                  </div>
-                  <div className={`rounded-lg border overflow-hidden ${styles.divider}`}>
-                    <LiveDemoPreview
-                      project={project}
-                      isVisible={showLivePreview}
-                      onClose={() => setShowLivePreview(false)}
-                    />
-                  </div>
-                  <div className={`text-xs sm:text-sm ${styles.textSecondary} text-center`}>
-                    <p>💡 Tip: Click the device icons above to switch between desktop, tablet, and mobile views</p>
-                  </div>
+                  <LiveDemoPreview
+                    project={project}
+                    isVisible={showLivePreview}
+                    onClose={() => setShowLivePreview(false)}
+                    embedded={true}
+                  />
                 </div>
               )}
             </motion.div>

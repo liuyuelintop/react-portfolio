@@ -229,7 +229,7 @@ const DesktopControls = ({ device, setDevice, isFullscreen, onToggleFullscreen, 
   </div>
 )
 
-export default function LiveDemoPreview({ project, isVisible, onClose }) {
+export default function LiveDemoPreview({ project, isVisible, onClose, embedded = false }) {
   const [demoState, setDemoState] = useState(DEMO_STATES.LOADING)
   const [device, setDevice] = useState("desktop")
   const [isFullscreen, setIsFullscreen] = useState(false)
@@ -293,6 +293,154 @@ export default function LiveDemoPreview({ project, isVisible, onClose }) {
 
   if (!isVisible || !project?.url) return null
 
+  // Simplified embedded layout for ProjectModal
+  if (embedded) {
+    return (
+      <div className="space-y-4">
+        {/* Mobile Controls - Show above content on mobile */}
+        {isMobile && showIframe && previewOptions.canPreview && (
+          <MobileControls device={device} setDevice={setDevice} onOpenExternal={handleOpenExternal} theme={theme} />
+        )}
+
+        {/* Preview Content */}
+        <div className="relative">
+          {/* Desktop Controls - Hidden on mobile, no fullscreen in embedded mode */}
+          {!isMobile && (
+            <DesktopControls
+              device={device}
+              setDevice={setDevice}
+              isFullscreen={false}
+              onToggleFullscreen={() => {}} // Disabled in embedded mode
+              onOpenExternal={handleOpenExternal}
+              theme={theme}
+            />
+          )}
+
+          {/* Preview Mode Switcher (for auth-required projects) - Positioned to avoid desktop controls */}
+          {projectType === PROJECT_TYPES.AUTH_REQUIRED && (
+            <div
+              className={`
+              absolute ${isMobile ? 'top-4 left-4' : 'top-16 left-4'} z-20 flex gap-1 p-1 rounded-lg backdrop-blur-md
+              ${theme.currentTheme === "minimal" ? "bg-white/90 border border-gray-200" : "bg-neutral-900/90 border border-neutral-700"}
+            `}
+            >
+              <motion.button
+                onClick={() => setShowIframe(true)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`
+                  px-2 sm:px-3 py-1 rounded text-xs transition-colors
+                  ${showIframe
+                    ? theme.currentTheme === "minimal"
+                      ? "bg-gray-200 text-gray-800"
+                      : "bg-purple-500 text-white"
+                    : theme.currentTheme === "minimal"
+                      ? "hover:bg-gray-100 text-gray-600"
+                      : "hover:bg-neutral-700 text-neutral-400"
+                  }
+                `}
+              >
+                Try iframe
+              </motion.button>
+              <motion.button
+                onClick={() => setShowIframe(false)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`
+                  px-2 sm:px-3 py-1 rounded text-xs transition-colors
+                  ${!showIframe
+                    ? theme.currentTheme === "minimal"
+                      ? "bg-gray-200 text-gray-800"
+                      : "bg-purple-500 text-white"
+                    : theme.currentTheme === "minimal"
+                      ? "hover:bg-gray-100 text-gray-600"
+                      : "hover:bg-neutral-700 text-neutral-400"
+                  }
+                `}
+              >
+                Alt view
+              </motion.button>
+            </div>
+          )}
+
+          {/* Demo Content */}
+          <div className="min-h-[300px] sm:min-h-[400px]">
+            {showIframe && previewOptions.canPreview ? (
+              <motion.div
+                key={device}
+                initial={{ opacity: 0.8, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+              >
+                <DeviceFrame device={device} theme={theme}>
+                {demoState === DEMO_STATES.LOADING && <LoadingSpinner theme={theme} />}
+                {demoState === DEMO_STATES.ERROR && <ErrorState onRetry={handleRetry} theme={theme} />}
+                <motion.iframe
+                  ref={iframeRef}
+                  src={project.url}
+                  title={`${project.title} Live Demo`}
+                  className={`
+                    w-full h-full border-0 transition-opacity duration-300
+                    ${demoState === DEMO_STATES.LOADED ? "opacity-100" : "opacity-0"}
+                  `}
+                  style={{
+                    transform: device === 'mobile' ? 'scale(0.8)' : device === 'tablet' ? 'scale(0.9)' : 'scale(1)',
+                    transformOrigin: 'top left',
+                    width: device === 'mobile' ? '125%' : device === 'tablet' ? '111%' : '100%',
+                    height: device === 'mobile' ? '125%' : device === 'tablet' ? '111%' : '100%'
+                  }}
+                  onLoad={handleIframeLoad}
+                  onError={handleIframeError}
+                  loading="lazy"
+                  sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-downloads"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                />
+                </DeviceFrame>
+              </motion.div>
+            ) : (
+              <AlternativePreview project={project} previewOptions={previewOptions} />
+            )}
+          </div>
+
+          {/* Performance Indicator */}
+          {demoState === DEMO_STATES.LOADED && showIframe && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`
+                absolute bottom-4 left-4 px-2 sm:px-3 py-1 sm:py-2 rounded-lg text-xs backdrop-blur-md
+                ${theme.currentTheme === "minimal"
+                  ? "bg-white/90 text-green-700 border border-gray-200"
+                  : "bg-neutral-900/90 text-green-400 border border-neutral-700"
+                }
+              `}
+            >
+              ✅ Live & Running
+            </motion.div>
+          )}
+
+          {/* Project Type Badge */}
+          {!showIframe && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`
+                absolute top-4 right-4 px-2 sm:px-3 py-1 sm:py-2 rounded-lg text-xs backdrop-blur-md
+                ${theme.currentTheme === "minimal"
+                  ? "bg-white/90 text-blue-700 border border-gray-200"
+                  : "bg-neutral-900/90 text-blue-400 border border-neutral-700"
+                }
+              `}
+            >
+              📱 {previewOptions.displayName}
+            </motion.div>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  // Full modal layout (original)
   return (
     <AnimatePresence>
       <motion.div
