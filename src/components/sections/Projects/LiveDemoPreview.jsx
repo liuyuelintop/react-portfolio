@@ -272,7 +272,7 @@ export default function LiveDemoPreview({ project, isVisible, onClose, embedded 
       <div className="space-y-4">
         {/* Mobile Controls - Show above content on mobile */}
         {isMobile && showIframe && previewOptions.canPreview && (
-          <MobileControls device={device} setDevice={setDevice} onOpenExternal={handleOpenExternal} theme={theme} />
+          <MobileControls device={device} setDevice={setDevice} theme={theme} />
         )}
 
         {/* Preview Content */}
@@ -284,7 +284,6 @@ export default function LiveDemoPreview({ project, isVisible, onClose, embedded 
               setDevice={setDevice}
               isFullscreen={false}
               onToggleFullscreen={() => {}} // Disabled in embedded mode
-              onOpenExternal={handleOpenExternal}
               theme={theme}
             />
           )}
