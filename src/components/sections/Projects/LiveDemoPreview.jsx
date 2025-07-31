@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useTheme } from "../../../contexts/ThemeContext"
@@ -51,9 +53,9 @@ const ErrorState = ({ onRetry, theme }) => (
 
 const DeviceFrame = ({ children, device = "desktop", theme }) => {
   const frameStyles = {
-    desktop: "aspect-video max-w-full",
-    tablet: "aspect-[4/3] max-w-md mx-auto",
-    mobile: "aspect-[9/16] max-w-xs mx-auto",
+    desktop: "aspect-video w-full",
+    tablet: "aspect-[4/3] w-full max-w-2xl mx-auto",
+    mobile: "aspect-[9/16] w-full max-w-sm mx-auto",
   }
 
   const deviceIcons = {
@@ -87,8 +89,8 @@ const DeviceFrame = ({ children, device = "desktop", theme }) => {
             {deviceIcons[device]} {device}
           </span>
         </div>
-        {/* Content Area */}
-        <div className="h-[calc(100%-1.5rem)] sm:h-[calc(100%-2rem)] overflow-hidden relative">{children}</div>
+        {/* Content Area - No clipping, natural scrolling */}
+        <div className="h-[calc(100%-1.5rem)] sm:h-[calc(100%-2rem)] overflow-auto">{children}</div>
       </div>
     </div>
   )
@@ -238,6 +240,7 @@ export default function LiveDemoPreview({ project, isVisible, onClose }) {
   const [isMobile, setIsMobile] = useState(false)
   const iframeRef = useRef(null)
   const theme = useTheme()
+  const [isDeviceSwitching, setIsDeviceSwitching] = useState(false)
 
   // Detect project type and get preview options
   const projectType = detectProjectType(project)
@@ -289,6 +292,21 @@ export default function LiveDemoPreview({ project, isVisible, onClose }) {
 
   const handleOpenExternal = () => {
     window.open(project.url, "_blank", "noopener,noreferrer")
+  }
+
+  const handleDeviceChange = async (newDevice) => {
+    setIsDeviceSwitching(true)
+    setDevice(newDevice)
+    // Add small delay for smooth transition
+    setTimeout(() => setIsDeviceSwitching(false), 300)
+  }
+
+  const handleDeviceSwitch = (deviceType) => {
+    // Add haptic feedback on mobile
+    if ("vibrate" in navigator) {
+      navigator.vibrate(50)
+    }
+    setDevice(deviceType)
   }
 
   if (!isVisible || !project?.url) return null
@@ -393,13 +411,7 @@ export default function LiveDemoPreview({ project, isVisible, onClose }) {
           )}
 
           {showIframe && previewOptions.canPreview ? (
-            <motion.div
-              key={device}
-              initial={{ opacity: 0.8, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-            >
-              <DeviceFrame device={device} theme={theme}>
+            <DeviceFrame device={device} theme={theme}>
               {demoState === DEMO_STATES.LOADING && <LoadingSpinner theme={theme} />}
               {demoState === DEMO_STATES.ERROR && <ErrorState onRetry={handleRetry} theme={theme} />}
               <motion.iframe
@@ -410,20 +422,13 @@ export default function LiveDemoPreview({ project, isVisible, onClose }) {
                   w-full h-full border-0 transition-opacity duration-300
                   ${demoState === DEMO_STATES.LOADED ? "opacity-100" : "opacity-0"}
                 `}
-                style={{
-                  transform: device === 'mobile' ? 'scale(0.8)' : device === 'tablet' ? 'scale(0.9)' : 'scale(1)',
-                  transformOrigin: 'top left',
-                  width: device === 'mobile' ? '125%' : device === 'tablet' ? '111%' : '100%',
-                  height: device === 'mobile' ? '125%' : device === 'tablet' ? '111%' : '100%'
-                }}
                 onLoad={handleIframeLoad}
                 onError={handleIframeError}
                 loading="lazy"
                 sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-downloads"
                 referrerPolicy="strict-origin-when-cross-origin"
               />
-              </DeviceFrame>
-            </motion.div>
+            </DeviceFrame>
           ) : (
             <AlternativePreview project={project} previewOptions={previewOptions} />
           )}
@@ -465,22 +470,6 @@ export default function LiveDemoPreview({ project, isVisible, onClose }) {
             {projectType === PROJECT_TYPES.PRIVATE && "🔒 Private"}
           </motion.div>
         )}
-
-        {/* Mobile Tip */}
-        {isMobile && showIframe && previewOptions.canPreview && (
-          <div
-            className={`
-            absolute bottom-4 left-4 right-4 px-3 py-2 rounded-lg text-xs text-center backdrop-blur-md
-            ${theme.currentTheme === "minimal"
-                ? "bg-white/90 text-gray-600 border border-gray-200"
-                : "bg-neutral-900/90 text-neutral-400 border border-neutral-700"
-              }
-          `}
-          >
-            💡 Use device controls above to switch views
-          </div>
-        )}
-
         {/* Fullscreen Backdrop */}
         {isFullscreen && (
           <motion.div
