@@ -56,7 +56,7 @@ const DeviceFrame = ({ children, device = "desktop", theme }) => {
   const frameStyles = {
     desktop: "aspect-video w-full",
     tablet: "aspect-[4/3] w-full max-w-2xl mx-auto",
-    mobile: "aspect-[9/16] w-full max-w-sm mx-auto",
+    mobile: "aspect-[3/4] w-full max-w-sm mx-auto", // Changed from 9/16 to 3/4 for better mobile fit
   }
 
   const deviceIcons = {
@@ -97,53 +97,7 @@ const DeviceFrame = ({ children, device = "desktop", theme }) => {
   )
 }
 
-const MobileControls = ({ device, setDevice, theme }) => (
-  <div className="space-y-3">
-    {/* Device Switcher */}
-    <div
-      className={`
-      p-3 rounded-lg border
-      ${theme.currentTheme === "minimal" ? "bg-white border-gray-200" : "bg-neutral-800 border-neutral-700"}
-    `}
-    >
-      <h4
-        className={`text-sm font-medium mb-2 ${theme.currentTheme === "minimal" ? "text-gray-700" : "text-neutral-300"
-          }`}
-      >
-        Device View
-      </h4>
-      <div className="grid grid-cols-3 gap-2">
-        {["desktop", "tablet", "mobile"].map((deviceType) => (
-          <motion.button
-            key={deviceType}
-            onClick={() => setDevice(deviceType)}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className={`
-              p-3 rounded-lg text-xs font-medium transition-colors flex flex-col items-center gap-1
-              ${device === deviceType
-                ? theme.currentTheme === "minimal"
-                  ? "bg-gray-200 text-gray-800"
-                  : "bg-purple-500 text-white"
-                : theme.currentTheme === "minimal"
-                  ? "hover:bg-gray-100 text-gray-600 border border-gray-200"
-                  : "hover:bg-neutral-700 text-neutral-400 border border-neutral-600"
-              }
-            `}
-          >
-            <span className="text-lg">
-              {deviceType === "desktop" && "🖥️"}
-              {deviceType === "tablet" && "📱"}
-              {deviceType === "mobile" && "📱"}
-            </span>
-            <span className="capitalize">{deviceType}</span>
-          </motion.button>
-        ))}
-      </div>
-    </div>
-
-  </div>
-)
+// Removed MobileControls component - now inline in the main component
 
 const DesktopControls = ({ device, setDevice, isFullscreen, onToggleFullscreen, theme }) => (
   <div
@@ -250,19 +204,10 @@ export default function LiveDemoPreview({ project, isVisible, onClose, embedded 
   }
 
   const handleDeviceChange = async (newDevice) => {
-    setIsDeviceSwitching(true)
     setDevice(newDevice)
-    // Add small delay for smooth transition
-    setTimeout(() => setIsDeviceSwitching(false), 300)
+    // Add small delay for smooth transition if needed
   }
 
-  const handleDeviceSwitch = (deviceType) => {
-    // Add haptic feedback on mobile
-    if ("vibrate" in navigator) {
-      navigator.vibrate(50)
-    }
-    setDevice(deviceType)
-  }
 
   if (!isVisible || !project?.url) return null
 
@@ -270,9 +215,97 @@ export default function LiveDemoPreview({ project, isVisible, onClose, embedded 
   if (embedded) {
     return (
       <div className="space-y-4">
-        {/* Mobile Controls - Show above content on mobile */}
-        {isMobile && showIframe && previewOptions.canPreview && (
-          <MobileControls device={device} setDevice={setDevice} theme={theme} />
+        {/* Mobile Controls Row - Combined controls for better space usage */}
+        {isMobile && (
+          <div className="flex flex-col gap-2 mb-3">
+            {/* Device Controls + Preview Mode Switcher in one row */}
+            <div className="flex gap-2">
+              {/* Compact Device Switcher */}
+              {showIframe && previewOptions.canPreview && (
+                <div
+                  className={`
+                  flex-1 p-2 rounded-lg border
+                  ${theme.currentTheme === "minimal" ? "bg-white border-gray-200" : "bg-neutral-800 border-neutral-700"}
+                `}
+                >
+                  <div className="flex gap-1 justify-center">
+                    {["desktop", "tablet", "mobile"].map((deviceType) => (
+                      <motion.button
+                        key={deviceType}
+                        onClick={() => setDevice(deviceType)}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className={`
+                          px-2 py-1 rounded text-xs transition-colors flex items-center gap-1
+                          ${device === deviceType
+                            ? theme.currentTheme === "minimal"
+                              ? "bg-gray-200 text-gray-800"
+                              : "bg-purple-500 text-white"
+                            : theme.currentTheme === "minimal"
+                              ? "hover:bg-gray-100 text-gray-600"
+                              : "hover:bg-neutral-700 text-neutral-400"
+                          }
+                        `}
+                      >
+                        <span className="text-xs">
+                          {deviceType === "desktop" && "🖥️"}
+                          {deviceType === "tablet" && "📱"}
+                          {deviceType === "mobile" && "📱"}
+                        </span>
+                      </motion.button>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {/* Preview Mode Switcher (for auth-required projects) */}
+              {projectType === PROJECT_TYPES.AUTH_REQUIRED && (
+                <div
+                  className={`
+                  flex gap-1 p-1 rounded-lg backdrop-blur-md
+                  ${theme.currentTheme === "minimal" ? "bg-white/90 border border-gray-200" : "bg-neutral-900/90 border border-neutral-700"}
+                `}
+                >
+                  <motion.button
+                    onClick={() => setShowIframe(true)}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className={`
+                      px-2 py-1 rounded text-xs transition-colors
+                      ${showIframe
+                        ? theme.currentTheme === "minimal"
+                          ? "bg-gray-200 text-gray-800"
+                          : "bg-purple-500 text-white"
+                        : theme.currentTheme === "minimal"
+                          ? "hover:bg-gray-100 text-gray-600"
+                          : "hover:bg-neutral-700 text-neutral-400"
+                      }
+                    `}
+                  >
+                    iframe
+                  </motion.button>
+                  <motion.button
+                    onClick={() => setShowIframe(false)}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className={`
+                      px-2 py-1 rounded text-xs transition-colors
+                      ${!showIframe
+                        ? theme.currentTheme === "minimal"
+                          ? "bg-gray-200 text-gray-800"
+                          : "bg-purple-500 text-white"
+                        : theme.currentTheme === "minimal"
+                          ? "hover:bg-gray-100 text-gray-600"
+                          : "hover:bg-neutral-700 text-neutral-400"
+                      }
+                    `}
+                  >
+                    Alt
+                  </motion.button>
+                </div>
+              )}
+            </div>
+          </div>
         )}
 
         {/* Preview Content */}
@@ -288,11 +321,11 @@ export default function LiveDemoPreview({ project, isVisible, onClose, embedded 
             />
           )}
 
-          {/* Preview Mode Switcher (for auth-required projects) - Positioned to avoid desktop controls */}
-          {projectType === PROJECT_TYPES.AUTH_REQUIRED && (
+          {/* Desktop Preview Mode Switcher (for auth-required projects) */}
+          {!isMobile && projectType === PROJECT_TYPES.AUTH_REQUIRED && (
             <div
               className={`
-              absolute ${isMobile ? 'top-4 left-4' : 'top-16 left-4'} z-20 flex gap-1 p-1 rounded-lg backdrop-blur-md
+              absolute top-16 left-4 z-20 flex gap-1 p-1 rounded-lg backdrop-blur-md
               ${theme.currentTheme === "minimal" ? "bg-white/90 border border-gray-200" : "bg-neutral-900/90 border border-neutral-700"}
             `}
             >
@@ -335,8 +368,8 @@ export default function LiveDemoPreview({ project, isVisible, onClose, embedded 
             </div>
           )}
 
-          {/* Demo Content */}
-          <div className="min-h-[300px] sm:min-h-[400px]">
+          {/* Demo Content - More flexible height on mobile */}
+          <div className="min-h-[200px] sm:min-h-[400px]">
             {showIframe && previewOptions.canPreview ? (
               <motion.div
                 key={device}
@@ -503,11 +536,97 @@ export default function LiveDemoPreview({ project, isVisible, onClose, embedded 
         )}
 
         {/* Demo Container */}
-        <div className="p-3 sm:p-4 h-full min-h-[300px] sm:min-h-[400px]">
+        <div className="p-2 sm:p-4 h-full min-h-[250px] sm:min-h-[400px]">
           {/* Mobile Controls - Show above content on mobile */}
-          {isMobile && showIframe && previewOptions.canPreview && (
-            <div className="mb-4">
-              <MobileControls device={device} setDevice={setDevice} theme={theme} />
+          {isMobile && (
+            <div className="flex flex-col gap-2 mb-3">
+              {/* Device Controls + Preview Mode Switcher in one row */}
+              <div className="flex gap-2">
+                {/* Compact Device Switcher */}
+                {showIframe && previewOptions.canPreview && (
+                  <div
+                    className={`
+                    flex-1 p-2 rounded-lg border
+                    ${theme.currentTheme === "minimal" ? "bg-white border-gray-200" : "bg-neutral-800 border-neutral-700"}
+                  `}
+                  >
+                    <div className="flex gap-1 justify-center">
+                      {["desktop", "tablet", "mobile"].map((deviceType) => (
+                        <motion.button
+                          key={deviceType}
+                          onClick={() => setDevice(deviceType)}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className={`
+                            px-2 py-1 rounded text-xs transition-colors flex items-center gap-1
+                            ${device === deviceType
+                              ? theme.currentTheme === "minimal"
+                                ? "bg-gray-200 text-gray-800"
+                                : "bg-purple-500 text-white"
+                              : theme.currentTheme === "minimal"
+                                ? "hover:bg-gray-100 text-gray-600"
+                                : "hover:bg-neutral-700 text-neutral-400"
+                            }
+                          `}
+                        >
+                          <span className="text-xs">
+                            {deviceType === "desktop" && "🖥️"}
+                            {deviceType === "tablet" && "📱"}
+                            {deviceType === "mobile" && "📱"}
+                          </span>
+                        </motion.button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {/* Preview Mode Switcher (for auth-required projects) */}
+                {projectType === PROJECT_TYPES.AUTH_REQUIRED && (
+                  <div
+                    className={`
+                    flex gap-1 p-1 rounded-lg backdrop-blur-md
+                    ${theme.currentTheme === "minimal" ? "bg-white/90 border border-gray-200" : "bg-neutral-900/90 border border-neutral-700"}
+                  `}
+                  >
+                    <motion.button
+                      onClick={() => setShowIframe(true)}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className={`
+                        px-2 py-1 rounded text-xs transition-colors
+                        ${showIframe
+                          ? theme.currentTheme === "minimal"
+                            ? "bg-gray-200 text-gray-800"
+                            : "bg-purple-500 text-white"
+                          : theme.currentTheme === "minimal"
+                            ? "hover:bg-gray-100 text-gray-600"
+                            : "hover:bg-neutral-700 text-neutral-400"
+                        }
+                      `}
+                    >
+                      iframe
+                    </motion.button>
+                    <motion.button
+                      onClick={() => setShowIframe(false)}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className={`
+                        px-2 py-1 rounded text-xs transition-colors
+                        ${!showIframe
+                          ? theme.currentTheme === "minimal"
+                            ? "bg-gray-200 text-gray-800"
+                            : "bg-purple-500 text-white"
+                          : theme.currentTheme === "minimal"
+                            ? "hover:bg-gray-100 text-gray-600"
+                            : "hover:bg-neutral-700 text-neutral-400"
+                        }
+                      `}
+                    >
+                      Alt
+                    </motion.button>
+                  </div>
+                )}
+              </div>
             </div>
           )}
 

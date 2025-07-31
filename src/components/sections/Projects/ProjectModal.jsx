@@ -123,7 +123,12 @@ export default function ProjectModal({ project, onClose }) {
     }
 
     document.addEventListener("keydown", handleEscape)
-    document.body.style.overflow = "hidden"
+    
+    // Only lock body scroll on desktop, let mobile scroll naturally
+    const isMobileDevice = window.innerWidth < 768
+    if (!isMobileDevice) {
+      document.body.style.overflow = "hidden"
+    }
 
     // Focus first focusable element
     setTimeout(() => {
@@ -132,7 +137,9 @@ export default function ProjectModal({ project, onClose }) {
 
     return () => {
       document.removeEventListener("keydown", handleEscape)
-      document.body.style.overflow = ""
+      if (!isMobileDevice) {
+        document.body.style.overflow = ""
+      }
     }
   }, [project, onClose])
 
@@ -171,7 +178,7 @@ export default function ProjectModal({ project, onClose }) {
         initial="hidden"
         animate="visible"
         exit="exit"
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4"
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-start sm:items-center justify-center p-1 sm:p-4 pt-4 sm:pt-4"
         onClick={handleBackdropClick}
       >
         <motion.div
@@ -180,7 +187,7 @@ export default function ProjectModal({ project, onClose }) {
           initial="hidden"
           animate="visible"
           exit="exit"
-          className={`relative rounded-xl sm:rounded-2xl border shadow-2xl w-full max-w-sm sm:max-w-lg md:max-w-2xl lg:max-w-4xl max-h-[95vh] sm:max-h-[90vh] flex flex-col overflow-hidden ${styles.modal}`}
+          className={`relative rounded-xl sm:rounded-2xl border shadow-2xl w-full max-w-sm sm:max-w-lg md:max-w-2xl lg:max-w-4xl max-h-[98vh] sm:max-h-[90vh] flex flex-col overflow-hidden ${styles.modal}`}
           onClick={(e) => e.stopPropagation()}
           role="dialog"
           aria-modal="true"
@@ -211,7 +218,7 @@ export default function ProjectModal({ project, onClose }) {
           </div>
 
           {/* Navigation Tabs - Scrollable on mobile */}
-          <div className={`flex border-b ${styles.divider} overflow-x-auto scrollbar-hide`}>
+          <div className={`flex border-b ${styles.divider} overflow-x-auto scrollbar-hide flex-shrink-0`}>
             {tabs.map((tab) => (
               <button
                 key={tab.id}
@@ -228,13 +235,13 @@ export default function ProjectModal({ project, onClose }) {
           </div>
 
           {/* Content Area */}
-          <div className="flex-1 min-h-0 overflow-y-auto">
+          <div className="flex-1 min-h-0 overflow-y-auto overscroll-behavior-contain">
             <motion.div
               key={activeTab}
               variants={contentVariants}
               initial="hidden"
               animate="visible"
-              className="p-4 sm:p-6"
+              className="p-3 sm:p-6"
             >
               {activeTab === "overview" && (
                 <div className="space-y-4 sm:space-y-6">
@@ -391,8 +398,8 @@ export default function ProjectModal({ project, onClose }) {
           </div>
 
           {/* Footer Actions - Stack on mobile */}
-          <div className={`p-4 sm:p-6 border-t ${styles.divider}`}>
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+          <div className={`p-3 sm:p-6 border-t ${styles.divider}`}>
+            <div className="flex flex-col sm:flex-row gap-1.5 sm:gap-3">
               {project.url && (
                 <Button
                   variant="primary"
