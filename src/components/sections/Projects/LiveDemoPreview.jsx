@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useTheme } from "../../../contexts/ThemeContext"
 import { detectProjectType, getPreviewOptions, PROJECT_TYPES } from "./ProjectPreviewDetector"
+import useMobile from "../../../hooks/useMobile"
 import AlternativePreview from "./AlternativePreview"
 
 const DEMO_STATES = {
@@ -96,7 +97,7 @@ const DeviceFrame = ({ children, device = "desktop", theme }) => {
   )
 }
 
-const MobileControls = ({ device, setDevice, onOpenExternal, theme }) => (
+const MobileControls = ({ device, setDevice, theme }) => (
   <div className="space-y-3">
     {/* Device Switcher */}
     <div
@@ -141,26 +142,10 @@ const MobileControls = ({ device, setDevice, onOpenExternal, theme }) => (
       </div>
     </div>
 
-    {/* Action Button */}
-    <motion.button
-      onClick={onOpenExternal}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      className={`
-        w-full p-3 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2
-        ${theme.currentTheme === "minimal"
-          ? "bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-200"
-          : "bg-neutral-700 hover:bg-neutral-600 text-neutral-300 border border-neutral-600"
-        }
-      `}
-    >
-      <span>🔗</span>
-      Open in New Tab
-    </motion.button>
   </div>
 )
 
-const DesktopControls = ({ device, setDevice, isFullscreen, onToggleFullscreen, onOpenExternal, theme }) => (
+const DesktopControls = ({ device, setDevice, isFullscreen, onToggleFullscreen, theme }) => (
   <div
     className={`
     absolute top-4 right-4 z-20 flex gap-2 p-2 rounded-lg backdrop-blur-md
@@ -212,21 +197,6 @@ const DesktopControls = ({ device, setDevice, isFullscreen, onToggleFullscreen, 
       >
         {isFullscreen ? "🔳" : "⛶"}
       </motion.button>
-      <motion.button
-        onClick={onOpenExternal}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className={`
-          p-2 rounded text-xs transition-colors
-          ${theme.currentTheme === "minimal"
-            ? "hover:bg-gray-100 text-gray-600"
-            : "hover:bg-neutral-700 text-neutral-400"
-          }
-        `}
-        title="Open in new tab"
-      >
-        🔗
-      </motion.button>
     </div>
   </div>
 )
@@ -237,25 +207,14 @@ export default function LiveDemoPreview({ project, isVisible, onClose }) {
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [loadAttempts, setLoadAttempts] = useState(0)
   const [showIframe, setShowIframe] = useState(true)
-  const [isMobile, setIsMobile] = useState(false)
+  const isMobile = useMobile()
   const iframeRef = useRef(null)
   const theme = useTheme()
-  const [isDeviceSwitching, setIsDeviceSwitching] = useState(false)
 
   // Detect project type and get preview options
   const projectType = detectProjectType(project)
   const previewOptions = getPreviewOptions(project)
 
-  // Check if mobile view
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-
-    checkMobile()
-    window.addEventListener("resize", checkMobile)
-    return () => window.removeEventListener("resize", checkMobile)
-  }, [])
 
   useEffect(() => {
     if (isVisible && project?.url) {
@@ -288,10 +247,6 @@ export default function LiveDemoPreview({ project, isVisible, onClose }) {
 
   const handleToggleFullscreen = () => {
     setIsFullscreen(!isFullscreen)
-  }
-
-  const handleOpenExternal = () => {
-    window.open(project.url, "_blank", "noopener,noreferrer")
   }
 
   const handleDeviceChange = async (newDevice) => {
@@ -331,7 +286,6 @@ export default function LiveDemoPreview({ project, isVisible, onClose }) {
             setDevice={setDevice}
             isFullscreen={isFullscreen}
             onToggleFullscreen={handleToggleFullscreen}
-            onOpenExternal={handleOpenExternal}
             theme={theme}
           />
         )}
@@ -406,7 +360,7 @@ export default function LiveDemoPreview({ project, isVisible, onClose }) {
           {/* Mobile Controls - Show above content on mobile */}
           {isMobile && showIframe && previewOptions.canPreview && (
             <div className="mb-4">
-              <MobileControls device={device} setDevice={setDevice} onOpenExternal={handleOpenExternal} theme={theme} />
+              <MobileControls device={device} setDevice={setDevice} theme={theme} />
             </div>
           )}
 

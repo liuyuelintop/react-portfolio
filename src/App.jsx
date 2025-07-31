@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ThemeProvider, useTheme } from "./contexts/ThemeContext";
+import { UIProvider } from "./contexts/UIContext";
 import { ScrollProgressBar } from "./components/ui/animations/ScrollAnimations/ScrollEffects";
 import ErrorBoundary from "./components/ui/common/ErrorBoundary";
 import useKeyboardShortcuts from "./hooks/useKeyboardShortcuts";
@@ -137,21 +138,23 @@ function AppContent() {
 function App() {
   return (
     <ThemeProvider>
-      <ToastProvider>
-        <Suspense
-          fallback={
-            <div className="flex h-screen items-center justify-center bg-neutral-950">
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                className="h-12 w-12 rounded-full border-4 border-t-purple-500 border-transparent"
-              />
-            </div>
-          }
-        >
-          <AppContent />
-        </Suspense>
-      </ToastProvider>
+      <UIProvider>
+        <ToastProvider>
+          <Suspense
+            fallback={
+              <div className="flex h-screen items-center justify-center bg-neutral-950">
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                  className="h-12 w-12 rounded-full border-4 border-t-purple-500 border-transparent"
+                />
+              </div>
+            }
+          >
+            <AppContent />
+          </Suspense>
+        </ToastProvider>
+      </UIProvider>
     </ThemeProvider>
   );
 }

@@ -245,19 +245,6 @@ export default function ProjectModal({ project, onClose }) {
                       alt={project.title}
                       className="w-full aspect-video object-cover"
                     />
-                    {project.url && (
-                      <div className="absolute inset-0 bg-black/20 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <a
-                          href={project.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={`px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-transform hover:scale-105 text-sm sm:text-base ${styles.buttonPrimary} ${getThemeFocusRing(currentTheme)}`}
-                        >
-                          <span className="mr-2">🚀</span>
-                          View Live Project
-                        </a>
-                      </div>
-                    )}
                   </div>
 
                   {/* Project Description */}
@@ -386,18 +373,7 @@ export default function ProjectModal({ project, onClose }) {
                 <div className="space-y-3 sm:space-y-4">
                   <div className="flex items-center justify-between mb-3 sm:mb-4">
                     <h3 className={`text-base sm:text-lg font-semibold ${styles.header}`}>Interactive Live Preview</h3>
-                    <div className="flex items-center gap-1 sm:gap-2">
-                      <span className={`text-xs px-2 py-1 rounded-full ${styles.badge}`}>Live Site</span>
-                      <a
-                        href={project.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`text-xs px-2 sm:px-3 py-1 rounded-full transition-colors ${styles.button} ${getThemeFocusRing(currentTheme)}`}
-                        title="Open in new tab"
-                      >
-                        Open External ↗
-                      </a>
-                    </div>
+                    <span className={`text-xs px-2 py-1 rounded-full ${styles.badge}`}>Live Site</span>
                   </div>
                   <div className={`rounded-lg border overflow-hidden ${styles.divider}`}>
                     <LiveDemoPreview

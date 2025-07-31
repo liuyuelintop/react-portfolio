@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useUI } from '../../../contexts/UIContext';
+import useMobile from '../../../hooks/useMobile';
 
 const NAVIGATION_SECTIONS = [
   { id: 'hero', label: 'Hero', icon: '🏠' },
@@ -13,19 +15,11 @@ const NAVIGATION_SECTIONS = [
 ];
 
 export default function FloatingNavigation() {
+  const { isProjectModalOpen } = useUI();
+  const isMobile = useMobile();
   const [activeSection, setActiveSection] = useState('me');
   const [isVisible, setIsVisible] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    window.addEventListener('resize', handleResize);
-    handleResize();
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   useEffect(() => {
     let ticking = false;
@@ -260,7 +254,7 @@ export default function FloatingNavigation() {
       )}
 
       {/* 移动端布局 */}
-      {isMobile && isVisible && (
+      {isMobile && isVisible && !isProjectModalOpen && (
         <motion.nav
           key="mobile-nav"
           variants={navVariants}

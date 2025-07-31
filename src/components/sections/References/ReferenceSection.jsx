@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSwipeable } from "react-swipeable";
 import ReferenceCard from "./ReferenceCard";
 import { REFERENCES } from "../../../constants/references";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { useTheme } from "../../../contexts/ThemeContext";
+import useMobile from "../../../hooks/useMobile";
 import SectionHeading from "../../ui/common/SectionHeading";
 
 const variants = {
@@ -28,19 +29,10 @@ const variants = {
 
 export default function ReferenceSection() {
   const { currentTheme } = useTheme();
+  const isMobile = useMobile();
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   const paginate = (newDirection) => {
     if (isAnimating) return; // 🔒 阻止快速点击
