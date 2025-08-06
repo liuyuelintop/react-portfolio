@@ -5,10 +5,10 @@ import useMobile from '../../../hooks/useMobile';
 
 const NAVIGATION_SECTIONS = [
   { id: 'hero', label: 'Hero', icon: '🏠' },
+  { id: 'chatbot', label: 'AI Assistant', icon: '🤖' },
   { id: 'experience', label: 'Experience', icon: '💼' },
   { id: 'skills', label: 'Skills', icon: '📊' },
   { id: 'projects', label: 'Projects', icon: '🚀' },
-  { id: 'chatbot', label: 'AI Assistant', icon: '🤖' },
   { id: 'references', label: 'References', icon: '⭐' },
   { id: 'brand', label: 'Brand', icon: '💎' },
   { id: 'github', label: 'GitHub', icon: '🐙' },

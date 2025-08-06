@@ -22,15 +22,15 @@ const FloatingNavigation = lazy(() => import("./components/layout/FloatingNaviga
 
 function AppContent() {
   const { currentTheme } = useTheme();
-  
+
   // Enable keyboard shortcuts
   useKeyboardShortcuts();
-  
+
   // Add skip link for accessibility
   useEffect(() => {
     const skipLink = createSkipLink();
     document.body.insertBefore(skipLink, document.body.firstChild);
-    
+
     return () => {
       if (skipLink.parentNode) {
         skipLink.parentNode.removeChild(skipLink);
@@ -85,6 +85,12 @@ function AppContent() {
           </section>
         </ErrorBoundary>
 
+        <ErrorBoundary sectionName="chatbot section">
+          <section id="chatbot">
+            <Chatbot />
+          </section>
+        </ErrorBoundary>
+
         <div className="space-y-8 md:space-y-8 [&>section]:scroll-m-20">
           <ErrorBoundary sectionName="experience section">
             <section id="experience">
@@ -104,11 +110,7 @@ function AppContent() {
             </section>
           </ErrorBoundary>
 
-          <ErrorBoundary sectionName="chatbot section">
-            <section id="chatbot">
-              <Chatbot />
-            </section>
-          </ErrorBoundary>
+
 
           <ErrorBoundary sectionName="references section">
             <section id="references">

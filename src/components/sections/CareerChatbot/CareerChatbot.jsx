@@ -13,24 +13,28 @@ const CareerChatbot = () => {
   const getThemeStyles = () => {
     const themes = {
       default: {
-        container: 'bg-white border-gray-200',
+        container: 'bg-white border-gray-200 shadow-lg',
         text: 'text-gray-900',
         loading: 'text-gray-600',
+        accent: 'purple'
       },
       neon: {
-        container: 'bg-gray-900 border-cyan-400 shadow-cyan-400/20',
+        container: 'bg-gray-900 border-cyan-400 shadow-cyan-400/30',
         text: 'text-cyan-100',
         loading: 'text-cyan-300',
+        accent: 'cyan'
       },
       minimal: {
-        container: 'bg-gray-50 border-gray-300',
+        container: 'bg-gray-50 border-gray-300 shadow-md',
         text: 'text-gray-800',
         loading: 'text-gray-500',
+        accent: 'gray'
       },
       corporate: {
-        container: 'bg-blue-50 border-blue-200',
+        container: 'bg-blue-50 border-blue-200 shadow-blue-200/30',
         text: 'text-blue-900',
         loading: 'text-blue-600',
+        accent: 'blue'
       },
     };
     return themes[currentTheme] || themes.default;
@@ -40,72 +44,163 @@ const CareerChatbot = () => {
 
   const renderFallbackUI = () => (
     <div className="flex flex-col h-full">
-      {/* Header */}
-      <div className={`p-4 border-b ${currentTheme === 'minimal' ? 'border-gray-200' : 'border-gray-600'}`}>
-        <div className="flex items-center gap-3">
-          <div className="text-2xl">🤖</div>
+      {/* Enhanced Header */}
+      <motion.div 
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className={`p-6 border-b backdrop-blur-sm ${
+          currentTheme === 'minimal' 
+            ? 'border-gray-200 bg-white/50' 
+            : currentTheme === 'neon'
+              ? 'border-cyan-800/50 bg-cyan-900/10'
+              : currentTheme === 'corporate'
+                ? 'border-blue-200/50 bg-blue-50/50'
+                : 'border-purple-700/50 bg-purple-900/10'
+        }`}
+      >
+        <div className="flex items-center gap-4">
+          <motion.div 
+            animate={{ rotate: [0, 5, -5, 0] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            className="text-3xl"
+          >
+            🤖
+          </motion.div>
           <div>
-            <h3 className={`font-bold text-lg ${themeStyles.text}`}>
+            <motion.h3 
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              className={`font-bold text-xl ${themeStyles.text}`}
+            >
               Career Chatbot Assistant
-            </h3>
-            <p className={`text-sm opacity-70 ${themeStyles.text}`}>
+            </motion.h3>
+            <motion.p 
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 0.8, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className={`text-sm ${themeStyles.text}`}
+            >
               Your personal AI career representative
-            </p>
+            </motion.p>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Content */}
-      <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
-        <div className="text-6xl mb-6">💼</div>
-        <h4 className={`text-xl font-bold mb-4 ${themeStyles.text}`}>
+      <div className="flex-1 flex flex-col items-center justify-center p-6 sm:p-8 text-center">
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="text-5xl sm:text-6xl mb-4 sm:mb-6"
+        >
+          💼
+        </motion.div>
+        <motion.h4
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className={`text-lg sm:text-xl font-bold mb-3 sm:mb-4 ${themeStyles.text}`}
+        >
           Ready to Chat About My Career?
-        </h4>
-        <p className={`text-sm mb-6 max-w-md leading-relaxed opacity-80 ${themeStyles.text}`}>
+        </motion.h4>
+        <motion.p
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className={`text-xs sm:text-sm mb-6 max-w-xs sm:max-w-md leading-relaxed opacity-80 ${themeStyles.text}`}
+        >
           This AI assistant knows all about my professional background, skills, and experience.
           Ask about my projects, career journey, or technical expertise!
-        </p>
+        </motion.p>
 
-        {/* Features */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 max-w-md text-sm">
+        {/* Features Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8 max-w-md">
           {[
-            '💼 Career Information',
-            '🛠️ Technical Skills',
-            '📊 Project Details',
-            '📞 Contact Assistance'
+            { icon: '💼', text: 'Career Information' },
+            { icon: '🛠️', text: 'Technical Skills' },
+            { icon: '📊', text: 'Project Details' },
+            { icon: '📞', text: 'Contact Assistance' }
           ].map((feature, index) => (
-            <div key={index} className={`flex items-center gap-2 ${themeStyles.text} opacity-70`}>
-              <span>{feature}</span>
-            </div>
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: 0.4 + index * 0.1 }}
+              className={`flex items-center gap-3 p-3 rounded-lg backdrop-blur-sm transition-all duration-200 hover:scale-105 ${
+                currentTheme === 'neon'
+                  ? 'bg-cyan-900/20 border border-cyan-800/30 hover:bg-cyan-900/30'
+                  : currentTheme === 'minimal'
+                    ? 'bg-gray-50 border border-gray-200 hover:bg-gray-100'
+                    : currentTheme === 'corporate'
+                      ? 'bg-blue-50 border border-blue-200 hover:bg-blue-100'
+                      : 'bg-purple-900/20 border border-purple-700/30 hover:bg-purple-900/30'
+              }`}
+            >
+              <span className="text-lg">{feature.icon}</span>
+              <span className={`text-sm font-medium ${themeStyles.text} opacity-80`}>
+                {feature.text}
+              </span>
+            </motion.div>
           ))}
         </div>
 
-        {/* Action Button */}
+        {/* Enhanced Action Button */}
         <motion.a
           href="https://huggingface.co/spaces/liuyuelintop/career_chatbots"
           target="_blank"
           rel="noopener noreferrer"
-          whileHover={{ scale: 1.05 }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.8 }}
+          whileHover={{ 
+            scale: 1.05,
+            boxShadow: currentTheme === 'neon'
+              ? '0 10px 30px rgba(6, 182, 212, 0.4)'
+              : currentTheme === 'minimal'
+                ? '0 10px 30px rgba(0, 0, 0, 0.15)'
+                : currentTheme === 'corporate'
+                  ? '0 10px 30px rgba(37, 99, 235, 0.3)'
+                  : '0 10px 30px rgba(147, 51, 234, 0.4)'
+          }}
           whileTap={{ scale: 0.95 }}
           className={`
-            inline-flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-200 shadow-lg mb-4
+            group relative inline-flex items-center gap-3 px-8 py-4 rounded-xl font-semibold text-white transition-all duration-300 shadow-xl mb-4 overflow-hidden
             ${currentTheme === 'neon'
-              ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-cyan-400/50'
+              ? 'bg-gradient-to-r from-cyan-500 via-blue-500 to-cyan-600 hover:from-cyan-400 hover:to-blue-500'
               : currentTheme === 'minimal'
-                ? 'bg-gradient-to-r from-gray-800 to-gray-900 text-white hover:shadow-gray-400/50'
+                ? 'bg-gradient-to-r from-gray-700 via-gray-800 to-gray-900 hover:from-gray-600 hover:to-gray-800'
                 : currentTheme === 'corporate'
-                  ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:shadow-blue-400/50'
-                  : 'bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:shadow-purple-400/50'
+                  ? 'bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 hover:from-blue-500 hover:to-blue-700'
+                  : 'bg-gradient-to-r from-purple-600 via-blue-600 to-purple-700 hover:from-purple-500 hover:to-blue-500'
             }
           `}
         >
-          <span className="text-xl">🚀</span>
-          <span>Open Full Chatbot</span>
+          {/* Shine effect */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-out" />
+          
+          <motion.span 
+            className="text-xl"
+            animate={{ rotate: [0, 10, -10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            🚀
+          </motion.span>
+          <span className="relative z-10">Open Full Chatbot</span>
         </motion.a>
 
-        <p className={`text-xs opacity-60 ${themeStyles.text}`}>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.6 }}
+          transition={{ duration: 0.4, delay: 1 }}
+          className={`text-xs ${themeStyles.text} flex items-center gap-2 justify-center`}
+        >
+          <span className="w-1 h-1 bg-current rounded-full animate-pulse" />
           If the embedded chat doesn't load, use the button above
-        </p>
+          <span className="w-1 h-1 bg-current rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
+        </motion.p>
       </div>
     </div>
   );
@@ -144,12 +239,27 @@ const CareerChatbot = () => {
           title="Career Chatbot Assistant"
           referrerPolicy="no-referrer-when-downgrade"
         />
-        <div
-          className="absolute top-4 right-4 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-xs"
+        {/* Loading indicator */}
+        <motion.div
+          initial={{ opacity: 1 }}
+          animate={{ opacity: 0 }}
+          transition={{ duration: 0.5, delay: 2 }}
+          className={`absolute top-4 right-4 px-3 py-1.5 rounded-lg text-xs font-medium backdrop-blur-sm ${
+            currentTheme === 'minimal'
+              ? 'bg-white/90 text-gray-700 border border-gray-200'
+              : currentTheme === 'neon'
+              ? 'bg-cyan-900/90 text-cyan-200 border border-cyan-700'
+              : currentTheme === 'corporate'
+              ? 'bg-blue-900/90 text-blue-200 border border-blue-700'
+              : 'bg-purple-900/90 text-purple-200 border border-purple-700'
+          }`}
           style={{ pointerEvents: 'none' }}
         >
-          Loading Career Chatbot...
-        </div>
+          <div className="flex items-center gap-2">
+            <div className="w-1 h-1 bg-current rounded-full animate-pulse" />
+            <span>Loading AI Assistant...</span>
+          </div>
+        </motion.div>
       </div>
     </motion.div>
   );
