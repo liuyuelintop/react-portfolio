@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import GradioClient from './GradioClient';
+import ApiTester from './ApiTester';
 
 const CareerChatbot = ({ theme = 'default' }) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -71,6 +72,8 @@ const CareerChatbot = ({ theme = 'default' }) => {
         );
       case 'api':
         return <GradioClient theme={theme} />;
+      case 'debug':
+        return <ApiTester />;
       default:
         return renderFallbackUI();
     }
@@ -184,6 +187,7 @@ const CareerChatbot = ({ theme = 'default' }) => {
           {[
             { key: 'iframe', label: '🖥️ Embed', title: 'Embedded Interface' },
             { key: 'api', label: '💬 Chat', title: 'Direct Chat API' },
+            { key: 'debug', label: '🔧 Debug', title: 'API Debug Tool' },
             { key: 'fallback', label: '🔗 Link', title: 'External Link' }
           ].map(mode => (
             <button

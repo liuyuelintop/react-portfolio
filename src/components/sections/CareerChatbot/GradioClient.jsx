@@ -64,24 +64,86 @@ const GradioClient = ({ theme = 'default' }) => {
     setIsConnected(true);
   }, []);
 
-  const callGradioAPI = async (message) => {
+  const callGradioAPI = async (message, chatHistory = []) => {
     try {
-      const response = await fetch('https://liuyuelintop-career-chatbots.hf.space/api/predict', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          data: [message, []], // message and chat history
-          fn_index: 0 // This might need adjustment based on your Gradio interface
-        })
+      // Try multiple API endpoints that Gradio spaces commonly use
+      const possibleEndpoints = [
+        'https://liuyuelintop-career-chatbots.hf.space/api/predict',
+        'https://liuyuelintop-career-chatbots.hf.space/run/predict',
+        'https://liuyuelintop-career-chatbots.hf.space/call/chat'
+      ];
+
+      let response;
+      let data;
+
+      // First, try to get the space info to understand the interface
+      try {
+        const infoResponse = await fetch('https://liuyuelintop-career-chatbots.hf.space/info');
+        const info = await infoResponse.json();
+        console.log('Space info:', info);
+      } catch (e) {
+        console.log('Could not fetch space info:', e);
+      }
+
+      // Try different API call formats
+      for (let i = 0; i < possibleEndpoints.length; i++) {
+        try {
+          // Format 1: Standard Gradio predict API
+          response = await fetch(possibleEndpoints[i], {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              data: [message, chatHistory],
+              fn_index: 0
+            })
+          });
+
+          if (response.ok) {
+            data = await response.json();
+            console.log('API Response:', data);
+            
+            if (data.data && data.data.length > 0) {
+              // Extract the response - it might be in different formats
+              const botResponse = data.data[0];
+              if (typeof botResponse === 'string') {
+                return botResponse;
+              } else if (Array.isArray(botResponse) && botResponse.length > 0) {
+                return botResponse[botResponse.length - 1][1]; // Get last message
+              }
+            }
+            break;
+          }
+        } catch (e) {
+          console.log(`Failed endpoint ${possibleEndpoints[i]}:`, e);
+          continue;
+        }
+      }
+
+      // If all endpoints fail, try a simple GET request to test connectivity
+      const testResponse = await fetch('https://liuyuelintop-career-chatbots.hf.space/', {
+        method: 'HEAD',
+        mode: 'no-cors'
       });
 
-      const data = await response.json();
-      return data.data[0]; // Adjust based on your API response structure
+      // Fallback message with more helpful information
+      return `I'm having trouble connecting to the chatbot API right now. This might be because:
+
+1. The Hugging Face Space is starting up (cold start)
+2. API endpoint configuration needs adjustment
+3. CORS restrictions
+
+You can try:
+• Waiting a moment and trying again
+• Opening the full chatbot: https://huggingface.co/spaces/liuyuelintop/career_chatbots
+• Switching to the "Embed" mode using the toggle above
+
+The embedded version should work even if the API is having issues.`;
+
     } catch (error) {
       console.error('Error calling Gradio API:', error);
-      return "I'm sorry, I'm having trouble connecting right now. You can visit the full chatbot at https://huggingface.co/spaces/liuyuelintop/career_chatbots";
+      return `Connection error: ${error.message}. Please try the embedded version or visit https://huggingface.co/spaces/liuyuelintop/career_chatbots directly.`;
     }
   };
 
@@ -96,20 +158,38 @@ const GradioClient = ({ theme = 'default' }) => {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const currentMessage = inputMessage.trim();
     setInputMessage('');
     setIsLoading(true);
 
-    // Call Gradio API
-    const botResponse = await callGradioAPI(inputMessage.trim());
-    
-    const botMessage = {
-      type: 'bot',
-      content: botResponse,
-      timestamp: new Date()
-    };
+    try {
+      // Build chat history in the format Gradio expects
+      const chatHistory = messages
+        .filter(msg => msg.type === 'user' || msg.type === 'bot')
+        .map(msg => [msg.type === 'user' ? msg.content : '', msg.type === 'bot' ? msg.content : ''])
+        .filter(pair => pair[0] || pair[1]);
 
-    setMessages(prev => [...prev, botMessage]);
-    setIsLoading(false);
+      // Call Gradio API with current message and chat history
+      const botResponse = await callGradioAPI(currentMessage, chatHistory);
+      
+      const botMessage = {
+        type: 'bot',
+        content: botResponse,
+        timestamp: new Date()
+      };
+
+      setMessages(prev => [...prev, botMessage]);
+    } catch (error) {
+      console.error('Error in sendMessage:', error);
+      const errorMessage = {
+        type: 'bot',
+        content: "I'm experiencing technical difficulties. Please try again or use the embedded chatbot mode.",
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
