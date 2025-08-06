@@ -11,6 +11,7 @@ export { default as References } from './sections/References';
 export { default as PersonalBranding } from './sections/PersonalBranding';
 export { default as GitHubActivity } from './sections/GitHubActivity';
 export { default as Contact } from './sections/Contact';
+export { CareerChatbot } from './sections/CareerChatbot';
 
 // UI Components
 export { default as ThemeSwitcher } from './ui/common/ThemeSwitcher';
