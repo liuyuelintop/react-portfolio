@@ -1,9 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '../../../contexts/ThemeContext';
 
-const CareerChatbot = ({ theme = 'default' }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [error, setError] = useState(null);
+const CareerChatbot = () => {
+  const { currentTheme } = useTheme();
+  const [iframeError, setIframeError] = useState(false);
+
+  const handleIframeError = () => {
+    setIframeError(true);
+  };
 
   const getThemeStyles = () => {
     const themes = {
@@ -28,21 +33,15 @@ const CareerChatbot = ({ theme = 'default' }) => {
         loading: 'text-blue-600',
       },
     };
-    return themes[theme] || themes.default;
+    return themes[currentTheme] || themes.default;
   };
 
   const themeStyles = getThemeStyles();
 
-  const [iframeError, setIframeError] = useState(false);
-
-  const handleIframeError = () => {
-    setIframeError(true);
-  };
-
   const renderFallbackUI = () => (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className={`p-4 border-b ${theme === 'minimal' ? 'border-gray-200' : 'border-gray-600'}`}>
+      <div className={`p-4 border-b ${currentTheme === 'minimal' ? 'border-gray-200' : 'border-gray-600'}`}>
         <div className="flex items-center gap-3">
           <div className="text-2xl">🤖</div>
           <div>
@@ -55,7 +54,7 @@ const CareerChatbot = ({ theme = 'default' }) => {
           </div>
         </div>
       </div>
-      
+
       {/* Content */}
       <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
         <div className="text-6xl mb-6">💼</div>
@@ -63,10 +62,10 @@ const CareerChatbot = ({ theme = 'default' }) => {
           Ready to Chat About My Career?
         </h4>
         <p className={`text-sm mb-6 max-w-md leading-relaxed opacity-80 ${themeStyles.text}`}>
-          This AI assistant knows all about my professional background, skills, and experience. 
+          This AI assistant knows all about my professional background, skills, and experience.
           Ask about my projects, career journey, or technical expertise!
         </p>
-        
+
         {/* Features */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 max-w-md text-sm">
           {[
@@ -80,7 +79,7 @@ const CareerChatbot = ({ theme = 'default' }) => {
             </div>
           ))}
         </div>
-        
+
         {/* Action Button */}
         <motion.a
           href="https://huggingface.co/spaces/liuyuelintop/career_chatbots"
@@ -90,20 +89,20 @@ const CareerChatbot = ({ theme = 'default' }) => {
           whileTap={{ scale: 0.95 }}
           className={`
             inline-flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-200 shadow-lg mb-4
-            ${theme === 'neon' 
-              ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-cyan-400/50' 
-              : theme === 'minimal'
-              ? 'bg-gradient-to-r from-gray-800 to-gray-900 text-white hover:shadow-gray-400/50'
-              : theme === 'corporate'
-              ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:shadow-blue-400/50'
-              : 'bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:shadow-purple-400/50'
+            ${currentTheme === 'neon'
+              ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-cyan-400/50'
+              : currentTheme === 'minimal'
+                ? 'bg-gradient-to-r from-gray-800 to-gray-900 text-white hover:shadow-gray-400/50'
+                : currentTheme === 'corporate'
+                  ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:shadow-blue-400/50'
+                  : 'bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:shadow-purple-400/50'
             }
           `}
         >
           <span className="text-xl">🚀</span>
           <span>Open Full Chatbot</span>
         </motion.a>
-        
+
         <p className={`text-xs opacity-60 ${themeStyles.text}`}>
           If the embedded chat doesn't load, use the button above
         </p>
@@ -145,7 +144,7 @@ const CareerChatbot = ({ theme = 'default' }) => {
           title="Career Chatbot Assistant"
           referrerPolicy="no-referrer-when-downgrade"
         />
-        <div 
+        <div
           className="absolute top-4 right-4 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-xs"
           style={{ pointerEvents: 'none' }}
         >
