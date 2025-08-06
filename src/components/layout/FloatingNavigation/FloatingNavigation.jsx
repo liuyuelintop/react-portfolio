@@ -24,6 +24,11 @@ export default function FloatingNavigation() {
   const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
+    // Prevent scroll restoration that might cause auto-scroll
+    if (window.history.scrollRestoration) {
+      window.history.scrollRestoration = 'manual';
+    }
+
     let ticking = false;
 
     const handleScroll = () => {
@@ -40,8 +45,8 @@ export default function FloatingNavigation() {
           const progress = (scrollY / (documentHeight - windowHeight)) * 100;
           setScrollProgress(Math.min(100, Math.max(0, progress)));
 
-          // Only update active section after initial mount to prevent auto-scroll
-          if (isInitialized) {
+          // Only update active section after initial mount and when scroll position is stable
+          if (isInitialized && scrollY >= 0) {
             // Determine active section with improved detection
             const sections = NAVIGATION_SECTIONS.map(section => ({
               ...section,
@@ -77,11 +82,18 @@ export default function FloatingNavigation() {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     
-    // Delay initialization to prevent auto-scroll on mount
+    // Longer delay and ensure page is fully loaded before initializing section detection
     const initTimer = setTimeout(() => {
-      setIsInitialized(true);
-      handleScroll(); // Initial call after delay
-    }, 500);
+      // Only initialize if we're at the top of the page (scroll position 0 or near 0)
+      if (window.scrollY <= 50) {
+        setIsInitialized(true);
+        handleScroll(); // Initial call after delay, but only if at top
+      } else {
+        // If page loaded with scroll position, initialize immediately to track current position
+        setIsInitialized(true);
+        handleScroll();
+      }
+    }, 1000);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -92,9 +104,13 @@ export default function FloatingNavigation() {
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
+      // Calculate offset for floating navigation
+      const offset = 80; // Account for floating nav and some padding
+      const elementPosition = element.offsetTop - offset;
+      
+      window.scrollTo({
+        top: Math.max(0, elementPosition),
+        behavior: 'smooth'
       });
     }
   };
