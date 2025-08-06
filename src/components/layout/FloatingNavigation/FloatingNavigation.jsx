@@ -18,9 +18,10 @@ const NAVIGATION_SECTIONS = [
 export default function FloatingNavigation() {
   const { isProjectModalOpen } = useUI();
   const isMobile = useMobile();
-  const [activeSection, setActiveSection] = useState('me');
+  const [activeSection, setActiveSection] = useState('hero');
   const [isVisible, setIsVisible] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     let ticking = false;
@@ -39,30 +40,33 @@ export default function FloatingNavigation() {
           const progress = (scrollY / (documentHeight - windowHeight)) * 100;
           setScrollProgress(Math.min(100, Math.max(0, progress)));
 
-          // Determine active section with improved detection
-          const sections = NAVIGATION_SECTIONS.map(section => ({
-            ...section,
-            element: document.getElementById(section.id),
-          })).filter(section => section.element);
+          // Only update active section after initial mount to prevent auto-scroll
+          if (isInitialized) {
+            // Determine active section with improved detection
+            const sections = NAVIGATION_SECTIONS.map(section => ({
+              ...section,
+              element: document.getElementById(section.id),
+            })).filter(section => section.element);
 
-          let mostVisibleSection = null;
-          let maxVisibleHeight = 0;
+            let mostVisibleSection = null;
+            let maxVisibleHeight = 0;
 
-          sections.forEach(section => {
-            const rect = section.element.getBoundingClientRect();
-            const visibleTop = Math.max(0, rect.top);
-            const visibleBottom = Math.min(windowHeight, rect.bottom);
-            const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+            sections.forEach(section => {
+              const rect = section.element.getBoundingClientRect();
+              const visibleTop = Math.max(0, rect.top);
+              const visibleBottom = Math.min(windowHeight, rect.bottom);
+              const visibleHeight = Math.max(0, visibleBottom - visibleTop);
 
-            // Check if this section is the most visible or near the top
-            if (visibleHeight > maxVisibleHeight || (rect.top >= -50 && rect.top < 50)) {
-              maxVisibleHeight = visibleHeight;
-              mostVisibleSection = section;
+              // Check if this section is the most visible or near the top
+              if (visibleHeight > maxVisibleHeight || (rect.top >= -50 && rect.top < 50)) {
+                maxVisibleHeight = visibleHeight;
+                mostVisibleSection = section;
+              }
+            });
+
+            if (mostVisibleSection) {
+              setActiveSection(mostVisibleSection.id);
             }
-          });
-
-          if (mostVisibleSection) {
-            setActiveSection(mostVisibleSection.id);
           }
 
           ticking = false;
@@ -72,10 +76,18 @@ export default function FloatingNavigation() {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Initial call
+    
+    // Delay initialization to prevent auto-scroll on mount
+    const initTimer = setTimeout(() => {
+      setIsInitialized(true);
+      handleScroll(); // Initial call after delay
+    }, 500);
 
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(initTimer);
+    };
+  }, [isInitialized]);
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
