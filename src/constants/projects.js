@@ -2,6 +2,27 @@ import { projectImages } from "./assets";
 
 export const PROJECTS = [
     {
+      title: "Career Chatbot",
+      image: projectImages.careerChatbot,
+      description: {
+        summary: "A personal AI assistant chatbot to act as a digital representative of Yuelin Liu.",
+        features: [
+          "Acts as a digital representative of Yuelin Liu",
+          "Initialized with Yuelin's professional information from a summary.txt file and a linkedin.pdf",
+          "Interactive and helpful to visitors on a website",
+          "Can answer questions about Yuelin's career, skills, and background",
+          "Records questions it cannot answer",
+          "Records contact details if a user wishes to get in touch",
+          "Uses a Gemini model with a toolset for recording functions"
+        ]
+      },
+      url: "https://huggingface.co/spaces/liuyuelintop/career_chatbots",
+      technologies: {
+        main: ["OpenAI","Agents","Gradio", "Python"],
+        others: ["Gemini"]
+      }
+    },
+    {
     title: "Melbourne University Ultimate Frisbee Club",
     image: projectImages.melbUniUltimate, // Add the relevant image to your assets
     description: {
@@ -25,7 +46,6 @@ export const PROJECTS = [
         "Tailwind CSS",
         "shadcn/ui",
         "MongoDB",
-        "NextAuth.js"
       ],
       others: [
         "Lucide React",

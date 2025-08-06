@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ThemeProvider, useTheme } from "./contexts/ThemeContext";
+import { UIProvider } from "./contexts/UIContext";
 import { ScrollProgressBar } from "./components/ui/animations/ScrollAnimations/ScrollEffects";
 import ErrorBoundary from "./components/ui/common/ErrorBoundary";
 import useKeyboardShortcuts from "./hooks/useKeyboardShortcuts";
@@ -15,21 +16,21 @@ const SkillsVisualization = lazy(() => import("./components/sections/Skills"));
 const ReferenceSection = lazy(() => import("./components/sections/References"));
 const PersonalBranding = lazy(() => import("./components/sections/PersonalBranding"));
 const GitHubActivity = lazy(() => import("./components/sections/GitHubActivity"));
+const Chatbot = lazy(() => import("./components/sections/Chatbot"));
 const Contact = lazy(() => import("./components/sections/Contact"));
 const FloatingNavigation = lazy(() => import("./components/layout/FloatingNavigation"));
-const ThemeSwitcher = lazy(() => import("./components/ui/common/ThemeSwitcher"));
 
 function AppContent() {
   const { currentTheme } = useTheme();
-  
+
   // Enable keyboard shortcuts
   useKeyboardShortcuts();
-  
+
   // Add skip link for accessibility
   useEffect(() => {
     const skipLink = createSkipLink();
     document.body.insertBefore(skipLink, document.body.firstChild);
-    
+
     return () => {
       if (skipLink.parentNode) {
         skipLink.parentNode.removeChild(skipLink);
@@ -84,6 +85,12 @@ function AppContent() {
           </section>
         </ErrorBoundary>
 
+        <ErrorBoundary sectionName="chatbot section">
+          <section id="chatbot">
+            <Chatbot />
+          </section>
+        </ErrorBoundary>
+
         <div className="space-y-8 md:space-y-8 [&>section]:scroll-m-20">
           <ErrorBoundary sectionName="experience section">
             <section id="experience">
@@ -102,6 +109,8 @@ function AppContent() {
               <Projects />
             </section>
           </ErrorBoundary>
+
+
 
           <ErrorBoundary sectionName="references section">
             <section id="references">
@@ -131,9 +140,6 @@ function AppContent() {
 
       {/* Floating Navigation */}
       <FloatingNavigation />
-
-      {/* Theme Switcher */}
-      <ThemeSwitcher />
     </div>
   );
 }
@@ -141,21 +147,23 @@ function AppContent() {
 function App() {
   return (
     <ThemeProvider>
-      <ToastProvider>
-        <Suspense
-          fallback={
-            <div className="flex h-screen items-center justify-center bg-neutral-950">
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                className="h-12 w-12 rounded-full border-4 border-t-purple-500 border-transparent"
-              />
-            </div>
-          }
-        >
-          <AppContent />
-        </Suspense>
-      </ToastProvider>
+      <UIProvider>
+        <ToastProvider>
+          <Suspense
+            fallback={
+              <div className="flex h-screen items-center justify-center bg-neutral-950">
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                  className="h-12 w-12 rounded-full border-4 border-t-purple-500 border-transparent"
+                />
+              </div>
+            }
+          >
+            <AppContent />
+          </Suspense>
+        </ToastProvider>
+      </UIProvider>
     </ThemeProvider>
   );
 }

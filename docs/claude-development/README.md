@@ -1,53 +1,78 @@
-# Claude Development Documentation
+# Claude Development Setup & Overview
 
-This folder contains comprehensive documentation from the AI-assisted development process using Claude Code.
+## 🚀 Quick Start
 
-## 📁 Contents
+### Development Commands
+```bash
+npm run dev          # Start development server (http://localhost:5173)
+npm run build        # Build for production
+npm run preview      # Preview production build
+npm run lint         # Run ESLint with React rules
+```
 
-### **[PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md)**
-Complete architectural guide covering:
-- Updated folder organization (layout/, sections/, ui/)
-- Import strategies and patterns
-- Component structure and best practices
-- Migration guide for future development
+### Environment Setup
+Create `.env` file:
+```env
+VITE_GOOGLE_FOLDER_ID=your_google_drive_folder_id
+VITE_GOOGLE_API_KEY=your_google_api_key
+VITE_GITHUB_USERNAME=your_github_username
+```
 
-### **[DAILY_LOG_2025-07-29.md](./DAILY_LOG_2025-07-29.md)**
-Detailed development log including:
-- Phase-by-phase progress (Phases 1-6)
-- Technical implementation details
-- Bug fixes and solutions
-- Code metrics and achievements
+## 🛠️ Tech Stack
 
-### **[CLAUDE.md](./CLAUDE.md)**
-Claude Code integration documentation:
-- AI-assisted development setup
-- Workflow and collaboration patterns
-- Best practices for AI-human development
+- **React 18** with Vite build tool and fast refresh
+- **Tailwind CSS** with custom configuration and 4-theme system
+- **Framer Motion** for animations and page transitions
+- **Google Drive API** for CV downloads
+- **GitHub REST API** for live activity integration
 
-## 🎯 Purpose
+## 🎯 Current Status
 
-This documentation serves as:
+- **Version**: Phase 7+ (Project System Revolution)
+- **Performance**: 100/89 Lighthouse scores (desktop/mobile)
+- **Accessibility**: 100/100 WCAG AA compliant
+- **Architecture**: Enterprise-ready component organization
+- **Themes**: 4 complete themes (default, neon, minimal, corporate)
 
-1. **Development Reference** - Understanding the codebase evolution
-2. **Onboarding Guide** - For new team members or contributors
-3. **Architecture Documentation** - Professional-grade project structure
-4. **Historical Record** - Complete development journey from concept to production
+## 📋 Documentation Structure
 
-## 🔄 Maintenance
+- **README.md** (this file) - Setup, commands, and overview
+- **ARCHITECTURE.md** - Project structure, rules, and technical decisions
+- **CHANGELOG.md** - Development progress and implementation history
 
-- **Keep Updated** - These docs should be maintained alongside code changes
-- **Version Control** - Included in git for team collaboration and project continuity
-- **Reference Material** - Essential for understanding design decisions and architectural choices
+## 🔧 Key Features Implemented
 
-## 📝 Usage
+### Revolutionary Project System
+- **ProjectCard**: Clean hover animations, eliminated 3D flip conflicts
+- **ProjectModal**: Mobile-first tabbed interface with responsive design
+- **LiveDemoPreview**: Adaptive controls (desktop overlay vs mobile panel)
 
-Developers should consult these documents when:
-- Adding new components or features
-- Understanding the project structure
-- Contributing to the codebase
-- Reviewing architectural decisions
-- Setting up development environments
+### Advanced Portfolio Features
+- 4-theme system with seamless switching
+- Toast notification system
+- Error boundaries with graceful fallbacks
+- Keyboard navigation (Alt+H/P/E/S/C shortcuts)
+- WCAG AA accessibility compliance
+- Mobile-optimized responsive design
 
----
+## 🚦 Performance Metrics
 
-*This documentation is maintained alongside the main codebase and represents best practices for AI-assisted development workflows.*
+| Category       | Desktop | Mobile  |
+|----------------|---------|---------|
+| Performance    | **100** | **89**  |
+| Accessibility  | **100** | **100** |
+| Best Practices | **96**  | **96**  |
+| SEO            | **100** | **100** |
+
+## 📝 Development Workflow
+
+1. **Planning**: Document major features in CHANGELOG.md
+2. **Implementation**: Follow component organization rules in ARCHITECTURE.md
+3. **Testing**: Ensure accessibility and performance standards
+4. **Documentation**: Update relevant files with changes
+
+## 🔗 Useful Links
+
+- [Live Portfolio](https://liuyuelin.dev)
+- [Main README](../../README.md) - User-facing documentation
+- [GitHub Repository](https://github.com/liuyuelintop/react-portfolio)
