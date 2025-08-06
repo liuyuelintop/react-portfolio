@@ -91,7 +91,7 @@ function AppContent() {
           </section>
         </ErrorBoundary>
 
-        <div className="space-y-8 md:space-y-8 [&>section]:scroll-m-20">
+        <div className="space-y-8 md:space-y-8">
           <ErrorBoundary sectionName="experience section">
             <section id="experience">
               <Experience />
