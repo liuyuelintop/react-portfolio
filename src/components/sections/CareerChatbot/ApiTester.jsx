@@ -38,35 +38,79 @@ const ApiTester = () => {
       addResult(`❌ Info request failed: ${e.message}`);
     }
 
-    // Test 3: Try predict API
-    const endpoints = [
-      'https://liuyuelintop-career-chatbots.hf.space/api/predict',
-      'https://liuyuelintop-career-chatbots.hf.space/run/predict',
-      'https://liuyuelintop-career-chatbots.hf.space/call/chat'
-    ];
+    // Test 3: Try Gradio 4.x queue API
+    const baseUrl = 'https://liuyuelintop-career-chatbots.hf.space';
+    
+    addResult('🧪 Testing Gradio 4.x Queue API...');
+    
+    try {
+      const joinResponse = await fetch(`${baseUrl}/queue/join`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: ['Hello', []],
+          event_data: null,
+          fn_index: 0,
+          session_hash: Math.random().toString(36).substring(2)
+        })
+      });
 
-    for (const endpoint of endpoints) {
-      try {
-        const response = await fetch(endpoint, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            data: ['Hello', []],
-            fn_index: 0
-          })
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          addResult(`✅ ${endpoint}: ${JSON.stringify(data, null, 2)}`);
-        } else {
-          addResult(`❌ ${endpoint}: HTTP ${response.status}`);
+      if (joinResponse.ok) {
+        const joinData = await joinResponse.json();
+        addResult(`✅ Queue join successful: ${JSON.stringify(joinData)}`);
+        
+        if (joinData.event_id) {
+          // Try to get result
+          const resultResponse = await fetch(`${baseUrl}/queue/data`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              event_id: joinData.event_id,
+              session_hash: joinData.session_hash
+            })
+          });
+          
+          if (resultResponse.ok) {
+            const resultData = await resultResponse.json();
+            addResult(`✅ Queue result: ${JSON.stringify(resultData)}`);
+          } else {
+            addResult(`❌ Queue data failed: HTTP ${resultResponse.status}`);
+          }
         }
-      } catch (e) {
-        addResult(`❌ ${endpoint}: ${e.message}`);
+      } else {
+        addResult(`❌ Queue join failed: HTTP ${joinResponse.status}`);
       }
+    } catch (e) {
+      addResult(`❌ Queue API error: ${e.message}`);
+    }
+
+    // Test 4: Try legacy predict API
+    addResult('🧪 Testing legacy predict API...');
+    
+    try {
+      const response = await fetch(`${baseUrl}/api/predict`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: ['Hello', []],
+          fn_index: 0
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        addResult(`✅ Legacy API works: ${JSON.stringify(data, null, 2)}`);
+      } else {
+        addResult(`❌ Legacy API failed: HTTP ${response.status}`);
+      }
+    } catch (e) {
+      addResult(`❌ Legacy API error: ${e.message}`);
     }
 
     setIsTesting(false);

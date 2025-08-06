@@ -66,84 +66,108 @@ const GradioClient = ({ theme = 'default' }) => {
 
   const callGradioAPI = async (message, chatHistory = []) => {
     try {
-      // Try multiple API endpoints that Gradio spaces commonly use
-      const possibleEndpoints = [
-        'https://liuyuelintop-career-chatbots.hf.space/api/predict',
-        'https://liuyuelintop-career-chatbots.hf.space/run/predict',
-        'https://liuyuelintop-career-chatbots.hf.space/call/chat'
-      ];
+      // For Gradio 4.x, we need to use the queue-based API
+      const baseUrl = 'https://liuyuelintop-career-chatbots.hf.space';
+      
+      // Step 1: Join the queue
+      const joinResponse = await fetch(`${baseUrl}/queue/join`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: [message, chatHistory],
+          event_data: null,
+          fn_index: 0,
+          session_hash: Math.random().toString(36).substring(2)
+        })
+      });
 
-      let response;
-      let data;
-
-      // First, try to get the space info to understand the interface
-      try {
-        const infoResponse = await fetch('https://liuyuelintop-career-chatbots.hf.space/info');
-        const info = await infoResponse.json();
-        console.log('Space info:', info);
-      } catch (e) {
-        console.log('Could not fetch space info:', e);
+      if (!joinResponse.ok) {
+        throw new Error(`Queue join failed: ${joinResponse.status}`);
       }
 
-      // Try different API call formats
-      for (let i = 0; i < possibleEndpoints.length; i++) {
-        try {
-          // Format 1: Standard Gradio predict API
-          response = await fetch(possibleEndpoints[i], {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              data: [message, chatHistory],
-              fn_index: 0
-            })
-          });
+      const joinData = await joinResponse.json();
+      console.log('Queue join response:', joinData);
 
-          if (response.ok) {
-            data = await response.json();
-            console.log('API Response:', data);
-            
-            if (data.data && data.data.length > 0) {
-              // Extract the response - it might be in different formats
-              const botResponse = data.data[0];
-              if (typeof botResponse === 'string') {
-                return botResponse;
-              } else if (Array.isArray(botResponse) && botResponse.length > 0) {
-                return botResponse[botResponse.length - 1][1]; // Get last message
-              }
+      // Step 2: Get the result using the event_id
+      if (joinData.event_id) {
+        const resultResponse = await fetch(`${baseUrl}/queue/data`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            event_id: joinData.event_id,
+            session_hash: joinData.session_hash
+          })
+        });
+
+        if (resultResponse.ok) {
+          const resultData = await resultResponse.json();
+          console.log('Queue result:', resultData);
+          
+          if (resultData.data && resultData.data.length > 0) {
+            // Handle different response formats
+            const botResponse = resultData.data[0];
+            if (typeof botResponse === 'string') {
+              return botResponse;
+            } else if (Array.isArray(botResponse)) {
+              // For chat interfaces, usually the response is [user_msg, bot_msg]
+              return botResponse[1] || botResponse[0];
             }
-            break;
           }
-        } catch (e) {
-          console.log(`Failed endpoint ${possibleEndpoints[i]}:`, e);
-          continue;
         }
       }
 
-      // If all endpoints fail, try a simple GET request to test connectivity
-      const testResponse = await fetch('https://liuyuelintop-career-chatbots.hf.space/', {
-        method: 'HEAD',
-        mode: 'no-cors'
+      // Alternative approach: Try direct predict (some Gradio versions still support this)
+      const directResponse = await fetch(`${baseUrl}/api/predict`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: [message, chatHistory],
+          fn_index: 0
+        })
       });
 
-      // Fallback message with more helpful information
-      return `I'm having trouble connecting to the chatbot API right now. This might be because:
+      if (directResponse.ok) {
+        const directData = await directResponse.json();
+        console.log('Direct API response:', directData);
+        
+        if (directData.data && directData.data.length > 0) {
+          const botResponse = directData.data[0];
+          if (typeof botResponse === 'string') {
+            return botResponse;
+          } else if (Array.isArray(botResponse)) {
+            return botResponse[1] || botResponse[0];
+          }
+        }
+      }
 
-1. The Hugging Face Space is starting up (cold start)
-2. API endpoint configuration needs adjustment
-3. CORS restrictions
+      // If all methods fail, provide helpful error message
+      return `🤖 **API Connection Issue**
 
-You can try:
-• Waiting a moment and trying again
-• Opening the full chatbot: https://huggingface.co/spaces/liuyuelintop/career_chatbots
-• Switching to the "Embed" mode using the toggle above
+I'm having trouble connecting to the live chatbot API. This could be due to:
 
-The embedded version should work even if the API is having issues.`;
+• **Gradio API changes** - The Hugging Face Space might use a newer API format
+• **CORS restrictions** - Cross-origin requests might be blocked
+• **Space sleeping** - The Space might need time to wake up
+
+**What you can do:**
+1. **Use Embed Mode** 🖥️ - Click the "Embed" tab above for the full interface
+2. **Visit Direct Link** 🔗 - Open https://huggingface.co/spaces/liuyuelintop/career_chatbots
+3. **Wait & Retry** ⏰ - Try again in a few moments
+
+The embedded version should work perfectly while I investigate the API issue!`;
 
     } catch (error) {
       console.error('Error calling Gradio API:', error);
-      return `Connection error: ${error.message}. Please try the embedded version or visit https://huggingface.co/spaces/liuyuelintop/career_chatbots directly.`;
+      return `**Connection Error**: ${error.message}
+
+Please use the **Embed mode** (🖥️ tab above) or visit the chatbot directly at:
+https://huggingface.co/spaces/liuyuelintop/career_chatbots`;
     }
   };
 
