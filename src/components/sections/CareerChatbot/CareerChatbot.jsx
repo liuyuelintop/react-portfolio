@@ -5,6 +5,7 @@ import { useTheme } from '../../../contexts/ThemeContext';
 const CareerChatbot = () => {
   const { currentTheme } = useTheme();
   const [iframeError, setIframeError] = useState(false);
+  const [shouldLoadIframe, setShouldLoadIframe] = useState(false);
 
   const handleIframeError = () => {
     setIframeError(true);
@@ -215,6 +216,45 @@ const CareerChatbot = () => {
         style={{ height: '600px' }}
       >
         {renderFallbackUI()}
+      </motion.div>
+    );
+  }
+
+  // Show placeholder with load button initially, iframe only after user clicks
+  if (!shouldLoadIframe) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className={`w-full border-2 rounded-xl overflow-hidden ${themeStyles.container}`}
+        style={{ height: '600px' }}
+      >
+        <div className="flex flex-col h-full">
+          {renderFallbackUI()}
+          {/* Load Iframe Button */}
+          <div className="absolute inset-0 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+            <motion.button
+              onClick={() => setShouldLoadIframe(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`
+                inline-flex items-center gap-3 px-8 py-4 rounded-xl font-semibold text-white transition-all duration-300 shadow-xl
+                ${currentTheme === 'neon'
+                  ? 'bg-gradient-to-r from-cyan-500 via-blue-500 to-cyan-600 hover:from-cyan-400 hover:to-blue-500'
+                  : currentTheme === 'minimal'
+                    ? 'bg-gradient-to-r from-gray-700 via-gray-800 to-gray-900 hover:from-gray-600 hover:to-gray-800'
+                    : currentTheme === 'corporate'
+                      ? 'bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 hover:from-blue-500 hover:to-blue-700'
+                      : 'bg-gradient-to-r from-purple-600 via-blue-600 to-purple-700 hover:from-purple-500 hover:to-blue-500'
+                }
+              `}
+            >
+              <span className="text-xl">💬</span>
+              <span>Start Chatting</span>
+            </motion.button>
+          </div>
+        </div>
       </motion.div>
     );
   }

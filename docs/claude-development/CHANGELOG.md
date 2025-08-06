@@ -1,5 +1,46 @@
 # Development Changelog
 
+## Auto-scroll Fix: Chatbot Iframe Focus Issue (August 6, 2025)
+
+### Critical Bug Fix
+- **Issue**: Website automatically scrolled to AI Assistant section on first page load
+- **Root Cause**: Hugging Face chatbot iframe attempting to autofocus textarea input during load
+- **Console Errors**: `svelte.js:672 Blocked autofocusing on a <textarea> element in a cross-origin subframe`
+
+### Solution Implemented: Lazy Loading Pattern
+- **Lazy Iframe Loading**: Iframe only loads after explicit user interaction
+- **"Start Chatting" Button**: Beautiful overlay button that users must click to activate chatbot
+- **Fallback UI Enhancement**: Career information displayed immediately while chatbot awaits activation
+- **Performance Improvement**: Reduces initial page load by deferring iframe loading
+
+### Technical Implementation
+```javascript
+// CareerChatbot.jsx - Lazy loading state management
+const [shouldLoadIframe, setShouldLoadIframe] = useState(false);
+
+// Conditional rendering: fallback UI first, iframe after user interaction
+if (!shouldLoadIframe) {
+  return <FallbackUIWithStartButton onClick={() => setShouldLoadIframe(true)} />;
+}
+return <IframeComponent />;
+```
+
+### User Experience Benefits
+- ✅ **Hero Section Always Visible**: Page consistently loads at top as intended
+- ✅ **No Console Errors**: Eliminates cross-origin autofocus warnings
+- ✅ **Better Performance**: Faster initial page load without iframe overhead
+- ✅ **Enhanced Control**: Users explicitly choose when to activate chatbot
+- ✅ **Maintained Functionality**: Full chatbot features available after activation
+
+### Verification Results
+- ✅ Page loads at Hero section consistently across all devices
+- ✅ No unwanted scrolling behavior on first visit
+- ✅ Console errors eliminated completely
+- ✅ Chatbot functionality preserved and enhanced
+- ✅ Theme integration maintained across all variants
+
+---
+
 ## AI Assistant Integration (August 6, 2025)
 
 ### Feature Implementation

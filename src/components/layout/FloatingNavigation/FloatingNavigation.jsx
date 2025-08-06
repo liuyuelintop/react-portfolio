@@ -81,7 +81,7 @@ export default function FloatingNavigation() {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
+
     // Longer delay and ensure page is fully loaded before initializing section detection
     const initTimer = setTimeout(() => {
       // Only initialize if we're at the top of the page (scroll position 0 or near 0)
@@ -107,7 +107,7 @@ export default function FloatingNavigation() {
       // Calculate offset for floating navigation
       const offset = 80; // Account for floating nav and some padding
       const elementPosition = element.offsetTop - offset;
-      
+
       window.scrollTo({
         top: Math.max(0, elementPosition),
         behavior: 'smooth'
