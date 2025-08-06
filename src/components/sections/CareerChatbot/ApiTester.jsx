@@ -38,79 +38,59 @@ const ApiTester = () => {
       addResult(`❌ Info request failed: ${e.message}`);
     }
 
-    // Test 3: Try Gradio 4.x queue API
-    const baseUrl = 'https://liuyuelintop-career-chatbots.hf.space';
+    // Test 3: Try Hugging Face Inference API
+    addResult('🧪 Testing HF Inference API...');
     
-    addResult('🧪 Testing Gradio 4.x Queue API...');
+    const inferenceUrl = 'https://api-inference.huggingface.co/models/liuyuelintop/career_chatbots';
+    const testMessage = "Hello, tell me about Yuelin's experience";
     
     try {
-      const joinResponse = await fetch(`${baseUrl}/queue/join`, {
+      const response = await fetch(inferenceUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          data: ['Hello', []],
-          event_data: null,
-          fn_index: 0,
-          session_hash: Math.random().toString(36).substring(2)
-        })
-      });
-
-      if (joinResponse.ok) {
-        const joinData = await joinResponse.json();
-        addResult(`✅ Queue join successful: ${JSON.stringify(joinData)}`);
-        
-        if (joinData.event_id) {
-          // Try to get result
-          const resultResponse = await fetch(`${baseUrl}/queue/data`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              event_id: joinData.event_id,
-              session_hash: joinData.session_hash
-            })
-          });
-          
-          if (resultResponse.ok) {
-            const resultData = await resultResponse.json();
-            addResult(`✅ Queue result: ${JSON.stringify(resultData)}`);
-          } else {
-            addResult(`❌ Queue data failed: HTTP ${resultResponse.status}`);
+          inputs: testMessage,
+          parameters: {
+            max_new_tokens: 100,
+            temperature: 0.7,
           }
-        }
-      } else {
-        addResult(`❌ Queue join failed: HTTP ${joinResponse.status}`);
-      }
-    } catch (e) {
-      addResult(`❌ Queue API error: ${e.message}`);
-    }
-
-    // Test 4: Try legacy predict API
-    addResult('🧪 Testing legacy predict API...');
-    
-    try {
-      const response = await fetch(`${baseUrl}/api/predict`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          data: ['Hello', []],
-          fn_index: 0
         })
       });
 
       if (response.ok) {
         const data = await response.json();
-        addResult(`✅ Legacy API works: ${JSON.stringify(data, null, 2)}`);
+        addResult(`✅ Inference API success: ${JSON.stringify(data, null, 2)}`);
+      } else if (response.status === 503) {
+        addResult(`⏳ Inference API loading (503) - Model is starting up`);
       } else {
-        addResult(`❌ Legacy API failed: HTTP ${response.status}`);
+        addResult(`❌ Inference API failed: HTTP ${response.status}`);
       }
     } catch (e) {
-      addResult(`❌ Legacy API error: ${e.message}`);
+      addResult(`❌ Inference API error: ${e.message}`);
+    }
+
+    // Test 4: Try Space direct API with FormData
+    addResult('🧪 Testing Space API with FormData...');
+    
+    try {
+      const formData = new FormData();
+      formData.append('data', JSON.stringify([testMessage, []]));
+      
+      const spaceResponse = await fetch('https://liuyuelintop-career-chatbots.hf.space/api/predict', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (spaceResponse.ok) {
+        const spaceData = await spaceResponse.json();
+        addResult(`✅ Space FormData API success: ${JSON.stringify(spaceData, null, 2)}`);
+      } else {
+        addResult(`❌ Space FormData API failed: HTTP ${spaceResponse.status}`);
+      }
+    } catch (e) {
+      addResult(`❌ Space FormData API error: ${e.message}`);
     }
 
     setIsTesting(false);

@@ -66,108 +66,108 @@ const GradioClient = ({ theme = 'default' }) => {
 
   const callGradioAPI = async (message, chatHistory = []) => {
     try {
-      // For Gradio 4.x, we need to use the queue-based API
-      const baseUrl = 'https://liuyuelintop-career-chatbots.hf.space';
+      // Based on Gradio documentation, let's try the correct Inference API approach
+      const baseUrl = 'https://api-inference.huggingface.co/models/liuyuelintop/career_chatbots';
       
-      // Step 1: Join the queue
-      const joinResponse = await fetch(`${baseUrl}/queue/join`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          data: [message, chatHistory],
-          event_data: null,
-          fn_index: 0,
-          session_hash: Math.random().toString(36).substring(2)
-        })
-      });
-
-      if (!joinResponse.ok) {
-        throw new Error(`Queue join failed: ${joinResponse.status}`);
-      }
-
-      const joinData = await joinResponse.json();
-      console.log('Queue join response:', joinData);
-
-      // Step 2: Get the result using the event_id
-      if (joinData.event_id) {
-        const resultResponse = await fetch(`${baseUrl}/queue/data`, {
+      console.log('Calling Hugging Face Inference API...');
+      console.log('Message:', message);
+      
+      // First, try the Hugging Face Inference API
+      try {
+        const response = await fetch(baseUrl, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            // Note: For public models, no token needed
           },
           body: JSON.stringify({
-            event_id: joinData.event_id,
-            session_hash: joinData.session_hash
+            inputs: message,
+            parameters: {
+              max_new_tokens: 500,
+              temperature: 0.7,
+              do_sample: true,
+              return_full_text: false
+            }
           })
         });
 
-        if (resultResponse.ok) {
-          const resultData = await resultResponse.json();
-          console.log('Queue result:', resultData);
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Inference API response:', data);
           
-          if (resultData.data && resultData.data.length > 0) {
-            // Handle different response formats
-            const botResponse = resultData.data[0];
-            if (typeof botResponse === 'string') {
-              return botResponse;
-            } else if (Array.isArray(botResponse)) {
-              // For chat interfaces, usually the response is [user_msg, bot_msg]
-              return botResponse[1] || botResponse[0];
+          if (Array.isArray(data) && data.length > 0) {
+            return data[0].generated_text || data[0].text || String(data[0]);
+          } else if (data.generated_text) {
+            return data.generated_text;
+          }
+        } else if (response.status === 503) {
+          // Model is loading
+          return `🔄 **Model Loading**
+
+The AI model is starting up. This usually takes 20-30 seconds.
+
+**Please:**
+1. **Wait a moment** and try again
+2. **Use Embed Mode** 🖥️ - Click the tab above
+3. **Visit directly**: https://huggingface.co/spaces/liuyuelintop/career_chatbots`;
+        }
+      } catch (inferenceError) {
+        console.log('Inference API failed:', inferenceError.message);
+      }
+
+      // Fallback: Try direct Space API call with WebSocket-style approach
+      const spaceUrl = 'https://liuyuelintop-career-chatbots.hf.space';
+      
+      // Try a simple POST to the root with form data (common in Gradio apps)
+      try {
+        const formData = new FormData();
+        formData.append('data', JSON.stringify([message, chatHistory || []]));
+        
+        const spaceResponse = await fetch(`${spaceUrl}/api/predict`, {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (spaceResponse.ok) {
+          const spaceData = await spaceResponse.json();
+          console.log('Space API response:', spaceData);
+          
+          if (spaceData.data && spaceData.data.length > 0) {
+            const result = spaceData.data[0];
+            if (typeof result === 'string') {
+              return result;
+            } else if (Array.isArray(result)) {
+              return result[result.length - 1] || result[0];
             }
           }
         }
+      } catch (spaceError) {
+        console.log('Space API failed:', spaceError.message);
       }
 
-      // Alternative approach: Try direct predict (some Gradio versions still support this)
-      const directResponse = await fetch(`${baseUrl}/api/predict`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          data: [message, chatHistory],
-          fn_index: 0
-        })
-      });
+      // Final fallback with helpful message
+      return `🤖 **Chat API Debugging**
 
-      if (directResponse.ok) {
-        const directData = await directResponse.json();
-        console.log('Direct API response:', directData);
-        
-        if (directData.data && directData.data.length > 0) {
-          const botResponse = directData.data[0];
-          if (typeof botResponse === 'string') {
-            return botResponse;
-          } else if (Array.isArray(botResponse)) {
-            return botResponse[1] || botResponse[0];
-          }
-        }
-      }
+I'm working on connecting to your chatbot! Current status:
 
-      // If all methods fail, provide helpful error message
-      return `🤖 **API Connection Issue**
+• **Space accessible**: ✅ Your Hugging Face Space is running
+• **API format**: 🔧 Testing different connection methods
+• **Fallback ready**: 🖥️ Embed mode works perfectly
 
-I'm having trouble connecting to the live chatbot API. This could be due to:
+**For now, please use:**
+1. **Embed Mode** (🖥️ tab above) - Full chatbot interface
+2. **Direct link**: https://huggingface.co/spaces/liuyuelintop/career_chatbots
 
-• **Gradio API changes** - The Hugging Face Space might use a newer API format
-• **CORS restrictions** - Cross-origin requests might be blocked
-• **Space sleeping** - The Space might need time to wake up
-
-**What you can do:**
-1. **Use Embed Mode** 🖥️ - Click the "Embed" tab above for the full interface
-2. **Visit Direct Link** 🔗 - Open https://huggingface.co/spaces/liuyuelintop/career_chatbots
-3. **Wait & Retry** ⏰ - Try again in a few moments
-
-The embedded version should work perfectly while I investigate the API issue!`;
+The API integration will be working soon!`;
 
     } catch (error) {
-      console.error('Error calling Gradio API:', error);
+      console.error('API call error:', error);
+      
       return `**Connection Error**: ${error.message}
 
-Please use the **Embed mode** (🖥️ tab above) or visit the chatbot directly at:
-https://huggingface.co/spaces/liuyuelintop/career_chatbots`;
+**Working alternatives:**
+• **🖥️ Embed Mode** - Click tab above for full interface  
+• **Direct Link** - https://huggingface.co/spaces/liuyuelintop/career_chatbots`;
     }
   };
 

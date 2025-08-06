@@ -50,25 +50,25 @@ const CareerChatbot = ({ theme = 'default' }) => {
     switch (chatMode) {
       case 'iframe':
         return (
-          <iframe
-            src="https://liuyuelintop-career-chatbots.hf.space"
-            width="100%"
-            height="100%"
-            style={{ border: 'none', borderRadius: '0.75rem' }}
-            onError={handleIframeError}
-            onLoad={(e) => {
-              // Check if iframe loaded successfully
-              try {
-                if (e.target.contentDocument === null) {
-                  handleIframeError();
-                }
-              } catch (err) {
-                handleIframeError();
-              }
-            }}
-            allow="microphone; camera"
-            title="Career Chatbot Assistant"
-          />
+          <div className="h-full w-full relative">
+            <iframe
+              src="https://liuyuelintop-career-chatbots.hf.space"
+              width="100%"
+              height="100%"
+              style={{ border: 'none', borderRadius: '0.75rem' }}
+              onError={handleIframeError}
+              allow="microphone; camera; clipboard-read; clipboard-write"
+              sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-storage-access-by-user-activation"
+              title="Career Chatbot Assistant"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+            <div 
+              className="absolute top-4 right-4 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-xs"
+              style={{ pointerEvents: 'none' }}
+            >
+              Loading Hugging Face Space...
+            </div>
+          </div>
         );
       case 'api':
         return <GradioClient theme={theme} />;
