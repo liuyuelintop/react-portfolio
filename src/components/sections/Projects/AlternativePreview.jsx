@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { useState } from "react"
 import { useTheme } from "../../../contexts/ThemeContext"
+import { CareerChatbot } from "../CareerChatbot"
 
 const DemoVideoPreview = ({ project, theme }) => (
   <div
@@ -276,6 +277,39 @@ const ContactDemoPreview = ({ project, theme }) => (
   </div>
 )
 
+const GradioPreview = ({ project, theme }) => (
+  <div className="w-full space-y-4">
+    <div className="text-center mb-4">
+      <div className="text-3xl sm:text-4xl mb-2">🤖</div>
+      <h3
+        className={`text-base sm:text-lg font-bold mb-2 ${theme.currentTheme === "minimal" ? "text-gray-800" : "text-white"}`}
+      >
+        Interactive AI Assistant
+      </h3>
+      <p
+        className={`text-xs sm:text-sm mb-4 ${theme.currentTheme === "minimal" ? "text-gray-600" : "text-neutral-400"}`}
+      >
+        Chat directly with the AI assistant embedded below, or open the full version on Hugging Face Spaces.
+      </p>
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={() => window.open(project.url, "_blank")}
+        className={`
+          mb-4 px-4 py-2 rounded-lg text-sm font-medium transition-colors border
+          ${theme.currentTheme === "minimal"
+            ? "border-gray-300 hover:bg-gray-50 text-gray-700"
+            : "border-neutral-600 hover:bg-neutral-700 text-neutral-300"
+          }
+        `}
+      >
+        🤗 Open in Hugging Face
+      </motion.button>
+    </div>
+    <CareerChatbot theme={theme.currentTheme} />
+  </div>
+)
+
 export default function AlternativePreview({ project, previewOptions }) {
   const theme = useTheme()
 
@@ -294,6 +328,8 @@ export default function AlternativePreview({ project, previewOptions }) {
         return <ExtensionPreview project={project} theme={theme} />
       case "contact_demo":
         return <ContactDemoPreview project={project} theme={theme} />
+      case "gradio_embed":
+        return <GradioPreview project={project} theme={theme} />
       default:
         return <AuthRequiredPreview project={project} theme={theme} />
     }

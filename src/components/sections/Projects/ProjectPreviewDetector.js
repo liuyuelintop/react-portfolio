@@ -5,6 +5,7 @@ export const PROJECT_TYPES = {
   AUTH_REQUIRED: 'auth_required',   // Needs authentication
   GITHUB_ONLY: 'github_only',       // Repository-only projects
   EXTENSION: 'extension',           // Browser extensions/userscripts
+  GRADIO_APP: 'gradio_app',         // Gradio/Hugging Face apps
   PRIVATE: 'private'                // Private or unavailable demos
 };
 
@@ -28,6 +29,15 @@ export function detectProjectType(project) {
   // GitHub repository URLs
   if (url.includes('github.com')) {
     return PROJECT_TYPES.GITHUB_ONLY;
+  }
+  
+  // Gradio/Hugging Face applications
+  const isGradioApp = url.includes('huggingface.co/spaces') || 
+    technologies?.main?.some(tech => tech.toLowerCase().includes('gradio')) ||
+    title.toLowerCase().includes('chatbot');
+  
+  if (isGradioApp) {
+    return PROJECT_TYPES.GRADIO_APP;
   }
   
   // Browser extensions and userscripts
@@ -79,7 +89,7 @@ export function getPreviewOptions(project) {
     case PROJECT_TYPES.LIVE_DEMO:
       return {
         ...baseOptions,
-        canPreview: true,
+        canPreview: checkIframeCompatibility(project.url),
         recommendedAction: 'iframe_preview'
       };
       
@@ -163,6 +173,28 @@ export function getPreviewOptions(project) {
         recommendedAction: 'demo_video'
       };
       
+    case PROJECT_TYPES.GRADIO_APP:
+      return {
+        ...baseOptions,
+        canPreview: true, // Can use Gradio client
+        alternativeActions: [
+          {
+            type: 'gradio_embed',
+            label: 'Interactive Chat',
+            icon: '🤖',
+            description: 'Chat directly with the AI assistant'
+          },
+          {
+            type: 'open_external',
+            label: 'Open in Hugging Face',
+            icon: '🤗',
+            description: 'Try the full version on Hugging Face Spaces'
+          }
+        ],
+        restrictions: [PREVIEW_RESTRICTIONS.IFRAME_BLOCKED],
+        recommendedAction: 'gradio_embed'
+      };
+      
     case PROJECT_TYPES.PRIVATE:
       return {
         ...baseOptions,
@@ -196,7 +228,8 @@ export function checkIframeCompatibility(url) {
     'facebook.com',
     'twitter.com',
     'linkedin.com',
-    'github.com'
+    'github.com',
+    'huggingface.co'
   ];
   
   try {
@@ -205,4 +238,17 @@ export function checkIframeCompatibility(url) {
   } catch {
     return false;
   }
+}
+
+// Get a user-friendly display name for a project type
+export function getProjectTypeDisplayName(projectType) {
+  const names = {
+    [PROJECT_TYPES.LIVE_DEMO]: 'Live Demo',
+    [PROJECT_TYPES.AUTH_REQUIRED]: 'Auth Required',
+    [PROJECT_TYPES.GITHUB_ONLY]: 'Open Source',
+    [PROJECT_TYPES.EXTENSION]: 'Browser Extension',
+    [PROJECT_TYPES.GRADIO_APP]: 'AI Application',
+    [PROJECT_TYPES.PRIVATE]: 'Private Project'
+  };
+  return names[projectType] || 'Project';
 }

@@ -16,20 +16,21 @@ const SkillsVisualization = lazy(() => import("./components/sections/Skills"));
 const ReferenceSection = lazy(() => import("./components/sections/References"));
 const PersonalBranding = lazy(() => import("./components/sections/PersonalBranding"));
 const GitHubActivity = lazy(() => import("./components/sections/GitHubActivity"));
+const Chatbot = lazy(() => import("./components/sections/Chatbot"));
 const Contact = lazy(() => import("./components/sections/Contact"));
 const FloatingNavigation = lazy(() => import("./components/layout/FloatingNavigation"));
 
 function AppContent() {
   const { currentTheme } = useTheme();
-  
+
   // Enable keyboard shortcuts
   useKeyboardShortcuts();
-  
+
   // Add skip link for accessibility
   useEffect(() => {
     const skipLink = createSkipLink();
     document.body.insertBefore(skipLink, document.body.firstChild);
-    
+
     return () => {
       if (skipLink.parentNode) {
         skipLink.parentNode.removeChild(skipLink);
@@ -84,6 +85,12 @@ function AppContent() {
           </section>
         </ErrorBoundary>
 
+        <ErrorBoundary sectionName="chatbot section">
+          <section id="chatbot">
+            <Chatbot />
+          </section>
+        </ErrorBoundary>
+
         <div className="space-y-8 md:space-y-8 [&>section]:scroll-m-20">
           <ErrorBoundary sectionName="experience section">
             <section id="experience">
@@ -102,6 +109,8 @@ function AppContent() {
               <Projects />
             </section>
           </ErrorBoundary>
+
+
 
           <ErrorBoundary sectionName="references section">
             <section id="references">
