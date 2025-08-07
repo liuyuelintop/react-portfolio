@@ -5,7 +5,7 @@ import ProjectModal from "./ProjectModal";
 import { PROJECTS } from "../../../constants/projects";
 import { cardContainerVariants } from "./animations";
 import { useTheme } from "../../../contexts/ThemeContext";
-import { useUI } from "../../../contexts/UIContext";
+import { useUI } from "../../../hooks/useUI";
 import SectionHeading from "../../ui/common/SectionHeading";
 
 const INITIAL_VISIBLE = 3;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../../../contexts/ThemeContext';
-import { useUI } from '../../../contexts/UIContext';
+import { useUI } from '../../../hooks/useUI';
 import useMobile from '../../../hooks/useMobile';
 
 const CareerChatbot = () => {

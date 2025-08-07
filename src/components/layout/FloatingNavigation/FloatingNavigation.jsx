@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useUI } from '../../../contexts/UIContext';
+import { useUI } from '../../../hooks/useUI';
 import useMobile from '../../../hooks/useMobile';
 
 const NAVIGATION_SECTIONS = [
