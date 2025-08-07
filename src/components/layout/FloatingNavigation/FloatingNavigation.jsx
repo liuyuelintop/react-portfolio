@@ -290,12 +290,12 @@ export default function FloatingNavigation() {
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="fixed z-50 left-4 right-4 mobile-safe-navigation"
+          className="fixed z-50 left-3 right-3 mobile-safe-navigation"
           role="navigation"
           aria-label="Main navigation"
         >
           {/* 进度条 */}
-          <div className="mb-3 w-full bg-neutral-800/60 backdrop-blur-sm rounded-full h-2 overflow-hidden border border-neutral-700/30 shadow-lg">
+          <div className="mb-2 w-full bg-neutral-800/60 backdrop-blur-sm rounded-full h-1.5 overflow-hidden border border-neutral-700/30 shadow-lg">
             <motion.div
               className="h-full bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 shadow-lg"
               style={{ width: `${scrollProgress}%` }}
@@ -312,7 +312,7 @@ export default function FloatingNavigation() {
           </div>
 
           {/* 紧凑型按钮容器 */}
-          <div className="flex justify-between items-center gap-1 bg-neutral-900/95 backdrop-blur-xl rounded-full px-3 py-2 border border-neutral-600/40 shadow-2xl relative">
+          <div className="flex justify-between items-center gap-0.5 bg-neutral-900/95 backdrop-blur-xl rounded-full px-2 py-1.5 border border-neutral-600/40 shadow-2xl relative">
             <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-transparent to-blue-500/5 rounded-full" />
 
             {NAVIGATION_SECTIONS.map((section) => (
@@ -323,15 +323,15 @@ export default function FloatingNavigation() {
                 whileHover={activeSection !== section.id ? "hover" : "active"}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => scrollToSection(section.id)}
-                className="relative flex flex-col items-center px-2 py-1 rounded-full text-sm font-medium text-white"
+                className="relative flex flex-col items-center px-1.5 py-0.5 rounded-full text-xs font-medium text-white"
               >
-                <span className={`text-lg ${activeSection === section.id ? 'scale-110' : ''}`}>
+                <span className={`text-base ${activeSection === section.id ? 'scale-110' : ''}`}>
                   {section.icon}
                 </span>
 
                 {activeSection === section.id && (
                   <motion.span
-                    className="text-xs mt-1"
+                    className="text-xs mt-0.5"
                     initial={{ opacity: 0, y: -5 }}
                     animate={{ opacity: 1, y: 0 }}
                   >
