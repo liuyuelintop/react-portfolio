@@ -177,7 +177,7 @@ export default function FloatingNavigation() {
     <AnimatePresence>
       {/* 桌面端布局 */}
       {!isMobile && isVisible && (
-        <div className="fixed bottom-8 inset-x-0 z-40 flex justify-center px-4">
+        <div className="fixed inset-x-0 z-40 flex justify-center px-4 desktop-safe-navigation">
           <motion.nav
             key="desktop-nav"
             variants={navVariants}
@@ -290,7 +290,7 @@ export default function FloatingNavigation() {
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="fixed z-50 bottom-4 left-4 right-4"
+          className="fixed z-50 left-4 right-4 mobile-safe-navigation"
           role="navigation"
           aria-label="Main navigation"
         >
