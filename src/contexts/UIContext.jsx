@@ -5,10 +5,13 @@ const UIContext = createContext();
 
 export function UIProvider({ children }) {
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
+  const [isChatbotFocused, setIsChatbotFocused] = useState(false);
 
   const value = {
     isProjectModalOpen,
-    setIsProjectModalOpen
+    setIsProjectModalOpen,
+    isChatbotFocused,
+    setIsChatbotFocused
   };
 
   return (

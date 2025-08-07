@@ -16,7 +16,7 @@ const NAVIGATION_SECTIONS = [
 ];
 
 export default function FloatingNavigation() {
-  const { isProjectModalOpen } = useUI();
+  const { isProjectModalOpen, isChatbotFocused } = useUI();
   const isMobile = useMobile();
   const [activeSection, setActiveSection] = useState('hero');
   const [isVisible, setIsVisible] = useState(false);
@@ -177,7 +177,7 @@ export default function FloatingNavigation() {
     <AnimatePresence>
       {/* 桌面端布局 */}
       {!isMobile && isVisible && (
-        <div className="fixed inset-x-0 z-40 flex justify-center px-4 desktop-safe-navigation">
+        <div className="fixed bottom-8 inset-x-0 z-40 flex justify-center px-4">
           <motion.nav
             key="desktop-nav"
             variants={navVariants}
@@ -283,14 +283,14 @@ export default function FloatingNavigation() {
       )}
 
       {/* 移动端布局 */}
-      {isMobile && isVisible && !isProjectModalOpen && (
+      {isMobile && isVisible && !isProjectModalOpen && !isChatbotFocused && (
         <motion.nav
           key="mobile-nav"
           variants={navVariants}
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="fixed z-50 left-3 right-3 mobile-safe-navigation"
+          className="fixed z-50 bottom-4 left-3 right-3"
           role="navigation"
           aria-label="Main navigation"
         >

@@ -46,29 +46,6 @@
     -webkit-line-clamp: 2;
   }
 
-  /* Mobile keyboard safe navigation */
-  .mobile-safe-navigation {
-    bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
-    bottom: max(1rem, constant(safe-area-inset-bottom, 1rem)); /* iOS 11.0 */
-  }
-
-  .desktop-safe-navigation {
-    bottom: max(2rem, env(safe-area-inset-bottom, 2rem));
-    bottom: max(2rem, constant(safe-area-inset-bottom, 2rem)); /* iOS 11.0 */
-  }
-
-  /* Mobile viewport adaptation for keyboard */
-  .mobile-viewport-aware {
-    height: 100vh;
-    height: 100dvh; /* Dynamic viewport height for modern browsers */
-  }
-
-  /* Chat container viewport adaptation */
-  .chat-container-safe {
-    max-height: calc(100vh - env(safe-area-inset-bottom, 0px));
-    max-height: calc(100vh - constant(safe-area-inset-bottom, 0px)); /* iOS 11.0 */
-    max-height: calc(100dvh - env(safe-area-inset-bottom, 0px)); /* Dynamic viewport */
-  }
 }
 
 /* Project Cards Grid Anti-Overlap */

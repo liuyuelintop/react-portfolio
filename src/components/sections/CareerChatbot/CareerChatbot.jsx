@@ -1,15 +1,81 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../../../contexts/ThemeContext';
+import { useUI } from '../../../contexts/UIContext';
+import useMobile from '../../../hooks/useMobile';
 
 const CareerChatbot = () => {
   const { currentTheme } = useTheme();
+  const { setIsChatbotFocused } = useUI();
+  const isMobile = useMobile();
   const [iframeError, setIframeError] = useState(false);
   const [shouldLoadIframe, setShouldLoadIframe] = useState(false);
+  const iframeRef = useRef(null);
 
   const handleIframeError = () => {
     setIframeError(true);
   };
+
+  // Detect mobile keyboard/input focus for hiding navigation
+  useEffect(() => {
+    if (!isMobile || !shouldLoadIframe) return;
+
+    let initialViewportHeight = window.innerHeight;
+    let isKeyboardOpen = false;
+
+    const handleViewportChange = () => {
+      const currentHeight = window.innerHeight;
+      const heightDifference = initialViewportHeight - currentHeight;
+      
+      // If viewport height decreased by more than 150px, likely keyboard is open
+      const keyboardThreshold = 150;
+      const shouldHideNavigation = heightDifference > keyboardThreshold;
+      
+      if (shouldHideNavigation !== isKeyboardOpen) {
+        isKeyboardOpen = shouldHideNavigation;
+        setIsChatbotFocused(shouldHideNavigation);
+      }
+    };
+
+    const handleIframeFocus = () => {
+      // Small delay to allow keyboard to appear
+      setTimeout(() => {
+        handleViewportChange();
+      }, 300);
+    };
+
+    // Listen for iframe interaction
+    const iframe = iframeRef.current;
+    if (iframe) {
+      iframe.addEventListener('load', () => {
+        // Listen for clicks on iframe (indicates potential input focus)
+        iframe.addEventListener('mousedown', handleIframeFocus);
+        iframe.addEventListener('touchstart', handleIframeFocus);
+      });
+    }
+
+    // Listen for viewport changes
+    window.addEventListener('resize', handleViewportChange);
+    window.addEventListener('orientationchange', () => {
+      // Reset initial height on orientation change
+      setTimeout(() => {
+        initialViewportHeight = window.innerHeight;
+        handleViewportChange();
+      }, 500);
+    });
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleViewportChange);
+      window.removeEventListener('orientationchange', handleViewportChange);
+      if (iframe) {
+        iframe.removeEventListener('mousedown', handleIframeFocus);
+        iframe.removeEventListener('touchstart', handleIframeFocus);
+      }
+      // Reset state when component unmounts
+      setIsChatbotFocused(false);
+    };
+  }, [isMobile, shouldLoadIframe, setIsChatbotFocused]);
 
   const getThemeStyles = () => {
     const themes = {
@@ -269,6 +335,7 @@ const CareerChatbot = () => {
     >
       <div className="h-full w-full relative">
         <iframe
+          ref={iframeRef}
           src="https://liuyuelintop-career-chatbots.hf.space"
           width="100%"
           height="100%"
