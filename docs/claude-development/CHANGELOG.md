@@ -1,5 +1,42 @@
 # Development Changelog
 
+## Mobile Navigation & Theme Switcher Enhancement (August 7, 2025)
+
+### Mobile Navigation Improvements
+- **Smaller Mobile Navigation**: Significantly reduced mobile floating navigation size for better screen real estate
+- **Compact Design**: Optimized button spacing, padding, progress bar height, and typography
+- **Mobile-First Approach**: Reduced container margins and improved touch target optimization
+
+### Mobile Keyboard Viewport Fix
+- **Safe Area Support**: Applied `env(safe-area-inset-bottom)` and `constant(safe-area-inset-bottom)` for iOS compatibility
+- **Dynamic Positioning**: Navigation adapts to mobile keyboard display/hide changes automatically
+- **Cross-Browser Compatibility**: Support for both legacy iOS 11.0 and modern browser standards
+- **CSS Utilities**: Added reusable viewport-aware CSS classes for future use
+
+### Theme Switcher Architecture Refactor
+- **Mobile Theme Access**: Repositioned theme switcher next to mobile menu button in navbar
+- **Component Extraction**: Created reusable `ThemeSwitcherButton` component eliminating ~200 lines of duplicate code
+- **Code Cleanup**: Removed unused `ThemeSwitcher.jsx` component
+- **Clean Architecture**: Single source of truth with flexible props system (`isMobile`, `layoutId`, `buttonSize`)
+
+### Technical Implementation
+```javascript
+// Mobile navbar layout: [Theme Button] [Menu Button]
+<div className="md:hidden flex items-center space-x-2">
+  <ThemeSwitcherButton isMobile={true} layoutId="mobileActiveTheme" />
+  <MobileMenuButton />
+</div>
+```
+
+### User Experience Benefits
+- ✅ **Better Mobile UX**: Easy theme switching without accessing top navbar
+- ✅ **Optimized Screen Space**: Smaller navigation leaves more room for content
+- ✅ **Keyboard-Friendly**: Navigation adapts to mobile keyboard interactions
+- ✅ **Consistent Functionality**: All theme switching features preserved across mobile/desktop
+- ✅ **Clean Code**: DRY principle applied with reusable components
+
+---
+
 ## Auto-scroll Fix: Chatbot Iframe Focus Issue (August 6, 2025)
 
 ### Critical Bug Fix

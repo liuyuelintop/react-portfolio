@@ -1,68 +1,55 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../../../contexts/ThemeContext';
 import { useToast } from './Toast';
 
-export default function ThemeSwitcher() {
+export default function ThemeSwitcherButton({ 
+  isMobile = false, 
+  className = '',
+  buttonSize = 'w-10 h-10',
+  layoutId = 'activeTheme'
+}) {
   const { currentTheme, themes, switchTheme, isTransitioning } = useTheme();
-  const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
-
-  const containerVariants = {
-    hidden: {
-      opacity: 0,
-      scale: 0.8,
-      y: 20,
-    },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      transition: {
-        type: 'spring',
-        stiffness: 300,
-        damping: 30,
-        staggerChildren: 0.05,
-      },
-    },
-    exit: {
-      opacity: 0,
-      scale: 0.8,
-      y: 20,
-      transition: {
-        duration: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: {
-      opacity: 0,
-      x: -10,
-    },
-    visible: {
-      opacity: 1,
-      x: 0,
-    },
-  };
+  const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
+  const themeMenuRef = useRef(null);
+  const themeButtonRef = useRef(null);
 
   const currentThemeData = themes[currentTheme];
 
+  // Handle click outside to close menu
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const isOutsideThemeMenu = themeMenuRef.current && !themeMenuRef.current.contains(event.target);
+      const isOutsideThemeButton = themeButtonRef.current && !themeButtonRef.current.contains(event.target);
+      
+      if (isThemeMenuOpen && isOutsideThemeMenu && isOutsideThemeButton) {
+        setIsThemeMenuOpen(false);
+      }
+    };
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isThemeMenuOpen]);
+
+  const toggleThemeMenu = () => setIsThemeMenuOpen(prev => !prev);
+
   return (
-    <div className="fixed top-2 right-20 z-50">
-      {/* Theme Toggle Button */}
+    <div className={`relative ${className}`}>
       <motion.button
-        onClick={() => setIsOpen(!isOpen)}
+        ref={themeButtonRef}
+        onClick={toggleThemeMenu}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         className={`
-          relative w-12 h-12 rounded-full backdrop-blur-md border shadow-2xl
+          relative ${buttonSize} rounded-full backdrop-blur-md border shadow-lg
           transition-all duration-300 overflow-hidden group
           ${currentTheme === 'minimal'
             ? 'bg-white/90 border-gray-200 text-gray-700'
             : 'bg-neutral-900/90 border-neutral-700/50 text-white'
           }
           ${isTransitioning ? 'animate-pulse' : ''}
+          ${isMobile ? '' : 'mr-2'}
         `}
         title={`Current theme: ${currentThemeData.name}`}
       >
@@ -78,13 +65,13 @@ export default function ThemeSwitcher() {
         `} />
 
         {/* Theme icon */}
-        <span className="relative z-10 text-2xl">
+        <span className="relative z-10 text-lg">
           {currentThemeData.icon}
         </span>
 
         {/* Indicator dot */}
         <div className={`
-          absolute -top-1 -right-1 w-4 h-4 rounded-full border-2
+          absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full border-2
           ${currentTheme === 'minimal' ? 'border-white' : 'border-neutral-900'}
           ${currentTheme === 'neon'
             ? 'bg-cyan-400'
@@ -99,14 +86,15 @@ export default function ThemeSwitcher() {
 
       {/* Theme Options Dropdown */}
       <AnimatePresence>
-        {isOpen && (
+        {isThemeMenuOpen && (
           <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
+            ref={themeMenuRef}
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             className={`
-              absolute top-16 right-0 min-w-48 rounded-xl backdrop-blur-xl border shadow-2xl overflow-hidden
+              absolute top-14 right-0 min-w-48 rounded-xl backdrop-blur-xl border shadow-2xl overflow-hidden z-50
               ${currentTheme === 'minimal'
                 ? 'bg-white/95 border-gray-200'
                 : 'bg-neutral-900/95 border-neutral-700/50'
@@ -129,11 +117,10 @@ export default function ThemeSwitcher() {
               {Object.entries(themes).map(([key, theme]) => (
                 <motion.button
                   key={key}
-                  variants={itemVariants}
                   onClick={() => {
                     const previousTheme = currentTheme;
                     switchTheme(key);
-                    setIsOpen(false);
+                    setIsThemeMenuOpen(false);
                     
                     // Show toast notification
                     if (key !== previousTheme) {
@@ -158,7 +145,7 @@ export default function ThemeSwitcher() {
                   `}
                 >
                   {/* Theme icon */}
-                  <span className="text-xl">{theme.icon}</span>
+                  <span className="text-lg">{theme.icon}</span>
 
                   {/* Theme info */}
                   <div className="flex-1">
@@ -177,7 +164,7 @@ export default function ThemeSwitcher() {
                   {/* Active indicator */}
                   {key === currentTheme && (
                     <motion.div
-                      layoutId="activeTheme"
+                      layoutId={layoutId}
                       className={`
                         w-2 h-2 rounded-full
                         ${currentTheme === 'neon'
@@ -208,22 +195,9 @@ export default function ThemeSwitcher() {
                 : 'border-neutral-700/50 text-neutral-400'
               }
             `}>
-              💡 Theme preference is saved locally
+              💡 Theme saved locally
             </div>
           </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Backdrop */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setIsOpen(false)}
-            className="fixed inset-0 -z-10 bg-black/20 backdrop-blur-sm"
-          />
         )}
       </AnimatePresence>
     </div>
