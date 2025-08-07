@@ -1,13 +1,52 @@
 import { motion } from 'framer-motion';
+import { useEffect, useRef } from 'react';
 import { useTheme } from '../../../contexts/ThemeContext';
+import { useUI } from '../../../hooks/useUI';
+import useMobile from '../../../hooks/useMobile';
 import SectionHeading from '../../ui/common/SectionHeading';
 import { CareerChatbot } from '../CareerChatbot';
 
 export default function Chatbot() {
   const { currentTheme } = useTheme();
+  const { setIsChatbotFocused } = useUI();
+  const isMobile = useMobile();
+  const sectionRef = useRef(null);
+
+  // Hide navigation when chatbot section is in view on mobile
+  useEffect(() => {
+    if (!isMobile || !sectionRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Hide navigation when chatbot section is 50% visible on mobile
+            setIsChatbotFocused(true);
+          } else if (entry.intersectionRatio < 0.1) {
+            // Show navigation when chatbot section is mostly out of view
+            setIsChatbotFocused(false);
+          }
+        });
+      },
+      {
+        threshold: [0.1, 0.5], // Trigger at 10% and 50% visibility
+        rootMargin: '-10px 0px -10px 0px' // Slightly reduce the trigger area
+      }
+    );
+
+    observer.observe(sectionRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [isMobile, setIsChatbotFocused]);
 
   return (
-    <section className="max-w-7xl mx-auto py-12 px-4 lg:px-8">
+    <section 
+      ref={sectionRef}
+      id="chatbot"
+      className="max-w-7xl mx-auto py-12 px-4 lg:px-8"
+    >
       <div className="text-center mb-12">
         <SectionHeading level="section">
           Ask My AI Assistant

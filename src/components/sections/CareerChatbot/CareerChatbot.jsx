@@ -18,17 +18,18 @@ const CareerChatbot = () => {
 
   // Detect mobile keyboard/input focus for hiding navigation
   useEffect(() => {
-    if (!isMobile || !shouldLoadIframe) return;
+    if (!isMobile) return;
 
     let initialViewportHeight = window.innerHeight;
     let isKeyboardOpen = false;
+    let hideNavigationTimer = null;
 
     const handleViewportChange = () => {
       const currentHeight = window.innerHeight;
       const heightDifference = initialViewportHeight - currentHeight;
       
-      // If viewport height decreased by more than 150px, likely keyboard is open
-      const keyboardThreshold = 150;
+      // If viewport height decreased by more than 100px, likely keyboard is open
+      const keyboardThreshold = 100;
       const shouldHideNavigation = heightDifference > keyboardThreshold;
       
       if (shouldHideNavigation !== isKeyboardOpen) {
@@ -37,20 +38,43 @@ const CareerChatbot = () => {
       }
     };
 
-    const handleIframeFocus = () => {
-      // Small delay to allow keyboard to appear
-      setTimeout(() => {
-        handleViewportChange();
-      }, 300);
+    const handleIframeInteraction = () => {
+      // Immediately hide navigation when interacting with iframe on mobile
+      if (isMobile) {
+        setIsChatbotFocused(true);
+        
+        // Clear any existing timer
+        if (hideNavigationTimer) {
+          clearTimeout(hideNavigationTimer);
+        }
+        
+        // Set timer to show navigation again after 3 seconds of no interaction
+        hideNavigationTimer = setTimeout(() => {
+          // Only show navigation again if viewport height hasn't changed
+          handleViewportChange();
+          if (window.innerHeight >= initialViewportHeight - 50) {
+            setIsChatbotFocused(false);
+          }
+        }, 3000);
+      }
     };
 
     // Listen for iframe interaction
     const iframe = iframeRef.current;
     if (iframe) {
+      // Add event listeners for iframe interaction
+      iframe.addEventListener('mousedown', handleIframeInteraction);
+      iframe.addEventListener('touchstart', handleIframeInteraction);
+      
       iframe.addEventListener('load', () => {
-        // Listen for clicks on iframe (indicates potential input focus)
-        iframe.addEventListener('mousedown', handleIframeFocus);
-        iframe.addEventListener('touchstart', handleIframeFocus);
+        // Try to listen for events inside iframe (may not work due to cross-origin)
+        try {
+          iframe.contentWindow.addEventListener('focus', handleIframeInteraction, true);
+          iframe.contentWindow.addEventListener('click', handleIframeInteraction, true);
+        } catch (e) {
+          // Ignore cross-origin errors
+          console.log('Cannot listen to iframe events due to cross-origin restrictions');
+        }
       });
     }
 
@@ -69,13 +93,16 @@ const CareerChatbot = () => {
       window.removeEventListener('resize', handleViewportChange);
       window.removeEventListener('orientationchange', handleViewportChange);
       if (iframe) {
-        iframe.removeEventListener('mousedown', handleIframeFocus);
-        iframe.removeEventListener('touchstart', handleIframeFocus);
+        iframe.removeEventListener('mousedown', handleIframeInteraction);
+        iframe.removeEventListener('touchstart', handleIframeInteraction);
+      }
+      if (hideNavigationTimer) {
+        clearTimeout(hideNavigationTimer);
       }
       // Reset state when component unmounts
       setIsChatbotFocused(false);
     };
-  }, [isMobile, shouldLoadIframe, setIsChatbotFocused]);
+  }, [isMobile, setIsChatbotFocused]);
 
   const getThemeStyles = () => {
     const themes = {
