@@ -6,7 +6,7 @@
 
 ---
 
-A **modern, visually stunning, and professionally architected** personal portfolio built with **React 18**, **Tailwind CSS**, and **Framer Motion**. Features comprehensive project showcase, professional experience timeline, interactive skills visualization, and performance-optimized components with enterprise-grade code organization, accessibility enhancements, and unified design system.
+An innovative, interactive portfolio crafted with cutting-edge React 18 technology, featuring smooth Framer Motion animations and elegant Tailwind CSS styling. This showcase presents my professional journey through dynamic project galleries, animated skill visualizations, and an intelligent AI career assistant. Built with enterprise-level architecture, accessibility-first design, and optimized performance for an exceptional user experience across all devices.
 
 ![Portfolio Screenshot](./src/assets/og-image.png)
 
