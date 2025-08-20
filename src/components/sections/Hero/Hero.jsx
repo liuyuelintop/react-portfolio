@@ -3,7 +3,7 @@ import { HERO_CONTENT } from "../../../constants/constants";
 import { useTypingAnimation } from "../../../hooks/useTypingAnimation";
 import { useTheme } from "../../../contexts/ThemeContext";
 import { HiDownload, HiMail, HiLocationMarker } from 'react-icons/hi';
-import { FaLinkedin, FaGithub } from 'react-icons/fa';
+import { FaLinkedin, FaGithub, FaBlog } from 'react-icons/fa';
 import { useCV } from '../../../hooks/useCV';
 import Button from '../../ui/common/Button';
 import {
@@ -34,8 +34,8 @@ export default function Hero() {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 2, ease: "easeOut" }}
                     className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl ${currentTheme === 'minimal'
-                            ? 'bg-gradient-to-r from-blue-100/40 to-purple-100/40'
-                            : 'bg-gradient-to-r from-purple-500/10 to-blue-500/10'
+                        ? 'bg-gradient-to-r from-blue-100/40 to-purple-100/40'
+                        : 'bg-gradient-to-r from-purple-500/10 to-blue-500/10'
                         }`}
                 />
 
@@ -90,8 +90,8 @@ export default function Hero() {
                     <div className="lg:col-span-2 space-y-8">
                         <motion.div variants={titleVariants} className="space-y-4">
                             <h1 className={`text-5xl md:text-7xl font-bold leading-tight bg-gradient-to-r bg-clip-text text-transparent ${currentTheme === 'minimal'
-                                    ? 'from-gray-900 via-gray-700 to-gray-800'
-                                    : 'from-white via-purple-200 to-blue-200'
+                                ? 'from-gray-900 via-gray-700 to-gray-800'
+                                : 'from-white via-purple-200 to-blue-200'
                                 }`}>
                                 {HERO_CONTENT.name}
                             </h1>
@@ -150,8 +150,8 @@ export default function Hero() {
                     <motion.div
                         variants={itemVariants}
                         className={`rounded-2xl p-8 border backdrop-blur-sm ${currentTheme === 'minimal'
-                                ? 'bg-white/80 border-gray-200 shadow-xl shadow-gray-200/20'
-                                : 'bg-neutral-800/80 border-neutral-700 shadow-xl shadow-black/20'
+                            ? 'bg-white/80 border-gray-200 shadow-xl shadow-gray-200/20'
+                            : 'bg-neutral-800/80 border-neutral-700 shadow-xl shadow-black/20'
                             }`}
                     >
                         <h3 className={`text-xl font-bold mb-6 flex items-center gap-2 ${currentTheme === 'minimal' ? 'text-gray-900' : 'text-white'
@@ -168,8 +168,8 @@ export default function Hero() {
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: 0.5 + index * 0.1, duration: 0.5 }}
                                     className={`group flex items-center gap-3 p-3 rounded-xl transition-all duration-300 cursor-pointer ${currentTheme === 'minimal'
-                                            ? 'hover:bg-gray-100'
-                                            : 'hover:bg-purple-400/10'
+                                        ? 'hover:bg-gray-100'
+                                        : 'hover:bg-purple-400/10'
                                         }`}
                                     whileHover={{ x: 5 }}
                                 >
@@ -198,8 +198,8 @@ export default function Hero() {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={`p-2 rounded-lg transition-all duration-300 ${currentTheme === 'minimal'
-                                            ? 'text-gray-500 hover:text-blue-600 hover:bg-blue-50'
-                                            : 'text-neutral-400 hover:text-blue-400 hover:bg-blue-400/10'
+                                        ? 'text-gray-500 hover:text-blue-600 hover:bg-blue-50'
+                                        : 'text-neutral-400 hover:text-blue-400 hover:bg-blue-400/10'
                                         }`}
                                     whileHover={{ scale: 1.1, y: -2 }}
                                     whileTap={{ scale: 0.9 }}
@@ -212,14 +212,30 @@ export default function Hero() {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={`p-2 rounded-lg transition-all duration-300 ${currentTheme === 'minimal'
-                                            ? 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
-                                            : 'text-neutral-400 hover:text-white hover:bg-white/10'
+                                        ? 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
+                                        : 'text-neutral-400 hover:text-white hover:bg-white/10'
                                         }`}
                                     whileHover={{ scale: 1.1, y: -2 }}
                                     whileTap={{ scale: 0.9 }}
                                 >
                                     <FaGithub className="text-xl" />
                                 </motion.a>
+
+                                <motion.a
+                                    href="https://blog.liuyuelin.dev/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={`p-2 rounded-lg transition-all duration-300 ${currentTheme === 'minimal'
+                                        ? 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
+                                        : 'text-neutral-400 hover:text-white hover:bg-white/10'
+                                        }`}
+                                    whileHover={{ scale: 1.1, y: -2 }}
+                                    whileTap={{ scale: 0.9 }}
+                                >
+                                    <FaBlog className="text-xl" />
+                                </motion.a>
+
+
                             </div>
                         </div>
                     </motion.div>
