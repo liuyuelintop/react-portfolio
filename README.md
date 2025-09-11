@@ -103,8 +103,17 @@ cd react-portfolio
 ```
 
 ### 2. Install Dependencies
+
+You can use `npm` or `pnpm` to install dependencies.
+
+**Using npm:**
 ```bash
 npm install
+```
+
+**Using pnpm (Recommended for faster installation):**
+```bash
+pnpm install
 ```
 
 ### 3. Environment Configuration
@@ -116,15 +125,30 @@ VITE_GITHUB_USERNAME=your_github_username
 ```
 
 ### 4. Development Server
+
+**Using npm:**
 ```bash
 npm run dev
+```
+
+**Using pnpm:**
+```bash
+pnpm run dev
 ```
 Visit [http://localhost:5173](http://localhost:5173) to see your portfolio.
 
 ### 5. Production Build
+
+**Using npm:**
 ```bash
 npm run build
 npm run preview  # Preview production build locally
+```
+
+**Using pnpm:**
+```bash
+pnpm run build
+pnpm run preview # Preview production build locally
 ```
 
 ---
@@ -256,12 +280,24 @@ import { useTypingAnimation, useScrollAnimation } from '../hooks';
 
 ## 📋 Scripts
 
+This project uses npm or pnpm for script execution.
+
+**Using npm:**
 ```bash
 npm run dev          # Start development server
 npm run build        # Build for production
 npm run preview      # Preview production build
 npm run lint         # Run ESLint
 npm run lint:fix     # Fix ESLint issues
+```
+
+**Using pnpm:**
+```bash
+pnpm run dev          # Start development server
+pnpm run build        # Build for production
+pnpm run preview      # Preview production build
+pnpm run lint         # Run ESLint
+pnpm run lint:fix     # Fix ESLint issues
 ```
 
 ---
