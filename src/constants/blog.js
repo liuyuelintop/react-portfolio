@@ -22,31 +22,31 @@ export const BLOG_CONFIG = {
   cardAnimationDelay: 0.1,
   statsAnimationDelay: 0.1,
   
-  // Fallback data for demo/offline mode
+  // Fallback data using real blog posts from API
   fallbackPosts: [
     {
-      slug: 'getting-started-with-nextjs',
-      title: 'Getting Started with Next.js 14',
-      description: 'A comprehensive guide to building modern web applications with Next.js 14, covering app router, server components, and performance optimization.',
-      date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(), // 2 days ago
-      tags: ['Next.js', 'React', 'JavaScript'],
-      canonicalUrl: 'https://blog.liuyuelin.dev/getting-started-with-nextjs'
+      slug: 'blog/four-sum-algorithm-one-character-bug',
+      title: 'Four Sum Algorithm: How One Character Can Break Your Solution',
+      description: 'Discover how a single character difference in duplicate-skipping logic can silently break your Four Sum solution. Learn why j > 1 fails across different loop iterations and how j > i + 1 ensures all valid quadruplets are found through real debugging examples.',
+      date: '2025-08-27T12:00:00.000Z',
+      tags: ['JavaScript', 'Algorithms', 'Data Structures', 'Best Practices'],
+      canonicalUrl: 'https://blog.liuyuelin.dev/blog/four-sum-algorithm-one-character-bug'
     },
     {
-      slug: 'react-best-practices-2024',
-      title: 'React Best Practices for 2024',
-      description: 'Modern React patterns and practices that will make your code more maintainable, performant, and scalable.',
-      date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(), // 5 days ago
-      tags: ['React', 'Best Practices', 'JavaScript'],
-      canonicalUrl: 'https://blog.liuyuelin.dev/react-best-practices-2024'
+      slug: 'blog/javascript-array-pitfalls-nums-negative-index-3sum',
+      title: 'JavaScript Array Pitfalls: Why nums[-1] Doesn\'t Break Your 3Sum Solution',
+      description: 'Discover why nums[-1] doesn\'t crash JavaScript and how understanding arrays as objects can help you debug algorithm problems like 3Sum. Learn about negative indexing, property access patterns, and JavaScript\'s unique array behavior.',
+      date: '2025-08-26T10:30:00.000Z',
+      tags: ['JavaScript', 'Algorithms', 'Data Structures', 'Best Practices'],
+      canonicalUrl: 'https://blog.liuyuelin.dev/blog/javascript-array-pitfalls-nums-negative-index-3sum'
     },
     {
-      slug: 'building-ai-powered-apps',
-      title: 'Building AI-Powered Applications',
-      description: 'Learn how to integrate AI capabilities into your applications using modern APIs and frameworks.',
-      date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(), // 1 week ago
-      tags: ['AI', 'LangChain', 'OpenAI'],
-      canonicalUrl: 'https://blog.liuyuelin.dev/building-ai-powered-apps'
+      slug: 'blog/detect-cycle-floyd-tortoise-hare-algorithm',
+      title: 'LeetCode 142: Detect Cycle Start with Floyd\'s Tortoise & Hare Algorithm',
+      description: 'Master Floyd\'s cycle detection algorithm for finding cycle entry points in linked lists. Covers both compact interview solution and teaching-friendly implementation with mathematical intuition.',
+      date: '2025-08-25T19:30:00.000Z',
+      tags: ['JavaScript', 'Data Structures', 'Algorithms', 'Best Practices'],
+      canonicalUrl: 'https://blog.liuyuelin.dev/blog/detect-cycle-floyd-tortoise-hare-algorithm'
     }
   ]
 };
