@@ -9,6 +9,7 @@ const SECTION_LINKS = [
     { label: 'Experience', href: '#experience' },
     { label: 'Skills', href: '#skills' },
     { label: 'Projects', href: '#projects' },
+    { label: 'Blog', href: '#blog' },
     { label: 'References', href: '#references' },
     { label: 'Brand', href: '#brand' },
     { label: 'GitHub', href: '#github' },

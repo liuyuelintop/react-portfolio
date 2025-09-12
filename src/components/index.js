@@ -7,6 +7,7 @@ export { default as Hero } from './sections/Hero/Hero';
 export { default as Experience } from './sections/Experience';
 export { default as Skills } from './sections/Skills';
 export { default as Projects } from './sections/Projects';
+export { default as Blog } from './sections/Blog';
 export { default as References } from './sections/References';
 export { default as PersonalBranding } from './sections/PersonalBranding';
 export { default as GitHubActivity } from './sections/GitHubActivity';
