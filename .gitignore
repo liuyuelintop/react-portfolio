@@ -13,6 +13,10 @@ dist-ssr
 *.local
 .env
 
+# Package manager locks (keep only npm for production)
+pnpm-lock.yaml
+yarn.lock
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
