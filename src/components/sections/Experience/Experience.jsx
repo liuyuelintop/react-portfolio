@@ -88,6 +88,14 @@ const ExperienceCard = ({ experience, index, isExpanded, onToggle, theme }) => {
               </span>
             )}
           </div>
+
+          {experience.location && (
+            <p className={`mt-2 text-sm ${
+              theme === 'minimal' ? 'text-gray-500' : 'text-neutral-400'
+            }`}>
+              {experience.location}
+            </p>
+          )}
         </div>
         
         <div className="flex flex-col items-end gap-2">
@@ -260,8 +268,8 @@ export default function Experience() {
             currentTheme === 'minimal' ? 'text-gray-600' : 'text-neutral-400'
           }`}
         >
-          My journey through full-stack development, from graduate roles to senior engineering positions.
-          Click on any experience to explore detailed achievements and technologies.
+          Commercial full-stack delivery across Melbourne SaaS products, operational portals, cloud deployments and AI-assisted workflows.
+          Click any role to inspect achievements and technology ownership.
         </motion.p>
       </div>
 

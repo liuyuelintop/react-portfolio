@@ -1,6 +1,5 @@
 // Layout Components
 export { default as Navbar } from './layout/Navbar';
-export { default as FloatingNavigation } from './layout/FloatingNavigation';
 
 // Section Components
 export { default as Hero } from './sections/Hero/Hero';

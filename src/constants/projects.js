@@ -1,297 +1,120 @@
 import { projectImages } from "./assets";
 
 export const PROJECTS = [
-    {
-      title: "Career Chatbot",
-      image: projectImages.careerChatbot,
-      description: {
-        summary: "A personal AI assistant chatbot to act as a digital representative of Yuelin Liu.",
-        features: [
-          "Acts as a digital representative of Yuelin Liu",
-          "Initialized with Yuelin's professional information from a summary.txt file and a linkedin.pdf",
-          "Interactive and helpful to visitors on a website",
-          "Can answer questions about Yuelin's career, skills, and background",
-          "Records questions it cannot answer",
-          "Records contact details if a user wishes to get in touch",
-          "Uses a Gemini model with a toolset for recording functions"
-        ]
-      },
-      url: "https://huggingface.co/spaces/liuyuelintop/career_chatbots",
-      technologies: {
-        main: ["OpenAI","Agents","Gradio", "Python"],
-        others: ["Gemini"]
-      }
-    },
-    {
-    title: "Melbourne University Ultimate Frisbee Club",
-    image: projectImages.melbUniUltimate, // Add the relevant image to your assets
+  {
+    title: "MoneyGuard AI Finance Pipeline",
+    image: projectImages.careerChatbot,
+    roleFit: "AI workflow reliability, privacy boundaries and TypeScript validation.",
     description: {
       summary:
-        "A modern, open-source web platform for ultimate frisbee clubs. Built for the Melbourne University Ultimate community—ready for your team!",
+        "A multi-LLM wage-audit pipeline that turns timecard images into validated financial reports instead of trusting raw model output.",
+      detailed:
+        "This project is strongest as an engineering-judgment case study: Gemini Vision and DeepSeek produce candidate OCR/analysis output, but TypeScript and Zod validation, local deterministic calculations, masking, retry/backoff and throttling make the workflow safer to use.",
       features: [
-        "Beautiful, modern UI with Tailwind, shadcn/ui, and Lucide icons",
-        "All-in-one club management: events, announcements, roster, alumni, tournaments, and more",
-        "Admin dashboard for easy content and user management",
-        "Open source, MIT licensed – ready for your club or team",
-        "Easy deploy to Vercel (or your own server)",
-        "Role-based access with NextAuth.js (admin/member/public)",
-        "Trusted by the Melbourne University Ultimate community"
-      ]
-    },
-    url: "https://melb-uni-ultimate.vercel.app",
-    technologies: {
-      main: [
-        "Next.js 15",
-        "TypeScript",
-        "Tailwind CSS",
-        "shadcn/ui",
-        "MongoDB",
-      ],
-      others: [
-        "Lucide React",
-        "Jest",
-        "ESLint",
-        "Prettier",
-        "Husky",
-        "Vercel"
-      ]
-    }
-    },
-  {
-    title: "Netflix Clone",
-    image: projectImages.mernNetflixClone,
-    description: {
-      summary: "Feature-rich video streaming platform clone.",
-      features: [
-        "JWT authentication system",
-        "Dynamic content recommendation engine",
-        "Advanced search with actor/film filters",
-        "Responsive cross-device UI",
+        "Extracts timecard data with Gemini Vision and validates AI output with TypeScript and Zod",
+        "Computes burn rate, surplus and hours-to-spend locally instead of outsourcing sensitive calculations",
+        "Masks income and personal asset data in memory before external AI calls",
+        "Uses retry/backoff and timestamp throttling to avoid HTTP 429 failures during high-frequency updates",
       ],
     },
-    url: "https://netwatch.liuyuelin.xyz/",
+    evidence: [
+      "Structured LLM output validation",
+      "Privacy-first data boundary",
+      "Fault-tolerant API integration",
+    ],
     technologies: {
-      main: ["MERN", "Zustand", "AWS"],
-      others: [],
+      main: ["TypeScript", "Node.js", "Gemini LLM", "DeepSeek LLM"],
+      additional: ["Zod", "Telegram Bot API", "Async Pipelines", "Privacy Design"],
+      others: ["OCR", "Rate Limiting", "Structured LLM Outputs"],
     },
+    year: "2026",
   },
   {
-    title: "SaaS IDE Platform",
+    title: "Production AI Agent System",
     image: projectImages.nextCodeCraft,
+    roleFit: "Serverless AI architecture, repeatable infrastructure and observability.",
     description: {
       summary:
-        "Next.js IDE inspired by VS Code with real-time collaboration tools.",
+        "A cloud-deployed multi-agent AI architecture provisioned with Terraform and AWS Lambda.",
+      detailed:
+        "This case study shows cloud maturity around AI systems: repeatable infrastructure, serverless execution, deployment automation and lifecycle observability rather than a local-only AI demo.",
       features: [
-        "Real-time code editing with multiplayer support",
-        "Secure payment gateway integration",
-        "Code snippet sharing system",
-        "VS Code-like interface customization",
+        "Built and deployed a multi-agent AI architecture on AWS Lambda",
+        "Provisioned infrastructure with Terraform for repeatable cloud environments",
+        "Integrated observability for agent behaviour, state transitions and LLM tracing",
+        "Configured GitHub Actions delivery workflows for reliable deployments",
       ],
     },
-    url: "https://codecraft.liuyuelin.dev/",
+    evidence: [
+      "Infrastructure as Code",
+      "Agent lifecycle tracing",
+      "Serverless deployment path",
+    ],
     technologies: {
-      main: ["Next.js", "Convex", "Webhooks", "Clerk"],
-      others: ["Lemon Squeezy", "SaaS"],
+      main: ["Terraform", "AWS Lambda", "Amazon Bedrock", "GitHub Actions"],
+      additional: ["Serverless", "Observability", "Infrastructure as Code", "LLM Tracing"],
+      others: ["Agentic Workflows", "Cloud Automation"],
     },
+    year: "2026",
+  },
+  {
+    title: "Melbourne University Ultimate Club Platform",
+    image: projectImages.melbUniUltimate,
+    roleFit: "Local product ownership, community workflows and maintainable Next.js delivery.",
+    description: {
+      summary:
+        "An open-source Next.js 15 platform for sports club management, player stats and community engagement.",
+      detailed:
+        "This project shows practical product thinking: it translates a real local community need into maintainable workflows for events, announcements, player statistics and responsive dashboards.",
+      features: [
+        "Architected a modular open-source template for sports club management",
+        "Implemented player statistics tracking, events, announcements and community workflows",
+        "Used Next.js 15 server-side logic and optimized layouts for multi-device dashboards",
+        "Designed a maintainable base that can be adapted by other clubs and teams",
+      ],
+    },
+    evidence: [
+      "Local stakeholder context",
+      "Responsive dashboard UI",
+      "Reusable product template",
+    ],
+    url: "https://melb-uni-ultimate.vercel.app",
+    technologies: {
+      main: ["Next.js 15", "TypeScript", "Tailwind CSS", "Open Source"],
+      additional: ["shadcn/ui", "MongoDB", "Responsive UI", "Vercel"],
+      others: ["Club Management", "Player Statistics"],
+    },
+    year: "2026",
+  },
+];
+
+export const SUPPORTING_PROJECTS = [
+  {
+    title: "SaaS IDE Platform",
+    summary: "Next.js IDE-style product with auth, payments, snippets and real-time collaboration concepts.",
+    whyItMatters: "Shows SaaS product thinking beyond a static portfolio.",
+    url: "https://codecraft.liuyuelin.dev/",
+    stack: ["Next.js", "Convex", "Clerk", "Webhooks", "Lemon Squeezy"],
   },
   {
     title: "Remote Interview Platform",
-    image: projectImages.nextRemoteInterviewPlatform,
-    description: {
-      summary:
-        "Integrated technical interview solution with coding environment.",
-      features: [
-        "Real-time video/audio with screen recording",
-        "Live code collaboration with OT algorithms",
-        "Preloaded coding challenges library",
-        "Candidate performance analytics dashboard",
-      ],
-    },
+    summary: "Technical interview workflow with coding environment, video/audio and candidate review flows.",
+    whyItMatters: "Relevant to collaborative tooling, dashboards and workflow-heavy SaaS.",
     url: "https://codeinterview.liuyuelin.dev/",
-    technologies: {
-      main: ["Next.js", "Stream", "Convex", "Shadcn/ui"],
-      others: ["WebRockets API", "Clerk"],
-    },
+    stack: ["Next.js", "Stream", "Convex", "Clerk", "shadcn/ui"],
   },
-    {
+  {
     title: "ApeUni FIB Extractor Monorepo",
-    image: projectImages.apeUniFibExtractor,  // make sure you add this asset to your `projectImages`
-    description: {
-      summary:
-        "Unified toolkit for extracting, copying, and exporting “Fill in the Blank” answers from ApeUni practice pages.",
-      features: [
-        "Accurate extraction for both Reading and Writing FIB questions",
-        "SPA navigation support with per-question caching",
-        "Modern floating UI for instant copy, preview, and export",
-        "Dual output: Tampermonkey userscript & Chrome extension"
-      ]
-    },
-    url: "https://github.com/liuyuelintop/apeuni-fib-extractor-monorepo",  // replace with your actual repo URL
-    technologies: {
-      main: ["JavaScript", "Userscript", "Chrome Extension", "Monorepo"],
-      others: ["TypeScript", "ESBuild", "npm"]
-    }
+    summary: "Browser automation toolkit packaged as both a Tampermonkey userscript and Chrome extension.",
+    whyItMatters: "Shows practical automation, packaging and monorepo delivery.",
+    url: "https://github.com/liuyuelintop/apeuni-fib-extractor-monorepo",
+    stack: ["JavaScript", "TypeScript", "Chrome Extension", "ESBuild"],
   },
   {
     title: "Next Markdown Blog",
-    image: projectImages.nextBlog,
-    description: {
-      summary: "Modern static site generator for technical content.",
-      features: [
-        "MDX components support",
-        "Dynamic Open Graph generation",
-        "Syntax highlighting with Prism",
-        "Automated content pagination",
-      ],
-    },
+    summary: "Technical writing platform with MDX, syntax highlighting, SEO and static content workflows.",
+    whyItMatters: "Shows documentation mindset and content infrastructure.",
     url: "https://blog.liuyuelin.dev/",
-    technologies: {
-      main: ["Next.js", "Shadcn/ui", "Velite", "SEO"],
-      others: ["Tailwind CSS", "Vercel"],
-    },
-  },
-  {
-    title: "Twitter Clone",
-    image: projectImages.twitterClone,
-    description: {
-      summary: "Full-stack social media platform replica.",
-      features: [
-        "Real-time post creation/deletion",
-        "Interactive comment threads",
-        "Cloudinary image management",
-        "Push notification system",
-      ],
-    },
-    url: "https://twitter-clone-qhpp.onrender.com/",
-    technologies: {
-      main: ["MERN", "React Query", "Cloudinary", "JWT"],
-      others: ["DaisyUI"],
-    },
-  },
-  {
-    title: "MERN E-commerce",
-    image: projectImages.mernEcommerce,
-    description: {
-      summary: "Complete online retail solution.",
-      features: [
-        "Stripe payment integration",
-        "Redis caching system",
-        "Product variant management",
-        "Real-time sales analytics",
-      ],
-    },
-    url: "https://mern-e-commerce-store-8w0a.onrender.com/",
-    technologies: {
-      main: ["MERN", "Stripe", "Redis", "Zustand"],
-      others: ["Cloudinary", "Tailwind"],
-    },
-  },
-  {
-    title: "Stripe Subscriptions",
-    image: projectImages.nextStripeStarter,
-    description: {
-      summary: "Subscription management system with Stripe.",
-      features: [
-        "Recurring payment workflows",
-        "Dark/light theme system",
-        "Webhook event handling",
-        "Kinde authentication",
-      ],
-    },
-    url: "https://stripe-subscriptions-yl.vercel.app/",
-    technologies: {
-      main: ["Next.js", "Stripe", "Prisma", "Kinde"],
-      others: ["MongoDB", "Vercel"],
-    },
-  },
-  {
-    title: "Real-Time Chat",
-    image: projectImages.mernChat,
-    description: {
-      summary: "Instant messaging platform with presence detection.",
-      features: [
-        "Socket.io real-time engine",
-        "Online status indicators",
-        "Message history persistence",
-        "Error boundary handling",
-      ],
-    },
-    url: "https://mern-chat-app-9ybq.onrender.com/",
-    technologies: {
-      main: ["MERN", "Daisy UI", "Socket.io", "JWT"],
-      others: [],
-    },
-  },
-  {
-    title: "Real Estate Portal",
-    image: projectImages.mernEstate,
-    description: {
-      summary: "Property listing marketplace.",
-      features: [
-        "Advanced search filters",
-        "Geolocation tagging",
-        "Image gallery management",
-        "Lead generation system",
-      ],
-    },
-    url: "https://mern-estate-zw5b.onrender.com/",
-    technologies: {
-      main: ["MERN", "Firebase", "Tailwind"],
-      others: [],
-    },
-  },
-  {
-    title: "Game Hub",
-    image: projectImages.gameHub,
-    description: {
-      summary: "Multi-genre browser gaming platform.",
-      features: [
-        "Cross-browser compatibility",
-        "Game progress saving",
-        "Social sharing integration",
-        "Responsive controls",
-      ],
-    },
-    url: "https://game-hub-two-zeta.vercel.app/",
-    technologies: {
-      main: ["React", "TypeScript", "CSS", "Vercel"],
-      others: [],
-    },
-  },
-  {
-    title: "Blog Platform",
-    image: projectImages.mernBlog,
-    description: {
-      summary: "Content management system for publishers.",
-      features: [
-        "Rich text editor with embeds",
-        "Role-based access control",
-        "SEO-friendly markup",
-        "Comment moderation tools",
-      ],
-    },
-    url: "https://mern-blog-6atr.onrender.com/",
-    technologies: {
-      main: ["MERN", "Firebase", "Tailwind", "Flowbite"],
-      others: [],
-    },
-  },
-  {
-    title: "Biomech Analysis",
-    image: projectImages.biomechAnalysis,
-    description: {
-      summary: "Motion capture data processing pipeline.",
-      features: [
-        "YOLOv8 pose estimation",
-        "OpenSim model conversion",
-        "Real-time visualization",
-        "Multi-database storage",
-      ],
-    },
-    url: "#",
-    technologies: {
-      main: ["React", "YOLOv8", "OpenSim", "SQL"],
-      others: ["NoSQL", "Python"],
-    },
+    stack: ["Next.js", "MDX", "Velite", "Tailwind CSS", "Vercel"],
   },
 ];

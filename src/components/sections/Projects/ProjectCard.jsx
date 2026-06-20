@@ -139,12 +139,41 @@ const ProjectCard = ({ project, onReadMore }) => {
                         </h3>
 
                         {/* Project Description */}
-                        <p className={`text-sm mb-4 flex-1 ${styles.description}`}>
+                        <p className={`text-sm mb-3 ${styles.description}`}>
                             {project.description.summary}
                         </p>
 
+                        {project.roleFit && (
+                            <div className={`mb-4 rounded-lg border p-3 ${
+                                currentTheme === 'minimal'
+                                    ? 'bg-gray-50 border-gray-200'
+                                    : 'bg-neutral-900/60 border-neutral-700'
+                            }`}>
+                                <p className={`text-xs font-semibold uppercase tracking-[0.14em] mb-1 ${
+                                    currentTheme === 'minimal' ? 'text-gray-500' : 'text-neutral-500'
+                                }`}>
+                                    Why it matters
+                                </p>
+                                <p className={`text-sm leading-relaxed ${styles.description}`}>
+                                    {project.roleFit}
+                                </p>
+                            </div>
+                        )}
+
                         {/* Key Technologies Preview */}
                         <div className="mb-4">
+                            {project.evidence && (
+                                <div className="flex flex-wrap gap-1.5 mb-3">
+                                    {project.evidence.map((item) => (
+                                        <span
+                                            key={item}
+                                            className={`px-2 py-1 rounded text-xs border ${styles.techBadge}`}
+                                        >
+                                            {item}
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
                             <div className="flex flex-wrap gap-1 mb-2">
                                 {project.technologies.main.slice(0, 3).map((tech) => (
                                     <span
@@ -176,15 +205,17 @@ const ProjectCard = ({ project, onReadMore }) => {
                                 View Details
                             </button>
                             
-                            <a
-                                href={project.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 border ${styles.techButton} ${getThemeFocusRing(currentTheme)}`}
-                                aria-label={`Visit ${project.title} live site`}
-                            >
-                                Live Site
-                            </a>
+                            {project.url && (
+                                <a
+                                    href={project.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 border ${styles.techButton} ${getThemeFocusRing(currentTheme)}`}
+                                    aria-label={`Visit ${project.title} live site`}
+                                >
+                                    Live Site
+                                </a>
+                            )}
                         </div>
                     </div>
                 </motion.div>
@@ -259,14 +290,16 @@ const ProjectCard = ({ project, onReadMore }) => {
                             </div>
 
                             <div className="mt-6 pt-4 border-t border-current opacity-20">
-                                <a
-                                    href={project.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={`block w-full px-4 py-2 rounded-lg text-sm font-medium text-center transition-all duration-200 ${styles.button} ${getThemeFocusRing(currentTheme)}`}
-                                >
-                                    Visit Live Project
-                                </a>
+                                {project.url && (
+                                    <a
+                                        href={project.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={`block w-full px-4 py-2 rounded-lg text-sm font-medium text-center transition-all duration-200 ${styles.button} ${getThemeFocusRing(currentTheme)}`}
+                                    >
+                                        Visit Live Project
+                                    </a>
+                                )}
                             </div>
                         </motion.div>
                     </motion.div>
@@ -283,11 +316,13 @@ ProjectCard.propTypes = {
         description: PropTypes.shape({
             summary: PropTypes.string.isRequired
         }).isRequired,
-        technologies: PropTypes.shape({
+            technologies: PropTypes.shape({
             main: PropTypes.arrayOf(PropTypes.string).isRequired,
             additional: PropTypes.arrayOf(PropTypes.string)
         }).isRequired,
-        url: PropTypes.string.isRequired
+        roleFit: PropTypes.string,
+        evidence: PropTypes.arrayOf(PropTypes.string),
+        url: PropTypes.string
     }).isRequired,
     onReadMore: PropTypes.func.isRequired
 };

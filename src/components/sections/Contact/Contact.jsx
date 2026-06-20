@@ -53,7 +53,8 @@ export default function Contact() {
                         className={`text-lg text-center mb-12 max-w-2xl mx-auto ${theme.currentTheme === 'minimal' ? 'text-gray-600' : 'text-neutral-400'
                             }`}
                     >
-                        Ready to bring your ideas to life? Let&apos;s discuss your project and explore how we can work together.
+                        Open to full-stack software engineer roles in Melbourne for 2026.
+                        I&apos;m available for hybrid or on-site conversations with product and engineering teams.
                     </motion.p>
 
                     {/* Tab Navigation */}
