@@ -19,6 +19,8 @@ import twitterClone from "../assets/projects/twitter-clone.webp";
 import apeUniFibExtractor from "../assets/projects/apeUniFibExtractor.webp";
 import melbUniUltimate from "../assets/projects/melbUniUltimate.webp";
 import careerChatbot from "../assets/projects/careerChatbot.webp";
+import alexAwsMultiAgentWealthPlatform from "../assets/projects/alex-aws-multi-agent-wealth-platform.webp";
+import moneyguardAiFinancePipeline from "../assets/projects/moneyguard-ai-finance-pipeline.webp";
 // 其他资源 
 import logo from "../assets/Logo.png";
 
@@ -44,6 +46,8 @@ export const projectImages = {
   apeUniFibExtractor,
   melbUniUltimate,
   careerChatbot,
+  alexAwsMultiAgentWealthPlatform,
+  moneyguardAiFinancePipeline,
 };
 
 export const generalImages = {
