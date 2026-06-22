@@ -27,7 +27,7 @@ export const CAPABILITY_AREAS = [
     evidence: [
       "MoneyGuard multi-LLM finance pipeline with local calculations",
       "ByteCroniX OpenAI function-calling microservice features",
-      "Production AI agent system with Lambda, Bedrock and observability",
+      "Alex multi-agent wealth platform with Lambda, Bedrock and observability",
     ],
     stack: ["OpenAI SDK", "Gemini", "DeepSeek", "Bedrock", "Zod", "AWS Lambda"],
   },

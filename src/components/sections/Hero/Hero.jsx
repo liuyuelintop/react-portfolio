@@ -32,7 +32,7 @@ export default function Hero() {
                         <motion.div variants={titleVariants} className="space-y-4">
                             <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${currentTheme === 'minimal' ? 'text-gray-500' : 'text-cyan-300'
                                 }`}>
-                                Melbourne Full-Stack Software Developer
+                                Melbourne Full-Stack Software Engineer
                             </p>
                             <h1 className={`text-5xl md:text-7xl font-bold leading-tight bg-gradient-to-r bg-clip-text text-transparent ${currentTheme === 'minimal'
                                 ? 'from-gray-900 via-gray-700 to-gray-800'

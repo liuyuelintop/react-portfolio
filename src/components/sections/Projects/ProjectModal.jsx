@@ -3,10 +3,10 @@
 import { motion, AnimatePresence } from "framer-motion"
 import { useState, useRef, useEffect } from "react"
 import PropTypes from "prop-types"
+import { CheckCircle2, Code2, ExternalLink, Layers3, ListChecks, MonitorPlay, X } from "lucide-react"
 import { useTheme } from "../../../contexts/ThemeContext"
 import { getThemeFocusRing } from "../../../utils/accessibility"
 import OptimizedImage from "../../ui/common/OptimizedImage"
-import Button from "../../ui/common/Button"
 import LiveDemoPreview from "./LiveDemoPreview"
 
 // Animation variants
@@ -52,61 +52,38 @@ export default function ProjectModal({ project, onClose }) {
   const modalRef = useRef(null)
   const firstFocusableRef = useRef(null)
 
-  // Get theme-specific styles
+  // Keep the modal aligned with the newer portfolio evidence-card visual system.
   const getThemeStyles = () => {
-    switch (currentTheme) {
-      case "minimal":
-        return {
-          modal: "bg-white border-gray-200",
-          header: "text-gray-900 border-gray-200",
-          text: "text-gray-600",
-          textSecondary: "text-gray-500",
-          button: "bg-gray-100 hover:bg-gray-200 text-gray-700",
-          buttonPrimary: "bg-blue-600 hover:bg-blue-700 text-white",
-          badge: "bg-gray-100 text-gray-700 border-gray-200",
-          divider: "border-gray-200",
-          tab: "hover:bg-gray-100",
-          tabActive: "bg-gray-100 text-gray-900",
-        }
-      case "neon":
-        return {
-          modal: "bg-black border-cyan-500/30",
-          header: "text-white border-cyan-500/30",
-          text: "text-gray-300",
-          textSecondary: "text-gray-400",
-          button: "bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300",
-          buttonPrimary: "bg-cyan-500 hover:bg-cyan-400 text-black",
-          badge: "bg-cyan-500/20 text-cyan-300 border-cyan-500/30",
-          divider: "border-cyan-500/30",
-          tab: "hover:bg-cyan-500/10",
-          tabActive: "bg-cyan-500/20 text-cyan-300",
-        }
-      case "corporate":
-        return {
-          modal: "bg-slate-50 border-blue-200",
-          header: "text-slate-900 border-blue-200",
-          text: "text-slate-600",
-          textSecondary: "text-slate-500",
-          button: "bg-blue-50 hover:bg-blue-100 text-blue-700",
-          buttonPrimary: "bg-blue-600 hover:bg-blue-700 text-white",
-          badge: "bg-blue-50 text-blue-700 border-blue-200",
-          divider: "border-blue-200",
-          tab: "hover:bg-blue-50",
-          tabActive: "bg-blue-50 text-blue-700",
-        }
-      default: // default theme
-        return {
-          modal: "bg-neutral-900 border-neutral-700",
-          header: "text-white border-neutral-700",
-          text: "text-neutral-300",
-          textSecondary: "text-neutral-400",
-          button: "bg-neutral-800 hover:bg-neutral-700 text-neutral-300",
-          buttonPrimary: "bg-purple-600 hover:bg-purple-700 text-white",
-          badge: "bg-purple-500/20 text-purple-300 border-purple-500/30",
-          divider: "border-neutral-700",
-          tab: "hover:bg-neutral-800",
-          tabActive: "bg-neutral-800 text-white",
-        }
+    if (currentTheme === "minimal") {
+      return {
+        modal: "bg-white border-gray-200",
+        header: "text-gray-950 border-gray-200",
+        text: "text-gray-700",
+        textSecondary: "text-gray-500",
+        button: "bg-gray-50 hover:bg-gray-100 text-gray-700",
+        buttonPrimary: "bg-gray-950 text-white",
+        badge: "bg-white text-gray-700 border-gray-200",
+        divider: "border-gray-200",
+        panel: "bg-gray-50 border-gray-200",
+        accent: "text-blue-600",
+        tab: "hover:bg-gray-50",
+        tabActive: "bg-gray-100 text-gray-950",
+      }
+    }
+
+    return {
+      modal: "bg-neutral-900 border-neutral-800",
+      header: "text-white border-neutral-800",
+      text: "text-neutral-300",
+      textSecondary: "text-neutral-400",
+      button: "bg-neutral-800 hover:bg-neutral-700 text-neutral-300",
+      buttonPrimary: "bg-white text-neutral-950",
+      badge: "bg-neutral-800 text-neutral-300 border-neutral-700",
+      divider: "border-neutral-800",
+      panel: "bg-neutral-950/55 border-neutral-800",
+      accent: "text-cyan-300",
+      tab: "hover:bg-neutral-800",
+      tabActive: "bg-neutral-800 text-white",
     }
   }
 
@@ -151,13 +128,13 @@ export default function ProjectModal({ project, onClose }) {
 
   // Determine available tabs based on project data
   const baseTabs = [
-    { id: "overview", label: "Overview", icon: "📋" },
-    { id: "features", label: "Features", icon: "✨" },
-    { id: "tech", label: "Tech Stack", icon: "⚡" },
+    { id: "overview", label: "Overview", icon: Layers3 },
+    { id: "features", label: "Features", icon: ListChecks },
+    { id: "tech", label: "Tech Stack", icon: Code2 },
   ]
 
   // Add live preview tab if project has URL
-  const tabs = project?.url ? [...baseTabs, { id: "preview", label: "Live Preview", icon: "🚀" }] : baseTabs
+  const tabs = project?.url ? [...baseTabs, { id: "preview", label: "Live Preview", icon: MonitorPlay }] : baseTabs
 
   // Handle tab change - manage live preview state
   const handleTabChange = (tabId) => {
@@ -187,7 +164,7 @@ export default function ProjectModal({ project, onClose }) {
           initial="hidden"
           animate="visible"
           exit="exit"
-          className={`relative rounded-xl sm:rounded-2xl border shadow-2xl w-full max-w-sm sm:max-w-lg md:max-w-2xl lg:max-w-4xl max-h-[98vh] sm:max-h-[90vh] flex flex-col overflow-hidden ${styles.modal}`}
+          className={`relative rounded-lg border shadow-2xl w-full max-w-sm sm:max-w-lg md:max-w-2xl lg:max-w-4xl max-h-[98vh] sm:max-h-[90vh] flex flex-col overflow-hidden ${styles.modal}`}
           onClick={(e) => e.stopPropagation()}
           role="dialog"
           aria-modal="true"
@@ -211,27 +188,31 @@ export default function ProjectModal({ project, onClose }) {
               className={`flex-shrink-0 p-2 rounded-lg transition-colors ${styles.button} ${getThemeFocusRing(currentTheme)}`}
               aria-label="Close project details"
             >
-              <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <X size={18} aria-hidden="true" />
             </button>
           </div>
 
           {/* Navigation Tabs - Scrollable on mobile */}
           <div className={`flex border-b ${styles.divider} overflow-x-auto scrollbar-hide flex-shrink-0`}>
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => handleTabChange(tab.id)}
-                className={`flex-shrink-0 px-3 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${activeTab === tab.id ? styles.tabActive : `${styles.text} ${styles.tab}`
-                  } ${getThemeFocusRing(currentTheme)}`}
-                aria-selected={activeTab === tab.id}
-                role="tab"
-              >
-                <span className="mr-1 sm:mr-2">{tab.icon}</span>
-                <span className="hidden xs:inline sm:inline">{tab.label}</span>
-              </button>
-            ))}
+            {tabs.map((tab) => {
+              const Icon = tab.icon
+
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => handleTabChange(tab.id)}
+                  className={`flex-shrink-0 px-3 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${activeTab === tab.id ? styles.tabActive : `${styles.text} ${styles.tab}`
+                    } ${getThemeFocusRing(currentTheme)}`}
+                  aria-selected={activeTab === tab.id}
+                  role="tab"
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <Icon size={15} aria-hidden="true" />
+                    <span className="hidden xs:inline sm:inline">{tab.label}</span>
+                  </span>
+                </button>
+              )
+            })}
           </div>
 
           {/* Content Area */}
@@ -257,7 +238,7 @@ export default function ProjectModal({ project, onClose }) {
                   {/* Project Description */}
                   <div>
                     <h3 className={`text-base sm:text-lg font-semibold mb-2 sm:mb-3 ${styles.header}`}>
-                      About This Project
+                      Case study context
                     </h3>
                     <p className={`text-sm sm:text-base leading-relaxed ${styles.text}`}>
                       {project.description.detailed || project.description.summary}
@@ -268,19 +249,19 @@ export default function ProjectModal({ project, onClose }) {
                   {(project.stats || project.github || project.year) && (
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
                       {project.stats?.stars && (
-                        <div className={`text-center p-3 sm:p-4 rounded-lg ${styles.button}`}>
+                        <div className={`text-center p-3 sm:p-4 rounded-lg border ${styles.panel}`}>
                           <div className={`text-lg sm:text-2xl font-bold ${styles.header}`}>{project.stats.stars}</div>
                           <div className={`text-xs ${styles.textSecondary}`}>GitHub Stars</div>
                         </div>
                       )}
                       {project.stats?.forks && (
-                        <div className={`text-center p-3 sm:p-4 rounded-lg ${styles.button}`}>
+                        <div className={`text-center p-3 sm:p-4 rounded-lg border ${styles.panel}`}>
                           <div className={`text-lg sm:text-2xl font-bold ${styles.header}`}>{project.stats.forks}</div>
                           <div className={`text-xs ${styles.textSecondary}`}>Forks</div>
                         </div>
                       )}
                       {project.stats?.downloads && (
-                        <div className={`text-center p-3 sm:p-4 rounded-lg ${styles.button}`}>
+                        <div className={`text-center p-3 sm:p-4 rounded-lg border ${styles.panel}`}>
                           <div className={`text-lg sm:text-2xl font-bold ${styles.header}`}>
                             {project.stats.downloads}
                           </div>
@@ -288,7 +269,7 @@ export default function ProjectModal({ project, onClose }) {
                         </div>
                       )}
                       {project.year && (
-                        <div className={`text-center p-3 sm:p-4 rounded-lg ${styles.button}`}>
+                        <div className={`text-center p-3 sm:p-4 rounded-lg border ${styles.panel}`}>
                           <div className={`text-lg sm:text-2xl font-bold ${styles.header}`}>{project.year}</div>
                           <div className={`text-xs ${styles.textSecondary}`}>Year Built</div>
                         </div>
@@ -310,14 +291,10 @@ export default function ProjectModal({ project, onClose }) {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.1 }}
-                        className={`p-3 sm:p-4 rounded-lg border ${styles.button}`}
+                        className={`p-3 sm:p-4 rounded-lg border ${styles.panel}`}
                       >
                         <div className="flex items-start gap-2 sm:gap-3">
-                          <span
-                            className={`text-xs sm:text-sm ${styles.buttonPrimary} px-2 py-1 rounded font-bold flex-shrink-0`}
-                          >
-                            {index + 1}
-                          </span>
+                          <CheckCircle2 size={17} className={`mt-0.5 flex-shrink-0 ${styles.accent}`} aria-hidden="true" />
                           <p className={`flex-1 text-sm sm:text-base ${styles.text}`}>{feature}</p>
                         </div>
                       </motion.div>
@@ -389,9 +366,6 @@ export default function ProjectModal({ project, onClose }) {
                       onClose={() => setShowLivePreview(false)}
                     />
                   </div>
-                  <div className={`text-xs sm:text-sm ${styles.textSecondary} text-center`}>
-                    <p>💡 Tip: Click the device icons above to switch between desktop, tablet, and mobile views</p>
-                  </div>
                 </div>
               )}
             </motion.div>
@@ -401,35 +375,35 @@ export default function ProjectModal({ project, onClose }) {
           <div className={`p-3 sm:p-6 border-t ${styles.divider}`}>
             <div className="flex flex-col sm:flex-row gap-1.5 sm:gap-3">
               {project.url && (
-                <Button
-                  variant="primary"
-                  className="w-full sm:flex-1 text-sm sm:text-base"
+                <button
+                  type="button"
+                  className={`inline-flex w-full items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors sm:flex-1 sm:text-base ${styles.buttonPrimary} ${getThemeFocusRing(currentTheme)}`}
                   onClick={() => window.open(project.url, "_blank", "noopener,noreferrer")}
                   aria-label={`Visit ${project.title} live site`}
                 >
-                  <span className="mr-2">🚀</span>
+                  <ExternalLink size={16} className="mr-2" aria-hidden="true" />
                   Visit Live Project
-                </Button>
+                </button>
               )}
               {project.github && (
-                <Button
-                  variant="secondary"
-                  className="w-full sm:flex-1 text-sm sm:text-base"
+                <button
+                  type="button"
+                  className={`inline-flex w-full items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors sm:flex-1 sm:text-base ${styles.button} ${getThemeFocusRing(currentTheme)}`}
                   onClick={() => window.open(project.github, "_blank", "noopener,noreferrer")}
                   aria-label={`View ${project.title} source code`}
                 >
-                  <span className="mr-2">💻</span>
+                  <Code2 size={16} className="mr-2" aria-hidden="true" />
                   View Source
-                </Button>
+                </button>
               )}
-              <Button
-                variant="ghost"
+              <button
+                type="button"
                 onClick={onClose}
-                className="w-full sm:w-auto sm:px-6 text-sm sm:text-base"
+                className={`inline-flex w-full items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors sm:w-auto sm:px-6 sm:text-base ${styles.button} ${getThemeFocusRing(currentTheme)}`}
                 aria-label="Close modal"
               >
                 Close
-              </Button>
+              </button>
             </div>
           </div>
         </motion.div>

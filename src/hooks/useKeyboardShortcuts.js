@@ -1,10 +1,8 @@
 import { useEffect } from 'react';
-import { useTheme } from '../contexts/ThemeContext';
 import { scrollToSection } from '../utils/accessibility';
 import { useToast } from '../components/ui/common/Toast';
 
 export const useKeyboardShortcuts = () => {
-  const { toggleTheme } = useTheme();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -40,10 +38,6 @@ export const useKeyboardShortcuts = () => {
             e.preventDefault();
             scrollToSection('contact');
             break;
-          case 't':
-            e.preventDefault();
-            toggleTheme();
-            break;
           case '?':
             e.preventDefault();
             showKeyboardShortcuts();
@@ -66,7 +60,7 @@ export const useKeyboardShortcuts = () => {
     const showKeyboardShortcuts = () => {
       toast.info('Keyboard shortcuts available', {
         title: 'Navigation Help',
-        message: 'Alt + H/P/B/E/S/A/C for sections, Alt + T for theme, Alt + ? for help',
+        message: 'Alt + H/P/B/E/S/A/C for sections, Alt + ? for help',
         duration: 4000
       });
     };
@@ -76,7 +70,7 @@ export const useKeyboardShortcuts = () => {
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
-  }, [toggleTheme]);
+  }, [toast]);
 };
 
 export default useKeyboardShortcuts;

@@ -1,12 +1,12 @@
 export const HERO_CONTENT = {
   name: "Yuelin Liu",
   roles: [
-    "Full-Stack Software Developer",
-    "React & Next.js Engineer",
+    "Full-Stack Software Engineer",
+    "React & Next.js Product Engineer",
     "Node.js API Developer",
-    "AI-Enabled Product Builder"
+    "AI Workflow Builder"
   ],
-  summary: `Melbourne-based full-stack software developer who can take a messy workflow from discovery to a tested React/Node product in production. My strongest fit is with teams that need practical ownership across product UI, REST APIs, authentication, cloud delivery and AI-assisted workflows.`,
+  summary: `Melbourne-based full-stack software engineer who turns messy operational workflows into usable React/Node products. My strongest fit is with teams that need practical ownership across product UI, API contracts, authentication, cloud delivery and AI-assisted workflows.`,
   highlights: [
     "Product-minded full-stack delivery",
     "React/Next.js frontends with clean component systems",
@@ -44,14 +44,14 @@ export const CONTACT = {
 
 export const CAREER_SNAPSHOT = {
   eyebrow: "Candidate Positioning",
-  headline: "The reason to interview me",
+  headline: "What I can take off your team's plate",
   summary:
-    "I am not trying to sell one isolated metric. My real value is being a pragmatic full-stack engineer who can clarify a workflow, design the product surface, build the API layer, add quality gates and ship it with enough cloud discipline for a small team to trust it.",
+    "My value is not one isolated metric. I am useful when a team needs someone who can clarify the workflow, design the product surface, build the API layer, add quality gates and ship with enough cloud discipline for a small team to trust the result.",
   strengths: [
     {
-      title: "I turn ambiguous business workflows into usable software.",
+      title: "I translate messy workflows into shipped product.",
       statement:
-        "This is the strongest HR signal: I can talk to non-technical stakeholders, map the workflow, and deliver a tool people can actually use.",
+        "I can talk to non-technical stakeholders, map the real workflow, and deliver software people can actually use.",
       evidence: [
         "Digitised Expresso Carwash spreadsheet workflows into a React/Node management portal.",
         "Mapped API integrations, wireframes and SaaS feature scope for Melbourne clients and local sports clubs.",
@@ -61,7 +61,7 @@ export const CAREER_SNAPSHOT = {
         "Less ramp-up risk for product teams that need someone who can work beyond a ticket queue.",
     },
     {
-      title: "I reduce delivery risk across the whole stack.",
+      title: "I reduce risk between feature branch and production.",
       statement:
         "I have worked beyond UI screens: APIs, auth, data flows, Docker, Kubernetes, CI/CD and test coverage.",
       evidence: [
@@ -73,7 +73,7 @@ export const CAREER_SNAPSHOT = {
         "Useful in lean engineering teams where one developer often owns the path from feature branch to deployment.",
     },
     {
-      title: "I build AI features with engineering guardrails.",
+      title: "I build AI workflows with engineering guardrails.",
       statement:
         "The AI projects are not demos only; they show structured outputs, deterministic validation, privacy boundaries and failure handling.",
       evidence: [
@@ -117,9 +117,9 @@ export const CAREER_SNAPSHOT = {
 
 export const WORKING_STYLE = {
   eyebrow: "How I Work",
-  headline: "Pragmatic, resilient and team-first",
+  headline: "Pragmatic builder, calm teammate",
   summary:
-    "The portfolio should not pretend I am only a stack of technologies. The stronger story is that I build useful software with practical judgment, stay effective under pressure and collaborate like someone who understands team execution.",
+    "I am more than a stack list. I build useful software with practical judgment, stay effective under pressure and collaborate like someone who understands team execution.",
   pillars: [
     {
       title: "Pragmatic Developer",
