@@ -1,2 +1,2 @@
-// API utilities
-export * from './api';
+export * from './accessibility';
+export * from './typography';

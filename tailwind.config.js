@@ -32,5 +32,5 @@ export default {
       },
     },
   },
-  plugins: ["@tailwindcss/line-clamp"],
+  plugins: [],
 };

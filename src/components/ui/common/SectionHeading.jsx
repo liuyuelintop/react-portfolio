@@ -1,5 +1,5 @@
-import React from 'react';
 import { motion } from 'framer-motion';
+import PropTypes from 'prop-types';
 import { useTheme } from '../../../contexts/ThemeContext';
 import { getCompleteHeadingClasses } from '../../../utils/typography';
 
@@ -44,6 +44,14 @@ const SectionHeading = ({
       {children}
     </Component>
   );
+};
+
+SectionHeading.propTypes = {
+  children: PropTypes.node.isRequired,
+  level: PropTypes.oneOf(['hero', 'section', 'subsection', 'card']),
+  className: PropTypes.string,
+  as: PropTypes.elementType,
+  animate: PropTypes.bool,
 };
 
 export default SectionHeading;

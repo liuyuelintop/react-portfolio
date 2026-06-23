@@ -1,17 +1,13 @@
-import { createContext, useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
-
-export const UIContext = createContext();
+import { UIContext } from './UIContextCore';
 
 export function UIProvider({ children }) {
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
-  const [isChatbotFocused, setIsChatbotFocused] = useState(false);
 
   const value = {
     isProjectModalOpen,
-    setIsProjectModalOpen,
-    isChatbotFocused,
-    setIsChatbotFocused
+    setIsProjectModalOpen
   };
 
   return (
@@ -24,4 +20,3 @@ export function UIProvider({ children }) {
 UIProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
-

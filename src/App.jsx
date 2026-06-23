@@ -10,16 +10,12 @@ import { ToastProvider } from "./components/ui/common/Toast";
 
 const Navbar = lazy(() => import("./components/layout/Navbar"));
 const Hero = lazy(() => import("./components/sections/Hero/Hero"));
+const CareerSnapshot = lazy(() => import("./components/sections/CareerSnapshot"));
+const WorkingStyle = lazy(() => import("./components/sections/WorkingStyle"));
 const Projects = lazy(() => import("./components/sections/Projects"));
-const Blog = lazy(() => import("./components/sections/Blog"));
 const Experience = lazy(() => import("./components/sections/Experience"));
 const SkillsVisualization = lazy(() => import("./components/sections/Skills"));
-const ReferenceSection = lazy(() => import("./components/sections/References"));
-const PersonalBranding = lazy(() => import("./components/sections/PersonalBranding"));
-const GitHubActivity = lazy(() => import("./components/sections/GitHubActivity"));
-const Chatbot = lazy(() => import("./components/sections/Chatbot"));
 const Contact = lazy(() => import("./components/sections/Contact"));
-const FloatingNavigation = lazy(() => import("./components/layout/FloatingNavigation"));
 
 function AppContent() {
   const { currentTheme } = useTheme();
@@ -68,12 +64,6 @@ function AppContent() {
           animate={{ opacity: 1 }}
           className={`absolute top-0 h-screen w-screen transition-all duration-500 ${getBackgroundGradient()}`}
         >
-          <div
-            className={`absolute inset-0 ${currentTheme === 'minimal'
-              ? 'bg-[url("./assets/grid.svg")] opacity-5'
-              : 'bg-[url("./assets/grid.svg")] opacity-10'
-              }`}
-          />
         </motion.div>
       </div>
 
@@ -81,70 +71,47 @@ function AppContent() {
 
       <main id="main-content" className="container mx-auto px-4 md:px-8 pb-32 md:pb-24" tabIndex="-1">
         <ErrorBoundary sectionName="hero section">
-          <section id="hero">
+          <section id="hero" className="scroll-mt-24">
             <Hero />
           </section>
         </ErrorBoundary>
 
-        <ErrorBoundary sectionName="chatbot section">
-          <section id="chatbot">
-            <Chatbot />
-          </section>
+        <ErrorBoundary sectionName="career snapshot section">
+          <CareerSnapshot />
         </ErrorBoundary>
 
         <div className="space-y-8 md:space-y-8">
+          <ErrorBoundary sectionName="working style section">
+            <section id="work-style" className="scroll-mt-24">
+              <WorkingStyle />
+            </section>
+          </ErrorBoundary>
+
           <ErrorBoundary sectionName="experience section">
-            <section id="experience">
+            <section id="experience" className="scroll-mt-24">
               <Experience />
             </section>
           </ErrorBoundary>
 
           <ErrorBoundary sectionName="skills section">
-            <section id="skills">
+            <section id="skills" className="scroll-mt-24">
               <SkillsVisualization />
             </section>
           </ErrorBoundary>
 
           <ErrorBoundary sectionName="projects section">
-            <section id="projects">
+            <section id="projects" className="scroll-mt-24">
               <Projects />
             </section>
           </ErrorBoundary>
 
-          <ErrorBoundary sectionName="blog section">
-            <section id="blog">
-              <Blog />
-            </section>
-          </ErrorBoundary>
-
-          <ErrorBoundary sectionName="references section">
-            <section id="references">
-              <ReferenceSection />
-            </section>
-          </ErrorBoundary>
-
-          <ErrorBoundary sectionName="personal branding section">
-            <section id="brand">
-              <PersonalBranding />
-            </section>
-          </ErrorBoundary>
-
-          <ErrorBoundary sectionName="GitHub activity section">
-            <section id="github">
-              <GitHubActivity />
-            </section>
-          </ErrorBoundary>
-
           <ErrorBoundary sectionName="contact section">
-            <section id="contact">
+            <section id="contact" className="scroll-mt-24">
               <Contact />
             </section>
           </ErrorBoundary>
         </div>
       </main>
-
-      {/* Floating Navigation */}
-      <FloatingNavigation />
     </div>
   );
 }

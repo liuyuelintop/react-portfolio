@@ -1,15 +1,7 @@
-import React, { useState, useEffect, createContext, useContext } from 'react';
+import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { motion, AnimatePresence } from 'framer-motion';
-
-const ToastContext = createContext();
-
-export const useToast = () => {
-  const context = useContext(ToastContext);
-  if (!context) {
-    throw new Error('useToast must be used within a ToastProvider');
-  }
-  return context;
-};
+import { ToastContext } from './toastContext';
 
 const ToastItem = ({ toast, onRemove }) => {
   useEffect(() => {
@@ -153,6 +145,21 @@ export const ToastProvider = ({ children }) => {
       </div>
     </ToastContext.Provider>
   );
+};
+
+ToastItem.propTypes = {
+  toast: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    type: PropTypes.oneOf(['success', 'error', 'warning', 'info']),
+    title: PropTypes.string,
+    message: PropTypes.string.isRequired,
+    duration: PropTypes.number,
+  }).isRequired,
+  onRemove: PropTypes.func.isRequired,
+};
+
+ToastProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default ToastProvider;

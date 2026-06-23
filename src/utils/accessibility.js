@@ -1,10 +1,10 @@
 // Accessibility utilities for focus management and theme-aware focus rings
 
-export const focusRingClasses = "focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 rounded-lg transition-all duration-200";
+export const focusRingClasses = "focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 rounded-lg transition-all duration-200";
 
 export const getThemeFocusRing = (theme) => {
   const rings = {
-    default: "focus-visible:ring-purple-500",
+    default: "focus-visible:ring-cyan-300",
     neon: "focus-visible:ring-cyan-400", 
     minimal: "focus-visible:ring-blue-500",
     corporate: "focus-visible:ring-blue-600"
@@ -77,7 +77,7 @@ export const createSkipLink = () => {
   const skipLink = document.createElement('a');
   skipLink.href = '#main-content';
   skipLink.textContent = 'Skip to main content';
-  skipLink.className = 'sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-purple-600 text-white px-4 py-2 rounded-lg z-50 transition-all duration-200';
+  skipLink.className = 'sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-cyan-600 text-white px-4 py-2 rounded-lg z-50 transition-all duration-200';
   
   skipLink.addEventListener('click', (e) => {
     e.preventDefault();
