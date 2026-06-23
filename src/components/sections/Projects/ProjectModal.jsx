@@ -1,5 +1,3 @@
-"use client"
-
 import { motion, AnimatePresence } from "framer-motion"
 import { useState, useRef, useEffect } from "react"
 import PropTypes from "prop-types"
@@ -363,7 +361,6 @@ export default function ProjectModal({ project, onClose }) {
                     <LiveDemoPreview
                       project={project}
                       isVisible={showLivePreview}
-                      onClose={() => setShowLivePreview(false)}
                     />
                   </div>
                 </div>

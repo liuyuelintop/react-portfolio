@@ -1,4 +1,4 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 
 export const Skeleton = ({ 
   className = "", 
@@ -111,5 +111,37 @@ export const SkeletonExperience = ({ className = "" }) => (
     </div>
   </div>
 );
+
+Skeleton.propTypes = {
+  className: PropTypes.string,
+  variant: PropTypes.oneOf(['default', 'card', 'text', 'avatar', 'button', 'image']),
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  rounded: PropTypes.bool,
+  animate: PropTypes.bool,
+  children: PropTypes.node,
+};
+
+SkeletonText.propTypes = {
+  lines: PropTypes.number,
+  className: PropTypes.string,
+};
+
+SkeletonCard.propTypes = {
+  className: PropTypes.string,
+};
+
+SkeletonAvatar.propTypes = {
+  size: PropTypes.oneOf(['sm', 'md', 'lg', 'xl']),
+  className: PropTypes.string,
+};
+
+SkeletonProject.propTypes = {
+  className: PropTypes.string,
+};
+
+SkeletonExperience.propTypes = {
+  className: PropTypes.string,
+};
 
 export default Skeleton;

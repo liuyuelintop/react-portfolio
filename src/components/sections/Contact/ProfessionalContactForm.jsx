@@ -21,7 +21,7 @@ const MESSAGE_TYPES = [
   { id: "general", label: "General chat", icon: MessageSquareText },
 ];
 
-const FormField = ({ label, error, children, required, styles }) => (
+const FormField = ({ label, error = "", children, required = false, styles }) => (
   <div className="space-y-2">
     <label className={`block text-sm font-semibold ${styles.heading}`}>
       {label}
@@ -41,11 +41,6 @@ FormField.propTypes = {
     heading: PropTypes.string.isRequired,
     accent: PropTypes.string.isRequired,
   }).isRequired,
-};
-
-FormField.defaultProps = {
-  error: "",
-  required: false,
 };
 
 const MessageTypeSelector = ({ selected, onSelect, styles, focusRing }) => (

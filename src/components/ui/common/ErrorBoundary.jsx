@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 
 class ErrorBoundary extends React.Component {
@@ -11,7 +12,7 @@ class ErrorBoundary extends React.Component {
     };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError() {
     return { hasError: true };
   }
 
@@ -22,7 +23,7 @@ class ErrorBoundary extends React.Component {
     });
     
     // Log error to console in development
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.DEV) {
       console.error('ErrorBoundary caught an error:', error, errorInfo);
     }
   }
@@ -62,7 +63,7 @@ class ErrorBoundary extends React.Component {
           </h3>
           
           <p className="text-neutral-600 dark:text-neutral-400 mb-4 max-w-md">
-            This {sectionName} couldn't load properly. Don't worry, it's not your fault!
+            This {sectionName} could not load properly.
           </p>
           
           <button 
@@ -72,7 +73,7 @@ class ErrorBoundary extends React.Component {
             Try Again
           </button>
           
-          {process.env.NODE_ENV === 'development' && this.state.error && (
+          {import.meta.env.DEV && this.state.error && (
             <details className="mt-4 text-left max-w-md">
               <summary className="cursor-pointer text-sm text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300">
                 Show Error Details
@@ -91,15 +92,10 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-// Higher-order component for easier usage
-export const withErrorBoundary = (Component, sectionName) => {
-  return function WrappedComponent(props) {
-    return (
-      <ErrorBoundary sectionName={sectionName}>
-        <Component {...props} />
-      </ErrorBoundary>
-    );
-  };
+ErrorBoundary.propTypes = {
+  children: PropTypes.node.isRequired,
+  fallback: PropTypes.elementType,
+  sectionName: PropTypes.string,
 };
 
 export default ErrorBoundary;

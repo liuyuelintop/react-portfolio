@@ -64,12 +64,6 @@ function AppContent() {
           animate={{ opacity: 1 }}
           className={`absolute top-0 h-screen w-screen transition-all duration-500 ${getBackgroundGradient()}`}
         >
-          <div
-            className={`absolute inset-0 ${currentTheme === 'minimal'
-              ? 'bg-[url("./assets/grid.svg")] opacity-5'
-              : 'bg-[url("./assets/grid.svg")] opacity-10'
-              }`}
-          />
         </motion.div>
       </div>
 

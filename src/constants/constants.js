@@ -1,5 +1,6 @@
 export const HERO_CONTENT = {
   name: "Yuelin Liu",
+  resumeUrl: "/resume/yuelin-liu-resume.pdf",
   roles: [
     "Full-Stack Software Engineer",
     "React & Next.js Product Engineer",

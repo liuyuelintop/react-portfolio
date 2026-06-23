@@ -4,7 +4,6 @@ import { useTypingAnimation } from "../../../hooks/useTypingAnimation";
 import { useTheme } from "../../../contexts/ThemeContext";
 import { HiDownload, HiMail, HiLocationMarker } from 'react-icons/hi';
 import { FaLinkedin, FaGithub, FaBlog } from 'react-icons/fa';
-import { useCV } from '../../../hooks/useCV';
 import Button from '../../ui/common/Button';
 import {
     containerVariants,
@@ -15,7 +14,6 @@ import {
 
 export default function Hero() {
     const { currentTheme } = useTheme();
-    const { cvUrl, isLoading } = useCV();
     const typedRole = useTypingAnimation(HERO_CONTENT.roles, 150, 100, 2000);
 
     return (
@@ -68,11 +66,12 @@ export default function Hero() {
                         >
                             <Button
                                 as="a"
-                                href={cvUrl}
+                                href={HERO_CONTENT.resumeUrl}
+                                download="Yuelin-Liu-Resume.pdf"
                                 variant="primary"
                                 size="lg"
-                                loading={isLoading}
                                 className="group"
+                                aria-label="Download Yuelin Liu's resume as a PDF"
                             >
                                 <HiDownload className="text-xl transition-transform group-hover:scale-110" />
                                 <span>Download Resume</span>

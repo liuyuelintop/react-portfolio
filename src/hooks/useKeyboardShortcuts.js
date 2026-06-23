@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { scrollToSection } from '../utils/accessibility';
-import { useToast } from '../components/ui/common/Toast';
+import { useToast } from '../components/ui/common/toastContext';
 
 export const useKeyboardShortcuts = () => {
   const { toast } = useToast();
@@ -18,9 +18,9 @@ export const useKeyboardShortcuts = () => {
             e.preventDefault();
             scrollToSection('projects');
             break;
-          case 'b':
+          case 'w':
             e.preventDefault();
-            scrollToSection('blog');
+            scrollToSection('work-style');
             break;
           case 'e':
             e.preventDefault();
@@ -29,10 +29,6 @@ export const useKeyboardShortcuts = () => {
           case 's':
             e.preventDefault();
             scrollToSection('skills');
-            break;
-          case 'a':
-            e.preventDefault();
-            scrollToSection('chatbot');
             break;
           case 'c':
             e.preventDefault();
@@ -60,7 +56,7 @@ export const useKeyboardShortcuts = () => {
     const showKeyboardShortcuts = () => {
       toast.info('Keyboard shortcuts available', {
         title: 'Navigation Help',
-        message: 'Alt + H/P/B/E/S/A/C for sections, Alt + ? for help',
+        message: 'Alt + H/W/E/S/P/C for sections, Alt + ? for help',
         duration: 4000
       });
     };
