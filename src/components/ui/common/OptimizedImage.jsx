@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 import Skeleton from './Skeleton';
 
@@ -63,6 +64,17 @@ const OptimizedImage = ({
       )}
     </div>
   );
+};
+
+OptimizedImage.propTypes = {
+  src: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  loading: PropTypes.oneOf(['eager', 'lazy']),
+  aspectRatio: PropTypes.string,
+  showSkeleton: PropTypes.bool,
+  onLoad: PropTypes.func,
+  onError: PropTypes.func,
 };
 
 export default OptimizedImage;

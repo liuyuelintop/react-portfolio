@@ -1,360 +1,200 @@
-# React Portfolio 🚀
+# React Portfolio
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-blue?style=flat-square&logo=vercel)](https://liuyuelin.dev)
-[![Stars](https://img.shields.io/github/stars/liuyuelintop/react-portfolio?style=social)](https://github.com/liuyuelintop/react-portfolio/stargazers)
-[![Portfolio Version](https://img.shields.io/badge/Version-Phase%207-success?style=flat-square)](https://github.com/liuyuelintop/react-portfolio)
+[![Live Site](https://img.shields.io/badge/live-liuyuelin.dev-blue?style=flat-square)](https://liuyuelin.dev)
+[![React](https://img.shields.io/badge/React-18-61dafb?style=flat-square&logo=react)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-5-646cff?style=flat-square&logo=vite)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-38bdf8?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
 
----
+A content-driven portfolio for Yuelin Liu. It is built to present recruiter-facing proof clearly: positioning, working style, experience, skills, selected case studies, contact paths, and a reliable static resume download.
 
-An innovative, interactive portfolio crafted with cutting-edge React 18 technology, featuring smooth Framer Motion animations and elegant Tailwind CSS styling. This showcase presents my professional journey through dynamic project galleries, animated skill visualizations, and an intelligent AI career assistant. Built with enterprise-level architecture, accessibility-first design, and optimized performance for an exceptional user experience across all devices.
+The repo is also intended to be useful as an open-source reference for a modern React/Vite portfolio that stays maintainable without becoming a framework.
 
 ![Portfolio Screenshot](./src/assets/og-image.png)
 
----
+## What This Project Optimizes For
 
-## 🚦 Lighthouse Performance
+- Clear hiring narrative instead of a generic project gallery.
+- Data-driven content in `src/constants/`, so copy and portfolio data can change without rewriting components.
+- Small, composable React sections with lazy loading and section-level error boundaries.
+- Theme-aware UI across Default, Neon, Minimal, and Corporate themes.
+- Accessible navigation, skip link, focus states, and keyboard shortcuts.
+- Reliable resume delivery through a static PDF, not a client-side API lookup.
+- A dependency set that reflects the current app rather than historical experiments.
 
-| Category       | Desktop | Mobile  |
-| -------------- | ------- | ------- |
-| Performance    | **100** | **89**  |
-| Accessibility  | **100** | **100** |
-| Best Practices | **96**  | **96**  |
-| SEO            | **100** | **100** |
+## Live Sections
 
-- **Core Web Vitals:** Excellent scores for CLS, LCP, and FCP
-- **Desktop:** Perfect 100 performance with ultra-fast loading
-- **Mobile:** Smooth experience with industry-leading optimization
-- **Accessibility:** Perfect 100 scores with WCAG AA compliance
-- **Modern Standards:** Exceeds accessibility and SEO requirements
+The rendered page is intentionally focused:
 
-> [View Desktop Report](https://pagespeed.web.dev/analysis/https-www-liuyuelin-dev/df2ampev8u?form_factor=desktop) | [View Mobile Report](https://pagespeed.web.dev/analysis/https-www-liuyuelin-dev/df2ampev8u?form_factor=mobile)
+1. Hero
+2. Career Snapshot
+3. Working Style
+4. Experience
+5. Skills
+6. Projects
+7. Contact
 
----
+Older unmounted sections were removed during cleanup. If a Blog, Chatbot, References, or GitHub activity feed comes back later, it should be reintroduced as a deliberate live feature with current content, mounted app wiring, and justified dependencies.
 
-## ✨ Key Features
+## Tech Stack
 
-### 🎨 **Modern Design & Animations**
-- **Hero Section:** Grid layout with animated CTAs, floating geometric shapes, and skills showcase
-- **Interactive Navigation:** Active section indicators with smooth scroll animations
-- **4-Theme System:** Default, Neon, Minimal, and Corporate themes with system preference detection
-- **Advanced Micro-interactions:** Hover effects, loading states, keyboard shortcuts, and toast notifications
-- **Unified Typography:** Consistent heading styles across all themes with gradient effects
+- React 18 with function components and hooks
+- Vite 5
+- Tailwind CSS 3
+- Framer Motion
+- lucide-react and react-icons
+- prop-types for runtime prop validation
+- ESLint with React, hooks, and Fast Refresh rules
 
-### 🏗️ **Professional Architecture**
-- **Component Organization:** Logical folder structure (`layout/`, `sections/`, `ui/`)
-- **Clean Code:** TypeScript-ready with consistent patterns and best practices
-- **Performance Optimized:** Code splitting, lazy loading, and optimized bundle size
-- **Scalable Structure:** Enterprise-ready organization with error boundaries and accessibility utilities
-- **Design System:** Unified typography, accessibility, and theme-aware components
+## Project Structure
 
-### 💼 **Content Sections**
-- **AI Assistant:** Interactive Hugging Face-powered chatbot with career information and project insights
-- **Experience Timeline:** Modern card-based layout with expandable details
-- **Project Gallery:** Revolutionary 3-component system with clean cards, tabbed modals, and adaptive live previews
-- **Skills Visualization:** Interactive charts with proficiency levels and project counts
-- **Professional References:** Elegant carousel with testimonials and LinkedIn integration
-- **Contact Forms:** Professional contact system with project type categorization
-
-### 🚀 **Advanced Features**
-- **AI-Powered Career Assistant:** Integrated Hugging Face Spaces chatbot for interactive career Q&A
-  - **Smart Integration:** Dual access via dedicated section and project card
-  - **Theme-Aware Design:** Complete integration with all 4 theme variations
-  - **Enhanced UX:** Modern animations, feature grids, and micro-interactions
-  - **Secure Embedding:** iframe with proper sandbox attributes and fallback UI
-- **Revolutionary Project System:** 3-component architecture solving UX problems while maintaining performance
-  - **ProjectCard:** Eliminated 3D flip conflicts, clean hover effects, tech stack previews, 4-theme support
-  - **ProjectModal:** Mobile-first tabbed interface with responsive sizing (`max-w-sm sm:max-w-4xl`)
-  - **LiveDemoPreview:** Adaptive controls (desktop overlay vs mobile panel), real-time responsive detection
-- **GitHub Activity:** Real-time activity feed with API integration
-- **Performance Metrics:** Integrated Lighthouse scores with animated displays
-- **Mobile Excellence:** Touch-optimized controls, responsive layouts, adaptive text sizing
-- **Accessibility:** WCAG AA compliance with keyboard navigation and screen reader support
-- **Toast Notifications:** Theme-aware notification system with multiple types
-- **Error Boundaries:** Graceful error handling with user-friendly fallbacks
-
----
-
-## 🛠️ Tech Stack
-
-### **Core Technologies**
-- [React 18](https://react.dev/) - Modern React with hooks and concurrent features
-- [Vite](https://vitejs.dev/) - Fast build tool and development server
-- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
-- [Framer Motion](https://www.framer.com/motion/) - Production-ready motion library
-
-### **Additional Libraries**
-- [React Icons](https://react-icons.github.io/react-icons/) - Comprehensive icon library
-- [GitHub REST API](https://docs.github.com/en/rest) - Live activity integration
-- [Google Drive API](https://developers.google.com/drive) - CV download functionality
-
-### **Development Tools**
-- ESLint & Prettier - Code quality and formatting
-- Vite Plugin React - Fast refresh and optimized builds
-- PostCSS - CSS processing and optimization
-
----
-
-## 📦 Getting Started
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/liuyuelintop/react-portfolio.git
-cd react-portfolio
+```text
+src/
+├── components/
+│   ├── layout/      # Navbar
+│   ├── sections/    # Live page sections
+│   └── ui/          # Shared UI components and animation helpers
+├── constants/       # Page content, project data, skills, experience
+├── contexts/        # Theme and UI providers
+├── hooks/           # Custom hooks
+├── utils/           # Accessibility and typography helpers
+└── assets/          # Bundled image assets
+public/
+└── resume/          # Static resume PDF served by Vite
 ```
 
-### 2. Install Dependencies
+## Content Model
 
-You can use `npm` or `pnpm` to install dependencies.
+Most portfolio edits should start in `src/constants/`:
 
-**Using npm:**
+- Hero, contact, career snapshot, working style: `src/constants/constants.js`
+- Experience: `src/constants/experiences.js`
+- Projects: `src/constants/projects.js`
+- Skills: `src/constants/skills.js`
+- Technology icons/groups: `src/constants/technologies.js`
+
+Components should stay mostly presentational. They map over structured data, apply theme-aware styling, and handle local interaction only where needed.
+
+## Resume Handling
+
+The resume CTA links to:
+
+```text
+public/resume/yuelin-liu-resume.pdf
+```
+
+This is a deliberate choice. A static PDF is more reliable for a recruiter-facing CTA than a Google Drive API lookup because it avoids exposed API configuration, Drive permission drift, quota issues, client-side loading states, and dev/prod behavior differences.
+
+To update the resume, replace the PDF at the same path. If the filename changes, update `HERO_CONTENT.resumeUrl` in `src/constants/constants.js`.
+
+## Project Preview Strategy
+
+Project cards open a modal with overview, features, tech stack, and an optional live preview. The preview component now keeps a narrow responsibility:
+
+- show an embedded live preview when a project has a URL;
+- provide a direct "Open Project" link for hosts that block iframe embedding;
+- avoid old fallback flows for project types that are no longer part of the current portfolio.
+
+This keeps the modal useful without carrying stale logic for auth demos, chatbot embeds, extension install guides, or placeholder videos.
+
+## Development
+
+Install dependencies:
+
 ```bash
 npm install
 ```
 
-**Using pnpm (Recommended for faster installation):**
-```bash
-pnpm install
-```
+Run the dev server:
 
-### 3. Environment Configuration
-Create a `.env` file in the root directory:
-```env
-VITE_GOOGLE_FOLDER_ID=your_google_drive_folder_id
-VITE_GOOGLE_API_KEY=your_google_api_key
-VITE_GITHUB_USERNAME=your_github_username
-```
-
-### 4. Development Server
-
-**Using npm:**
 ```bash
 npm run dev
 ```
 
-**Using pnpm:**
-```bash
-pnpm run dev
-```
-Visit [http://localhost:5173](http://localhost:5173) to see your portfolio.
+Build for production:
 
-### 5. Production Build
-
-**Using npm:**
 ```bash
 npm run build
-npm run preview  # Preview production build locally
 ```
 
-**Using pnpm:**
+Preview the production build:
+
 ```bash
-pnpm run build
-pnpm run preview # Preview production build locally
+npm run preview
 ```
 
----
+Run lint:
 
-## 🏗️ Project Architecture
-
-### **Organized Component Structure**
-```
-src/
-├── components/
-│   ├── layout/              # Navigation & layout components
-│   │   ├── Navbar/         # Active navigation with scroll detection
-│   │   └── FloatingNavigation/
-│   ├── sections/           # Main content sections
-│   │   ├── Hero/           # Landing section with grid layout
-│   │   ├── Chatbot/        # AI Assistant section integration
-│   │   ├── CareerChatbot/  # Interactive AI chatbot component
-│   │   ├── Experience/     # Professional timeline
-│   │   ├── Skills/         # Interactive skills visualization
-│   │   ├── Projects/       # Project gallery with live previews
-│   │   ├── References/     # Professional testimonials
-│   │   ├── Contact/        # Contact forms and information
-│   │   ├── PersonalBranding/
-│   │   └── GitHubActivity/
-│   └── ui/                 # Reusable UI components
-│       ├── animations/     # Animation utilities
-│       ├── common/         # Shared components (Button, Toast, ErrorBoundary, etc.)
-│       └── forms/          # Form components
-├── constants/              # Application data and configuration
-├── contexts/              # React contexts (theme, etc.)
-├── hooks/                 # Custom React hooks
-├── utils/                 # Utility functions (accessibility, typography, etc.)
-└── assets/               # Static assets and images
-```
-
-### **Clean Import Patterns**
-```javascript
-// Unified component imports
-import { Hero, Projects, Experience } from '../components';
-
-// Organized constants
-import { HERO_CONTENT, PROJECTS, SKILLS_DATA } from '../constants';
-
-// Custom hooks
-import { useTypingAnimation, useScrollAnimation } from '../hooks';
-```
-
----
-
-## 🎯 Development Phases
-
-### **Phase 1-3: Foundation** ✅
-- Hero animations and typing effects
-- 3D project cards with interactive previews
-- Theme system with localStorage persistence
-
-### **Phase 4: Advanced Interactions** ✅
-- Live demo previews with smart project detection
-- GitHub activity integration
-- Professional contact forms
-- Scroll-triggered animations
-
-### **Phase 5: Modern Polish** ✅
-- Complete Experience section redesign
-- Enhanced Project and Reference sections
-- Modern Navbar with active indicators
-- Hero section grid layout overhaul
-
-### **Phase 6: Code Architecture** ✅
-- Comprehensive component restructuring
-- Logical folder organization
-- Import path optimization
-- Documentation and cleanup
-
-### **Phase 7: Portfolio Polish** ✅
-- Enhanced accessibility with WCAG AA compliance
-- Advanced micro-interactions and toast notifications
-- Error boundaries and graceful failure handling
-- Unified typography system across all themes
-- Keyboard navigation with shortcuts (Alt+H/A/P/E/S/C)
-- Theme-aware focus management and loading states
-
-### **AI Assistant Integration** ✅
-- Hugging Face Spaces chatbot integration with secure iframe embedding
-- Dual access via dedicated section and project card
-- Theme-aware design with modern animations and micro-interactions
-- Enhanced UX with feature grids, shine effects, and staggered animations
-- Mobile-first responsive design with touch optimization
-- Keyboard shortcut (Alt+A) and floating navigation integration
-
----
-
-## 📈 Performance Optimizations
-
-### **Loading & Bundle**
-- **Code Splitting:** React.lazy() for route-level splitting
-- **Tree Shaking:** Optimized imports and unused code elimination
-- **Asset Optimization:** WebP images and lazy loading
-- **Bundle Analysis:** Minimal dependencies and optimized chunks
-
-### **Runtime Performance**
-- **Memoization:** React.memo and useMemo for expensive operations
-- **Efficient Animations:** Framer Motion with transform optimizations
-- **Scroll Performance:** Intersection Observer for scroll-based animations
-- **State Management:** Optimized context usage and local state
-
----
-
-## 🔧 Customization Guide
-
-### **Adding New Sections**
-1. Create component in `src/components/sections/YourSection/`
-2. Add data constants in `src/constants/yourSection.js`
-3. Import and add to `src/App.jsx`
-4. Update navigation in `SECTION_LINKS`
-
-### **Modifying Content**
-- **Personal Info:** Update `src/constants/constants.js`
-- **Projects:** Modify `src/constants/projects.js`
-- **Experience:** Edit `src/constants/experiences.js`
-- **Skills:** Update `src/constants/skills.js`
-
-### **Theme Customization**
-- **Colors:** Modify theme definitions in `src/contexts/ThemeContext.jsx`
-- **Styling:** Update Tailwind configuration in `tailwind.config.js`
-- **Animations:** Customize motion variants in component animation files
-
----
-
-## 📋 Scripts
-
-This project uses npm or pnpm for script execution.
-
-**Using npm:**
 ```bash
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run preview      # Preview production build
-npm run lint         # Run ESLint
-npm run lint:fix     # Fix ESLint issues
+npm run lint
 ```
 
-**Using pnpm:**
+## Quality Gates
+
+Before shipping changes, run:
+
 ```bash
-pnpm run dev          # Start development server
-pnpm run build        # Build for production
-pnpm run preview      # Preview production build
-pnpm run lint         # Run ESLint
-pnpm run lint:fix     # Fix ESLint issues
+npm run lint
+npm run build
 ```
 
----
+There are no unit tests in this repo. For UI changes, also do a manual pass in `npm run dev`, especially around the hero CTA, project modal, theme behavior, mobile navigation, and contact form.
 
-## 🤝 Contributing
+## Keyboard Shortcuts
 
-### **Development Workflow**
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/your-feature`
-3. Follow the existing component structure and patterns
-4. Ensure all imports use the organized folder structure
-5. Test your changes with `npm run build`
-6. Commit with clear messages: `git commit -m "feat: add your feature"`
-7. Push and create a Pull Request
+- `Alt + H`: Hero
+- `Alt + W`: Working Style
+- `Alt + E`: Experience
+- `Alt + S`: Skills
+- `Alt + P`: Projects
+- `Alt + C`: Contact
+- `Alt + ?`: Help toast
 
-### **Code Standards**
-- Follow the established folder organization
-- Use TypeScript-compatible patterns
-- Maintain component documentation
-- Ensure responsive design
-- Test across different themes
+## Customization Guide
 
----
+To adapt this portfolio for another person:
 
-## 📚 Documentation
+1. Replace personal copy in `src/constants/constants.js`.
+2. Replace experience data in `src/constants/experiences.js`.
+3. Replace projects and project images in `src/constants/projects.js` and `src/assets/projects/`.
+4. Replace the resume PDF in `public/resume/`.
+5. Review theme behavior in `src/contexts/ThemeContext.jsx`.
+6. Run `npm run lint` and `npm run build`.
 
-Comprehensive development documentation is available in the `docs/claude-development/` folder:
+Avoid hardcoding portfolio copy directly inside components unless it is true UI text rather than content.
 
-- **[Project Structure Guide](./docs/claude-development/PROJECT_STRUCTURE.md)** - Complete architecture overview
-- **[Development Logs](./docs/claude-development/)** - Detailed daily progress and phase implementations
-- **[Claude Integration](./docs/claude-development/CLAUDE.md)** - AI-assisted development setup
+## Adding A New Section
 
----
+1. Create the section under `src/components/sections/YourSection/`.
+2. Put content data in `src/constants/`.
+3. Lazy-load the section in `src/App.jsx`.
+4. Wrap it in `ErrorBoundary`, matching the existing pattern.
+5. Add navigation only if the section is mounted and has a stable `id`.
+6. Update this README and `AGENTS.md` if the app surface changes.
 
-## 📄 License
+## Environment Variables
 
-[MIT License](LICENSE) - Feel free to use this project for your own portfolio!
+The current live portfolio does not require environment variables for the resume link or core page rendering. If a future feature needs configuration, use Vite's `VITE_` prefix and document the variable here.
 
----
+```env
+# Example only:
+# VITE_SOME_PUBLIC_CONFIG=
+```
 
-## 👨‍💻 Author
+Do not commit secrets.
 
-**Yuelin Liu** - Full Stack Developer & AI Engineer
+## Contributing
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin)](https://linkedin.com/in/liuyuelintop)
-[![GitHub](https://img.shields.io/badge/GitHub-Follow-black?style=flat-square&logo=github)](https://github.com/liuyuelintop)
-[![Blog](https://img.shields.io/badge/Blog-Read-orange?style=flat-square&logo=hashnode)](https://blog.liuyuelin.dev/)
+This is a personal portfolio, so changes should preserve the hiring narrative and avoid speculative feature work. Useful contributions usually fall into one of these categories:
 
----
+- accessibility fixes;
+- performance improvements;
+- clearer content structure;
+- theme consistency fixes;
+- dependency or build hygiene;
+- small UI improvements that support the current live sections.
 
-## ⭐ Support
+Before opening a pull request, include the commands you ran and any manual browser checks you performed.
 
-If this project helped you create an amazing portfolio, please:
+## License
 
-1. ⭐ **Star this repository**
-2. 🍴 **Fork it for your own use**
-3. 📢 **Share it with others**
-4. 🐛 **Report any issues**
-
-> **Built with ❤️ using React, Tailwind CSS, and Claude Code assistance**
+This repository is shared as a portfolio reference. If you adapt it, replace personal content, project data, images, resume files, and contact details with your own.

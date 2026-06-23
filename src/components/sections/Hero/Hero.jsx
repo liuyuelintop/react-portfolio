@@ -4,81 +4,20 @@ import { useTypingAnimation } from "../../../hooks/useTypingAnimation";
 import { useTheme } from "../../../contexts/ThemeContext";
 import { HiDownload, HiMail, HiLocationMarker } from 'react-icons/hi';
 import { FaLinkedin, FaGithub, FaBlog } from 'react-icons/fa';
-import { useCV } from '../../../hooks/useCV';
 import Button from '../../ui/common/Button';
 import {
     containerVariants,
     itemVariants,
     titleVariants,
-    floatingShapeVariants,
-    floatingShapeVariantsReduced,
     cursorGlowVariants
 } from "./animations";
 
 export default function Hero() {
     const { currentTheme } = useTheme();
-    const { cvUrl, isLoading } = useCV();
     const typedRole = useTypingAnimation(HERO_CONTENT.roles, 150, 100, 2000);
-
-    // Check for reduced motion preference
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const shapeVariants = prefersReducedMotion ? floatingShapeVariantsReduced : floatingShapeVariants;
 
     return (
         <section className="relative py-16 md:py-24 px-4 overflow-hidden">
-            {/* Floating Geometric Shapes Background with Beautiful Animations */}
-            <div className="absolute inset-0 pointer-events-none">
-                {/* Enhanced background glow with subtle scale animation */}
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 2, ease: "easeOut" }}
-                    className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl ${currentTheme === 'minimal'
-                        ? 'bg-gradient-to-r from-blue-100/40 to-purple-100/40'
-                        : 'bg-gradient-to-r from-purple-500/10 to-blue-500/10'
-                        }`}
-                />
-
-                {/* Original floating geometric shapes */}
-                <motion.div
-                    variants={shapeVariants}
-                    animate="animate"
-                    className="absolute top-20 left-10 w-20 h-20 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-full blur-sm will-change-transform"
-                />
-                <motion.div
-                    variants={shapeVariants}
-                    animate="animate"
-                    style={{ animationDelay: "2s" }}
-                    className="absolute top-40 right-20 w-16 h-16 bg-gradient-to-r from-blue-500/15 to-cyan-500/15 rotate-45 blur-sm will-change-transform"
-                />
-                <motion.div
-                    variants={shapeVariants}
-                    animate="animate"
-                    style={{ animationDelay: "4s" }}
-                    className="absolute bottom-20 left-1/4 w-12 h-12 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-full blur-sm will-change-transform"
-                />
-                <motion.div
-                    variants={shapeVariants}
-                    animate="animate"
-                    style={{ animationDelay: "6s" }}
-                    className="absolute bottom-40 right-1/3 w-24 h-24 bg-gradient-to-r from-indigo-500/15 to-purple-500/15 rotate-12 blur-sm will-change-transform"
-                />
-
-                {/* Additional smaller floating elements */}
-                <motion.div
-                    variants={shapeVariants}
-                    animate="animate"
-                    style={{ animationDelay: "1s" }}
-                    className="absolute top-32 left-1/3 w-8 h-8 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-full blur-sm will-change-transform"
-                />
-                <motion.div
-                    variants={shapeVariants}
-                    animate="animate"
-                    style={{ animationDelay: "5s" }}
-                    className="absolute bottom-32 right-1/4 w-6 h-6 bg-gradient-to-r from-purple-400/25 to-pink-400/25 rotate-45 blur-sm will-change-transform"
-                />
-            </div>
-
             <div className="max-w-6xl mx-auto relative z-10">
                 <motion.div
                     initial="hidden"
@@ -89,9 +28,13 @@ export default function Hero() {
                     {/* Main Content - Left Side */}
                     <div className="lg:col-span-2 space-y-8">
                         <motion.div variants={titleVariants} className="space-y-4">
+                            <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${currentTheme === 'minimal' ? 'text-gray-500' : 'text-cyan-300'
+                                }`}>
+                                Melbourne Full-Stack Software Engineer
+                            </p>
                             <h1 className={`text-5xl md:text-7xl font-bold leading-tight bg-gradient-to-r bg-clip-text text-transparent ${currentTheme === 'minimal'
                                 ? 'from-gray-900 via-gray-700 to-gray-800'
-                                : 'from-white via-purple-200 to-blue-200'
+                                : 'from-white via-cyan-100 to-blue-200'
                                 }`}>
                                 {HERO_CONTENT.name}
                             </h1>
@@ -123,14 +66,15 @@ export default function Hero() {
                         >
                             <Button
                                 as="a"
-                                href={cvUrl}
+                                href={HERO_CONTENT.resumeUrl}
+                                download="Yuelin-Liu-Resume.pdf"
                                 variant="primary"
                                 size="lg"
-                                loading={isLoading}
                                 className="group"
+                                aria-label="Download Yuelin Liu's resume as a PDF"
                             >
                                 <HiDownload className="text-xl transition-transform group-hover:scale-110" />
-                                <span>Download CV</span>
+                                <span>Download Resume</span>
                             </Button>
 
                             <Button
@@ -141,44 +85,44 @@ export default function Hero() {
                                 className="group"
                             >
                                 <HiMail className="text-xl transition-transform group-hover:scale-110" />
-                                <span>Get In Touch</span>
+                                <span>Discuss a Role</span>
                             </Button>
                         </motion.div>
                     </div>
 
-                    {/* Skills & Info Card - Right Side */}
+                    {/* Recruiter Snapshot - Right Side */}
                     <motion.div
                         variants={itemVariants}
-                        className={`rounded-2xl p-8 border backdrop-blur-sm ${currentTheme === 'minimal'
+                        className={`rounded-lg p-6 md:p-7 border backdrop-blur-sm ${currentTheme === 'minimal'
                             ? 'bg-white/80 border-gray-200 shadow-xl shadow-gray-200/20'
                             : 'bg-neutral-800/80 border-neutral-700 shadow-xl shadow-black/20'
                             }`}
                     >
                         <h3 className={`text-xl font-bold mb-6 flex items-center gap-2 ${currentTheme === 'minimal' ? 'text-gray-900' : 'text-white'
                             }`}>
-                            <span className="text-2xl">🚀</span>
-                            Core Expertise
+                            Recruiter Snapshot
                         </h3>
 
-                        <div className="space-y-3 mb-8">
-                            {HERO_CONTENT.highlights.map((skill, index) => (
+                        <div className="space-y-4 mb-7">
+                            {HERO_CONTENT.interviewSignals.map((signal, index) => (
                                 <motion.div
-                                    key={skill}
+                                    key={signal.label}
                                     initial={{ opacity: 0, x: 20 }}
                                     animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.5 + index * 0.1, duration: 0.5 }}
-                                    className={`group flex items-center gap-3 p-3 rounded-xl transition-all duration-300 cursor-pointer ${currentTheme === 'minimal'
-                                        ? 'hover:bg-gray-100'
-                                        : 'hover:bg-purple-400/10'
+                                    transition={{ delay: 0.45 + index * 0.1, duration: 0.5 }}
+                                    className={`rounded-lg border p-3 ${currentTheme === 'minimal'
+                                        ? 'bg-gray-50 border-gray-200'
+                                        : 'bg-neutral-950/40 border-neutral-700/70'
                                         }`}
-                                    whileHover={{ x: 5 }}
                                 >
-                                    <div className={`w-2 h-2 rounded-full ${currentTheme === 'minimal' ? 'bg-gray-400' : 'bg-purple-400'
-                                        }`} />
-                                    <span className={`text-sm font-medium ${currentTheme === 'minimal' ? 'text-gray-700' : 'text-neutral-300'
+                                    <p className={`text-xs font-semibold uppercase tracking-[0.16em] ${currentTheme === 'minimal' ? 'text-gray-500' : 'text-neutral-500'
                                         }`}>
-                                        {skill}
-                                    </span>
+                                        {signal.label}
+                                    </p>
+                                    <p className={`mt-2 text-sm leading-relaxed ${currentTheme === 'minimal' ? 'text-gray-800' : 'text-neutral-200'
+                                        }`}>
+                                        {signal.value}
+                                    </p>
                                 </motion.div>
                             ))}
                         </div>
