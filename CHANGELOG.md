@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-06-24
+
+### Removed
+- Removed stale `docs/claude-development` files that described legacy Google Drive API resume delivery, GitHub activity integrations, AI assistant/chatbot sections, Lighthouse score claims, and old phase-based development notes.
+
 ## 2026-06-20
 
 ### Changed
