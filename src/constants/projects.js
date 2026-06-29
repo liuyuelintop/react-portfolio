@@ -24,6 +24,7 @@ export const PROJECTS = [
       "Decoupled tag-driven architecture",
       "Fault-tolerant API integration",
     ],
+    github: "https://github.com/liuyuelintop/moneyguard-pipeline",
     technologies: {
       main: ["TypeScript", "Node.js", "Gemini LLM", "DeepSeek LLM"],
       additional: [

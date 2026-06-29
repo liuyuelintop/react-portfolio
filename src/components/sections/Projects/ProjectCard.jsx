@@ -27,6 +27,11 @@ const ProjectCard = ({ project, index, onReadMore }) => {
       ? "border-gray-200 text-gray-700 hover:bg-gray-50"
       : "border-neutral-700 text-neutral-300 hover:bg-neutral-800",
   };
+  const externalUrl = project.url || project.github;
+  const externalLabel = project.url ? "Live" : "Source";
+  const externalAriaLabel = project.url
+    ? `Visit ${project.title} live site`
+    : `View ${project.title} source code`;
 
   return (
     <motion.article
@@ -100,15 +105,15 @@ const ProjectCard = ({ project, index, onReadMore }) => {
           <ArrowRight size={16} aria-hidden="true" />
         </button>
 
-        {project.url && (
+        {externalUrl && (
           <a
-            href={project.url}
+            href={externalUrl}
             target="_blank"
             rel="noopener noreferrer"
             className={`inline-flex items-center justify-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-semibold transition-colors ${styles.secondaryButton} ${getThemeFocusRing(currentTheme)}`}
-            aria-label={`Visit ${project.title} live site`}
+            aria-label={externalAriaLabel}
           >
-            Live
+            {externalLabel}
             <ExternalLink size={16} aria-hidden="true" />
           </a>
         )}
@@ -132,6 +137,7 @@ ProjectCard.propTypes = {
     roleFit: PropTypes.string,
     evidence: PropTypes.arrayOf(PropTypes.string),
     url: PropTypes.string,
+    github: PropTypes.string,
   }).isRequired,
   index: PropTypes.number.isRequired,
   onReadMore: PropTypes.func.isRequired,
