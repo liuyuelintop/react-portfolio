@@ -60,7 +60,7 @@ export default function Contact() {
   const socialLinks = [
     { label: "LinkedIn", href: CONTACT.socials.linkedin, icon: Linkedin },
     { label: "GitHub", href: CONTACT.socials.github, icon: Github },
-    { label: "Blog", href: CONTACT.socials.blog, icon: MessageSquareText },
+    { label: "Writing", href: CONTACT.socials.blog, icon: MessageSquareText },
   ];
 
   const hiringSignals = [

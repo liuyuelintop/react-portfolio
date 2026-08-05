@@ -6,6 +6,7 @@ import ProjectModal from "./ProjectModal";
 import { PROJECTS, SUPPORTING_PROJECTS } from "../../../constants/projects";
 import { useTheme } from "../../../contexts/ThemeContext";
 import { useUI } from "../../../hooks/useUI";
+import { getThemeFocusRing } from "../../../utils/accessibility";
 import SectionHeading from "../../ui/common/SectionHeading";
 
 export default function Projects() {
@@ -13,6 +14,7 @@ export default function Projects() {
     const { setIsProjectModalOpen } = useUI();
     const [activeProject, setActiveProject] = useState(null);
     const isMinimal = currentTheme === "minimal";
+    const focusRing = getThemeFocusRing(currentTheme);
 
     const headingClass = isMinimal ? "text-gray-950" : "text-white";
     const textClass = isMinimal ? "text-gray-700" : "text-neutral-300";
@@ -91,38 +93,48 @@ export default function Projects() {
                 </div>
 
                 <div className="mt-5 grid gap-3 md:grid-cols-2">
-                    {SUPPORTING_PROJECTS.map((project) => (
-                        <a
-                            key={project.title}
-                            href={project.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={`block rounded-lg border p-4 transition-colors ${innerPanelClass}`}
-                        >
-                            <div className="flex items-start justify-between gap-3">
-                                <h4 className={`font-semibold ${headingClass}`}>
-                                    {project.title}
-                                </h4>
-                                <ExternalLink size={16} className={`mt-1 shrink-0 ${mutedClass}`} aria-hidden="true" />
-                            </div>
-                            <p className={`mt-2 text-sm leading-relaxed ${textClass}`}>
-                                {project.summary}
-                            </p>
-                            <p className={`mt-3 text-xs font-semibold uppercase tracking-[0.14em] ${mutedClass}`}>
-                                {project.whyItMatters}
-                            </p>
-                            <div className="mt-3 flex flex-wrap gap-2">
-                                {project.stack.map((tool) => (
-                                    <span
-                                        key={tool}
-                                        className={`rounded-md border px-2 py-1 text-xs ${chipClass}`}
-                                    >
-                                        {tool}
-                                    </span>
-                                ))}
-                            </div>
-                        </a>
-                    ))}
+                    {SUPPORTING_PROJECTS.map((project) => {
+                        const Card = project.url ? "a" : "article";
+
+                        return (
+                            <Card
+                                key={project.title}
+                                href={project.url || undefined}
+                                target={project.url ? "_blank" : undefined}
+                                rel={project.url ? "noopener noreferrer" : undefined}
+                                className={`block rounded-lg border p-4 ${innerPanelClass} ${project.url ? `transition-colors ${focusRing}` : ""}`}
+                            >
+                                <div className="flex items-start justify-between gap-3">
+                                    <h4 className={`font-semibold ${headingClass}`}>
+                                        {project.title}
+                                    </h4>
+                                    {project.url ? (
+                                        <ExternalLink size={16} className={`mt-1 shrink-0 ${mutedClass}`} aria-hidden="true" />
+                                    ) : (
+                                        <span className={`shrink-0 rounded-md border px-2 py-1 text-xs font-medium ${chipClass}`}>
+                                            {project.status}
+                                        </span>
+                                    )}
+                                </div>
+                                <p className={`mt-2 text-sm leading-relaxed ${textClass}`}>
+                                    {project.summary}
+                                </p>
+                                <p className={`mt-3 text-xs font-semibold uppercase tracking-[0.14em] ${mutedClass}`}>
+                                    {project.whyItMatters}
+                                </p>
+                                <div className="mt-3 flex flex-wrap gap-2">
+                                    {project.stack.map((tool) => (
+                                        <span
+                                            key={tool}
+                                            className={`rounded-md border px-2 py-1 text-xs ${chipClass}`}
+                                        >
+                                            {tool}
+                                        </span>
+                                    ))}
+                                </div>
+                            </Card>
+                        );
+                    })}
                 </div>
             </motion.div>
 

@@ -138,9 +138,10 @@ export default function Hero() {
 
                             <div className="flex items-center gap-4">
                                 <motion.a
-                                    href="https://linkedin.com/in/liuyuelintop"
+                                    href="https://www.linkedin.com/in/liuyuelintop/"
                                     target="_blank"
                                     rel="noopener noreferrer"
+                                    aria-label="View Yuelin Liu's LinkedIn profile"
                                     className={`p-2 rounded-lg transition-all duration-300 ${currentTheme === 'minimal'
                                         ? 'text-gray-500 hover:text-blue-600 hover:bg-blue-50'
                                         : 'text-neutral-400 hover:text-blue-400 hover:bg-blue-400/10'
@@ -155,6 +156,7 @@ export default function Hero() {
                                     href="https://github.com/liuyuelintop"
                                     target="_blank"
                                     rel="noopener noreferrer"
+                                    aria-label="View Yuelin Liu's GitHub profile"
                                     className={`p-2 rounded-lg transition-all duration-300 ${currentTheme === 'minimal'
                                         ? 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
                                         : 'text-neutral-400 hover:text-white hover:bg-white/10'
@@ -169,6 +171,7 @@ export default function Hero() {
                                     href="https://blog.liuyuelin.dev/"
                                     target="_blank"
                                     rel="noopener noreferrer"
+                                    aria-label="Read Yuelin Liu's technical writing"
                                     className={`p-2 rounded-lg transition-all duration-300 ${currentTheme === 'minimal'
                                         ? 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
                                         : 'text-neutral-400 hover:text-white hover:bg-white/10'
