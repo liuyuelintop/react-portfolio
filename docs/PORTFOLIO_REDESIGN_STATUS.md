@@ -239,6 +239,7 @@ Selected architecture and implementation:
 - `src/App.jsx` is the client boundary for contexts, Framer Motion, modal state, and browser-only effects. Synchronous section imports replace the SPA-wide lazy/Suspense spinner so the complete homepage is prerendered.
 - Existing copy, section order, links, default theme behavior, typewriter, animation, modal content, contact behavior, résumé, OG image, and project images are preserved. `MotionConfig reducedMotion="user"` respects the visitor preference, and a no-script style exposes motion-initialized content without changing the JavaScript experience.
 - Vite entry/configuration and dependencies are removed after equivalent Next.js behavior was verified. React/React DOM are `19.2.8`; Framer Motion remains on major `11` at the first React-19-compatible range used here.
+- Checked-in Vercel configuration maps the deployment output directory to Next.js `out/`, replacing the project's stale Vite `dist/` expectation without a dashboard change or server runtime.
 - `npm run verify:static` deterministically rejects missing hero, experience, project, navigation, canonical/social metadata, JSON-LD, public assets, empty `<main>`, and the obsolete spinner shell.
 
 Verification:
