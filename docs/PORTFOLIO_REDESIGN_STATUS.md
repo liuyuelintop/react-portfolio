@@ -72,7 +72,7 @@ The first run stopped because `karpathy.md` was a meaningful untracked user file
 | Contact | `Contact/Contact.jsx`, `ProfessionalContactForm.jsx`, `CONTACT` | Direct email/phone/LinkedIn/GitHub/blog paths plus a client-only form that validates input and opens a `mailto:` draft; it does not submit to a backend. |
 | Footer | No visible React footer | `index.html` has only a hidden static footer with copyright year 2025 and a licence link. |
 
-The hierarchy front-loads Hero, Career Snapshot, and Working Style before commercial evidence; Experience and Skills repeat much of the same proof before Projects. This makes the page narrative-heavy and delays project discovery. The six-anchor navigation is technically simple, but it omits Career Snapshot and Writing while adding scroll tracking and keyboard shortcuts.
+The visible order places Hero, Career Snapshot, and Working Style before Experience and Projects; Experience and Skills repeat much of the same proof before Projects. Whether this ordering and overlap dilute hierarchy is a design judgement. The six-anchor navigation is technically simple, but it omits Career Snapshot and Writing while adding scroll tracking and keyboard shortcuts.
 
 ### Visual and motion system
 
@@ -91,7 +91,7 @@ The hierarchy front-loads Hero, Career Snapshot, and Working Style before commer
 - Canonical, `og:url`, JSON-LD `url`, JSON-LD `image`, `og:image`, and `twitter:image` use `https://liuyuelin.dev`, while the actual serving URL is `https://www.liuyuelin.dev/`. The apex returns `308` to `www`.
 - The configured portfolio social image path redirects to `www` and then returns `404`; the source PNG is bundled under `src/assets/` with a hashed build filename rather than copied to `/assets/og-image.png`.
 - There is no `robots.txt`, `sitemap.xml`, or manifest in the repository; all three public URLs returned `404`. There is no route/page-level metadata because there are no routes.
-- The blog is a separately deployed, prerendered Next.js site. Its homepage has no observed canonical or `og:url`; its Open Graph/Twitter image is a reachable `next-blog-alpha-sable-40.vercel.app` URL rather than the public blog host.
+- The blog is a separately deployed, prerendered Next.js site. Its homepage has no observed canonical or `og:url`; its Open Graph/Twitter image is a reachable `next-blog-alpha-sable-40.vercel.app` URL rather than the public blog host. Whether that Vercel hostname represents a preview deployment is **UNVERIFIED**.
 
 ### Tests, CI, and verification architecture
 
@@ -119,8 +119,8 @@ Every material redesign hypothesis is classified exactly once below.
 | Client-only rendering leaves limited meaningful server HTML | **CONFIRMED** | `createRoot` SPA, no server/prerender entry, and live 5.18 kB HTML contains only metadata and placeholder semantic nodes. Full content appears only after JavaScript. |
 | Canonical/apex/`www` URLs are inconsistent | **CONFIRMED** | Apex `308` -> `www`, but canonical, OG, Twitter, and JSON-LD URLs use apex. The social image target follows that redirect and returns `404`. |
 | Portfolio/blog integration is weak | **PARTIALLY_CONFIRMED** | Mutual links exist, but Writing is absent from portfolio navigation/content, portfolio links are secondary, and blog backlinks use the redirecting apex. |
-| Social images use preview hosts | **CONFIRMED** | Blog OG/Twitter images use `next-blog-alpha-sable-40.vercel.app`; the portfolio image is not preview-hosted but is broken at its configured URL. |
-| Section order and content overlap dilute hierarchy | **CONFIRMED** | Hero/Career Snapshot/Working Style precede Experience; Career Snapshot, Experience, Skills, and Projects repeat the same workflow, cloud, testing, and AI evidence. |
+| Blog social images use a preview deployment host | **UNVERIFIED** | The confirmed fact is that the reachable image URL uses `next-blog-alpha-sable-40.vercel.app`, not the public `blog.liuyuelin.dev` host. No evidence establishes whether that hostname is a preview deployment, production deployment, or alias. The portfolio image is separately broken at its configured URL. |
+| Observed section order and content overlap | **CONFIRMED** | Hero/Career Snapshot/Working Style precede Experience and Projects; Career Snapshot, Experience, Skills, and Projects repeat the same workflow, cloud, testing, and AI evidence. The effect on hierarchy remains a design judgement. |
 | Modal-based project details limit discoverability | **CONFIRMED** | Modal state has no route, URL/title change, server HTML, page metadata, or deep link; an expected case-study URL returns `404`. |
 | The live portfolio has excessive active themes | **CONTRADICTED** | Runtime exposes only the hard-coded default theme. Four-theme claims are stale documentation/dormant branches, not four user-selectable themes. |
 | Motion is excessive | **PARTIALLY_CONFIRMED** | Motion is pervasive (55 motion elements plus typewriter/progress/spinners) and lacks reduced-motion handling; “excessive” remains a design judgement. |
@@ -144,7 +144,7 @@ Checks were non-destructive on 2026-08-05 AEST.
 | Portfolio `sitemap.xml` | `404` | No discoverable route inventory. |
 | Portfolio `manifest.json` | `404` | Apple web-app tags exist without a manifest. |
 | Configured portfolio OG/Twitter image | `404` after apex -> `www` redirect | Broken social preview asset. |
-| Blog OG/Twitter image | `200` image/png | Reachable, but served from a preview-style Vercel hostname. |
+| Blog OG/Twitter image | `200` image/png | Reachable from a `vercel.app` hostname that differs from the public blog host; whether it is a preview deployment is **UNVERIFIED**. |
 | Example case-study path | `404` | Confirms no project route/deep link. |
 
 ### Public link inventory
@@ -155,7 +155,7 @@ Checks were non-destructive on 2026-08-05 AEST.
 | GitHub profile | `200` | Public. Suitable as a general profile. |
 | MoneyGuard source | `200`; public, non-archived GitHub repository | Suitable source evidence, but public privacy wording conflicts with the repository's narrower documented privacy posture. |
 | ApeUni source | `200`; public, non-archived GitHub repository | Public packaging evidence. Owner should confirm maintenance/usage suitability; README still contains placeholder clone links and an unqualified “100% reliable” claim. |
-| LinkedIn | HTTP `200` | Profile content/auth presentation was **UNVERIFIED**; owner should confirm recruiter-visible access and current content. |
+| LinkedIn | Variable: an earlier probe recorded HTTP `200`; repeat unauthenticated HEAD and GET requests returned LinkedIn `999`, and the response points to `/authwall` | Reliable public access is method/time dependent. Profile content and recruiter-visible visibility remain **UNVERIFIED**; owner should confirm public access and current content. |
 | Blog | `200`; homepage publicly displays “65 Technical Articles” | Suitable writing destination, but content freshness, canonical, social host, and numerical homepage claims need review. |
 | Melbourne University Ultimate demo | `200`; public club landing page | Recruiter-viewable without auth. Owner should confirm ownership, open-source status, and permission to present club work. |
 | CodeCraft demo | `200`; public interactive editor visible without auth | Recruiter-viewable at landing; owner should confirm which advertised auth/payment/collaboration features are complete. |
