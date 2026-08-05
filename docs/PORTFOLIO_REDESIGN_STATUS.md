@@ -236,7 +236,7 @@ Implemented fixes:
 
 - Canonical, `og:url`, portfolio Open Graph/Twitter image, and Person JSON-LD URLs now use `https://www.liuyuelin.dev/` consistently.
 - The existing `1200x630` portfolio social image is published at `/assets/og-image.png`; `robots.txt` and a one-URL `sitemap.xml` expose the canonical homepage.
-- Writing is a labelled first-class desktop/mobile navigation link to `https://blog.liuyuelin.dev/`; the contact chip uses the same label, and the hero writing icon has an accessible name.
+- Writing is a labelled first-class desktop/mobile navigation link to `https://blog.liuyuelin.dev/`; the contact chip uses the same label, and the hero social icons have accessible names.
 - Public LinkedIn declarations use the verified canonical URL. The seven-link desktop navigation begins at `lg` so intermediate widths keep the complete mobile menu.
 - CodeInterview still presents Clerk sign-in and is no longer a recruiter-facing link; its existing supporting-project card remains visible with the accurate `Private demo` status.
 
