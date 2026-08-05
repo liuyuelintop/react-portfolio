@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+const tailwindConfig = {
+  content: ["./app/**/*.{js,jsx}", "./src/**/*.{js,jsx}"],
   theme: {
     extend: {
       spacing: {
@@ -34,3 +34,5 @@ export default {
   },
   plugins: [],
 };
+
+export default tailwindConfig;

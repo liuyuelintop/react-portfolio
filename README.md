@@ -1,13 +1,13 @@
 # React Portfolio
 
-[![Live Site](https://img.shields.io/badge/live-liuyuelin.dev-blue?style=flat-square)](https://liuyuelin.dev)
-[![React](https://img.shields.io/badge/React-18-61dafb?style=flat-square&logo=react)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Vite-5-646cff?style=flat-square&logo=vite)](https://vitejs.dev/)
+[![Live Site](https://img.shields.io/badge/live-www.liuyuelin.dev-blue?style=flat-square)](https://www.liuyuelin.dev/)
+[![React](https://img.shields.io/badge/React-19-61dafb?style=flat-square&logo=react)](https://react.dev/)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-38bdf8?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
 
 A content-driven portfolio for Yuelin Liu. It is built to present recruiter-facing proof clearly: positioning, working style, experience, skills, selected case studies, contact paths, and a reliable static resume download.
 
-The repo is also intended to be useful as an open-source reference for a modern React/Vite portfolio that stays maintainable without becoming a framework.
+The repo is also intended to be useful as an open-source reference for a static-first React/Next.js portfolio that stays maintainable without becoming a framework.
 
 ![Portfolio Screenshot](./src/assets/og-image.png)
 
@@ -15,8 +15,8 @@ The repo is also intended to be useful as an open-source reference for a modern 
 
 - Clear hiring narrative instead of a generic project gallery.
 - Data-driven content in `src/constants/`, so copy and portfolio data can change without rewriting components.
-- Small, composable React sections with lazy loading and section-level error boundaries.
-- Theme-aware UI across Default, Neon, Minimal, and Corporate themes.
+- Small, composable React sections with static prerendering and section-level error boundaries.
+- The current default theme, with existing theme-aware styling branches preserved.
 - Accessible navigation, skip link, focus states, and keyboard shortcuts.
 - Reliable resume delivery through a static PDF, not a client-side API lookup.
 - A dependency set that reflects the current app rather than historical experiments.
@@ -37,17 +37,18 @@ Older unmounted sections were removed during cleanup. If a Blog, Chatbot, Refere
 
 ## Tech Stack
 
-- React 18 with function components and hooks
-- Vite 5
+- React 19 with function components and hooks
+- Next.js 16 App Router with fully static export
 - Tailwind CSS 3
 - Framer Motion
 - lucide-react and react-icons
 - prop-types for runtime prop validation
-- ESLint with React, hooks, and Fast Refresh rules
+- ESLint with Next.js Core Web Vitals, React, and hooks rules
 
 ## Project Structure
 
 ```text
+app/                # App Router layout, homepage metadata, robots, sitemap
 src/
 ├── components/
 │   ├── layout/      # Navbar
@@ -59,7 +60,10 @@ src/
 ├── utils/           # Accessibility and typography helpers
 └── assets/          # Bundled image assets
 public/
-└── resume/          # Static resume PDF served by Vite
+├── assets/          # Public social image
+└── resume/          # Static resume PDF copied into the export
+scripts/
+└── verify-static-output.mjs
 ```
 
 ## Content Model
@@ -101,7 +105,7 @@ This keeps the modal useful without carrying stale logic for auth demos, chatbot
 Install dependencies:
 
 ```bash
-npm install
+npm ci
 ```
 
 Run the dev server:
@@ -128,6 +132,12 @@ Run lint:
 npm run lint
 ```
 
+Verify the generated HTML and required public assets:
+
+```bash
+npm run verify:static
+```
+
 ## Quality Gates
 
 Before shipping changes, run:
@@ -135,6 +145,7 @@ Before shipping changes, run:
 ```bash
 npm run lint
 npm run build
+npm run verify:static
 ```
 
 There are no unit tests in this repo. For UI changes, also do a manual pass in `npm run dev`, especially around the hero CTA, project modal, theme behavior, mobile navigation, and contact form.
@@ -166,18 +177,18 @@ Avoid hardcoding portfolio copy directly inside components unless it is true UI 
 
 1. Create the section under `src/components/sections/YourSection/`.
 2. Put content data in `src/constants/`.
-3. Lazy-load the section in `src/App.jsx`.
+3. Import and mount the section in `src/App.jsx` so it is included in the static homepage HTML.
 4. Wrap it in `ErrorBoundary`, matching the existing pattern.
 5. Add navigation only if the section is mounted and has a stable `id`.
 6. Update this README and `AGENTS.md` if the app surface changes.
 
 ## Environment Variables
 
-The current live portfolio does not require environment variables for the resume link or core page rendering. If a future feature needs configuration, use Vite's `VITE_` prefix and document the variable here.
+The current live portfolio does not require environment variables for the resume link or core page rendering. If a future browser feature needs public configuration, use Next.js's `NEXT_PUBLIC_` prefix and document the variable here.
 
 ```env
 # Example only:
-# VITE_SOME_PUBLIC_CONFIG=
+# NEXT_PUBLIC_SOME_CONFIG=
 ```
 
 Do not commit secrets.

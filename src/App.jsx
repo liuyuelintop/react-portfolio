@@ -1,5 +1,7 @@
-import { lazy, Suspense, useEffect } from "react";
-import { motion } from "framer-motion";
+"use client";
+
+import { useEffect } from "react";
+import { motion, MotionConfig } from "framer-motion";
 import { ThemeProvider, useTheme } from "./contexts/ThemeContext";
 import { UIProvider } from "./contexts/UIContext";
 import { ScrollProgressBar } from "./components/ui/animations/ScrollAnimations/ScrollEffects";
@@ -7,15 +9,14 @@ import ErrorBoundary from "./components/ui/common/ErrorBoundary";
 import useKeyboardShortcuts from "./hooks/useKeyboardShortcuts";
 import { createSkipLink } from "./utils/accessibility";
 import { ToastProvider } from "./components/ui/common/Toast";
-
-const Navbar = lazy(() => import("./components/layout/Navbar"));
-const Hero = lazy(() => import("./components/sections/Hero/Hero"));
-const CareerSnapshot = lazy(() => import("./components/sections/CareerSnapshot"));
-const WorkingStyle = lazy(() => import("./components/sections/WorkingStyle"));
-const Projects = lazy(() => import("./components/sections/Projects"));
-const Experience = lazy(() => import("./components/sections/Experience"));
-const SkillsVisualization = lazy(() => import("./components/sections/Skills"));
-const Contact = lazy(() => import("./components/sections/Contact"));
+import Navbar from "./components/layout/Navbar/Navbar";
+import Hero from "./components/sections/Hero/Hero";
+import CareerSnapshot from "./components/sections/CareerSnapshot/CareerSnapshot";
+import WorkingStyle from "./components/sections/WorkingStyle/WorkingStyle";
+import Projects from "./components/sections/Projects";
+import Experience from "./components/sections/Experience/Experience";
+import SkillsVisualization from "./components/sections/Skills/SkillsVisualization";
+import Contact from "./components/sections/Contact/Contact";
 
 function AppContent() {
   const { currentTheme } = useTheme();
@@ -118,25 +119,15 @@ function AppContent() {
 
 function App() {
   return (
-    <ThemeProvider>
-      <UIProvider>
-        <ToastProvider>
-          <Suspense
-            fallback={
-              <div className="flex h-screen items-center justify-center bg-neutral-950">
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                  className="h-12 w-12 rounded-full border-4 border-t-purple-500 border-transparent"
-                />
-              </div>
-            }
-          >
+    <MotionConfig reducedMotion="user">
+      <ThemeProvider>
+        <UIProvider>
+          <ToastProvider>
             <AppContent />
-          </Suspense>
-        </ToastProvider>
-      </UIProvider>
-    </ThemeProvider>
+          </ToastProvider>
+        </UIProvider>
+      </ThemeProvider>
+    </MotionConfig>
   );
 }
 
