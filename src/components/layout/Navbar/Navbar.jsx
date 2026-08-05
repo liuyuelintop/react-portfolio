@@ -9,6 +9,7 @@ const SECTION_LINKS = [
     { label: 'Experience', href: '#experience' },
     { label: 'Skills', href: '#skills' },
     { label: 'Projects', href: '#projects' },
+    { label: 'Writing', href: 'https://blog.liuyuelin.dev/', external: true },
     { label: 'Contact', href: '#contact' },
 ];
 
@@ -36,7 +37,9 @@ export default function Navbar() {
     // Track active section based on scroll position
     useEffect(() => {
         const handleScroll = () => {
-            const sections = SECTION_LINKS.map(link => link.href.slice(1));
+            const sections = SECTION_LINKS
+                .filter(link => !link.external)
+                .map(link => link.href.slice(1));
             const scrollPosition = window.scrollY + 100;
 
             for (let i = sections.length - 1; i >= 0; i--) {
@@ -84,15 +87,17 @@ export default function Navbar() {
                     </div>
 
                     {/* Desktop Navigation - Centered */}
-                    <div className="hidden md:flex items-center justify-center flex-1">
-                        <div className="flex items-center space-x-2">
+                    <div className="hidden lg:flex items-center justify-center flex-1">
+                        <div className="flex items-center space-x-1 xl:space-x-2">
                             {SECTION_LINKS.map((item) => {
-                                const isActive = activeSection === item.href.slice(1);
+                                const isActive = !item.external && activeSection === item.href.slice(1);
                                 return (
                                     <motion.a
                                         key={item.label}
                                         href={item.href}
-                                        className={`relative px-4 py-2 rounded-lg border text-sm font-medium transition-all duration-300 ${getThemeFocusRing(currentTheme)} ${
+                                        target={item.external ? '_blank' : undefined}
+                                        rel={item.external ? 'noopener noreferrer' : undefined}
+                                        className={`relative px-3 xl:px-4 py-2 rounded-lg border text-sm font-medium transition-all duration-300 ${getThemeFocusRing(currentTheme)} ${
                                             isActive
                                                 ? currentTheme === 'minimal'
                                                     ? 'text-white bg-gray-900 border-gray-900 shadow-lg'
@@ -125,7 +130,7 @@ export default function Navbar() {
                     </div>
 
                     {/* Mobile Menu Button */}
-                    <div className="md:hidden flex items-center space-x-2">
+                    <div className="lg:hidden flex items-center space-x-2">
                         <motion.button
                             ref={buttonRef}
                             aria-label="Toggle navigation menu"
@@ -189,22 +194,24 @@ export default function Navbar() {
                                     duration: 0.15
                                 }
                             }}
-                            className={`md:hidden py-4 space-y-2 border-t transition-colors ${
+                            className={`lg:hidden py-4 space-y-2 border-t transition-colors ${
                                 currentTheme === 'minimal'
                                     ? 'bg-white/95 border-gray-200'
                                     : 'bg-neutral-900/95 border-neutral-800'
                             }`}
                         >
                             {SECTION_LINKS.map((item, index) => {
-                                const isActive = activeSection === item.href.slice(1);
+                                const isActive = !item.external && activeSection === item.href.slice(1);
                                 return (
                                     <motion.a
                                         key={item.label}
                                         href={item.href}
+                                        target={item.external ? '_blank' : undefined}
+                                        rel={item.external ? 'noopener noreferrer' : undefined}
                                         initial={{ opacity: 0, x: -20 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ delay: index * 0.05 }}
-                                        className={`flex items-center px-4 py-3 rounded-lg transition-all duration-300 text-base font-medium ${
+                                        className={`flex items-center px-4 py-3 rounded-lg transition-all duration-300 text-base font-medium ${getThemeFocusRing(currentTheme)} ${
                                             isActive
                                                 ? currentTheme === 'minimal'
                                                     ? 'text-white bg-gray-900 shadow-lg'

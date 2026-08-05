@@ -37,7 +37,7 @@ export const CONTACT = {
   phoneNo: "+61 451 690 105",
   email: "liuyuelintop@gmail.com",
   socials: {
-    linkedin: "https://linkedin.com/in/liuyuelintop",
+    linkedin: "https://www.linkedin.com/in/liuyuelintop/",
     github: "https://github.com/liuyuelintop",
     blog: "https://blog.liuyuelin.dev/",
   },

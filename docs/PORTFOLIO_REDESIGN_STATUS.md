@@ -1,6 +1,6 @@
 # Portfolio Redesign Status
 
-Last updated: 2026-08-05 AEST
+Last updated: 2026-08-06 AEST
 Canonical redesign record for `www.liuyuelin.dev`.
 
 ## 1. Goal and non-goals
@@ -215,12 +215,12 @@ References: [Vite SSR/prerender guidance](https://vite.dev/guide/ssr), [Next.js 
 
 ## 8. Proposed slice plan
 
-Only Slice 1 is authorised. Every future slice remains `NOT_STARTED`.
+Slice 2 is authorised. Later slices remain `NOT_STARTED`.
 
 | Slice | Proposed branch | Agent/model | Dependency | Status |
 | --- | --- | --- | --- | --- |
-| 1. Baseline Audit | `audit/portfolio-redesign-baseline` | Codex Desktop / GPT-5.6 Sol / Extra High | Authorised | `READY_FOR_REVIEW` |
-| 2. Trust and Discovery | `fix/portfolio-trust-and-discovery` | Codex Desktop / GPT-5.6 Sol / High | Slice 1 merged and owner decisions supplied | `NOT_STARTED` |
+| 1. Baseline Audit | `audit/portfolio-redesign-baseline` | Codex Desktop / GPT-5.6 Sol / Extra High | Authorised | `MERGED` |
+| 2. Trust and Discovery | `fix/portfolio-trust-and-discovery` | Codex Desktop / GPT-5.6 Sol / High | Slice 1 merged and owner decisions supplied | `READY_FOR_REVIEW` |
 | 3. Rendering Baseline | `feat/portfolio-rendering-baseline` | Codex Desktop / GPT-5.6 Sol / Extra High | Slice 2 merged and strategy approved | `NOT_STARTED` |
 | 4. Content-First Redesign | `feat/portfolio-content-first-redesign` | Claude Code / Claude Fable 5 / highest available | Slice 3 merged and design contract approved | `NOT_STARTED` |
 | 5. Case Studies | `feat/portfolio-case-studies` | Claude Code / Claude Sonnet 5 / High | Slice 4 merged and content approved | `NOT_STARTED` |
@@ -228,25 +228,43 @@ Only Slice 1 is authorised. Every future slice remains `NOT_STARTED`.
 
 ## 9. Current slice status
 
-`PORTFOLIO_SLICE_1_READY_FOR_REVIEW`
+`PORTFOLIO_SLICE_2_READY_FOR_REVIEW`
 
-- Audit branch is based exactly on `origin/main` SHA `9cf6bf0fbf99643b191fdc4e14b68f160a23492c`.
-- Repository, live portfolio, apex redirect, blog, public links, social assets, server HTML, hydrated DOM, modal behavior, and available claim evidence were inspected non-destructively.
-- Baseline `npm run lint` and `npm run build` pass. No formatting, type-check, test, accessibility, link-check, or visual-regression command exists.
-- Slice 1 changes only this canonical status document. No production or tracked generated files are changed.
+Sections 3-7 retain the accepted Slice 1 baseline and evidence ledger. Slice 2 started from exact merged `origin/main` SHA `1100b230c2c5a398497e2c4ec303744dac2ef582` on branch `fix/portfolio-trust-and-discovery`. Its scope is limited to confirmed trust, public-link, metadata, and discovery remediations; `/karpathy.md` is now repository-ignored by owner direction and remains untouched.
+
+Implemented fixes:
+
+- Canonical, `og:url`, portfolio Open Graph/Twitter image, and Person JSON-LD URLs now use `https://www.liuyuelin.dev/` consistently.
+- The existing `1200x630` portfolio social image is published at `/assets/og-image.png`; `robots.txt` and a one-URL `sitemap.xml` expose the canonical homepage.
+- Writing is a labelled first-class desktop/mobile navigation link to `https://blog.liuyuelin.dev/`; the contact chip uses the same label, and the hero writing icon has an accessible name.
+- Public LinkedIn declarations use the verified canonical URL. The seven-link desktop navigation begins at `lg` so intermediate widths keep the complete mobile menu.
+- CodeInterview still presents Clerk sign-in and is no longer a recruiter-facing link; its existing supporting-project card remains visible with the accurate `Private demo` status.
+
+Verification:
+
+- On 2026-08-06 AEST, the apex returned `308` to `https://www.liuyuelin.dev/`, and the canonical host returned `200`.
+- All Slice 1 HTTP targets were rechecked. The portfolio, résumé, GitHub profile/repos, blog, Melbourne Ultimate, and CodeCraft remained public; LinkedIn returned `999` to an unauthenticated probe; CodeInterview remained Clerk-authenticated.
+- Built output contains the canonical/OG/JSON-LD URLs, sitemap, robots file, and byte-identical social image. No CodeInterview URL exists in public application source.
+- Rendered checks at `1280x720` and `390x844` confirmed the Writing destination in desktop/mobile navigation, native keyboard focusability and visible focus-ring classes, and the non-clickable private-demo treatment.
+- `npm run lint`, `npm run build`, and `git diff --check` pass. The repository has no formatting, type-check, or test script.
+
+Deferred items:
+
+- The separately owned blog still uses a `vercel.app` Open Graph/Twitter image hostname and has no observed canonical/`og:url`; its apex portfolio backlinks also require a cross-repository update.
+- LinkedIn recruiter-visible content/access, a future public CodeInterview replacement, an Alex public destination, contact details, demo ownership, and all unresolved factual/claim evidence remain owner-confirmation items.
+- The missing manifest and case-study routes remain outside this slice; Slice 3 was not started.
 
 ## 10. Risks and open decisions
 
 1. **Trust:** approve evidence or revised disposition for work rights, role chronology, employer/client ownership, latency, conversion, service count, coverage, downtime, time saved, deployment, AWS cost, and AI privacy claims.
-2. **Public links:** decide whether to remove, replace, or provide recruiter-safe access for CodeInterview; add/approve an Alex source or demo; confirm current contact details and demo ownership.
-3. **Canonical host:** approve `www` as the single portfolio canonical and update all portfolio/blog references together in a later authorised slice.
-4. **Writing strategy:** decide whether Writing becomes a primary portfolio destination and whether the blog stays separate or converges.
-5. **Rendering:** approve the preferred static-first Next.js path or explicitly select the Vite prerender alternative before Slice 3.
-6. **Content hierarchy:** approve whether Career Snapshot/Working Style/Skills evidence should be consolidated and whether private planning labels should remain public.
-7. **Visual contract:** define screenshot requirements, card/chip/icon limits, motion budget, and reduced-motion behavior before redesign implementation.
-8. **Verification contract:** later slices need explicit automated route HTML, metadata, link, accessibility, responsive, and visual checks rather than relying only on lint/build/manual inspection.
-9. **Documentation drift:** reconcile stale theme/AI/environment statements in existing docs only within a later explicitly authorised scope.
+2. **Public links:** provide a future recruiter-safe CodeInterview replacement if desired; add/approve an Alex source or demo; confirm current contact details and demo ownership.
+3. **Cross-repository metadata:** update the blog's portfolio backlinks, canonical/`og:url`, and social image hostname in the blog-owned repository.
+4. **Rendering:** approve the preferred static-first Next.js path or explicitly select the Vite prerender alternative before Slice 3.
+5. **Content hierarchy:** approve whether Career Snapshot/Working Style/Skills evidence should be consolidated and whether private planning labels should remain public.
+6. **Visual contract:** define screenshot requirements, card/chip/icon limits, motion budget, and reduced-motion behavior before redesign implementation.
+7. **Verification contract:** later slices need explicit automated route HTML, metadata, link, accessibility, responsive, and visual checks rather than relying only on lint/build/manual inspection.
+8. **Documentation drift:** reconcile stale theme/AI/environment statements in existing docs only within a later explicitly authorised scope.
 
 ## 11. Next authorisation gate
 
-Slice 2 may be authorised only after this PR is independently reviewed, accepted, and merged into `main`, and after the owner supplies decisions for canonical host, public link disposition, claim evidence, Writing/blog direction, and the provisional rendering strategy. The next worker must fetch the newly merged `origin/main`; no dependent or stacked branch may start from this branch.
+Slice 3 remains unauthorised. It may start only after the Slice 2 PR is independently reviewed, accepted, and merged into `main`, and after the owner explicitly approves the rendering strategy. The next worker must fetch the newly merged `origin/main`; no dependent or stacked branch may start from this branch.

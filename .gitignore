@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 .env
+/karpathy.md
 
 # Package manager locks (keep only npm for production)
 pnpm-lock.yaml

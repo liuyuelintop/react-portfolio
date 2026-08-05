@@ -140,7 +140,7 @@ export const SUPPORTING_PROJECTS = [
       "Technical interview workflow with coding environment, video/audio and candidate review flows.",
     whyItMatters:
       "Relevant to collaborative tooling, dashboards and workflow-heavy SaaS.",
-    url: "https://codeinterview.liuyuelin.dev/",
+    status: "Private demo",
     stack: ["Next.js", "Stream", "Convex", "Clerk", "shadcn/ui"],
   },
   {
