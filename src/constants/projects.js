@@ -8,7 +8,7 @@ export const PROJECTS = [
       "Privacy-first architecture, AI workflow reliability, and decoupled metadata design.",
     description: {
       summary:
-        "A multi-LLM orchestrator that transforms timecard images into contextual financial audits, enforcing absolute data privacy and dynamic tag-based configuration.",
+        "A multi-LLM orchestrator that transforms timecard images into contextual financial audits.",
       detailed:
         "This project showcases production-grade AI engineering. While Gemini Vision extracts OCR data and DeepSeek provides reasoning, the core value lies in the defensive architecture: nested Zod schema validation, local in-memory data masking, a zero-hardcode semantic tag engine for metric aggregation, and robust rate-limit throttling to stabilize streaming updates.",
       features: [
@@ -18,12 +18,6 @@ export const PROJECTS = [
         "Engineers a fault-tolerant Telegram UX with progressive state-updates and a 1000ms timestamp throttle to gracefully prevent HTTP 429 exceptions.",
       ],
     },
-    evidence: [
-      "Structured LLM output validation",
-      "Privacy-first data boundary",
-      "Decoupled tag-driven architecture",
-      "Fault-tolerant API integration",
-    ],
     github: "https://github.com/liuyuelintop/moneyguard-pipeline",
     technologies: {
       main: ["TypeScript", "Node.js", "Gemini LLM", "DeepSeek LLM"],
@@ -44,7 +38,7 @@ export const PROJECTS = [
       "Serverless AWS architecture, agent orchestration, production observability and full-stack delivery.",
     description: {
       summary:
-        "A cloud-native wealth-planning product where five AI agents coordinate portfolio planning, classification, reporting, investment-charter and retirement workflows on AWS.",
+        "A cloud-native wealth-planning product where five AI agents coordinate planning, reporting and retirement workflows on AWS.",
       detailed:
         "Alex is a September 2025 engineering build focused on turning a multi-agent wealth-planning concept into production-shaped cloud infrastructure. It connects a Next.js + Clerk interface to Bedrock-backed agent workflows, async Lambda + SQS jobs, Aurora Serverless v2 persistence, S3 Vectors RAG, Terraform-defined infrastructure, and LangFuse/CloudWatch observability.",
       features: [
@@ -55,21 +49,14 @@ export const PROJECTS = [
         "Exposed the system through a Next.js + Clerk frontend behind CloudFront/API Gateway, with LangFuse traces, CloudWatch dashboards, throttling and least-privilege IAM.",
       ],
     },
-    evidence: [
-      "Five-agent orchestration",
-      "Serverless AWS delivery",
-      "Cost-conscious RAG design",
-      "Terraform infrastructure",
-      "Observability and IAM controls",
-    ],
     technologies: {
       main: [
         "Next.js",
         "TypeScript",
-        "AWS Lambda",
-        "Amazon SQS",
         "Amazon Bedrock",
         "Terraform",
+        "AWS Lambda",
+        "Amazon SQS",
       ],
       additional: [
         "Aurora Serverless v2",
@@ -110,15 +97,10 @@ export const PROJECTS = [
         "Designed a maintainable base that can be adapted by other clubs and teams",
       ],
     },
-    evidence: [
-      "Local stakeholder context",
-      "Responsive dashboard UI",
-      "Reusable product template",
-    ],
     url: "https://melb-uni-ultimate.vercel.app",
     technologies: {
-      main: ["Next.js 15", "TypeScript", "Tailwind CSS", "Open Source"],
-      additional: ["shadcn/ui", "MongoDB", "Responsive UI", "Vercel"],
+      main: ["Next.js 15", "TypeScript", "MongoDB", "Tailwind CSS"],
+      additional: ["shadcn/ui", "Responsive UI", "Vercel", "Open Source"],
       others: ["Club Management", "Player Statistics"],
     },
     year: "2025",
@@ -130,34 +112,24 @@ export const SUPPORTING_PROJECTS = [
     title: "SaaS IDE Platform",
     summary:
       "Next.js IDE-style product with auth, payments, snippets and real-time collaboration concepts.",
-    whyItMatters: "Shows SaaS product thinking beyond a static portfolio.",
     url: "https://codecraft.liuyuelin.dev/",
-    stack: ["Next.js", "Convex", "Clerk", "Webhooks", "Lemon Squeezy"],
   },
   {
     title: "Remote Interview Platform",
     summary:
       "Technical interview workflow with coding environment, video/audio and candidate review flows.",
-    whyItMatters:
-      "Relevant to collaborative tooling, dashboards and workflow-heavy SaaS.",
     status: "Private demo",
-    stack: ["Next.js", "Stream", "Convex", "Clerk", "shadcn/ui"],
   },
   {
     title: "ApeUni FIB Extractor Monorepo",
     summary:
       "Browser automation toolkit packaged as both a Tampermonkey userscript and Chrome extension.",
-    whyItMatters:
-      "Shows practical automation, packaging and monorepo delivery.",
     url: "https://github.com/liuyuelintop/apeuni-fib-extractor-monorepo",
-    stack: ["JavaScript", "TypeScript", "Chrome Extension", "ESBuild"],
   },
   {
     title: "Next Markdown Blog",
     summary:
       "Technical writing platform with MDX, syntax highlighting, SEO and static content workflows.",
-    whyItMatters: "Shows documentation mindset and content infrastructure.",
     url: "https://blog.liuyuelin.dev/",
-    stack: ["Next.js", "MDX", "Velite", "Tailwind CSS", "Vercel"],
   },
 ];
