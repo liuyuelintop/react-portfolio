@@ -1,6 +1,6 @@
 # Portfolio Redesign Status
 
-Last updated: 2026-08-06 AEST
+Last updated: 2026-08-06 AEST (Slice 4 delivery)
 Canonical redesign record for `www.liuyuelin.dev`.
 
 ## 1. Goal and non-goals
@@ -215,24 +215,43 @@ References: [Vite SSR/prerender guidance](https://vite.dev/guide/ssr), [Next.js 
 
 ## 8. Proposed slice plan
 
-Slice 3 is authorised. Later slices remain `NOT_STARTED`.
+Slice 4 is delivered and awaiting review. Later slices remain `NOT_STARTED`.
 
-| Slice | Proposed branch | Agent/model | Dependency | Status |
+| Slice | Branch | Agent/model | Dependency | Status |
 | --- | --- | --- | --- | --- |
 | 1. Baseline Audit | `audit/portfolio-redesign-baseline` | Codex Desktop / GPT-5.6 Sol / Extra High | Authorised | `MERGED` |
 | 2. Trust and Discovery | `fix/portfolio-trust-and-discovery` | Codex Desktop / GPT-5.6 Sol / High | Slice 1 merged and owner decisions supplied | `MERGED` |
-| 3. Rendering Baseline | `feat/portfolio-rendering-baseline` | Codex Desktop / GPT-5.6 Sol / Extra High | Slice 2 merged and strategy approved | `READY_FOR_REVIEW` |
-| 4. Content-First Redesign | `feat/portfolio-content-first-redesign` | Claude Code / Claude Fable 5 / highest available | Slice 3 merged and design contract approved | `NOT_STARTED` |
+| 3. Rendering Baseline | `feat/portfolio-rendering-baseline` | Codex Desktop / GPT-5.6 Sol / Extra High | Slice 2 merged and strategy approved | `MERGED` |
+| 4. Content-First Redesign | `claude/portfolio-content-first-redesign-qtds3c` | Claude Code / Claude Fable 5 / highest available | Slice 3 merged and design contract approved | `READY_FOR_REVIEW` |
 | 5. Case Studies | `feat/portfolio-case-studies` | Claude Code / Claude Sonnet 5 / High | Slice 4 merged and content approved | `NOT_STARTED` |
 | 6. Release Hardening | `test/portfolio-release-hardening` | Codex Desktop / GPT-5.6 Sol / High | Slice 5 merged | `NOT_STARTED` |
 
+The Slice 4 branch was proposed as `feat/portfolio-content-first-redesign`; the executing Claude Code remote platform assigns and enforces its own branch name, so the slice was delivered on `claude/portfolio-content-first-redesign-qtds3c` with the same baseline, scope and PR contract.
+
 ## 9. Current slice status
 
-`PORTFOLIO_SLICE_3_READY_FOR_REVIEW`
+`PORTFOLIO_SLICE_4_READY_FOR_REVIEW`
 
-Sections 3-7 retain the accepted audit baseline and evidence ledger. Slice 2 merged in `43eb8e916f6380404e5b8db78928cb60958d5cb1`. Slice 3 started from that exact latest `origin/main` SHA on branch `feat/portfolio-rendering-baseline`; no prior slice branch was used.
+Sections 3-7 retain the accepted audit baseline and evidence ledger. Slice 3 merged in `8ad847cd68a566a204176ca0901ac39f6b990bb0`. Slice 4 started from that exact latest `origin/main` SHA on branch `claude/portfolio-content-first-redesign-qtds3c`; no prior slice branch was used.
 
-Selected architecture and implementation:
+Slice 4 design contract as implemented:
+
+- Section order is Hero → Selected Work (`#projects`) → Experience (`#experience`) → How I Build (`#how-i-build`) → Contact (`#contact`). The `projects`, `experience`, `contact` and `hero` IDs are unchanged; `how-i-build` is new; the `work-style` and `skills` sections are no longer mounted. Navigation is Work · Experience · How I Build · Writing (external blog) · Contact, and keyboard shortcuts are Alt + H/W/E/B/C.
+- All user-facing copy was re-cut, shortened or re-arranged from strings already in the repository; no new factual claim, metric, employer, date, role, technology or outcome was introduced. The hero H1 and summary are re-cuts of the previous `HERO_CONTENT.summary`; the three How I Build principles and their evidence come from the former `CAREER_SNAPSHOT.strengths`; the How I Build intro comes from the former `WORKING_STYLE` pillars; the toolbox reuses the former `TOOLBOX_GROUPS` verbatim.
+- Removed public planning language everywhere it appeared: Recruiter Snapshot, Recruiter read, Interview hooks, Hiring signal, Candidate Positioning, Hiring fit, Can own, Evidence Trail, Product-focused version, Team-fit version. The typewriter role animation, scroll-progress bar, animated background, gradient text, card-inside-card nesting, heavy shadows, decorative icon repetition and chip walls were removed.
+- One dark identity: `neutral-950` base, white/neutral text, a single cyan-300 accent family, one `neutral-800` hairline border level for structure, `neutral-500` borders on interactive controls (computed 4.18:1 against the base), and Framer Motion reduced to one subtle reveal per section, disclosure/modal transitions and interaction feedback at 160-240ms under the existing `MotionConfig reducedMotion="user"`.
+- Experience keeps every date, title, employer and delivery claim verbatim; the visible technology list per role is a single plain-text line. Contact keeps every destination (email, phone, location, LinkedIn, GitHub, blog) and the validated mailto form. Flagship work keeps the existing modal, GitHub/live links and the accurate non-clickable Private demo state; screenshots are the dominant element with at most four technology tags per flagship.
+- `OptimizedImage` synchronises successful and failed pre-hydration loads from the DOM, and resets its loaded/error state when the image source changes.
+
+Verification for Slice 4:
+
+- `npm ci`, `npm run lint`, `npm run build`, `npm run verify:static` and `git diff --check` all pass on the final tree. The build prerenders `/`, `/robots.txt`, `/sitemap.xml` and the not-found page as static output.
+- `verify:static` now asserts pre-JavaScript content for all five sections, the section anchor order, the Writing link, all internal anchors, the removed-language list absence, and the existing metadata/robots/sitemap/resume/screenshot checks.
+- Exported HTML has exactly one `h1`, sequential heading order, and meaningful `alt` text on all three screenshots inside aspect-ratio containers.
+- Contrast computed from token values: white 19.80:1, neutral-300 body 13.36:1, neutral-400 muted 7.85:1, cyan-300 accent 13.66:1, interactive borders 4.18:1; decorative `neutral-800` hairlines are below 3:1 by design and carry no component-identification meaning.
+- Headless Chromium (pre-installed browser driven via playwright-core, outside the project tree) verified: no horizontal overflow and no hydration warnings at 390/768/1024/1280 px; modal open, tab switch, Escape close, focus return and body-scroll restoration; mobile menu and primary actions at ≥44 px; all five sections' content visible with JavaScript disabled; hero fully visible under reduced motion. Console shows only a sandbox-blocked Google Fonts fetch (environment artifact) and the pre-existing `favicon.ico` 404 (no icon has ever been declared).
+
+Slice 3 record (accepted):
 
 - Next.js `16.3.0` App Router with `output: "export"` and trailing-slash static files; no API routes, SSR server, ISR, middleware, Server Actions, runtime cookies/headers, or Vercel-only runtime features.
 - The route-owned Server Component supplies canonical, Open Graph, Twitter, viewport, Apple web-app, and Person JSON-LD metadata. Static metadata routes emit `robots.txt` and the one-URL `sitemap.xml`.
@@ -242,7 +261,7 @@ Selected architecture and implementation:
 - Checked-in Vercel configuration maps the deployment output directory to Next.js `out/`, replacing the project's stale Vite `dist/` expectation without a dashboard change or server runtime.
 - `npm run verify:static` deterministically rejects missing hero, experience, project, navigation, canonical/social metadata, JSON-LD, public assets, empty `<main>`, and the obsolete spinner shell.
 
-Verification:
+Slice 3 verification (accepted):
 
 - Clean `npm ci` passes. `npm audit --omit=dev` reports zero production vulnerabilities; the full development tree still reports seven audit findings and was not force-upgraded outside this slice.
 - `npm run lint`, `npm run build`, `npm run verify:static`, and `git diff --check` pass. The build marks `/`, `/robots.txt`, `/sitemap.xml`, and the not-found page as statically prerendered.
@@ -251,18 +270,16 @@ Verification:
 - Desktop and mobile project modals open, render their project image/content, switch tabs, close by keyboard or button, and restore body scroll. Hash navigation, mobile-menu close behavior, typewriter animation, default theme variables, reduced-motion wiring, and focus behavior remain operational with no hydration, console error, or console warning output.
 - Local homepage, robots, sitemap, résumé, and OG image return `200` with the expected content types. Writing, GitHub profile/source links, Melbourne Ultimate, CodeCraft, and ApeUni source returned `200` on 2026-08-06 AEST.
 
-Case-study routes remain deferred until their content is approved. The blog remains a separate repository and deployment at `https://blog.liuyuelin.dev/`. Slice 4 was not started.
+Case-study routes remain deferred until their content is approved. The blog remains a separate repository and deployment at `https://blog.liuyuelin.dev/`.
 
 ## 10. Risks and open decisions
 
 1. **Trust:** approve evidence or revised disposition for work rights, role chronology, employer/client ownership, latency, conversion, service count, coverage, downtime, time saved, deployment, AWS cost, and AI privacy claims.
 2. **Public links:** provide a future recruiter-safe CodeInterview replacement if desired; add/approve an Alex source or demo; confirm current contact details and demo ownership.
 3. **Cross-repository metadata:** update the blog's portfolio backlinks, canonical/`og:url`, and social image hostname in the blog-owned repository.
-4. **Content hierarchy:** approve whether Career Snapshot/Working Style/Skills evidence should be consolidated and whether private planning labels should remain public.
-5. **Visual contract:** define screenshot requirements, card/chip/icon limits, motion budget, and reduced-motion behavior before redesign implementation.
-6. **Verification contract:** the static HTML gate is automated; interaction, accessibility, responsive, and visual regression coverage remains manual.
-7. **Development dependencies:** the production dependency audit is clean, while seven development-tree audit findings remain for a separately scoped dependency review.
+4. **Verification contract:** the static HTML gate is automated; interaction, accessibility, responsive, and visual regression coverage remains manual.
+5. **Development dependencies:** the production dependency audit is clean, while seven development-tree audit findings remain for a separately scoped dependency review.
 
 ## 11. Next authorisation gate
 
-Slice 4 remains `NOT_STARTED` and unauthorised. It may start only after the Slice 3 PR is independently reviewed, accepted, and merged into `main`, and after the content-first design contract is approved. The next worker must fetch the newly merged `origin/main`; no dependent or stacked branch may start from this branch.
+Slice 5 remains `NOT_STARTED` and unauthorised. It may start only after the Slice 4 PR is independently reviewed, accepted, and merged into `main`, and after the case-study content is approved. The next worker must fetch the newly merged `origin/main`; no dependent or stacked branch may start from this branch.

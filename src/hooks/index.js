@@ -1,3 +1,3 @@
-// Animation hooks
-export { useTypingAnimation } from './useTypingAnimation';
-export { useScrollProgress } from './useScrollAnimation';
+// UI hooks
+export { default as useKeyboardShortcuts } from './useKeyboardShortcuts';
+export { useUI } from './useUI';

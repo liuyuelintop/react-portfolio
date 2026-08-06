@@ -62,22 +62,22 @@ src/
 ├── components/
 │   ├── layout/      # Navbar
 │   ├── sections/    # Page sections (Hero, Experience, Projects, …)
-│   └── ui/          # Reusable: common/ (Button, Toast, ErrorBoundary,
-│                    #   OptimizedImage, …) and animations/
+│   └── ui/          # Reusable: common/ (Toast, ErrorBoundary,
+│                    #   OptimizedImage, Reveal, …) and animations/
 ├── constants/       # ALL page content lives here (data-driven)
 ├── contexts/        # ThemeContext, UIContext
 ├── hooks/           # Custom hooks (animation, UI)
-├── utils/           # accessibility, typography
+├── utils/           # Accessibility utilities
 ├── assets/          # Bundled images
 └── ../public/resume # Static resume PDF copied into the export
 ```
 
 ### Content is data-driven — edit `constants/`, not JSX
-The single most important thing to know: **page content (hero copy, experiences, projects, skills, etc.) is data in `src/constants/`, not hardcoded in components.** To change what the site says, edit the relevant constants file (`constants.js`, `experiences.js`, `projects.js`, `skills.js`, …). Components map over that data. Everything re-exports through `src/constants/index.js`, so import from the barrel:
+The single most important thing to know: **page content (hero copy, experiences, projects, How I Build, etc.) is data in `src/constants/`, not hardcoded in components.** To change what the site says, edit the relevant constants file (`constants.js`, `experiences.js`, or `projects.js`). Components map over that data. Everything re-exports through `src/constants/index.js`, so import from the barrel:
 
 ```javascript
-import { HERO_CONTENT, PROJECTS, SKILLS_DATA } from '../constants';
-import { useTypingAnimation, useScrollProgress } from '../hooks';
+import { HERO_CONTENT, HOW_I_BUILD, PROJECTS } from '../constants';
+import { useKeyboardShortcuts, useUI } from '../hooks';
 ```
 
 Hooks are barrelled in `src/hooks/index.js`; UI components are imported from their folder paths.
@@ -86,16 +86,16 @@ Hooks are barrelled in `src/hooks/index.js`; UI components are imported from the
 `app/page.jsx` is the static Server Component route and owns homepage metadata plus JSON-LD. `src/App.jsx` is the client boundary for motion, contexts, modal state, and browser effects. Provider order is `MotionConfig > ThemeProvider > UIProvider > ToastProvider`. Sections are imported synchronously so the production export contains their meaningful HTML, and each remains wrapped in an `ErrorBoundary`.
 
 The **currently rendered** sections, in order, are:
-`Hero → CareerSnapshot → WorkingStyle → Experience → Skills → Projects → Contact`.
+`Hero → Selected Work → Experience → How I Build → Contact`.
 
-The old unmounted Blog, Chatbot, CareerChatbot, GitHubActivity, PersonalBranding and References sections were removed. Do not reintroduce a section unless it is mounted in `App.jsx` and backed by current content data.
+The old unmounted Blog, Chatbot, CareerChatbot, GitHubActivity, PersonalBranding and References sections were removed, and the CareerSnapshot, WorkingStyle and Skills sections were consolidated into HowIBuild. Do not reintroduce a section unless it is mounted in `App.jsx` and backed by current content data.
 
 ### Theming
-The runtime currently exposes the default theme. Dormant Neon, Minimal, and Corporate styling branches remain in theme-dependent components; do not remove or expand them without explicit scope.
+The runtime exposes a single hard-coded dark theme via `ThemeContext`. The dormant Neon, Minimal, and Corporate styling branches were removed from the components the content-first redesign rewrote.
 
 ### Accessibility
 Targets WCAG AA. A skip link is injected at runtime, and keyboard shortcuts (defined in `src/hooks/useKeyboardShortcuts.js`) use **Alt + key**:
-`H` hero · `W` working style · `E` experience · `S` skills · `P` projects · `C` contact · `?` help.
+`H` hero · `W` selected work · `E` experience · `B` how I build · `C` contact · `?` help.
 
 ### Environment variables
 Next.js loads `.env` automatically. Only variables intentionally exposed to browser code should be `NEXT_PUBLIC_`-prefixed. The current live portfolio does not require environment variables for the resume link.

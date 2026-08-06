@@ -17,29 +17,71 @@ const text = html
   .trim();
 
 const requiredContent = [
-  "Melbourne Full-Stack Software Engineer",
+  // Hero
   "Yuelin Liu",
-  "turns messy operational workflows into usable React/Node products",
-  "ByteCroniX - AI SaaS Platform",
+  "Melbourne Full-Stack Software Engineer",
+  "messy operational workflows into software people can actually use",
+  // Selected Work
+  "Selected Work",
   "MoneyGuard AI Finance Pipeline",
+  "Supporting Builds",
+  // Experience
+  "ByteCroniX - AI SaaS Platform",
+  // How I Build
+  "How I Build",
+  "I translate messy workflows into shipped product.",
+  // Contact
+  "liuyuelintop@gmail.com",
 ];
 
 for (const content of requiredContent) {
   assert.ok(text.includes(content), `Missing rendered homepage content: ${content}`);
 }
 
+const removedLanguage = [
+  "Recruiter Snapshot",
+  "Recruiter read",
+  "Interview hooks",
+  "Hiring signal",
+  "Candidate Positioning",
+  "Hiring fit",
+  "Can own",
+  "Evidence Trail",
+  "Product-focused version",
+  "Team-fit version",
+];
+
+for (const phrase of removedLanguage) {
+  assert.ok(!text.includes(phrase), `Removed planning language is still rendered: ${phrase}`);
+}
+
 const requiredLinks = [
   'href="#hero"',
-  'href="#work-style"',
-  'href="#experience"',
-  'href="#skills"',
   'href="#projects"',
+  'href="#experience"',
+  'href="#how-i-build"',
   'href="https://blog.liuyuelin.dev/"',
   'href="#contact"',
 ];
 
 for (const link of requiredLinks) {
   assert.ok(html.includes(link), `Missing rendered navigation link: ${link}`);
+}
+
+const sectionIdsInOrder = [
+  'id="hero"',
+  'id="projects"',
+  'id="experience"',
+  'id="how-i-build"',
+  'id="contact"',
+];
+
+let previousIndex = -1;
+for (const sectionId of sectionIdsInOrder) {
+  const index = html.indexOf(sectionId);
+  assert.ok(index !== -1, `Missing rendered section anchor: ${sectionId}`);
+  assert.ok(index > previousIndex, `Section anchor is out of order: ${sectionId}`);
+  previousIndex = index;
 }
 
 const metadataChecks = [
@@ -90,4 +132,4 @@ for (const imageName of [
   );
 }
 
-console.log("Static output verified: meaningful HTML, metadata, navigation, and public assets are present.");
+console.log("Static output verified: meaningful HTML, section order, metadata, navigation, and public assets are present.");

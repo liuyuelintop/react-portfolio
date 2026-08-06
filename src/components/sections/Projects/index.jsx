@@ -1,150 +1,83 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useCallback, useRef, useState } from "react";
 import { ExternalLink } from "lucide-react";
 import ProjectCard from "./ProjectCard";
 import ProjectModal from "./ProjectModal";
 import { PROJECTS, SUPPORTING_PROJECTS } from "../../../constants/projects";
-import { useTheme } from "../../../contexts/ThemeContext";
 import { useUI } from "../../../hooks/useUI";
-import { getThemeFocusRing } from "../../../utils/accessibility";
-import SectionHeading from "../../ui/common/SectionHeading";
+import { focusRingClasses } from "../../../utils/accessibility";
+import Reveal from "../../ui/common/Reveal";
 
 export default function Projects() {
-    const { currentTheme } = useTheme();
     const { setIsProjectModalOpen } = useUI();
     const [activeProject, setActiveProject] = useState(null);
-    const isMinimal = currentTheme === "minimal";
-    const focusRing = getThemeFocusRing(currentTheme);
+    const projectTriggerRef = useRef(null);
 
-    const headingClass = isMinimal ? "text-gray-950" : "text-white";
-    const textClass = isMinimal ? "text-gray-700" : "text-neutral-300";
-    const mutedClass = isMinimal ? "text-gray-500" : "text-neutral-400";
-    const panelClass = isMinimal
-        ? "bg-white border-gray-200 shadow-lg shadow-gray-200/40"
-        : "bg-neutral-900/65 border-neutral-800 shadow-xl shadow-black/20";
-    const innerPanelClass = isMinimal ? "bg-gray-50 border-gray-200" : "bg-neutral-950/55 border-neutral-800";
-    const chipClass = isMinimal
-        ? "bg-white border-gray-200 text-gray-700"
-        : "bg-neutral-900 border-neutral-800 text-neutral-300";
+    const openProject = useCallback((project, event) => {
+        projectTriggerRef.current = event.currentTarget;
+        setActiveProject(project);
+        setIsProjectModalOpen(true);
+    }, [setIsProjectModalOpen]);
+
+    const closeProject = useCallback(() => {
+        setActiveProject(null);
+        setIsProjectModalOpen(false);
+        window.requestAnimationFrame(() => projectTriggerRef.current?.focus());
+    }, [setIsProjectModalOpen]);
 
     return (
-        <section className="max-w-6xl mx-auto py-12 px-4 lg:px-8">
-            <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-10%" }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-                className="mb-8 max-w-3xl"
-            >
-                <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${mutedClass}`}>
-                    Selected Case Studies
-                </p>
-                <SectionHeading level="section" animate={false} className="mt-3">
-                    Proof that maps to the role
-                </SectionHeading>
-                <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-10%" }}
-                    transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-                    className={`mt-4 text-base md:text-lg leading-relaxed ${textClass}`}
-                >
-                    Three flagship projects, selected for hiring relevance rather than quantity.
-                    Each one shows judgment across product ownership, reliability, cloud delivery or AI workflow design.
-                </motion.p>
-            </motion.div>
+        <div className="mx-auto max-w-5xl px-4 py-20 md:px-8 md:py-24">
+            <Reveal>
+                <h2 className="text-3xl font-bold leading-tight text-white md:text-4xl">
+                    Selected Work
+                </h2>
 
-            <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 projects-grid">
-                {PROJECTS.length > 0 ? (
-                    PROJECTS.map((project, index) => (
+                <div className="mt-12 space-y-16 md:space-y-20">
+                    {PROJECTS.map((project, index) => (
                         <ProjectCard
                             key={project.title}
                             project={project}
                             index={index}
-                            onReadMore={() => {
-                                setActiveProject(project);
-                                setIsProjectModalOpen(true);
-                            }}
+                            onReadMore={(event) => openProject(project, event)}
                         />
-                    ))
-                ) : (
-                    <div className={`col-span-full text-center ${headingClass}`}>
-                        <p>No projects found. Total projects: {PROJECTS.length}</p>
-                    </div>
-                )}
-            </div>
-
-            <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-10%" }}
-                transition={{ delay: 0.12, duration: 0.45, ease: "easeOut" }}
-                className={`mt-4 rounded-lg border p-5 md:p-6 ${panelClass}`}
-            >
-                <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
-                    <div>
-                        <h3 className={`text-xl font-bold ${headingClass}`}>
-                            Supporting Builds
-                        </h3>
-                        <p className={`mt-2 text-sm max-w-2xl ${mutedClass}`}>
-                            Useful breadth without letting smaller builds compete with the main case studies.
-                        </p>
-                    </div>
+                    ))}
                 </div>
 
-                <div className="mt-5 grid gap-3 md:grid-cols-2">
-                    {SUPPORTING_PROJECTS.map((project) => {
-                        const Card = project.url ? "a" : "article";
-
-                        return (
-                            <Card
-                                key={project.title}
-                                href={project.url || undefined}
-                                target={project.url ? "_blank" : undefined}
-                                rel={project.url ? "noopener noreferrer" : undefined}
-                                className={`block rounded-lg border p-4 ${innerPanelClass} ${project.url ? `transition-colors ${focusRing}` : ""}`}
-                            >
-                                <div className="flex items-start justify-between gap-3">
-                                    <h4 className={`font-semibold ${headingClass}`}>
-                                        {project.title}
-                                    </h4>
+                <div className="mt-20">
+                    <h3 className="text-xl font-bold text-white">Supporting Builds</h3>
+                    <ul className="mt-5 divide-y divide-neutral-800 border-t border-neutral-800">
+                        {SUPPORTING_PROJECTS.map((project) => (
+                            <li key={project.title} className="py-4">
+                                <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                                     {project.url ? (
-                                        <ExternalLink size={16} className={`mt-1 shrink-0 ${mutedClass}`} aria-hidden="true" />
+                                        <a
+                                            href={project.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className={`inline-flex items-center gap-1.5 py-1 font-medium text-white transition-colors hover:text-cyan-300 ${focusRingClasses}`}
+                                        >
+                                            {project.title}
+                                            <ExternalLink size={14} aria-hidden="true" />
+                                        </a>
                                     ) : (
-                                        <span className={`shrink-0 rounded-md border px-2 py-1 text-xs font-medium ${chipClass}`}>
-                                            {project.status}
-                                        </span>
+                                        <span className="py-1 font-medium text-white">{project.title}</span>
+                                    )}
+                                    {project.status && (
+                                        <span className="text-sm text-neutral-400">{project.status}</span>
                                     )}
                                 </div>
-                                <p className={`mt-2 text-sm leading-relaxed ${textClass}`}>
+                                <p className="mt-1 max-w-2xl text-sm leading-relaxed text-neutral-400">
                                     {project.summary}
                                 </p>
-                                <p className={`mt-3 text-xs font-semibold uppercase tracking-[0.14em] ${mutedClass}`}>
-                                    {project.whyItMatters}
-                                </p>
-                                <div className="mt-3 flex flex-wrap gap-2">
-                                    {project.stack.map((tool) => (
-                                        <span
-                                            key={tool}
-                                            className={`rounded-md border px-2 py-1 text-xs ${chipClass}`}
-                                        >
-                                            {tool}
-                                        </span>
-                                    ))}
-                                </div>
-                            </Card>
-                        );
-                    })}
+                            </li>
+                        ))}
+                    </ul>
                 </div>
-            </motion.div>
+            </Reveal>
 
             <ProjectModal
                 project={activeProject}
-                onClose={() => {
-                    setActiveProject(null);
-                    setIsProjectModalOpen(false);
-                }}
+                onClose={closeProject}
             />
-        </section>
+        </div>
     );
 }

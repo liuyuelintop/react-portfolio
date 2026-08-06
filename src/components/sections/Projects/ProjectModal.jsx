@@ -2,8 +2,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useState, useRef, useEffect } from "react"
 import PropTypes from "prop-types"
 import { CheckCircle2, Code2, ExternalLink, Layers3, ListChecks, MonitorPlay, X } from "lucide-react"
-import { useTheme } from "../../../contexts/ThemeContext"
-import { getThemeFocusRing } from "../../../utils/accessibility"
+import { focusRingClasses } from "../../../utils/accessibility"
 import OptimizedImage from "../../ui/common/OptimizedImage"
 import LiveDemoPreview from "./LiveDemoPreview"
 
@@ -11,20 +10,20 @@ import LiveDemoPreview from "./LiveDemoPreview"
 const modalVariants = {
   hidden: {
     opacity: 0,
-    scale: 0.95,
-    y: 20,
+    scale: 0.97,
+    y: 12,
   },
   visible: {
     opacity: 1,
     scale: 1,
     y: 0,
-    transition: { duration: 0.3, ease: "easeOut" },
+    transition: { duration: 0.22, ease: "easeOut" },
   },
   exit: {
     opacity: 0,
-    scale: 0.95,
-    y: 20,
-    transition: { duration: 0.2, ease: "easeIn" },
+    scale: 0.97,
+    y: 12,
+    transition: { duration: 0.16, ease: "easeIn" },
   },
 }
 
@@ -35,57 +34,34 @@ const backdropVariants = {
 }
 
 const contentVariants = {
-  hidden: { opacity: 0, y: 10 },
+  hidden: { opacity: 0, y: 8 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { delay: 0.1, duration: 0.3 },
+    transition: { duration: 0.2, ease: "easeOut" },
   },
 }
 
+const styles = {
+  modal: "bg-neutral-900 border-neutral-800",
+  header: "text-white border-neutral-800",
+  text: "text-neutral-300",
+  textSecondary: "text-neutral-400",
+  button: "bg-neutral-800 hover:bg-neutral-700 text-neutral-300",
+  buttonPrimary: "bg-white text-neutral-950 hover:bg-neutral-200",
+  badge: "bg-neutral-800 text-neutral-300 border-neutral-700",
+  divider: "border-neutral-800",
+  panel: "bg-neutral-950/55 border-neutral-800",
+  accent: "text-cyan-300",
+  tab: "hover:bg-neutral-800",
+  tabActive: "bg-neutral-800 text-white",
+}
+
 export default function ProjectModal({ project, onClose }) {
-  const { currentTheme } = useTheme()
   const [activeTab, setActiveTab] = useState("overview")
   const [showLivePreview, setShowLivePreview] = useState(false)
   const modalRef = useRef(null)
   const firstFocusableRef = useRef(null)
-
-  // Keep the modal aligned with the newer portfolio evidence-card visual system.
-  const getThemeStyles = () => {
-    if (currentTheme === "minimal") {
-      return {
-        modal: "bg-white border-gray-200",
-        header: "text-gray-950 border-gray-200",
-        text: "text-gray-700",
-        textSecondary: "text-gray-500",
-        button: "bg-gray-50 hover:bg-gray-100 text-gray-700",
-        buttonPrimary: "bg-gray-950 text-white",
-        badge: "bg-white text-gray-700 border-gray-200",
-        divider: "border-gray-200",
-        panel: "bg-gray-50 border-gray-200",
-        accent: "text-blue-600",
-        tab: "hover:bg-gray-50",
-        tabActive: "bg-gray-100 text-gray-950",
-      }
-    }
-
-    return {
-      modal: "bg-neutral-900 border-neutral-800",
-      header: "text-white border-neutral-800",
-      text: "text-neutral-300",
-      textSecondary: "text-neutral-400",
-      button: "bg-neutral-800 hover:bg-neutral-700 text-neutral-300",
-      buttonPrimary: "bg-white text-neutral-950",
-      badge: "bg-neutral-800 text-neutral-300 border-neutral-700",
-      divider: "border-neutral-800",
-      panel: "bg-neutral-950/55 border-neutral-800",
-      accent: "text-cyan-300",
-      tab: "hover:bg-neutral-800",
-      tabActive: "bg-neutral-800 text-white",
-    }
-  }
-
-  const styles = getThemeStyles()
 
   // Handle escape key and focus management
   useEffect(() => {
@@ -98,9 +74,10 @@ export default function ProjectModal({ project, onClose }) {
     }
 
     document.addEventListener("keydown", handleEscape)
-    
+
     // Only lock body scroll on desktop, let mobile scroll naturally
     const isMobileDevice = window.innerWidth < 768
+    const previousBodyOverflow = document.body.style.overflow
     if (!isMobileDevice) {
       document.body.style.overflow = "hidden"
     }
@@ -113,7 +90,7 @@ export default function ProjectModal({ project, onClose }) {
     return () => {
       document.removeEventListener("keydown", handleEscape)
       if (!isMobileDevice) {
-        document.body.style.overflow = ""
+        document.body.style.overflow = previousBodyOverflow
       }
     }
   }, [project, onClose])
@@ -162,7 +139,7 @@ export default function ProjectModal({ project, onClose }) {
           initial="hidden"
           animate="visible"
           exit="exit"
-          className={`relative rounded-lg border shadow-2xl w-full max-w-sm sm:max-w-lg md:max-w-2xl lg:max-w-4xl max-h-[98vh] sm:max-h-[90vh] flex flex-col overflow-hidden ${styles.modal}`}
+          className={`relative rounded-lg border w-full max-w-sm sm:max-w-lg md:max-w-2xl lg:max-w-4xl max-h-[98vh] sm:max-h-[90vh] flex flex-col overflow-hidden ${styles.modal}`}
           onClick={(e) => e.stopPropagation()}
           role="dialog"
           aria-modal="true"
@@ -183,7 +160,7 @@ export default function ProjectModal({ project, onClose }) {
             <button
               ref={firstFocusableRef}
               onClick={onClose}
-              className={`flex-shrink-0 p-2 rounded-lg transition-colors ${styles.button} ${getThemeFocusRing(currentTheme)}`}
+              className={`flex-shrink-0 p-2 rounded-lg transition-colors ${styles.button} ${focusRingClasses}`}
               aria-label="Close project details"
             >
               <X size={18} aria-hidden="true" />
@@ -200,7 +177,7 @@ export default function ProjectModal({ project, onClose }) {
                   key={tab.id}
                   onClick={() => handleTabChange(tab.id)}
                   className={`flex-shrink-0 px-3 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${activeTab === tab.id ? styles.tabActive : `${styles.text} ${styles.tab}`
-                    } ${getThemeFocusRing(currentTheme)}`}
+                    } ${focusRingClasses}`}
                   aria-selected={activeTab === tab.id}
                   role="tab"
                 >
@@ -225,10 +202,10 @@ export default function ProjectModal({ project, onClose }) {
               {activeTab === "overview" && (
                 <div className="space-y-4 sm:space-y-6">
                   {/* Project Image */}
-                  <div className="relative rounded-lg sm:rounded-xl overflow-hidden">
+                  <div className="relative rounded-lg overflow-hidden">
                     <OptimizedImage
                       src={project.image}
-                      alt={project.title}
+                      alt={`${project.title} product screenshot`}
                       className="w-full aspect-video object-cover"
                     />
                   </div>
@@ -283,19 +260,13 @@ export default function ProjectModal({ project, onClose }) {
                     Key Features & Highlights
                   </h3>
                   <div className="grid gap-2 sm:gap-3">
-                    {project.description.features.map((feature, index) => (
-                      <motion.div
-                        key={index}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        className={`p-3 sm:p-4 rounded-lg border ${styles.panel}`}
-                      >
+                    {project.description.features.map((feature) => (
+                      <div key={feature} className={`p-3 sm:p-4 rounded-lg border ${styles.panel}`}>
                         <div className="flex items-start gap-2 sm:gap-3">
                           <CheckCircle2 size={17} className={`mt-0.5 flex-shrink-0 ${styles.accent}`} aria-hidden="true" />
                           <p className={`flex-1 text-sm sm:text-base ${styles.text}`}>{feature}</p>
                         </div>
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -308,16 +279,13 @@ export default function ProjectModal({ project, onClose }) {
                       Primary Technologies
                     </h3>
                     <div className="flex flex-wrap gap-2 sm:gap-3">
-                      {project.technologies.main.map((tech, index) => (
-                        <motion.span
+                      {project.technologies.main.map((tech) => (
+                        <span
                           key={tech}
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: index * 0.05 }}
                           className={`px-3 sm:px-4 py-1 sm:py-2 rounded-full border font-medium text-sm ${styles.badge}`}
                         >
                           {tech}
-                        </motion.span>
+                        </span>
                       ))}
                     </div>
                   </div>
@@ -328,16 +296,13 @@ export default function ProjectModal({ project, onClose }) {
                         Additional Tools & Libraries
                       </h4>
                       <div className="flex flex-wrap gap-1 sm:gap-2">
-                        {project.technologies.additional.map((tech, index) => (
-                          <motion.span
+                        {project.technologies.additional.map((tech) => (
+                          <span
                             key={tech}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.2 + index * 0.03 }}
                             className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm border opacity-80 ${styles.badge}`}
                           >
                             {tech}
-                          </motion.span>
+                          </span>
                         ))}
                       </div>
                     </div>
@@ -355,7 +320,7 @@ export default function ProjectModal({ project, onClose }) {
                 <div className="space-y-3 sm:space-y-4">
                   <div className="flex items-center justify-between mb-3 sm:mb-4">
                     <h3 className={`text-base sm:text-lg font-semibold ${styles.header}`}>Interactive Live Preview</h3>
-                    <span className={`text-xs px-2 py-1 rounded-full ${styles.badge}`}>Live Site</span>
+                    <span className={`text-xs px-2 py-1 rounded-full border ${styles.badge}`}>Live Site</span>
                   </div>
                   <div className={`rounded-lg border overflow-hidden ${styles.divider}`}>
                     <LiveDemoPreview
@@ -374,7 +339,7 @@ export default function ProjectModal({ project, onClose }) {
               {project.url && (
                 <button
                   type="button"
-                  className={`inline-flex w-full items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors sm:flex-1 sm:text-base ${styles.buttonPrimary} ${getThemeFocusRing(currentTheme)}`}
+                  className={`inline-flex w-full items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors sm:flex-1 sm:text-base ${styles.buttonPrimary} ${focusRingClasses}`}
                   onClick={() => window.open(project.url, "_blank", "noopener,noreferrer")}
                   aria-label={`Visit ${project.title} live site`}
                 >
@@ -385,7 +350,7 @@ export default function ProjectModal({ project, onClose }) {
               {project.github && (
                 <button
                   type="button"
-                  className={`inline-flex w-full items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors sm:flex-1 sm:text-base ${styles.button} ${getThemeFocusRing(currentTheme)}`}
+                  className={`inline-flex w-full items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors sm:flex-1 sm:text-base ${styles.button} ${focusRingClasses}`}
                   onClick={() => window.open(project.github, "_blank", "noopener,noreferrer")}
                   aria-label={`View ${project.title} source code`}
                 >
@@ -396,7 +361,7 @@ export default function ProjectModal({ project, onClose }) {
               <button
                 type="button"
                 onClick={onClose}
-                className={`inline-flex w-full items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors sm:w-auto sm:px-6 sm:text-base ${styles.button} ${getThemeFocusRing(currentTheme)}`}
+                className={`inline-flex w-full items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors sm:w-auto sm:px-6 sm:text-base ${styles.button} ${focusRingClasses}`}
                 aria-label="Close modal"
               >
                 Close
