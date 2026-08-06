@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { ExternalLink } from "lucide-react";
 import ProjectCard from "./ProjectCard";
 import ProjectModal from "./ProjectModal";
@@ -10,6 +10,19 @@ import Reveal from "../../ui/common/Reveal";
 export default function Projects() {
     const { setIsProjectModalOpen } = useUI();
     const [activeProject, setActiveProject] = useState(null);
+    const projectTriggerRef = useRef(null);
+
+    const openProject = useCallback((project, event) => {
+        projectTriggerRef.current = event.currentTarget;
+        setActiveProject(project);
+        setIsProjectModalOpen(true);
+    }, [setIsProjectModalOpen]);
+
+    const closeProject = useCallback(() => {
+        setActiveProject(null);
+        setIsProjectModalOpen(false);
+        window.requestAnimationFrame(() => projectTriggerRef.current?.focus());
+    }, [setIsProjectModalOpen]);
 
     return (
         <div className="mx-auto max-w-5xl px-4 py-20 md:px-8 md:py-24">
@@ -24,10 +37,7 @@ export default function Projects() {
                             key={project.title}
                             project={project}
                             index={index}
-                            onReadMore={() => {
-                                setActiveProject(project);
-                                setIsProjectModalOpen(true);
-                            }}
+                            onReadMore={(event) => openProject(project, event)}
                         />
                     ))}
                 </div>
@@ -66,10 +76,7 @@ export default function Projects() {
 
             <ProjectModal
                 project={activeProject}
-                onClose={() => {
-                    setActiveProject(null);
-                    setIsProjectModalOpen(false);
-                }}
+                onClose={closeProject}
             />
         </div>
     );

@@ -15,25 +15,29 @@ const OptimizedImage = ({
   ...props
 }) => {
   const imageRef = useRef(null);
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageError, setImageError] = useState(false);
+  const [imageState, setImageState] = useState({ src, status: "loading" });
+  const imageLoaded = imageState.src === src && imageState.status === "loaded";
+  const imageError = imageState.src === src && imageState.status === "error";
 
-  // Statically rendered images can finish loading before hydration attaches
-  // onLoad, so sync the state from the DOM once after mount.
+  // Statically rendered images can finish loading or fail before hydration
+  // attaches event handlers, so sync the state from the DOM for each source.
   useEffect(() => {
     const image = imageRef.current;
-    if (image && image.complete && image.naturalWidth > 0) {
-      setImageLoaded(true);
+    if (image?.complete) {
+      setImageState({
+        src,
+        status: image.naturalWidth > 0 ? "loaded" : "error",
+      });
     }
-  }, []);
+  }, [src]);
 
   const handleLoad = (e) => {
-    setImageLoaded(true);
+    setImageState({ src, status: "loaded" });
     if (onLoad) onLoad(e);
   };
 
   const handleError = (e) => {
-    setImageError(true);
+    setImageState({ src, status: "error" });
     if (onError) onError(e);
   };
 
@@ -58,21 +62,19 @@ const OptimizedImage = ({
       )}
 
       {/* Actual image */}
-      {!imageError && (
-        <motion.img
-          ref={imageRef}
-          src={src}
-          alt={alt}
-          loading={loading}
-          onLoad={handleLoad}
-          onError={handleError}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: imageLoaded ? 1 : 0 }}
-          transition={{ duration: 0.24 }}
-          className="absolute inset-0 w-full h-full object-cover"
-          {...props}
-        />
-      )}
+      <motion.img
+        ref={imageRef}
+        src={src}
+        alt={alt}
+        loading={loading}
+        onLoad={handleLoad}
+        onError={handleError}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: imageLoaded && !imageError ? 1 : 0 }}
+        transition={{ duration: 0.24 }}
+        className="absolute inset-0 w-full h-full object-cover"
+        {...props}
+      />
     </div>
   );
 };

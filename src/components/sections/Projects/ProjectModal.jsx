@@ -77,6 +77,7 @@ export default function ProjectModal({ project, onClose }) {
 
     // Only lock body scroll on desktop, let mobile scroll naturally
     const isMobileDevice = window.innerWidth < 768
+    const previousBodyOverflow = document.body.style.overflow
     if (!isMobileDevice) {
       document.body.style.overflow = "hidden"
     }
@@ -89,7 +90,7 @@ export default function ProjectModal({ project, onClose }) {
     return () => {
       document.removeEventListener("keydown", handleEscape)
       if (!isMobileDevice) {
-        document.body.style.overflow = ""
+        document.body.style.overflow = previousBodyOverflow
       }
     }
   }, [project, onClose])

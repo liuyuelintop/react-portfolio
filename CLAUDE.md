@@ -24,7 +24,7 @@ This is a React 19 portfolio application built with the Next.js 16 App Router an
 ### Core Technologies
 - **React 19** with modern hooks
 - **Next.js 16** App Router with `output: "export"`
-- **Tailwind CSS** with the current default theme and preserved theme-aware branches
+- **Tailwind CSS** with the single dark visual theme
 - **Framer Motion** for animations and micro-interactions
 - **ESLint** with React-specific rules
 
@@ -33,13 +33,13 @@ This is a React 19 portfolio application built with the Next.js 16 App Router an
 app/                       # Static route, metadata, robots and sitemap
 src/
 ├── components/
-│   ├── layout/           # Navigation & layout (Navbar, FloatingNavigation)
+│   ├── layout/           # Navigation and layout (Navbar)
 │   ├── sections/         # Main content sections (Hero, Experience, Projects, etc.)
 │   └── ui/              # Reusable UI components (animations, forms, common)
 ├── constants/           # Application data and configuration
 ├── contexts/           # React contexts for theme and UI state
 ├── hooks/              # Custom React hooks
-├── utils/              # Utility functions (accessibility, typography)
+├── utils/              # Accessibility utilities
 └── assets/             # Static assets and images
 ```
 
@@ -61,8 +61,8 @@ The project uses organized imports:
 ```javascript
 // Components are exported from index.js files
 import { Hero, Projects, Experience } from '../components';
-import { HERO_CONTENT, PROJECTS, SKILLS_DATA } from '../constants';
-import { useTypingAnimation, useScrollAnimation } from '../hooks';
+import { HERO_CONTENT, HOW_I_BUILD, PROJECTS } from '../constants';
+import { useKeyboardShortcuts, useUI } from '../hooks';
 ```
 
 ### Development Notes

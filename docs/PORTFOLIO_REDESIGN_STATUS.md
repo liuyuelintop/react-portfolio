@@ -241,7 +241,7 @@ Slice 4 design contract as implemented:
 - Removed public planning language everywhere it appeared: Recruiter Snapshot, Recruiter read, Interview hooks, Hiring signal, Candidate Positioning, Hiring fit, Can own, Evidence Trail, Product-focused version, Team-fit version. The typewriter role animation, scroll-progress bar, animated background, gradient text, card-inside-card nesting, heavy shadows, decorative icon repetition and chip walls were removed.
 - One dark identity: `neutral-950` base, white/neutral text, a single cyan-300 accent family, one `neutral-800` hairline border level for structure, `neutral-500` borders on interactive controls (computed 4.18:1 against the base), and Framer Motion reduced to one subtle reveal per section, disclosure/modal transitions and interaction feedback at 160-240ms under the existing `MotionConfig reducedMotion="user"`.
 - Experience keeps every date, title, employer and delivery claim verbatim; the visible technology list per role is a single plain-text line. Contact keeps every destination (email, phone, location, LinkedIn, GitHub, blog) and the validated mailto form. Flagship work keeps the existing modal, GitHub/live links and the accurate non-clickable Private demo state; screenshots are the dominant element with at most four technology tags per flagship.
-- A hydration fix in `OptimizedImage` reveals statically rendered screenshots whose load completed before React attached `onLoad`.
+- `OptimizedImage` synchronises successful and failed pre-hydration loads from the DOM, and resets its loaded/error state when the image source changes.
 
 Verification for Slice 4:
 
@@ -249,7 +249,7 @@ Verification for Slice 4:
 - `verify:static` now asserts pre-JavaScript content for all five sections, the section anchor order, the Writing link, all internal anchors, the removed-language list absence, and the existing metadata/robots/sitemap/resume/screenshot checks.
 - Exported HTML has exactly one `h1`, sequential heading order, and meaningful `alt` text on all three screenshots inside aspect-ratio containers.
 - Contrast computed from token values: white 19.80:1, neutral-300 body 13.36:1, neutral-400 muted 7.85:1, cyan-300 accent 13.66:1, interactive borders 4.18:1; decorative `neutral-800` hairlines are below 3:1 by design and carry no component-identification meaning.
-- Headless Chromium (pre-installed browser driven via playwright-core, outside the project tree) verified: no horizontal overflow and no hydration warnings at 390/768/1024/1280 px; modal open, tab switch, Escape close and focus handling; mobile menu and primary actions at ≥44 px; all five sections' content visible with JavaScript disabled; hero fully visible under reduced motion. Console shows only a sandbox-blocked Google Fonts fetch (environment artifact) and the pre-existing `favicon.ico` 404 (no icon has ever been declared).
+- Headless Chromium (pre-installed browser driven via playwright-core, outside the project tree) verified: no horizontal overflow and no hydration warnings at 390/768/1024/1280 px; modal open, tab switch, Escape close, focus return and body-scroll restoration; mobile menu and primary actions at ≥44 px; all five sections' content visible with JavaScript disabled; hero fully visible under reduced motion. Console shows only a sandbox-blocked Google Fonts fetch (environment artifact) and the pre-existing `favicon.ico` 404 (no icon has ever been declared).
 
 Slice 3 record (accepted):
 
@@ -277,10 +277,8 @@ Case-study routes remain deferred until their content is approved. The blog rema
 1. **Trust:** approve evidence or revised disposition for work rights, role chronology, employer/client ownership, latency, conversion, service count, coverage, downtime, time saved, deployment, AWS cost, and AI privacy claims.
 2. **Public links:** provide a future recruiter-safe CodeInterview replacement if desired; add/approve an Alex source or demo; confirm current contact details and demo ownership.
 3. **Cross-repository metadata:** update the blog's portfolio backlinks, canonical/`og:url`, and social image hostname in the blog-owned repository.
-4. **Content hierarchy:** approve whether Career Snapshot/Working Style/Skills evidence should be consolidated and whether private planning labels should remain public.
-5. **Visual contract:** define screenshot requirements, card/chip/icon limits, motion budget, and reduced-motion behavior before redesign implementation.
-6. **Verification contract:** the static HTML gate is automated; interaction, accessibility, responsive, and visual regression coverage remains manual.
-7. **Development dependencies:** the production dependency audit is clean, while seven development-tree audit findings remain for a separately scoped dependency review.
+4. **Verification contract:** the static HTML gate is automated; interaction, accessibility, responsive, and visual regression coverage remains manual.
+5. **Development dependencies:** the production dependency audit is clean, while seven development-tree audit findings remain for a separately scoped dependency review.
 
 ## 11. Next authorisation gate
 
