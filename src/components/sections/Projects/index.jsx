@@ -17,9 +17,6 @@ export default function Projects() {
                 <h2 className="text-3xl font-bold leading-tight text-white md:text-4xl">
                     Selected Work
                 </h2>
-                <p className="mt-4 max-w-2xl text-base leading-relaxed text-neutral-400 md:text-lg">
-                    Three flagship projects, selected for hiring relevance rather than quantity.
-                </p>
 
                 <div className="mt-12 space-y-16 md:space-y-20">
                     {PROJECTS.map((project, index) => (

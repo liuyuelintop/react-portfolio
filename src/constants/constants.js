@@ -3,7 +3,7 @@ export const HERO_CONTENT = {
   resumeUrl: "/resume/yuelin-liu-resume.pdf",
   eyebrow: "Melbourne Full-Stack Software Engineer",
   headline:
-    "I turn messy operational workflows into usable React/Node products.",
+    "I turn messy operational workflows into software people can actually use.",
   summary:
     "My strongest fit is with teams that need practical ownership across product UI, API contracts, authentication, cloud delivery and AI-assisted workflows.",
 };
@@ -43,7 +43,7 @@ export const HOW_I_BUILD = {
     {
       title: "I build AI workflows with engineering guardrails.",
       statement:
-        "The AI projects are not demos only; they show structured outputs, deterministic validation, privacy boundaries and failure handling.",
+        "I treat AI integrations as engineering systems, with structured outputs, deterministic validation, privacy boundaries and failure handling.",
       evidence: [
         "Designed a TypeScript/Zod finance engine to validate LLM OCR output before using it.",
         "Added masking, retry/backoff and timestamp throttling to keep AI integrations private and reliable.",

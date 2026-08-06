@@ -20,7 +20,7 @@ const requiredContent = [
   // Hero
   "Yuelin Liu",
   "Melbourne Full-Stack Software Engineer",
-  "messy operational workflows into usable React/Node products",
+  "messy operational workflows into software people can actually use",
   // Selected Work
   "Selected Work",
   "MoneyGuard AI Finance Pipeline",
