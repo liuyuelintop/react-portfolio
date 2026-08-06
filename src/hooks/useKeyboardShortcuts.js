@@ -14,21 +14,17 @@ export const useKeyboardShortcuts = () => {
             e.preventDefault();
             scrollToSection('hero');
             break;
-          case 'p':
-            e.preventDefault();
-            scrollToSection('projects');
-            break;
           case 'w':
             e.preventDefault();
-            scrollToSection('work-style');
+            scrollToSection('projects');
             break;
           case 'e':
             e.preventDefault();
             scrollToSection('experience');
             break;
-          case 's':
+          case 'b':
             e.preventDefault();
-            scrollToSection('skills');
+            scrollToSection('how-i-build');
             break;
           case 'c':
             e.preventDefault();
@@ -56,7 +52,7 @@ export const useKeyboardShortcuts = () => {
     const showKeyboardShortcuts = () => {
       toast.info('Keyboard shortcuts available', {
         title: 'Navigation Help',
-        message: 'Alt + H/W/E/S/P/C for sections, Alt + ? for help',
+        message: 'Alt + H/W/E/B/C for sections, Alt + ? for help',
         duration: 4000
       });
     };
