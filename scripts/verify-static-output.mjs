@@ -113,6 +113,21 @@ assert.match(
   /<a[^>]+href="\/work\/moneyguard\/"[^>]*>[\s\S]*?Read case study/,
   "Homepage is missing the MoneyGuard 'Read case study' link",
 );
+assert.ok(
+  html.includes('href="https://github.com/liuyuelintop/moneyguard-pipeline"'),
+  "Homepage is missing the MoneyGuard public source link",
+);
+for (const modalLabel of [
+  "Read more about Alex - AWS Multi-Agent Wealth Platform",
+  "Read more about Melbourne University Ultimate Club Platform",
+]) {
+  assert.ok(html.includes(`aria-label="${modalLabel}"`), `Homepage is missing modal trigger: ${modalLabel}`);
+}
+assert.ok(!html.includes('href="/work/alex/"'), "Alex must not receive an empty case-study route");
+assert.ok(
+  !html.includes('href="/work/melbourne-university-ultimate/"'),
+  "Melbourne University Ultimate must not receive an empty case-study route",
+);
 
 // --- MoneyGuard case study ---------------------------------------------------
 
@@ -124,6 +139,12 @@ assert.match(
   /<title>MoneyGuard case study \| Yuelin Liu<\/title>/,
   "Case study is missing its route-specific title",
 );
+const caseStudyDescription =
+  "How MoneyGuard splits OCR from reasoning, validates untrusted model output with Zod, and where its data boundary actually sits — with the tradeoffs stated.";
+assert.ok(
+  caseStudyHtml.includes(`<meta name="description" content="${caseStudyDescription}"/>`),
+  "Case study description is missing or incorrect",
+);
 assert.match(
   caseStudyHtml,
   /<link[^>]+rel="canonical"[^>]+href="https:\/\/www\.liuyuelin\.dev\/work\/moneyguard\/"/,
@@ -134,6 +155,18 @@ assert.match(
   /<meta[^>]+property="og:url"[^>]+content="https:\/\/www\.liuyuelin\.dev\/work\/moneyguard\/"/,
   "Case study og:url is missing or incorrect",
 );
+for (const metadata of [
+  `<meta property="og:title" content="MoneyGuard case study | Yuelin Liu"/>`,
+  `<meta property="og:description" content="${caseStudyDescription}"/>`,
+  '<meta property="og:image" content="https://www.liuyuelin.dev/assets/og-image.png"/>',
+  '<meta property="og:type" content="article"/>',
+  '<meta name="twitter:card" content="summary_large_image"/>',
+  '<meta name="twitter:title" content="MoneyGuard case study | Yuelin Liu"/>',
+  `<meta name="twitter:description" content="${caseStudyDescription}"/>`,
+  '<meta name="twitter:image" content="https://www.liuyuelin.dev/assets/og-image.png"/>',
+]) {
+  assert.ok(caseStudyHtml.includes(metadata), `Case study metadata is missing: ${metadata}`);
+}
 assert.match(
   caseStudyHtml,
   /<h1[^>]*>[\s\S]*?MoneyGuard[\s\S]*?<\/h1>/,
@@ -175,6 +208,10 @@ const requiredCaseStudyContent = [
   "CLI and library",
   "Hosted /extract endpoint",
   "The audit payload is not anonymous.",
+  "the audit provider receives hours worked",
+  "weekly gross income",
+  "This form factor sends data across the network by design.",
+  "The uploaded image goes to the vision provider",
   "returns hourlyRate to the authenticated caller",
   // Verification must describe the method, not just claim coverage.
   "substring check on sentinel values",
@@ -208,8 +245,18 @@ const bannedCaseStudyLanguage = [
   "privacy guarantee",
   "eliminates http 429",
   "eliminating all http 429",
+  "prevent http 429",
+  "prevents http 429",
+  "zero hardcode",
+  "zero-hardcode",
+  "built for production",
   "hours saved",
   "production scale",
+  "production adoption",
+  "active users",
+  "users served",
+  "revenue generated",
+  "performance improvement",
 ];
 
 const lowerCaseStudyText = caseStudyText.toLowerCase();
@@ -247,6 +294,18 @@ assert.ok(
 assert.ok(
   !/animate-spin|role="progressbar"|Loading\.\.\./i.test(caseStudyHtml),
   "Case study renders a loading placeholder instead of content",
+);
+
+const emittedCaseStudyDirectories = (await readdir(path.join(outputDirectory, "work"), {
+  withFileTypes: true,
+}))
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => entry.name)
+  .sort();
+assert.deepEqual(
+  emittedCaseStudyDirectories,
+  ["moneyguard"],
+  "Static export must contain exactly the approved MoneyGuard case-study directory",
 );
 
 // --- Emitted public assets ---------------------------------------------------

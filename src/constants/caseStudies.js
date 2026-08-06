@@ -91,13 +91,13 @@ export const MONEYGUARD_CASE_STUDY = {
   ],
 
   architecture: [
-    "runMoneyGuardPipeline(imageBuffer, { onReportUpdate }) is the whole public surface. It is channel-agnostic: streaming is handed back through a callback, so the caller owns transport and pacing.",
-    "Two interfaces — VisionProvider and AuditProvider — sit between the pipeline and any SDK. Three implementations satisfy them: Gemini, DeepSeek, and an offline mock.",
+    "runMoneyGuardPipeline(imageBuffer, { onReportUpdate }) is the end-to-end CLI/library orchestration entry point. It is channel-agnostic: streaming is handed back through a callback, so the caller owns transport and pacing.",
+    "Two interfaces — VisionProvider and AuditProvider — sit between the pipeline and any SDK. The live adapters are Gemini for vision and DeepSeek for audit; the offline path uses a deterministic mock pair.",
     "OCR and the local ledger read are independent, so they run in a single Promise.all.",
     "The pipeline returns { ok: true } or { ok: false, kind, message }, where kind is config, vision or model. Transports render message and never inspect internals.",
     "The Markdown report skeleton is built in code from the computed metrics; the model supplies only the prose inside it.",
     "A second entry point, extractMoneyGuardTotals, stops after vision plus local math and never calls the audit provider. The hosted /extract endpoint is built on it.",
-    "Environment reads are confined to loadConfig, which keeps the remaining modules free of process.env.",
+    "loadConfig builds the pipeline's configuration object, while live provider adapters and the transport/server boundaries still read their own credentials, model, debug or listener values from process.env.",
   ],
 
   decisions: [
@@ -204,7 +204,7 @@ export const MONEYGUARD_CASE_STUDY = {
       {
         heading: "Finance math",
         detail:
-          "Monthly-to-weekly normalization at a factor of 12/52, per-tag subtotals over only the items carrying a tag, and tier classification checked at the 500, 200 and 0 surplus boundaries.",
+          "Monthly-to-weekly normalization at a factor of 12/52, per-tag subtotals over only the items carrying a tag, and examples spanning the tiers defined by the greater-than-500, greater-than-200 and greater-than-zero surplus thresholds.",
       },
       {
         heading: "Ledger schema rejection",
@@ -238,7 +238,7 @@ export const MONEYGUARD_CASE_STUDY = {
 
   limitations: [
     "The audit payload still carries hours and gross income together. Making it genuinely non-derivable means bucketing or dropping one of them, which changes what the model is able to say. That decision is still open.",
-    "Three of the six accepted cost tags — liability, subscription and variable — validate but receive no weekly subtotal. Adding one is three edits: the enum, the subtotal in metrics.ts, and the output line in payload.ts.",
+    "Three of the six accepted cost tags — liability, subscription and variable — validate but receive no weekly subtotal. Surfacing one of those existing tags needs a new Metrics field, its computation in metrics.ts and an output line in payload.ts; a brand-new tag would also need a schema enum entry.",
     "The 1000 ms throttle is declared separately in the CLI and the Telegram adapter. Keeping pacing in the transport is deliberate; duplicating the constant is not, and a shared export would preserve the property without the copy.",
     "The hosted endpoint returns hourlyRate because the response contract says so. Removing it would be a coordinated change across the endpoint and its client.",
     "The ledger path is fixed to finance.json in the process working directory, with no flag or environment override; the CLI only falls back to finance.example.json.",

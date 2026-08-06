@@ -73,7 +73,7 @@ src/
 ```
 
 ### Content is data-driven — edit `constants/`, not JSX
-The single most important thing to know: **page content (hero copy, experiences, projects, How I Build, etc.) is data in `src/constants/`, not hardcoded in components.** To change what the site says, edit the relevant constants file (`constants.js`, `experiences.js`, or `projects.js`). Components map over that data. Everything re-exports through `src/constants/index.js`, so import from the barrel:
+The single most important thing to know: **page content (hero copy, experiences, projects, How I Build, etc.) is data in `src/constants/`, not hardcoded in components.** To change what the site says, edit the relevant constants file (`constants.js`, `experiences.js`, or `projects.js`). Components map over that data. Homepage constants re-export through `src/constants/index.js`, so import them from the barrel; case-study route data is imported directly from `caseStudies.js` as described below:
 
 ```javascript
 import { HERO_CONTENT, HOW_I_BUILD, PROJECTS } from '../constants';
@@ -95,7 +95,7 @@ Case studies are static Server Component routes, not homepage sections. `app/wor
 
 Rules for this route:
 - Keep `dynamicParams = false` so an unknown slug emits no file and 404s instead of rendering another case study's content.
-- `next.config.js` sets `trailingSlash: true`, so output is `out/<slug>/index.html`. Canonical URLs, sitemap entries and `scripts/verify-static-output.mjs` must agree with that; don't flip the global setting to satisfy a check.
+- `next.config.js` sets `trailingSlash: true`, so output is `out/work/<slug>/index.html`. Canonical URLs, sitemap entries and `scripts/verify-static-output.mjs` must agree with that; don't flip the global setting to satisfy a check.
 - No `"use client"`, no motion, no runtime data. The page must be complete in the exported HTML.
 - A homepage project entry links to its case study by setting `caseStudyHref`; `ProjectCard` then renders a link instead of the modal button. Reference `caseStudies.js` for shared fields rather than restating them in `projects.js`.
 - Claims on a case-study page must trace to a file in a source you can cite. `verify:static` fails the build on absolute-privacy and over-claim wording — extend that list rather than relaxing it.
