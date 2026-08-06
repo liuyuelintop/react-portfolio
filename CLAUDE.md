@@ -46,7 +46,7 @@ src/
 ### Key Features
 - **Static-first rendering**: Meaningful homepage HTML before JavaScript
 - **Client interactions**: Motion, modal, navigation, form, and browser effects
-- **Accessibility**: WCAG AA compliance with keyboard shortcuts (Alt+H/A/P/E/S/C)
+- **Accessibility**: WCAG AA compliance with keyboard shortcuts (Alt+H/W/E/B/C)
 - **Project Gallery**: 3-component architecture (ProjectCard, ProjectModal, LiveDemoPreview)
 - **Animations**: Framer Motion with scroll-triggered effects
 
