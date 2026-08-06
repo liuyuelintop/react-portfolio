@@ -1,6 +1,6 @@
 # Portfolio Redesign Status
 
-Last updated: 2026-08-06 AEST (Slice 4 delivery)
+Last updated: 2026-08-06 AEST (Slice 5 delivery)
 Canonical redesign record for `www.liuyuelin.dev`.
 
 ## 1. Goal and non-goals
@@ -215,24 +215,56 @@ References: [Vite SSR/prerender guidance](https://vite.dev/guide/ssr), [Next.js 
 
 ## 8. Proposed slice plan
 
-Slice 4 is delivered and awaiting review. Later slices remain `NOT_STARTED`.
+Slice 5 is delivered and awaiting visual review. Slice 6 remains `NOT_STARTED`.
 
 | Slice | Branch | Agent/model | Dependency | Status |
 | --- | --- | --- | --- | --- |
 | 1. Baseline Audit | `audit/portfolio-redesign-baseline` | Codex Desktop / GPT-5.6 Sol / Extra High | Authorised | `MERGED` |
 | 2. Trust and Discovery | `fix/portfolio-trust-and-discovery` | Codex Desktop / GPT-5.6 Sol / High | Slice 1 merged and owner decisions supplied | `MERGED` |
 | 3. Rendering Baseline | `feat/portfolio-rendering-baseline` | Codex Desktop / GPT-5.6 Sol / Extra High | Slice 2 merged and strategy approved | `MERGED` |
-| 4. Content-First Redesign | `claude/portfolio-content-first-redesign-qtds3c` | Claude Code / Claude Fable 5 / highest available | Slice 3 merged and design contract approved | `READY_FOR_REVIEW` |
-| 5. Case Studies | `feat/portfolio-case-studies` | Claude Code / Claude Sonnet 5 / High | Slice 4 merged and content approved | `NOT_STARTED` |
+| 4. Content-First Redesign | `claude/portfolio-content-first-redesign-qtds3c` | Claude Code / Claude Fable 5 / highest available | Slice 3 merged and design contract approved | `MERGED` |
+| 5. Case Studies (MoneyGuard only) | `claude/portfolio-moneyguard-slice-5-ungd77` | Claude Code / Claude Opus 5 / High | Slice 4 merged and content approved | `READY_FOR_VISUAL_REVIEW` |
 | 6. Release Hardening | `test/portfolio-release-hardening` | Codex Desktop / GPT-5.6 Sol / High | Slice 5 merged | `NOT_STARTED` |
 
-The Slice 4 branch was proposed as `feat/portfolio-content-first-redesign`; the executing Claude Code remote platform assigns and enforces its own branch name, so the slice was delivered on `claude/portfolio-content-first-redesign-qtds3c` with the same baseline, scope and PR contract.
+The Slice 4 branch was proposed as `feat/portfolio-content-first-redesign`; the executing Claude Code remote platform assigns and enforces its own branch name, so the slice was delivered on `claude/portfolio-content-first-redesign-qtds3c` with the same baseline, scope and PR contract. Slice 5 was proposed as `feat/portfolio-case-studies` and was delivered on the platform-enforced `claude/portfolio-moneyguard-slice-5-ungd77` for the same reason, from the required baseline `0420e6c909b6b59c7d8c47648bef0453ace60401`.
 
 ## 9. Current slice status
 
-`PORTFOLIO_SLICE_4_READY_FOR_REVIEW`
+`PORTFOLIO_SLICE_5_READY_FOR_VISUAL_REVIEW`
 
-Sections 3-7 retain the accepted audit baseline and evidence ledger. Slice 3 merged in `8ad847cd68a566a204176ca0901ac39f6b990bb0`. Slice 4 started from that exact latest `origin/main` SHA on branch `claude/portfolio-content-first-redesign-qtds3c`; no prior slice branch was used.
+Sections 3-7 retain the accepted audit baseline and evidence ledger. Slice 4 merged in `0420e6c909b6b59c7d8c47648bef0453ace60401`. Slice 5 started from that exact latest `origin/main` SHA on branch `claude/portfolio-moneyguard-slice-5-ungd77`; no prior slice branch was used and no branch was stacked.
+
+Slice 5 approved scope: establish a reusable static case-study route system and publish exactly one case study, `/work/moneyguard/`. Case-study routes for Alex, Melbourne University Ultimate and the supporting builds were **not** created — their ownership, deployment and claim evidence are unresolved — and no placeholder or empty route was added for them.
+
+Slice 5 evidence sources (the only ones used):
+
+1. This portfolio repository at the Slice 5 baseline.
+2. The public `liuyuelintop/moneyguard-pipeline` repository at `main` = `103ff93c3f98e247e29d3024392497de34360607` (read-only; not modified, no PR opened against it).
+3. Public assets already owned by this portfolio.
+
+Every factual statement on the case-study page traces to a file path in one of those sources. The claim-to-path ledger lives in the Slice 5 delivery report, not on the page.
+
+Slice 5 route and content model as implemented:
+
+- `app/work/[slug]/page.jsx` is a static Server Component route with `generateStaticParams`, `export const dynamicParams = false` and `export const dynamic = "error"`, so unknown slugs emit no file and 404 instead of rendering MoneyGuard content. No API route, SSR, ISR, middleware, Server Action, cookie, `headers()` or runtime fetch is used, and no global Next.js configuration was changed.
+- `next.config.js` already sets `trailingSlash: true`, so the emitted file is `out/work/moneyguard/index.html`. The canonical URL, the sitemap entry and the static verifier all agree with that existing setting; the setting itself was not touched.
+- Route-owned `generateMetadata` supplies the title `MoneyGuard case study | Yuelin Liu`, a route-specific description, canonical `https://www.liuyuelin.dev/work/moneyguard/`, and Open Graph/Twitter tags reusing the existing site OG image (no new or duplicated image asset).
+- `src/constants/caseStudies.js` is the single source of truth for case-study copy: slug, title, summary, metadata strings, canonical, source URL, sample output, and the problem/constraints/workflow/architecture/decisions/privacy/verification/limitations content. `src/constants/projects.js` owns only the homepage card fields (image, roleFit, technologies, year) and *references* `caseStudies.js` for the summary, the source URL and the `/work/moneyguard/` href rather than restating them.
+- `app/sitemap.js` keeps its existing mechanism and now derives case-study URLs from `CASE_STUDIES`; no second sitemap mechanism was introduced.
+- Page structure: back link → title and one-sentence summary → the problem → constraints → workflow (a static six-step ordered list, no diagram library) → architecture → decisions I can defend (each with its accepted tradeoff) → privacy boundaries → verification → current limitations → source link and return CTA.
+- Privacy language is scoped by form factor. The CLI/library boundary and the hosted `/extract` posture are stated separately: the page says in terms that the audit payload is not anonymous because it carries hours and gross income, and that the hosted endpoint sends the image over the network and returns `hourlyRate` by contract. No absolute-privacy wording appears, and the verifier fails the build if it reappears.
+- Homepage integration is MoneyGuard-only: its primary action is now a **Read case study** link to `/work/moneyguard/` instead of the modal, and its public source link is retained. Alex and Melbourne University Ultimate keep their existing cards, modal behaviour and links unchanged. The MoneyGuard modal-only copy that the change orphaned was removed with it.
+
+Verification for Slice 5:
+
+- `npm ci`, `npm run lint`, `npm run build`, `npm run verify:static` and `git diff --check` all pass on the final tree. `npm audit --omit=dev` reports zero production vulnerabilities; the development tree still carries the seven previously recorded findings, none of which is a production advisory.
+- The build prerenders `/work/moneyguard` as SSG alongside the existing static `/`, `/robots.txt`, `/sitemap.xml` and not-found routes.
+- `verify:static` now checks both `out/index.html` and `out/work/moneyguard/index.html`. New assertions cover the route title, description, canonical, Open Graph and Twitter metadata; exactly one `h1`; all eight content sections and six workflow steps; the CLI-versus-hosted privacy distinction; the "not anonymous" statement; the substring-method wording in Verification; homepage case-study/modal/source outcomes; exactly one emitted case-study directory; meaningful pre-JavaScript text volume; absence of an empty shell/spinner/loading placeholder; the banned absolute-privacy and over-claim wording set; and the sitemap entry. No existing homepage assertion was weakened.
+- Exported case-study HTML has exactly one `h1` and a sequential `h2`/`h3` outline with no skipped level.
+- Local static server: `/` and `/work/moneyguard/` return `200`, `/work/moneyguard` returns `301` to the trailing-slash form, and an unknown slug such as `/work/does-not-exist/` returns `404` because no file is emitted for it.
+- Headless Chromium (pre-installed browser driven from outside the project tree) verified on the exported site: no horizontal overflow at 390/768/1024/1280 px; no hydration warnings on either page; direct load and browser refresh of `/work/moneyguard/` render the full page; the homepage MoneyGuard CTA navigates to the route and the back link returns to `/#projects`; the Alex and Melbourne Ultimate modals still open, render and close on Escape; the page renders 13,454 characters of meaningful text with JavaScript disabled; under reduced motion the page runs zero animations; keyboard tabbing reaches every link in document order with the cyan-300 focus ring applied. Console shows only the sandbox-blocked Google Fonts fetch and the pre-existing `favicon.ico` 404.
+
+Slice 4 record (accepted):
 
 Slice 4 design contract as implemented:
 
@@ -270,7 +302,7 @@ Slice 3 verification (accepted):
 - Desktop and mobile project modals open, render their project image/content, switch tabs, close by keyboard or button, and restore body scroll. Hash navigation, mobile-menu close behavior, typewriter animation, default theme variables, reduced-motion wiring, and focus behavior remain operational with no hydration, console error, or console warning output.
 - Local homepage, robots, sitemap, résumé, and OG image return `200` with the expected content types. Writing, GitHub profile/source links, Melbourne Ultimate, CodeCraft, and ApeUni source returned `200` on 2026-08-06 AEST.
 
-Case-study routes remain deferred until their content is approved. The blog remains a separate repository and deployment at `https://blog.liuyuelin.dev/`.
+Case-study routes for Alex, Melbourne University Ultimate and the supporting builds remain deferred until their ownership, deployment and claim evidence are resolved. The blog remains a separate repository and deployment at `https://blog.liuyuelin.dev/`.
 
 ## 10. Risks and open decisions
 
@@ -282,4 +314,9 @@ Case-study routes remain deferred until their content is approved. The blog rema
 
 ## 11. Next authorisation gate
 
-Slice 5 remains `NOT_STARTED` and unauthorised. It may start only after the Slice 4 PR is independently reviewed, accepted, and merged into `main`, and after the case-study content is approved. The next worker must fetch the newly merged `origin/main`; no dependent or stacked branch may start from this branch.
+Slice 6 remains `NOT_STARTED` and unauthorised. It may start only after the Slice 5 PR is independently reviewed, accepted, and merged into `main`. The next worker must fetch the newly merged `origin/main`; no dependent or stacked branch may start from this branch.
+
+Two Slice 5 decisions need owner judgment before Slice 6:
+
+1. **The existing MoneyGuard promotional image is not on the case-study page.** It renders `ZERO RAW DATA LEAKAGE`, `DATA PRIVACY FIRST — Local Masking Before Any LLM Call`, `TAG-DRIVEN ENGINE — Zero Hardcode`, `Built for Production` and invented dashboard figures, all of which the approved evidence contradicts, and its multi-column body text is not legible at 390 px. It remains unchanged on the homepage card. The dominant visual on the case-study page is instead a static rendering of the deterministic mock-provider output, which is traceable to `src/report.ts`, `src/providers/mock.ts` and `finance.example.json`. Reinstating the image, or commissioning a replacement whose wording matches the page, is an owner call.
+2. **The audit payload carries hours and gross income together**, so an hourly rate is derivable. The page states this plainly rather than describing the boundary as anonymity. Changing the boundary is a product decision recorded as open in the upstream repository.

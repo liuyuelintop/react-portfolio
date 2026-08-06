@@ -1,33 +1,20 @@
 import { projectImages } from "./assets";
+import { MONEYGUARD_CASE_STUDY, caseStudyHref } from "./caseStudies";
 
 export const PROJECTS = [
   {
     title: "MoneyGuard AI Finance Pipeline",
     image: projectImages.moneyguardAiFinancePipeline,
     roleFit:
-      "Privacy-first architecture, AI workflow reliability, and decoupled metadata design.",
+      "Local data-minimization boundary, stream-safe retry semantics, and dependency-injected providers.",
+    // Case-study copy is owned by caseStudies.js; this entry references it.
     description: {
-      summary:
-        "A multi-LLM orchestrator that transforms timecard images into contextual financial audits.",
-      detailed:
-        "This project showcases production-grade AI engineering. While Gemini Vision extracts OCR data and DeepSeek provides reasoning, the core value lies in the defensive architecture: nested Zod schema validation, local in-memory data masking, a zero-hardcode semantic tag engine for metric aggregation, and robust rate-limit throttling to stabilize streaming updates.",
-      features: [
-        "Extracts industrial timecard data via Gemini Vision, tightly constrained by TypeScript and native structured JSON outputs.",
-        "Implements a zero-hardcode, tag-driven configuration engine (e.g., 'strategic_weapon') to dynamically compute multi-dimensional asset ratios.",
-        "Computes 'grind-to-value' metrics locally, strictly masking raw financial numbers before streaming anonymized payloads to DeepSeek.",
-        "Engineers a fault-tolerant Telegram UX with progressive state-updates and a 1000ms timestamp throttle to gracefully prevent HTTP 429 exceptions.",
-      ],
+      summary: MONEYGUARD_CASE_STUDY.summary,
     },
-    github: "https://github.com/liuyuelintop/moneyguard-pipeline",
+    caseStudyHref: caseStudyHref(MONEYGUARD_CASE_STUDY.slug),
+    github: MONEYGUARD_CASE_STUDY.sourceUrl,
     technologies: {
       main: ["TypeScript", "Node.js", "Gemini LLM", "DeepSeek LLM"],
-      additional: [
-        "Zod",
-        "Telegram Bot API",
-        "Semantic Configuration",
-        "Data Masking",
-      ],
-      others: ["OCR", "Rate Limiting", "Structured Outputs"],
     },
     year: "2026",
   },

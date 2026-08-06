@@ -4,17 +4,23 @@ import path from "node:path";
 
 const outputDirectory = path.resolve("out");
 const homepagePath = path.join(outputDirectory, "index.html");
+// next.config.js sets `trailingSlash: true`, so the case study is emitted as a
+// directory index rather than `work/moneyguard.html`.
+const caseStudyPath = path.join(outputDirectory, "work", "moneyguard", "index.html");
+
+const toText = (markup) =>
+  markup
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&(?:#x27|#39|apos);/gi, "'")
+    .replace(/&quot;/gi, '"')
+    .replace(/&amp;/gi, "&")
+    .replace(/\s+/g, " ")
+    .trim();
 
 const html = await readFile(homepagePath, "utf8");
-const text = html
-  .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
-  .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ")
-  .replace(/<[^>]+>/g, " ")
-  .replace(/&(?:#x27|#39|apos);/gi, "'")
-  .replace(/&quot;/gi, '"')
-  .replace(/&amp;/gi, "&")
-  .replace(/\s+/g, " ")
-  .trim();
+const text = toText(html);
 
 const requiredContent = [
   // Hero
@@ -101,6 +107,209 @@ assert.ok(text.length > 5000, "Homepage text is too small to be a meaningful sta
 assert.ok(!/<main[^>]*>\s*<\/main>/i.test(html), "Homepage contains an empty application shell");
 assert.ok(!/h-screen items-center justify-center bg-neutral-950/.test(html), "Homepage contains the obsolete spinner shell");
 
+// The MoneyGuard card links straight to its case study instead of opening the modal.
+assert.match(
+  html,
+  /<a[^>]+href="\/work\/moneyguard\/"[^>]*>[\s\S]*?Read case study/,
+  "Homepage is missing the MoneyGuard 'Read case study' link",
+);
+assert.ok(
+  html.includes('href="https://github.com/liuyuelintop/moneyguard-pipeline"'),
+  "Homepage is missing the MoneyGuard public source link",
+);
+for (const modalLabel of [
+  "Read more about Alex - AWS Multi-Agent Wealth Platform",
+  "Read more about Melbourne University Ultimate Club Platform",
+]) {
+  assert.ok(html.includes(`aria-label="${modalLabel}"`), `Homepage is missing modal trigger: ${modalLabel}`);
+}
+assert.ok(!html.includes('href="/work/alex/"'), "Alex must not receive an empty case-study route");
+assert.ok(
+  !html.includes('href="/work/melbourne-university-ultimate/"'),
+  "Melbourne University Ultimate must not receive an empty case-study route",
+);
+
+// --- MoneyGuard case study ---------------------------------------------------
+
+const caseStudyHtml = await readFile(caseStudyPath, "utf8");
+const caseStudyText = toText(caseStudyHtml);
+
+assert.match(
+  caseStudyHtml,
+  /<title>MoneyGuard case study \| Yuelin Liu<\/title>/,
+  "Case study is missing its route-specific title",
+);
+const caseStudyDescription =
+  "How MoneyGuard splits OCR from reasoning, validates untrusted model output with Zod, and where its data boundary actually sits — with the tradeoffs stated.";
+assert.ok(
+  caseStudyHtml.includes(`<meta name="description" content="${caseStudyDescription}"/>`),
+  "Case study description is missing or incorrect",
+);
+assert.match(
+  caseStudyHtml,
+  /<link[^>]+rel="canonical"[^>]+href="https:\/\/www\.liuyuelin\.dev\/work\/moneyguard\/"/,
+  "Case study canonical URL is missing or incorrect",
+);
+assert.match(
+  caseStudyHtml,
+  /<meta[^>]+property="og:url"[^>]+content="https:\/\/www\.liuyuelin\.dev\/work\/moneyguard\/"/,
+  "Case study og:url is missing or incorrect",
+);
+for (const metadata of [
+  `<meta property="og:title" content="MoneyGuard case study | Yuelin Liu"/>`,
+  `<meta property="og:description" content="${caseStudyDescription}"/>`,
+  '<meta property="og:image" content="https://www.liuyuelin.dev/assets/og-image.png"/>',
+  '<meta property="og:type" content="article"/>',
+  '<meta name="twitter:card" content="summary_large_image"/>',
+  '<meta name="twitter:title" content="MoneyGuard case study | Yuelin Liu"/>',
+  `<meta name="twitter:description" content="${caseStudyDescription}"/>`,
+  '<meta name="twitter:image" content="https://www.liuyuelin.dev/assets/og-image.png"/>',
+]) {
+  assert.ok(caseStudyHtml.includes(metadata), `Case study metadata is missing: ${metadata}`);
+}
+assert.match(
+  caseStudyHtml,
+  /<h1[^>]*>[\s\S]*?MoneyGuard[\s\S]*?<\/h1>/,
+  "Case study is missing its MoneyGuard heading",
+);
+assert.equal(
+  (caseStudyHtml.match(/<h1\b/gi) ?? []).length,
+  1,
+  "Case study must render exactly one h1",
+);
+
+const requiredCaseStudySections = [
+  "The problem",
+  "Constraints",
+  "Workflow",
+  "Architecture",
+  "Decisions I can defend",
+  "Privacy boundaries",
+  "Verification",
+  "Current limitations and what I would change",
+];
+
+for (const heading of requiredCaseStudySections) {
+  assert.ok(
+    caseStudyText.includes(heading),
+    `Case study is missing the ${heading} section`,
+  );
+}
+
+const requiredCaseStudyContent = [
+  // Workflow sequence, rendered statically without a diagram library.
+  "Timecard image",
+  "Vision OCR",
+  "Zod validation",
+  "Local financial computation",
+  "Minimized audit payload",
+  "Streamed report",
+  // The privacy distinction between the two form factors must stay explicit.
+  "CLI and library",
+  "Hosted /extract endpoint",
+  "The audit payload is not anonymous.",
+  "the audit provider receives hours worked",
+  "weekly gross income",
+  "This form factor sends data across the network by design.",
+  "The uploaded image goes to the vision provider",
+  "returns hourlyRate to the authenticated caller",
+  // Verification must describe the method, not just claim coverage.
+  "substring check on sentinel values",
+  "It does not establish that the payload is non-derivable",
+  // Limitations must survive as a section with real content.
+  "That decision is still open.",
+];
+
+for (const content of requiredCaseStudyContent) {
+  assert.ok(
+    caseStudyText.includes(content),
+    `Case study is missing required content: ${content}`,
+  );
+}
+
+const bannedCaseStudyLanguage = [
+  "absolute privacy",
+  "zero data exposure",
+  "zero data leakage",
+  "zero raw data leakage",
+  "fully private",
+  "completely private",
+  "never leaves your machine",
+  "never leave your machine",
+  "anonymized",
+  "anonymised",
+  "completely anonymous",
+  "fully anonymous",
+  "totally anonymous",
+  "guaranteed privacy",
+  "privacy guarantee",
+  "eliminates http 429",
+  "eliminating all http 429",
+  "prevent http 429",
+  "prevents http 429",
+  "zero hardcode",
+  "zero-hardcode",
+  "built for production",
+  "hours saved",
+  "production scale",
+  "production adoption",
+  "active users",
+  "users served",
+  "revenue generated",
+  "performance improvement",
+];
+
+const lowerCaseStudyText = caseStudyText.toLowerCase();
+for (const phrase of bannedCaseStudyLanguage) {
+  assert.ok(
+    !lowerCaseStudyText.includes(phrase),
+    `Case study contains banned language: ${phrase}`,
+  );
+}
+
+const requiredCaseStudyLinks = [
+  'href="https://github.com/liuyuelintop/moneyguard-pipeline"',
+  'href="/#projects"',
+];
+
+for (const link of requiredCaseStudyLinks) {
+  assert.ok(
+    caseStudyHtml.includes(link),
+    `Case study is missing a required link: ${link}`,
+  );
+}
+
+assert.ok(
+  caseStudyText.length > 5000,
+  "Case study text is too small to be a meaningful static render",
+);
+assert.ok(
+  !/<main[^>]*>\s*<\/main>/i.test(caseStudyHtml),
+  "Case study contains an empty application shell",
+);
+assert.ok(
+  !/h-screen items-center justify-center bg-neutral-950/.test(caseStudyHtml),
+  "Case study contains the obsolete spinner shell",
+);
+assert.ok(
+  !/animate-spin|role="progressbar"|Loading\.\.\./i.test(caseStudyHtml),
+  "Case study renders a loading placeholder instead of content",
+);
+
+const emittedCaseStudyDirectories = (await readdir(path.join(outputDirectory, "work"), {
+  withFileTypes: true,
+}))
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => entry.name)
+  .sort();
+assert.deepEqual(
+  emittedCaseStudyDirectories,
+  ["moneyguard"],
+  "Static export must contain exactly the approved MoneyGuard case-study directory",
+);
+
+// --- Emitted public assets ---------------------------------------------------
+
 const emittedFiles = [
   "robots.txt",
   "sitemap.xml",
@@ -119,6 +328,10 @@ const robots = await readFile(path.join(outputDirectory, "robots.txt"), "utf8");
 const sitemap = await readFile(path.join(outputDirectory, "sitemap.xml"), "utf8");
 assert.ok(robots.includes("Sitemap: https://www.liuyuelin.dev/sitemap.xml"));
 assert.ok(sitemap.includes("<loc>https://www.liuyuelin.dev/</loc>"));
+assert.ok(
+  sitemap.includes("<loc>https://www.liuyuelin.dev/work/moneyguard/</loc>"),
+  "Sitemap is missing the MoneyGuard case-study route",
+);
 
 const emittedMedia = await readdir(path.join(outputDirectory, "_next/static/media"));
 for (const imageName of [
@@ -132,4 +345,6 @@ for (const imageName of [
   );
 }
 
-console.log("Static output verified: meaningful HTML, section order, metadata, navigation, and public assets are present.");
+console.log(
+  "Static output verified: homepage and MoneyGuard case study render meaningful HTML with correct metadata, links, privacy language and public assets.",
+);

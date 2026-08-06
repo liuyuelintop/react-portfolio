@@ -1,3 +1,5 @@
+import { CASE_STUDIES } from "../src/constants/caseStudies";
+
 export const dynamic = "force-static";
 
 export default function sitemap() {
@@ -5,5 +7,8 @@ export default function sitemap() {
     {
       url: "https://www.liuyuelin.dev/",
     },
+    ...Object.values(CASE_STUDIES).map((caseStudy) => ({
+      url: caseStudy.canonical,
+    })),
   ];
 }
