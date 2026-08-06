@@ -2,24 +2,6 @@
 
 export const focusRingClasses = "focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 rounded-lg transition-all duration-200";
 
-export const getThemeFocusRing = (theme) => {
-  const rings = {
-    default: "focus-visible:ring-cyan-300",
-    neon: "focus-visible:ring-cyan-400", 
-    minimal: "focus-visible:ring-blue-500",
-    corporate: "focus-visible:ring-blue-600"
-  };
-  
-  const offsets = {
-    default: "focus-visible:ring-offset-neutral-950",
-    neon: "focus-visible:ring-offset-black",
-    minimal: "focus-visible:ring-offset-white",
-    corporate: "focus-visible:ring-offset-slate-50"
-  };
-  
-  return `focus:outline-none focus-visible:ring-2 ${rings[theme]} focus-visible:ring-offset-2 ${offsets[theme]} rounded-lg transition-all duration-200`;
-};
-
 export const scrollToSection = (sectionId) => {
   const element = document.getElementById(sectionId);
   if (element) {

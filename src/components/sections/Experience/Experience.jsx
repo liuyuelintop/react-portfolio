@@ -1,119 +1,55 @@
-import { motion } from "framer-motion";
 import PropTypes from "prop-types";
-import {
-  BriefcaseBusiness,
-  Building2,
-  CalendarDays,
-  CheckCircle2,
-  ExternalLink,
-  MapPin,
-} from "lucide-react";
 import { EXPERIENCES } from "../../../constants/experiences";
-import { useTheme } from "../../../contexts/ThemeContext";
-import SectionHeading from "../../ui/common/SectionHeading";
+import Reveal from "../../ui/common/Reveal";
 
 const flattenStack = (techStack) =>
   Object.values(techStack)
     .flat()
     .filter(Boolean);
 
-const ExperienceCard = ({ experience, index, styles }) => {
-  const isCurrentRole = experience.period.includes("Present");
+const ExperienceItem = ({ experience }) => {
   const hasCompanyLink = experience.company.url && experience.company.url !== "#";
   const visibleStack = flattenStack(experience.techStack).slice(0, 10);
+  const meta = [experience.location, experience.type].filter(Boolean).join(" · ");
 
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-10%" }}
-      transition={{ delay: index * 0.08, duration: 0.45, ease: "easeOut" }}
-      className={`rounded-lg border p-5 md:p-6 ${styles.card}`}
-    >
-      <div className="grid gap-5 lg:grid-cols-[0.78fr_1.22fr]">
-        <div>
-          <div className="flex items-start gap-3">
-            <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${styles.icon}`}>
-              <BriefcaseBusiness size={21} aria-hidden="true" />
-            </div>
-            <div>
-              <div className="flex flex-wrap items-center gap-2">
-                {isCurrentRole && (
-                  <span className={`rounded-md border px-2 py-1 text-xs font-semibold ${styles.currentBadge}`}>
-                    Current
-                  </span>
-                )}
-                {experience.type && (
-                  <span className={`rounded-md border px-2 py-1 text-xs font-medium ${styles.chip}`}>
-                    {experience.type}
-                  </span>
-                )}
-              </div>
-              <h3 className={`mt-3 text-xl font-bold leading-snug ${styles.heading}`}>
-                {experience.role}
-              </h3>
-            </div>
-          </div>
-
-          <div className={`mt-5 space-y-3 text-sm ${styles.text}`}>
-            <div className="flex gap-3">
-              <Building2 size={16} className={`mt-0.5 shrink-0 ${styles.accentText}`} aria-hidden="true" />
-              {hasCompanyLink ? (
-                <a
-                  href={experience.company.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`inline-flex items-center gap-1 font-semibold ${styles.link}`}
-                >
-                  {experience.company.name}
-                  <ExternalLink size={13} aria-hidden="true" />
-                </a>
-              ) : (
-                <span className="font-semibold">{experience.company.name}</span>
-              )}
-            </div>
-            <div className="flex gap-3">
-              <CalendarDays size={16} className={`mt-0.5 shrink-0 ${styles.accentText}`} aria-hidden="true" />
-              <span>{experience.period}</span>
-            </div>
-            {experience.location && (
-              <div className="flex gap-3">
-                <MapPin size={16} className={`mt-0.5 shrink-0 ${styles.accentText}`} aria-hidden="true" />
-                <span>{experience.location}</span>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div>
-          <div className={`rounded-lg border p-4 ${styles.panel}`}>
-            <p className={`text-xs font-semibold uppercase tracking-[0.16em] ${styles.muted}`}>
-              Delivery evidence
-            </p>
-            <div className="mt-3 space-y-3">
-              {experience.highlights.map((highlight) => (
-                <div key={highlight} className="flex gap-3">
-                  <CheckCircle2 size={16} className={`mt-0.5 shrink-0 ${styles.accentText}`} aria-hidden="true" />
-                  <p className={`text-sm leading-relaxed ${styles.text}`}>{highlight}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-4 flex flex-wrap gap-2">
-            {visibleStack.map((tech) => (
-              <span key={tech} className={`rounded-md border px-2.5 py-1 text-xs font-medium ${styles.chip}`}>
-                {tech}
-              </span>
-            ))}
-          </div>
-        </div>
+    <article className="grid gap-6 border-t border-neutral-800 py-10 first:border-t-0 first:pt-0 md:grid-cols-[minmax(0,0.62fr)_minmax(0,1.38fr)] md:gap-10">
+      <div>
+        <h3 className="text-xl font-semibold leading-snug text-white">{experience.role}</h3>
+        {hasCompanyLink ? (
+          <a
+            href={experience.company.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-1 inline-block font-medium text-neutral-300 transition-colors hover:text-cyan-300"
+          >
+            {experience.company.name}
+          </a>
+        ) : (
+          <p className="mt-1 font-medium text-neutral-300">{experience.company.name}</p>
+        )}
+        <p className="mt-3 text-sm text-neutral-400">{experience.period}</p>
+        {meta && <p className="mt-1 text-sm text-neutral-400">{meta}</p>}
       </div>
-    </motion.article>
+
+      <div>
+        <ul className="space-y-3">
+          {experience.highlights.map((highlight) => (
+            <li
+              key={highlight}
+              className="relative pl-5 text-[15px] leading-relaxed text-neutral-300 before:absolute before:left-0 before:top-[0.66em] before:h-1 before:w-1 before:rounded-full before:bg-neutral-500"
+            >
+              {highlight}
+            </li>
+          ))}
+        </ul>
+        <p className="mt-5 text-sm leading-relaxed text-neutral-400">{visibleStack.join(" · ")}</p>
+      </div>
+    </article>
   );
 };
 
-ExperienceCard.propTypes = {
+ExperienceItem.propTypes = {
   experience: PropTypes.shape({
     period: PropTypes.string.isRequired,
     role: PropTypes.string.isRequired,
@@ -126,73 +62,27 @@ ExperienceCard.propTypes = {
     highlights: PropTypes.arrayOf(PropTypes.string).isRequired,
     techStack: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
   }).isRequired,
-  index: PropTypes.number.isRequired,
-  styles: PropTypes.shape({
-    heading: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
-    muted: PropTypes.string.isRequired,
-    card: PropTypes.string.isRequired,
-    panel: PropTypes.string.isRequired,
-    icon: PropTypes.string.isRequired,
-    accentText: PropTypes.string.isRequired,
-    chip: PropTypes.string.isRequired,
-    currentBadge: PropTypes.string.isRequired,
-    link: PropTypes.string.isRequired,
-  }).isRequired,
 };
 
 export default function Experience() {
-  const { currentTheme } = useTheme();
-  const isMinimal = currentTheme === "minimal";
-
-  const styles = {
-    heading: isMinimal ? "text-gray-950" : "text-white",
-    text: isMinimal ? "text-gray-700" : "text-neutral-300",
-    muted: isMinimal ? "text-gray-500" : "text-neutral-400",
-    card: isMinimal
-      ? "bg-white border-gray-200 shadow-lg shadow-gray-200/40"
-      : "bg-neutral-900/65 border-neutral-800 shadow-xl shadow-black/20",
-    panel: isMinimal ? "bg-gray-50 border-gray-200" : "bg-neutral-950/55 border-neutral-800",
-    icon: isMinimal ? "bg-blue-50 text-blue-700" : "bg-cyan-400/10 text-cyan-300",
-    accentText: isMinimal ? "text-blue-600" : "text-cyan-300",
-    chip: isMinimal ? "bg-white border-gray-200 text-gray-700" : "bg-neutral-800 border-neutral-700 text-neutral-300",
-    currentBadge: isMinimal
-      ? "bg-emerald-50 border-emerald-200 text-emerald-700"
-      : "bg-emerald-400/10 border-emerald-400/20 text-emerald-300",
-    link: isMinimal ? "text-blue-700 hover:text-blue-800" : "text-cyan-300 hover:text-cyan-200",
-  };
-
   return (
-    <section className="max-w-6xl mx-auto py-12 px-4 lg:px-8">
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-10%" }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="mb-8 max-w-3xl"
-      >
-        <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${styles.muted}`}>
-          Commercial Track Record
+    <div className="mx-auto max-w-5xl px-4 py-20 md:px-8 md:py-24">
+      <Reveal>
+        <h2 className="text-3xl font-bold leading-tight text-white md:text-4xl">Experience</h2>
+        <p className="mt-4 max-w-2xl text-base leading-relaxed text-neutral-400 md:text-lg">
+          Product delivery, API ownership, deployment work and AI-enabled workflow implementation
+          across freelance, SaaS and Melbourne business environments.
         </p>
-        <SectionHeading level="section" animate={false} className="mt-3">
-          Where I have delivered
-        </SectionHeading>
-        <p className={`mt-4 text-base md:text-lg leading-relaxed ${styles.text}`}>
-          A concise record of product delivery, API ownership, deployment work and AI-enabled workflow
-          implementation across freelance, SaaS and Melbourne business environments.
-        </p>
-      </motion.div>
 
-      <div className="space-y-4">
-        {EXPERIENCES.map((experience, index) => (
-          <ExperienceCard
-            key={`${experience.company.name}-${experience.role}-${experience.period}`}
-            experience={experience}
-            index={index}
-            styles={styles}
-          />
-        ))}
-      </div>
-    </section>
+        <div className="mt-12">
+          {EXPERIENCES.map((experience) => (
+            <ExperienceItem
+              key={`${experience.company.name}-${experience.role}-${experience.period}`}
+              experience={experience}
+            />
+          ))}
+        </div>
+      </Reveal>
+    </div>
   );
 }

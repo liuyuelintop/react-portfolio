@@ -1,31 +1,23 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { motion } from "framer-motion";
-import {
-  BriefcaseBusiness,
-  CheckCircle2,
-  Code2,
-  Handshake,
-  Mail,
-  MessageSquareText,
-  Send,
-} from "lucide-react";
+import { CheckCircle2, Send } from "lucide-react";
 import { CONTACT } from "../../../constants/constants";
-import { useTheme } from "../../../contexts/ThemeContext";
-import { getThemeFocusRing } from "../../../utils/accessibility";
+import { focusRingClasses } from "../../../utils/accessibility";
 
 const MESSAGE_TYPES = [
-  { id: "role", label: "Full-time role", icon: BriefcaseBusiness },
-  { id: "contract", label: "Contract role", icon: Code2 },
-  { id: "freelance", label: "Freelance build", icon: Handshake },
-  { id: "general", label: "General chat", icon: MessageSquareText },
+  { id: "role", label: "Full-time role" },
+  { id: "contract", label: "Contract role" },
+  { id: "freelance", label: "Freelance build" },
+  { id: "general", label: "General chat" },
 ];
 
-const FormField = ({ label, error = "", children, required = false, styles }) => (
+const inputClassName = `w-full rounded-lg border border-neutral-500 bg-neutral-950 px-4 py-3 text-sm text-white placeholder-neutral-500 transition-colors focus:border-cyan-300 focus:outline-none ${focusRingClasses}`;
+
+const FormField = ({ label, error = "", children, required = false }) => (
   <div className="space-y-2">
-    <label className={`block text-sm font-semibold ${styles.heading}`}>
+    <label className="block text-sm font-semibold text-white">
       {label}
-      {required && <span className={styles.accent}> *</span>}
+      {required && <span className="text-cyan-300"> *</span>}
     </label>
     {children}
     {error && <p className="text-xs font-medium text-red-400">{error}</p>}
@@ -37,16 +29,11 @@ FormField.propTypes = {
   error: PropTypes.string,
   children: PropTypes.node.isRequired,
   required: PropTypes.bool,
-  styles: PropTypes.shape({
-    heading: PropTypes.string.isRequired,
-    accent: PropTypes.string.isRequired,
-  }).isRequired,
 };
 
-const MessageTypeSelector = ({ selected, onSelect, styles, focusRing }) => (
+const MessageTypeSelector = ({ selected, onSelect }) => (
   <div className="grid gap-2 sm:grid-cols-2">
     {MESSAGE_TYPES.map((type) => {
-      const Icon = type.icon;
       const isSelected = selected === type.id;
 
       return (
@@ -54,16 +41,14 @@ const MessageTypeSelector = ({ selected, onSelect, styles, focusRing }) => (
           key={type.id}
           type="button"
           onClick={() => onSelect(type.id)}
-          className={`flex items-center gap-3 rounded-lg border p-3 text-left transition-colors ${focusRing} ${
-            isSelected ? styles.selectedOption : styles.option
+          aria-pressed={isSelected}
+          className={`rounded-lg border p-3 text-left text-sm transition-colors ${focusRingClasses} ${
+            isSelected
+              ? "border-cyan-300 font-semibold text-white"
+              : "border-neutral-500 text-neutral-300 hover:border-neutral-300 hover:text-white"
           }`}
         >
-          <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${styles.icon}`}>
-            <Icon size={18} aria-hidden="true" />
-          </span>
-          <span className={`text-sm font-semibold ${isSelected ? styles.selectedText : styles.text}`}>
-            {type.label}
-          </span>
+          {type.label}
         </button>
       );
     })}
@@ -73,59 +58,35 @@ const MessageTypeSelector = ({ selected, onSelect, styles, focusRing }) => (
 MessageTypeSelector.propTypes = {
   selected: PropTypes.string.isRequired,
   onSelect: PropTypes.func.isRequired,
-  styles: PropTypes.shape({
-    selectedOption: PropTypes.string.isRequired,
-    option: PropTypes.string.isRequired,
-    icon: PropTypes.string.isRequired,
-    selectedText: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
-  }).isRequired,
-  focusRing: PropTypes.string.isRequired,
 };
 
-const DraftOpenedNotice = ({ onReset, styles, focusRing }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 16 }}
-    animate={{ opacity: 1, y: 0 }}
-    className={`rounded-lg border p-5 ${styles.successPanel}`}
-  >
+const DraftOpenedNotice = ({ onReset }) => (
+  <div className="rounded-lg border border-neutral-800 p-6">
     <div className="flex gap-3">
-      <CheckCircle2 size={20} className={`mt-0.5 shrink-0 ${styles.accent}`} aria-hidden="true" />
+      <CheckCircle2 size={20} className="mt-0.5 shrink-0 text-cyan-300" aria-hidden="true" />
       <div>
-        <h3 className={`text-lg font-bold ${styles.heading}`}>Email draft opened</h3>
-        <p className={`mt-2 text-sm leading-relaxed ${styles.text}`}>
+        <h3 className="text-lg font-bold text-white">Email draft opened</h3>
+        <p className="mt-2 text-sm leading-relaxed text-neutral-300">
           Your mail app should now contain a pre-filled message. Review it, attach anything useful, then send it from
           your own inbox.
         </p>
         <button
           type="button"
           onClick={onReset}
-          className={`mt-4 rounded-lg px-4 py-2 text-sm font-semibold transition-colors ${styles.secondaryButton} ${focusRing}`}
+          className={`mt-4 rounded-lg border border-neutral-500 px-4 py-2.5 text-sm font-semibold text-neutral-200 transition-colors hover:border-neutral-300 hover:text-white ${focusRingClasses}`}
         >
           Prepare another draft
         </button>
       </div>
     </div>
-  </motion.div>
+  </div>
 );
 
 DraftOpenedNotice.propTypes = {
   onReset: PropTypes.func.isRequired,
-  styles: PropTypes.shape({
-    successPanel: PropTypes.string.isRequired,
-    accent: PropTypes.string.isRequired,
-    heading: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
-    secondaryButton: PropTypes.string.isRequired,
-  }).isRequired,
-  focusRing: PropTypes.string.isRequired,
 };
 
 export default function ProfessionalContactForm() {
-  const { currentTheme } = useTheme();
-  const isMinimal = currentTheme === "minimal";
-  const focusRing = getThemeFocusRing(currentTheme);
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -136,35 +97,6 @@ export default function ProfessionalContactForm() {
   });
   const [errors, setErrors] = useState({});
   const [draftOpened, setDraftOpened] = useState(false);
-
-  const styles = {
-    heading: isMinimal ? "text-gray-950" : "text-white",
-    text: isMinimal ? "text-gray-700" : "text-neutral-300",
-    muted: isMinimal ? "text-gray-500" : "text-neutral-400",
-    card: isMinimal
-      ? "bg-white border-gray-200 shadow-lg shadow-gray-200/40"
-      : "bg-neutral-900/65 border-neutral-800 shadow-xl shadow-black/20",
-    panel: isMinimal ? "bg-gray-50 border-gray-200" : "bg-neutral-950/55 border-neutral-800",
-    icon: isMinimal ? "bg-blue-50 text-blue-700" : "bg-cyan-400/10 text-cyan-300",
-    accent: isMinimal ? "text-blue-600" : "text-cyan-300",
-    input: isMinimal
-      ? "bg-white border-gray-300 text-gray-950 placeholder-gray-400 focus:border-blue-500"
-      : "bg-neutral-950/60 border-neutral-800 text-white placeholder-neutral-500 focus:border-cyan-300",
-    option: isMinimal
-      ? "bg-white border-gray-200 hover:border-gray-300"
-      : "bg-neutral-950/40 border-neutral-800 hover:border-neutral-700",
-    selectedOption: isMinimal
-      ? "bg-blue-50 border-blue-200"
-      : "bg-cyan-400/10 border-cyan-400/25",
-    selectedText: isMinimal ? "text-blue-800" : "text-cyan-100",
-    primaryButton: isMinimal ? "bg-gray-950 text-white hover:bg-gray-800" : "bg-white text-neutral-950 hover:bg-neutral-200",
-    secondaryButton: isMinimal
-      ? "bg-white border border-gray-200 text-gray-700 hover:bg-gray-50"
-      : "bg-neutral-800 border border-neutral-700 text-neutral-300 hover:bg-neutral-700",
-    successPanel: isMinimal ? "bg-blue-50 border-blue-200" : "bg-cyan-400/10 border-cyan-400/20",
-  };
-
-  const inputClassName = `w-full rounded-lg border px-4 py-3 text-sm transition-colors focus:outline-none ${styles.input} ${focusRing}`;
 
   const validateForm = () => {
     const nextErrors = {};
@@ -219,42 +151,27 @@ export default function ProfessionalContactForm() {
   };
 
   if (draftOpened) {
-    return <DraftOpenedNotice onReset={resetDraft} styles={styles} focusRing={focusRing} />;
+    return <DraftOpenedNotice onReset={resetDraft} />;
   }
 
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-10%" }}
-      transition={{ duration: 0.45, ease: "easeOut" }}
-      className={`rounded-lg border p-5 md:p-6 ${styles.card}`}
-    >
-      <div className="flex items-start gap-3">
-        <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${styles.icon}`}>
-          <Mail size={21} aria-hidden="true" />
-        </div>
-        <div>
-          <h3 className={`text-xl font-bold ${styles.heading}`}>Prepare a role note</h3>
-          <p className={`mt-2 text-sm leading-relaxed ${styles.text}`}>
-            This opens a pre-filled email draft to {CONTACT.email}. It is intentionally lightweight so recruiters and
-            hiring managers can start a real conversation quickly.
-          </p>
-        </div>
-      </div>
+    <div className="rounded-lg border border-neutral-800 p-6 md:p-7">
+      <h3 className="text-xl font-bold text-white">Prepare a role note</h3>
+      <p className="mt-2 text-sm leading-relaxed text-neutral-300">
+        This opens a pre-filled email draft to {CONTACT.email}. It is intentionally lightweight so recruiters and
+        hiring managers can start a real conversation quickly.
+      </p>
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-5">
-        <FormField label="Message focus" required styles={styles}>
+        <FormField label="Message focus" required>
           <MessageTypeSelector
             selected={formData.messageType}
             onSelect={(messageType) => setFormData((previous) => ({ ...previous, messageType }))}
-            styles={styles}
-            focusRing={focusRing}
           />
         </FormField>
 
         <div className="grid gap-5 sm:grid-cols-2">
-          <FormField label="Your name" required styles={styles} error={errors.name}>
+          <FormField label="Your name" required error={errors.name}>
             <input
               type="text"
               name="name"
@@ -265,7 +182,7 @@ export default function ProfessionalContactForm() {
             />
           </FormField>
 
-          <FormField label="Email address" required styles={styles} error={errors.email}>
+          <FormField label="Email address" required error={errors.email}>
             <input
               type="email"
               name="email"
@@ -277,7 +194,7 @@ export default function ProfessionalContactForm() {
           </FormField>
         </div>
 
-        <FormField label="Company or team" styles={styles}>
+        <FormField label="Company or team">
           <input
             type="text"
             name="company"
@@ -288,7 +205,7 @@ export default function ProfessionalContactForm() {
           />
         </FormField>
 
-        <FormField label="Subject" required styles={styles} error={errors.subject}>
+        <FormField label="Subject" required error={errors.subject}>
           <input
             type="text"
             name="subject"
@@ -299,7 +216,7 @@ export default function ProfessionalContactForm() {
           />
         </FormField>
 
-        <FormField label="Message" required styles={styles} error={errors.message}>
+        <FormField label="Message" required error={errors.message}>
           <textarea
             name="message"
             value={formData.message}
@@ -312,12 +229,12 @@ export default function ProfessionalContactForm() {
 
         <button
           type="submit"
-          className={`inline-flex w-full items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm font-semibold transition-colors ${styles.primaryButton} ${focusRing}`}
+          className={`inline-flex w-full items-center justify-center gap-2 rounded-lg bg-white px-4 py-3 text-sm font-semibold text-neutral-950 transition-colors hover:bg-neutral-200 ${focusRingClasses}`}
         >
           Open email draft
           <Send size={16} aria-hidden="true" />
         </button>
       </form>
-    </motion.article>
+    </div>
   );
 }
