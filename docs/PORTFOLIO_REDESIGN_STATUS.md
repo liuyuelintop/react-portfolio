@@ -215,56 +215,54 @@ References: [Vite SSR/prerender guidance](https://vite.dev/guide/ssr), [Next.js 
 
 ## 8. Proposed slice plan
 
-Slice 2 is authorised. Later slices remain `NOT_STARTED`.
+Slice 3 is authorised. Later slices remain `NOT_STARTED`.
 
 | Slice | Proposed branch | Agent/model | Dependency | Status |
 | --- | --- | --- | --- | --- |
 | 1. Baseline Audit | `audit/portfolio-redesign-baseline` | Codex Desktop / GPT-5.6 Sol / Extra High | Authorised | `MERGED` |
-| 2. Trust and Discovery | `fix/portfolio-trust-and-discovery` | Codex Desktop / GPT-5.6 Sol / High | Slice 1 merged and owner decisions supplied | `READY_FOR_REVIEW` |
-| 3. Rendering Baseline | `feat/portfolio-rendering-baseline` | Codex Desktop / GPT-5.6 Sol / Extra High | Slice 2 merged and strategy approved | `NOT_STARTED` |
+| 2. Trust and Discovery | `fix/portfolio-trust-and-discovery` | Codex Desktop / GPT-5.6 Sol / High | Slice 1 merged and owner decisions supplied | `MERGED` |
+| 3. Rendering Baseline | `feat/portfolio-rendering-baseline` | Codex Desktop / GPT-5.6 Sol / Extra High | Slice 2 merged and strategy approved | `READY_FOR_REVIEW` |
 | 4. Content-First Redesign | `feat/portfolio-content-first-redesign` | Claude Code / Claude Fable 5 / highest available | Slice 3 merged and design contract approved | `NOT_STARTED` |
 | 5. Case Studies | `feat/portfolio-case-studies` | Claude Code / Claude Sonnet 5 / High | Slice 4 merged and content approved | `NOT_STARTED` |
 | 6. Release Hardening | `test/portfolio-release-hardening` | Codex Desktop / GPT-5.6 Sol / High | Slice 5 merged | `NOT_STARTED` |
 
 ## 9. Current slice status
 
-`PORTFOLIO_SLICE_2_READY_FOR_REVIEW`
+`PORTFOLIO_SLICE_3_READY_FOR_REVIEW`
 
-Sections 3-7 retain the accepted Slice 1 baseline and evidence ledger. Slice 2 started from exact merged `origin/main` SHA `1100b230c2c5a398497e2c4ec303744dac2ef582` on branch `fix/portfolio-trust-and-discovery`. Its scope is limited to confirmed trust, public-link, metadata, and discovery remediations; `/karpathy.md` is now repository-ignored by owner direction and remains untouched.
+Sections 3-7 retain the accepted audit baseline and evidence ledger. Slice 2 merged in `43eb8e916f6380404e5b8db78928cb60958d5cb1`. Slice 3 started from that exact latest `origin/main` SHA on branch `feat/portfolio-rendering-baseline`; no prior slice branch was used.
 
-Implemented fixes:
+Selected architecture and implementation:
 
-- Canonical, `og:url`, portfolio Open Graph/Twitter image, and Person JSON-LD URLs now use `https://www.liuyuelin.dev/` consistently.
-- The existing `1200x630` portfolio social image is published at `/assets/og-image.png`; `robots.txt` and a one-URL `sitemap.xml` expose the canonical homepage.
-- Writing is a labelled first-class desktop/mobile navigation link to `https://blog.liuyuelin.dev/`; the contact chip uses the same label, and the hero social icons have accessible names.
-- Public LinkedIn declarations use the verified canonical URL. The seven-link desktop navigation begins at `lg` so intermediate widths keep the complete mobile menu.
-- CodeInterview still presents Clerk sign-in and is no longer a recruiter-facing link; its existing supporting-project card remains visible with the accurate `Private demo` status.
+- Next.js `16.3.0` App Router with `output: "export"` and trailing-slash static files; no API routes, SSR server, ISR, middleware, Server Actions, runtime cookies/headers, or Vercel-only runtime features.
+- The route-owned Server Component supplies canonical, Open Graph, Twitter, viewport, Apple web-app, and Person JSON-LD metadata. Static metadata routes emit `robots.txt` and the one-URL `sitemap.xml`.
+- `src/App.jsx` is the client boundary for contexts, Framer Motion, modal state, and browser-only effects. Synchronous section imports replace the SPA-wide lazy/Suspense spinner so the complete homepage is prerendered.
+- Existing copy, section order, links, default theme behavior, typewriter, animation, modal content, contact behavior, résumé, OG image, and project images are preserved. `MotionConfig reducedMotion="user"` respects the visitor preference, and a no-script style exposes motion-initialized content without changing the JavaScript experience.
+- Vite entry/configuration and dependencies are removed after equivalent Next.js behavior was verified. React/React DOM are `19.2.8`; Framer Motion remains on major `11` at the first React-19-compatible range used here.
+- Checked-in Vercel configuration maps the deployment output directory to Next.js `out/`, replacing the project's stale Vite `dist/` expectation without a dashboard change or server runtime.
+- `npm run verify:static` deterministically rejects missing hero, experience, project, navigation, canonical/social metadata, JSON-LD, public assets, empty `<main>`, and the obsolete spinner shell.
 
 Verification:
 
-- On 2026-08-06 AEST, the apex returned `308` to `https://www.liuyuelin.dev/`, and the canonical host returned `200`.
-- All Slice 1 HTTP targets were rechecked. The portfolio, résumé, GitHub profile/repos, blog, Melbourne Ultimate, and CodeCraft remained public; LinkedIn returned `999` to an unauthenticated probe; CodeInterview remained Clerk-authenticated.
-- Built output contains the canonical/OG/JSON-LD URLs, sitemap, robots file, and byte-identical social image. No CodeInterview URL exists in public application source.
-- Rendered checks at `1280x720` and `390x844` confirmed the Writing destination in desktop/mobile navigation, native keyboard focusability and visible focus-ring classes, and the non-clickable private-demo treatment.
-- `npm run lint`, `npm run build`, and `git diff --check` pass. The repository has no formatting, type-check, or test script.
+- Clean `npm ci` passes. `npm audit --omit=dev` reports zero production vulnerabilities; the full development tree still reports seven audit findings and was not force-upgraded outside this slice.
+- `npm run lint`, `npm run build`, `npm run verify:static`, and `git diff --check` pass. The build marks `/`, `/robots.txt`, `/sitemap.xml`, and the not-found page as statically prerendered.
+- `out/index.html` is `132872` bytes and yields `13410` text characters, `31` headings, and `18` articles without executing JavaScript. It contains the hero summary, ByteCroniX experience, MoneyGuard project, same-page/Writing navigation, canonical/OG/Twitter metadata, and Person JSON-LD.
+- Local exported-site checks at `390`, `768`, `1024`, and `1280` px found no horizontal overflow and confirmed the intended mobile/desktop navigation and one-/three-column responsive transitions.
+- Desktop and mobile project modals open, render their project image/content, switch tabs, close by keyboard or button, and restore body scroll. Hash navigation, mobile-menu close behavior, typewriter animation, default theme variables, reduced-motion wiring, and focus behavior remain operational with no hydration, console error, or console warning output.
+- Local homepage, robots, sitemap, résumé, and OG image return `200` with the expected content types. Writing, GitHub profile/source links, Melbourne Ultimate, CodeCraft, and ApeUni source returned `200` on 2026-08-06 AEST.
 
-Deferred items:
-
-- The separately owned blog still uses a `vercel.app` Open Graph/Twitter image hostname and has no observed canonical/`og:url`; its apex portfolio backlinks also require a cross-repository update.
-- LinkedIn recruiter-visible content/access, a future public CodeInterview replacement, an Alex public destination, contact details, demo ownership, and all unresolved factual/claim evidence remain owner-confirmation items.
-- The missing manifest and case-study routes remain outside this slice; Slice 3 was not started.
+Case-study routes remain deferred until their content is approved. The blog remains a separate repository and deployment at `https://blog.liuyuelin.dev/`. Slice 4 was not started.
 
 ## 10. Risks and open decisions
 
 1. **Trust:** approve evidence or revised disposition for work rights, role chronology, employer/client ownership, latency, conversion, service count, coverage, downtime, time saved, deployment, AWS cost, and AI privacy claims.
 2. **Public links:** provide a future recruiter-safe CodeInterview replacement if desired; add/approve an Alex source or demo; confirm current contact details and demo ownership.
 3. **Cross-repository metadata:** update the blog's portfolio backlinks, canonical/`og:url`, and social image hostname in the blog-owned repository.
-4. **Rendering:** approve the preferred static-first Next.js path or explicitly select the Vite prerender alternative before Slice 3.
-5. **Content hierarchy:** approve whether Career Snapshot/Working Style/Skills evidence should be consolidated and whether private planning labels should remain public.
-6. **Visual contract:** define screenshot requirements, card/chip/icon limits, motion budget, and reduced-motion behavior before redesign implementation.
-7. **Verification contract:** later slices need explicit automated route HTML, metadata, link, accessibility, responsive, and visual checks rather than relying only on lint/build/manual inspection.
-8. **Documentation drift:** reconcile stale theme/AI/environment statements in existing docs only within a later explicitly authorised scope.
+4. **Content hierarchy:** approve whether Career Snapshot/Working Style/Skills evidence should be consolidated and whether private planning labels should remain public.
+5. **Visual contract:** define screenshot requirements, card/chip/icon limits, motion budget, and reduced-motion behavior before redesign implementation.
+6. **Verification contract:** the static HTML gate is automated; interaction, accessibility, responsive, and visual regression coverage remains manual.
+7. **Development dependencies:** the production dependency audit is clean, while seven development-tree audit findings remain for a separately scoped dependency review.
 
 ## 11. Next authorisation gate
 
-Slice 3 remains unauthorised. It may start only after the Slice 2 PR is independently reviewed, accepted, and merged into `main`, and after the owner explicitly approves the rendering strategy. The next worker must fetch the newly merged `origin/main`; no dependent or stacked branch may start from this branch.
+Slice 4 remains `NOT_STARTED` and unauthorised. It may start only after the Slice 3 PR is independently reviewed, accepted, and merged into `main`, and after the content-first design contract is approved. The next worker must fetch the newly merged `origin/main`; no dependent or stacked branch may start from this branch.

@@ -20,11 +20,6 @@ export const useTypingAnimation = (texts, speed = 100, deleteSpeed = 50, pauseDu
       return () => clearTimeout(pauseTimer);
     }
 
-    if (!isDeleting && currentText === currentFullText) {
-      setIsPaused(true);
-      return;
-    }
-
     const timer = setTimeout(() => {
       if (isDeleting) {
         setCurrentText(currentFullText.substring(0, currentText.length - 1));
@@ -34,7 +29,12 @@ export const useTypingAnimation = (texts, speed = 100, deleteSpeed = 50, pauseDu
           setCurrentIndex((prevIndex) => (prevIndex + 1) % texts.length);
         }
       } else {
-        setCurrentText(currentFullText.substring(0, currentText.length + 1));
+        const nextText = currentFullText.substring(0, currentText.length + 1);
+        setCurrentText(nextText);
+
+        if (nextText === currentFullText) {
+          setIsPaused(true);
+        }
       }
     }, isDeleting ? deleteSpeed : speed);
 

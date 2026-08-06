@@ -37,6 +37,7 @@ npm run dev          # or pnpm run dev
 
 # Production build / local preview of the build
 npm run build
+npm run verify:static
 npm run preview
 
 # Lint (ESLint, React rules, zero-warning policy)
@@ -45,16 +46,18 @@ npm run lint
 
 ## Tech Stack
 
-- **React 18** (function components + hooks only) on **Vite 5**
+- **React 19** (function components + hooks only) on **Next.js 16 App Router**
+- Fully static production output via `output: "export"`; no server runtime features
 - **Tailwind CSS 3** with a custom theme system (see Theming below)
 - **Framer Motion** for animation and scroll-triggered effects
-- **ESLint 8** (`.eslintrc.cjs`) with `react`, `react-hooks`, `react-refresh` plugins
+- **ESLint 9** flat config with Next.js Core Web Vitals, React, and hooks rules
 - **prop-types** for runtime prop validation (no TypeScript)
 - Icons via `lucide-react` and `react-icons`
 
 ## Architecture
 
 ```
+app/                # Route-owned layout, homepage metadata, robots and sitemap
 src/
 ├── components/
 │   ├── layout/      # Navbar
@@ -66,7 +69,7 @@ src/
 ├── hooks/           # Custom hooks (animation, UI)
 ├── utils/           # accessibility, typography
 ├── assets/          # Bundled images
-└── ../public/resume # Static resume PDF served by Vite
+└── ../public/resume # Static resume PDF copied into the export
 ```
 
 ### Content is data-driven — edit `constants/`, not JSX
@@ -79,8 +82,8 @@ import { useTypingAnimation, useScrollProgress } from '../hooks';
 
 Hooks are barrelled in `src/hooks/index.js`; UI components are imported from their folder paths.
 
-### App composition (`src/App.jsx`)
-Provider order is `ThemeProvider > UIProvider > ToastProvider`, then a `Suspense` boundary. Every section is **lazy-loaded** and individually wrapped in an `ErrorBoundary` so one failing section can't take down the page.
+### App composition (`app/page.jsx`, `src/App.jsx`)
+`app/page.jsx` is the static Server Component route and owns homepage metadata plus JSON-LD. `src/App.jsx` is the client boundary for motion, contexts, modal state, and browser effects. Provider order is `MotionConfig > ThemeProvider > UIProvider > ToastProvider`. Sections are imported synchronously so the production export contains their meaningful HTML, and each remains wrapped in an `ErrorBoundary`.
 
 The **currently rendered** sections, in order, are:
 `Hero → CareerSnapshot → WorkingStyle → Experience → Skills → Projects → Contact`.
@@ -88,14 +91,14 @@ The **currently rendered** sections, in order, are:
 The old unmounted Blog, Chatbot, CareerChatbot, GitHubActivity, PersonalBranding and References sections were removed. Do not reintroduce a section unless it is mounted in `App.jsx` and backed by current content data.
 
 ### Theming
-Four themes — Default, Neon, Minimal, Corporate — defined in `src/contexts/ThemeContext.jsx` (`THEMES`), with system-preference detection. Theme-dependent styling switches on `currentTheme`; when adding visual elements, account for all four themes (see `getBackgroundGradient` in `App.jsx` for the pattern).
+The runtime currently exposes the default theme. Dormant Neon, Minimal, and Corporate styling branches remain in theme-dependent components; do not remove or expand them without explicit scope.
 
 ### Accessibility
 Targets WCAG AA. A skip link is injected at runtime, and keyboard shortcuts (defined in `src/hooks/useKeyboardShortcuts.js`) use **Alt + key**:
 `H` hero · `W` working style · `E` experience · `S` skills · `P` projects · `C` contact · `?` help.
 
 ### Environment variables
-Vite loads `.env` automatically. Variables must be `VITE_`-prefixed. The current live portfolio does not require environment variables for the resume link.
+Next.js loads `.env` automatically. Only variables intentionally exposed to browser code should be `NEXT_PUBLIC_`-prefixed. The current live portfolio does not require environment variables for the resume link.
 
 ```env
 # Add only variables used by live code.
@@ -105,5 +108,5 @@ Vite loads `.env` automatically. Variables must be `VITE_`-prefixed. The current
 
 - **No TypeScript.** Validate props with `prop-types`.
 - Keep new content in `constants/`; keep components presentational and mapping over that data.
-- New sections should be lazy-loaded and wrapped in `ErrorBoundary` in `App.jsx`, matching the existing pattern.
+- New sections should be synchronously mounted and wrapped in `ErrorBoundary` in `App.jsx` so static output remains content-complete.
 - Don't commit secrets. `.env` is local; never hardcode keys.

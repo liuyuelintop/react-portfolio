@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
