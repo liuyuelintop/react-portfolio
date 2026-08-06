@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import Link from "next/link";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import OptimizedImage from "../../ui/common/OptimizedImage";
 import { focusRingClasses } from "../../../utils/accessibility";
@@ -35,15 +36,26 @@ const ProjectCard = ({ project, index, onReadMore }) => {
         <p className="mt-4 text-sm text-neutral-400">{tags.join(" · ")}</p>
 
         <div className="mt-6 flex flex-wrap gap-3">
-          <button
-            type="button"
-            onClick={onReadMore}
-            className={`inline-flex items-center justify-center gap-2 rounded-lg bg-white px-5 py-3 text-sm font-semibold text-neutral-950 transition-colors hover:bg-neutral-200 ${focusRingClasses}`}
-            aria-label={`Read more about ${project.title}`}
-          >
-            View case study
-            <ArrowRight size={16} aria-hidden="true" />
-          </button>
+          {project.caseStudyHref ? (
+            <Link
+              href={project.caseStudyHref}
+              className={`inline-flex items-center justify-center gap-2 rounded-lg bg-white px-5 py-3 text-sm font-semibold text-neutral-950 transition-colors hover:bg-neutral-200 ${focusRingClasses}`}
+              aria-label={`Read the ${project.title} case study`}
+            >
+              Read case study
+              <ArrowRight size={16} aria-hidden="true" />
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={onReadMore}
+              className={`inline-flex items-center justify-center gap-2 rounded-lg bg-white px-5 py-3 text-sm font-semibold text-neutral-950 transition-colors hover:bg-neutral-200 ${focusRingClasses}`}
+              aria-label={`Read more about ${project.title}`}
+            >
+              View case study
+              <ArrowRight size={16} aria-hidden="true" />
+            </button>
+          )}
 
           {externalUrl && (
             <a
@@ -76,6 +88,7 @@ ProjectCard.propTypes = {
     roleFit: PropTypes.string,
     url: PropTypes.string,
     github: PropTypes.string,
+    caseStudyHref: PropTypes.string,
   }).isRequired,
   index: PropTypes.number.isRequired,
   onReadMore: PropTypes.func.isRequired,

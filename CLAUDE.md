@@ -30,7 +30,8 @@ This is a React 19 portfolio application built with the Next.js 16 App Router an
 
 ### Component Structure
 ```
-app/                       # Static route, metadata, robots and sitemap
+app/                       # Static routes, metadata, robots and sitemap
+  work/[slug]/page.jsx     # Static case-study route (see AGENTS.md)
 src/
 ├── components/
 │   ├── layout/           # Navigation and layout (Navbar)
@@ -48,6 +49,7 @@ src/
 - **Client interactions**: Motion, modal, navigation, form, and browser effects
 - **Accessibility**: WCAG AA compliance with keyboard shortcuts (Alt+H/W/E/B/C)
 - **Project Gallery**: 3-component architecture (ProjectCard, ProjectModal, LiveDemoPreview)
+- **Case studies**: static `/work/<slug>/` routes driven by `src/constants/caseStudies.js`; a project entry opts in with `caseStudyHref`
 - **Animations**: Framer Motion with scroll-triggered effects
 
 ### Environment Variables
@@ -69,5 +71,5 @@ import { useKeyboardShortcuts, useUI } from '../hooks';
 - No existing tests - determine testing approach by examining codebase
 - npm and `package-lock.json` are the production package-manager contract
 - ESLint uses the Next.js Core Web Vitals flat configuration
-- `npm run verify:static` checks the generated homepage HTML and required public assets
+- `npm run verify:static` checks the generated homepage and case-study HTML, the sitemap, and required public assets
 - Clean component architecture with logical separation of concerns
