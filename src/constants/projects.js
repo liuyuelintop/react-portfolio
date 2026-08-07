@@ -68,27 +68,28 @@ export const PROJECTS = [
     year: "2025",
   },
   {
-    title: "Melbourne University Ultimate Club Platform",
+    title: "Ultimate Frisbee Club Website (Melbourne University)",
     image: projectImages.melbUniUltimate,
     roleFit:
-      "Local product ownership, community workflows and maintainable Next.js delivery.",
+      "Sole developer: relational modelling in MongoDB, server-side privacy filtering and serverless-safe data access.",
     description: {
       summary:
-        "An open-source Next.js 15 platform for sports club management, player stats and community engagement.",
+        "A Next.js 15 and MongoDB club website covering roster, tournament selection, events, announcements and alumni behind an admin dashboard.",
       detailed:
-        "This project shows practical product thinking: it translates a real local community need into maintainable workflows for events, announcements, player statistics and responsive dashboards.",
+        "A solo build for one university club: nine Mongoose schemas behind 21 Next.js route handlers, with tournament selection modelled as a normalised join collection and member contact details redacted server-side by role rather than hidden in the UI.",
       features: [
-        "Architected a modular open-source template for sports club management",
-        "Implemented player statistics tracking, events, announcements and community workflows",
-        "Used Next.js 15 server-side logic and optimized layouts for multi-device dashboards",
-        "Designed a maintainable base that can be adapted by other clubs and teams",
+        "Modelled tournament rosters as a normalised join collection with a compound unique index on tournament, team and player, so duplicate selections are rejected by the database rather than by application code.",
+        "Redacted personal fields (email, phone, LinkedIn, employer) server-side according to session role, so unauthorised clients never receive the data instead of merely not displaying it.",
+        "Cached the Mongoose connection promise across serverless invocations, with failure-path invalidation, to avoid exhausting the database connection pool on Vercel.",
+        "Built a generic typed fetch hook and a CRUD hook composed on it, reused across thirteen resource hooks, and diagnosed an effect-dependency re-render loop by snapshotting request options in a ref.",
+        "Adapted data-dense admin tables for small screens with responsive layout and larger touch targets.",
       ],
     },
     url: "https://melb-uni-ultimate.vercel.app",
     technologies: {
       main: ["Next.js 15", "TypeScript", "MongoDB", "Tailwind CSS"],
-      additional: ["shadcn/ui", "Responsive UI", "Vercel", "Open Source"],
-      others: ["Club Management", "Player Statistics"],
+      additional: ["shadcn/ui", "Responsive UI", "Vercel"],
+      others: ["Club Management", "Roster Management"],
     },
     year: "2025",
   },
