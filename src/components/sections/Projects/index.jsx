@@ -43,7 +43,7 @@ export default function Projects() {
                 </div>
 
                 <div className="mt-20">
-                    <h3 className="text-xl font-bold text-white">Supporting Builds</h3>
+                    <h3 className="text-xl font-bold text-white">Additional Work</h3>
                     <ul className="mt-5 divide-y divide-neutral-800 border-t border-neutral-800">
                         {SUPPORTING_PROJECTS.map((project) => (
                             <li key={project.title} className="py-4">
