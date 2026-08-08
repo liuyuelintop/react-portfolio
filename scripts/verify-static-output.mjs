@@ -32,14 +32,20 @@ const requiredContent = [
   "MoneyGuard AI Finance Pipeline",
   "Melbourne University Ultimate Club Platform",
   "Additional Work",
-  // ALEX is secondary work, presented as a course-based study with its
-  // attribution and the five-role wording intact.
+  // ALEX is learning evidence, not owned work: the course attribution, the
+  // five-role wording and the attributable contributions must all survive.
+  "Learning & Contributions",
   "ALEX — AWS Multi-Agent Architecture Study",
   "Course-based study",
   "Adapted Ed Donner",
   "Udemy ALEX capstone",
   "SQS-backed five-role portfolio-analysis workflow",
   "Terraform-defined AWS architecture",
+  "What I contributed",
+  "A database verification utility.",
+  "Corrections to the Planner test harness.",
+  "Corrections to the setup guide and documentation.",
+  "Documented Nova model and AWS region feedback.",
   // Experience
   "ByteCroniX - AI SaaS Platform",
   // How I Build
@@ -136,16 +142,31 @@ assert.ok(
   "Melbourne University Ultimate must not receive an empty case-study route",
 );
 
-// --- ALEX is demoted to Additional Work --------------------------------------
+// --- ALEX is learning evidence, not a flagship -------------------------------
 
-// ALEX is a secondary row: it must sit under the Additional Work heading, with
-// no modal trigger, no case study, and no live or source link of its own.
-const additionalWorkIndex = text.indexOf("Additional Work");
-const alexIndex = text.indexOf("ALEX — AWS Multi-Agent Architecture Study");
-assert.ok(
-  additionalWorkIndex !== -1 && alexIndex > additionalWorkIndex,
-  "ALEX must render inside Additional Work, not as flagship Selected Work",
-);
+// ALEX belongs to Learning & Contributions, which sits after both flagship
+// projects and before Additional Work. It has no modal trigger, no case study
+// and no live or source link of its own.
+const orderedHomepageMarkers = [
+  "MoneyGuard AI Finance Pipeline",
+  "Melbourne University Ultimate Club Platform",
+  "Learning & Contributions",
+  "ALEX — AWS Multi-Agent Architecture Study",
+  "What I contributed",
+  "Additional Work",
+];
+
+let previousMarkerIndex = -1;
+for (const marker of orderedHomepageMarkers) {
+  const index = text.indexOf(marker);
+  assert.ok(index !== -1, `Missing homepage work-hierarchy marker: ${marker}`);
+  assert.ok(
+    index > previousMarkerIndex,
+    `Homepage work hierarchy is out of order at: ${marker}`,
+  );
+  previousMarkerIndex = index;
+}
+
 assert.ok(
   !/aria-label="[^"]*\bALEX\b[^"]*"/i.test(html),
   "ALEX must not expose a modal trigger or link of its own",

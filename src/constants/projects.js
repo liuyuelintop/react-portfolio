@@ -45,13 +45,26 @@ export const PROJECTS = [
   },
 ];
 
+// Not owned work: this is architecture Yuelin studied rather than authored, so
+// it is presented as learning evidence and never as a flagship project. Every
+// contribution below is directly attributable; the surrounding architecture is
+// course material.
+export const ARCHITECTURE_STUDY = {
+  intro:
+    "Recent architecture I studied hands-on, and the corrections that came out of it.",
+  title: "ALEX — AWS Multi-Agent Architecture Study",
+  status: "Course-based study",
+  summary:
+    "Adapted Ed Donner’s Udemy ALEX capstone locally to study an SQS-backed five-role portfolio-analysis workflow and Terraform-defined AWS architecture.",
+  contributions: [
+    "A database verification utility.",
+    "Corrections to the Planner test harness.",
+    "Corrections to the setup guide and documentation.",
+    "Documented Nova model and AWS region feedback.",
+  ],
+};
+
 export const SUPPORTING_PROJECTS = [
-  {
-    title: "ALEX — AWS Multi-Agent Architecture Study",
-    summary:
-      "Adapted Ed Donner’s Udemy ALEX capstone locally to study an SQS-backed five-role portfolio-analysis workflow and Terraform-defined AWS architecture, with contributions to database verification, Planner testing and guide corrections.",
-    status: "Course-based study",
-  },
   {
     title: "SaaS IDE Platform",
     summary:
