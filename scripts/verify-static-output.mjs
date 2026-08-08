@@ -30,7 +30,22 @@ const requiredContent = [
   // Selected Work
   "Selected Work",
   "MoneyGuard AI Finance Pipeline",
-  "Supporting Builds",
+  "Melbourne University Ultimate Club Platform",
+  "Additional Work",
+  // ALEX is learning evidence, not owned work: the course attribution, the
+  // five-role wording and the attributable contributions must all survive.
+  "Learning & Contributions",
+  "ALEX — AWS Multi-Agent Architecture Study",
+  "Course-based study",
+  "Adapted Ed Donner",
+  "Udemy ALEX capstone",
+  "SQS-backed five-role portfolio-analysis workflow",
+  "Terraform-defined AWS architecture",
+  "What I contributed",
+  "A database verification utility.",
+  "Corrections to the Planner test harness.",
+  "Corrections to the setup guide and documentation.",
+  "Documented Nova model and AWS region feedback.",
   // Experience
   "ByteCroniX - AI SaaS Platform",
   // How I Build
@@ -117,17 +132,77 @@ assert.ok(
   html.includes('href="https://github.com/liuyuelintop/moneyguard-pipeline"'),
   "Homepage is missing the MoneyGuard public source link",
 );
-for (const modalLabel of [
-  "Read more about Alex - AWS Multi-Agent Wealth Platform",
-  "Read more about Melbourne University Ultimate Club Platform",
-]) {
-  assert.ok(html.includes(`aria-label="${modalLabel}"`), `Homepage is missing modal trigger: ${modalLabel}`);
-}
+assert.ok(
+  html.includes('aria-label="Read more about Melbourne University Ultimate Club Platform"'),
+  "Homepage is missing the Melbourne University Ultimate modal trigger",
+);
 assert.ok(!html.includes('href="/work/alex/"'), "Alex must not receive an empty case-study route");
 assert.ok(
   !html.includes('href="/work/melbourne-university-ultimate/"'),
   "Melbourne University Ultimate must not receive an empty case-study route",
 );
+
+// --- ALEX is learning evidence, not a flagship -------------------------------
+
+// ALEX belongs to Learning & Contributions, which sits after both flagship
+// projects and before Additional Work. It has no modal trigger, no case study
+// and no live or source link of its own.
+const orderedHomepageMarkers = [
+  "MoneyGuard AI Finance Pipeline",
+  "Melbourne University Ultimate Club Platform",
+  "Learning & Contributions",
+  "ALEX — AWS Multi-Agent Architecture Study",
+  "What I contributed",
+  "Additional Work",
+];
+
+let previousMarkerIndex = -1;
+for (const marker of orderedHomepageMarkers) {
+  const index = text.indexOf(marker);
+  assert.ok(index !== -1, `Missing homepage work-hierarchy marker: ${marker}`);
+  assert.ok(
+    index > previousMarkerIndex,
+    `Homepage work hierarchy is out of order at: ${marker}`,
+  );
+  previousMarkerIndex = index;
+}
+
+assert.ok(
+  !/aria-label="[^"]*\bALEX\b[^"]*"/i.test(html),
+  "ALEX must not expose a modal trigger or link of its own",
+);
+
+const bannedAlexLanguage = [
+  // Previous flagship positioning.
+  "Alex - AWS Multi-Agent Wealth Platform",
+  "wealth-planning",
+  "Orchestrated five domain agents",
+  // Unsupported cost, performance and infrastructure claims.
+  "reducing vector storage cost by ~90%",
+  "vector storage cost by ~90%",
+  "eight Terraform stages",
+  "least-privilege IAM",
+  // Unproven deployment, observability and concurrency.
+  "production observability",
+  "production-shaped",
+  "production-grade",
+  "enterprise-grade",
+  "enterprise guardrails",
+  "agents in parallel",
+  "parallel agents",
+  "in parallel",
+  "currently deployed",
+  "deployed serverless",
+  "production deployment",
+];
+
+const lowerHomepageText = text.toLowerCase();
+for (const phrase of bannedAlexLanguage) {
+  assert.ok(
+    !lowerHomepageText.includes(phrase.toLowerCase()),
+    `Homepage contains a rejected ALEX claim: ${phrase}`,
+  );
+}
 
 // --- MoneyGuard case study ---------------------------------------------------
 
@@ -332,18 +407,23 @@ assert.ok(
   sitemap.includes("<loc>https://www.liuyuelin.dev/work/moneyguard/</loc>"),
   "Sitemap is missing the MoneyGuard case-study route",
 );
+assert.ok(
+  !sitemap.includes("/work/alex/"),
+  "Sitemap must not advertise an ALEX case-study route",
+);
 
 const emittedMedia = await readdir(path.join(outputDirectory, "_next/static/media"));
-for (const imageName of [
-  "moneyguard-ai-finance-pipeline",
-  "alex-aws-multi-agent-wealth-platform",
-  "melbUniUltimate",
-]) {
+for (const imageName of ["moneyguard-ai-finance-pipeline", "melbUniUltimate"]) {
   assert.ok(
     emittedMedia.some((file) => file.startsWith(`${imageName}.`) && file.endsWith(".webp")),
     `Bundled project image is missing: ${imageName}`,
   );
 }
+
+assert.ok(
+  emittedMedia.every((file) => !file.startsWith("alex-aws-multi-agent-wealth-platform.")),
+  "The ALEX flagship screenshot must no longer be bundled into the static export",
+);
 
 console.log(
   "Static output verified: homepage and MoneyGuard case study render meaningful HTML with correct metadata, links, privacy language and public assets.",

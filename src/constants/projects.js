@@ -19,55 +19,6 @@ export const PROJECTS = [
     year: "2026",
   },
   {
-    title: "Alex - AWS Multi-Agent Wealth Platform",
-    image: projectImages.alexAwsMultiAgentWealthPlatform,
-    roleFit:
-      "Serverless AWS architecture, agent orchestration, production observability and full-stack delivery.",
-    description: {
-      summary:
-        "A cloud-native wealth-planning product where five AI agents coordinate planning, reporting and retirement workflows on AWS.",
-      detailed:
-        "Alex is a September 2025 engineering build focused on turning a multi-agent wealth-planning concept into production-shaped cloud infrastructure. It connects a Next.js + Clerk interface to Bedrock-backed agent workflows, async Lambda + SQS jobs, Aurora Serverless v2 persistence, S3 Vectors RAG, Terraform-defined infrastructure, and LangFuse/CloudWatch observability.",
-      features: [
-        "Orchestrated five domain agents for planning, tagging, reporting, investment-charter generation and retirement analysis through event-driven AWS workflows.",
-        "Built async Lambda + SQS execution with structured outputs, tool calls, database writes and retry paths so agent work is observable instead of opaque.",
-        "Designed a cost-conscious RAG layer with S3 Vectors and SageMaker embeddings, reducing vector storage cost by ~90% versus an OpenSearch-style setup.",
-        "Provisioned eight Terraform stages covering permissions, research ingestion, agents, frontend delivery and enterprise guardrails.",
-        "Exposed the system through a Next.js + Clerk frontend behind CloudFront/API Gateway, with LangFuse traces, CloudWatch dashboards, throttling and least-privilege IAM.",
-      ],
-    },
-    technologies: {
-      main: [
-        "Next.js",
-        "TypeScript",
-        "Amazon Bedrock",
-        "Terraform",
-        "AWS Lambda",
-        "Amazon SQS",
-      ],
-      additional: [
-        "Aurora Serverless v2",
-        "S3 Vectors",
-        "SageMaker",
-        "App Runner",
-        "CloudFront",
-        "API Gateway",
-        "Clerk",
-        "LangFuse",
-        "CloudWatch",
-      ],
-      others: [
-        "OpenAI Agents SDK",
-        "Agentic Workflows",
-        "RAG",
-        "Infrastructure as Code",
-        "LLM Observability",
-        "Serverless Architecture",
-      ],
-    },
-    year: "2025",
-  },
-  {
     title: "Melbourne University Ultimate Club Platform",
     image: projectImages.melbUniUltimate,
     roleFit:
@@ -93,6 +44,25 @@ export const PROJECTS = [
     year: "2025",
   },
 ];
+
+// Not owned work: this is architecture Yuelin studied rather than authored, so
+// it is presented as learning evidence and never as a flagship project. Every
+// contribution below is directly attributable; the surrounding architecture is
+// course material.
+export const ARCHITECTURE_STUDY = {
+  intro:
+    "Recent architecture I studied hands-on, and the corrections that came out of it.",
+  title: "ALEX — AWS Multi-Agent Architecture Study",
+  status: "Course-based study",
+  summary:
+    "Adapted Ed Donner’s Udemy ALEX capstone locally to study an SQS-backed five-role portfolio-analysis workflow and Terraform-defined AWS architecture.",
+  contributions: [
+    "A database verification utility.",
+    "Corrections to the Planner test harness.",
+    "Corrections to the setup guide and documentation.",
+    "Documented Nova model and AWS region feedback.",
+  ],
+};
 
 export const SUPPORTING_PROJECTS = [
   {
