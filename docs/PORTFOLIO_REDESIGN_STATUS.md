@@ -1,6 +1,6 @@
 # Portfolio Redesign Status
 
-Last updated: 2026-08-06 AEST (Slice 5 delivery)
+Last updated: 2026-08-08 AEST (Content Alignment Release, ALEX checkpoint)
 Canonical redesign record for `www.liuyuelin.dev`.
 
 ## 1. Goal and non-goals
@@ -215,7 +215,7 @@ References: [Vite SSR/prerender guidance](https://vite.dev/guide/ssr), [Next.js 
 
 ## 8. Proposed slice plan
 
-Slice 5 is delivered and awaiting visual review. Slice 6 remains `NOT_STARTED`.
+Slice 5 is merged. The Content Alignment Release is in progress on a draft PR. Slice 6 remains `NOT_STARTED`.
 
 | Slice | Branch | Agent/model | Dependency | Status |
 | --- | --- | --- | --- | --- |
@@ -223,16 +223,45 @@ Slice 5 is delivered and awaiting visual review. Slice 6 remains `NOT_STARTED`.
 | 2. Trust and Discovery | `fix/portfolio-trust-and-discovery` | Codex Desktop / GPT-5.6 Sol / High | Slice 1 merged and owner decisions supplied | `MERGED` |
 | 3. Rendering Baseline | `feat/portfolio-rendering-baseline` | Codex Desktop / GPT-5.6 Sol / Extra High | Slice 2 merged and strategy approved | `MERGED` |
 | 4. Content-First Redesign | `claude/portfolio-content-first-redesign-qtds3c` | Claude Code / Claude Fable 5 / highest available | Slice 3 merged and design contract approved | `MERGED` |
-| 5. Case Studies (MoneyGuard only) | `claude/portfolio-moneyguard-slice-5-ungd77` | Claude Code / Claude Opus 5 / High | Slice 4 merged and content approved | `READY_FOR_VISUAL_REVIEW` |
-| 6. Release Hardening | `test/portfolio-release-hardening` | Codex Desktop / GPT-5.6 Sol / High | Slice 5 merged | `NOT_STARTED` |
+| 5. Case Studies (MoneyGuard only) | `claude/portfolio-moneyguard-slice-5-ungd77` | Claude Code / Claude Opus 5 / High | Slice 4 merged and content approved | `MERGED` |
+| Content Alignment Release | `claude/portfolio-align-reposition-alex-hw29j2` | Claude Code / Claude Opus 5 / High | Slice 5 merged and evidence audit accepted | `IN_PROGRESS_DRAFT_PR` |
+| 6. Release Hardening | `test/portfolio-release-hardening` | Codex Desktop / GPT-5.6 Sol / High | Content Alignment Release merged | `NOT_STARTED` |
 
-The Slice 4 branch was proposed as `feat/portfolio-content-first-redesign`; the executing Claude Code remote platform assigns and enforces its own branch name, so the slice was delivered on `claude/portfolio-content-first-redesign-qtds3c` with the same baseline, scope and PR contract. Slice 5 was proposed as `feat/portfolio-case-studies` and was delivered on the platform-enforced `claude/portfolio-moneyguard-slice-5-ungd77` for the same reason, from the required baseline `0420e6c909b6b59c7d8c47648bef0453ace60401`.
+The Slice 4 branch was proposed as `feat/portfolio-content-first-redesign`; the executing Claude Code remote platform assigns and enforces its own branch name, so the slice was delivered on `claude/portfolio-content-first-redesign-qtds3c` with the same baseline, scope and PR contract. Slice 5 was proposed as `feat/portfolio-case-studies` and was delivered on the platform-enforced `claude/portfolio-moneyguard-slice-5-ungd77` for the same reason, from the required baseline `0420e6c909b6b59c7d8c47648bef0453ace60401`. The Content Alignment Release was proposed as `feat/portfolio-content-alignment-release` and is being delivered on the platform-enforced `claude/portfolio-align-reposition-alex-hw29j2` for the same reason, from the required baseline `3d8992e4c4f4578c0edbd758d93ced8351c34d81`.
+
+The Content Alignment Release is a multi-checkpoint release on one branch and one draft PR, not a single-slice change. That is a deliberate exception to the one-branch-one-cohesive-PR rule in section 2: its checkpoints all revise public claims against the same evidence audit, and the owner reviews them together on one Vercel preview before the PR leaves draft.
 
 ## 9. Current slice status
 
-`PORTFOLIO_SLICE_5_READY_FOR_VISUAL_REVIEW`
+`PORTFOLIO_CONTENT_ALIGNMENT_ALEX_READY`
 
-Sections 3-7 retain the accepted audit baseline and evidence ledger. Slice 4 merged in `0420e6c909b6b59c7d8c47648bef0453ace60401`. Slice 5 started from that exact latest `origin/main` SHA on branch `claude/portfolio-moneyguard-slice-5-ungd77`; no prior slice branch was used and no branch was stacked.
+Sections 3-7 retain the accepted audit baseline and evidence ledger. Where a later release changes public wording that section 6 recorded, the ledger row stays as the historical audit finding and the change is recorded here instead.
+
+### Content Alignment Release — ALEX checkpoint
+
+Slice 5 merged in `3d8992e4c4f4578c0edbd758d93ced8351c34d81`. The Content Alignment Release started from that exact latest `origin/main` SHA on branch `claude/portfolio-align-reposition-alex-hw29j2`; no prior slice branch was reused, no branch was stacked, and the separate unmerged Melbourne audit branch (`claude/melb-ultimate-audit-pl7z8l`) was not merged or cherry-picked. It will be reconciled later on this same branch.
+
+Evidence baseline for this checkpoint: `ae07a44cf49f66af807067282db21b299733a374` in the owner's local `ed-ai-in-production-alex` repository, inspected read-only and not modified.
+
+Accepted finding: ALEX is primarily a course-based reference implementation derived from Ed Donner's Udemy capstone. The original architecture and the majority of repository history are course or starter material. Directly attributable contributions are a database verification utility, Planner testing/harness corrections, guide and documentation corrections, and documented Nova/region feedback. The source implements a five-role portfolio-analysis workflow; it is **not** verified as five deployed autonomous agents, downstream Lambda invocation is not proven parallel, AWS deployment and current runtime deployment are unverified, `~90% cheaper than OpenSearch` is unsupported, `<1 minute` performance is unverified, `eight Terraform stages` is inaccurate (seven Terraform root configurations exist), `least-privilege IAM` is contradicted by broader shared policies, and LangFuse/CloudWatch source definitions do not prove production observability.
+
+Product decision as implemented, in two checkpoints on this branch:
+
+- `43e8389` removed ALEX from the flagship `PROJECTS` array and from modal presentation, and renamed the secondary heading `Supporting Builds` to `Additional Work`. The flagship object was deleted outright rather than hidden, so the rejected claims left the source with it: overall-architecture ownership, deployed five-agent collaboration, parallel execution, production deployment, production observability, the `~90%` vector-storage saving, `eight Terraform stages`, `least-privilege IAM`, and enterprise guardrails. The orphaned image import was dropped from `src/constants/assets.js`; the `.webp` asset itself is retained on disk for later release cleanup.
+- `b13b9e3` followed owner review of the Vercel preview. Two flagship rows read as thin, and a one-line secondary row had no room for the contribution evidence. ALEX was **not** promoted back into Selected Work, because the ownership claim would remain false. Instead a `Learning & Contributions` block was added between the flagship projects and Additional Work, backed by a new `ARCHITECTURE_STUDY` constant in `src/constants/projects.js`, so the claim being made matches what the evidence supports.
+
+Public ALEX presentation after this checkpoint: title `ALEX — AWS Multi-Agent Architecture Study`, status `Course-based study`, a summary crediting Ed Donner's Udemy capstone and describing the SQS-backed five-role portfolio-analysis workflow and Terraform-defined AWS architecture, and a `What I contributed` list of the four attributable contributions. It has no live link, no source link, no case-study route and no modal trigger, and uses the same restrained typography as the Additional Work rows — no screenshot, badge or card. Selected Work stays at MoneyGuard and Melbourne University Ultimate, neither otherwise rewritten. Whether to promote a genuinely-owned third flagship is an open owner decision deferred to a later pass of this release.
+
+Verification for the ALEX checkpoint:
+
+- `npm ci`, `npm run lint`, `npm run build`, `npm run verify:static` and `git diff --check` all pass. `npm audit --omit=dev` reports zero production vulnerabilities.
+- `verify:static` now pins the whole homepage work hierarchy in document order (MoneyGuard → Melbourne → Learning & Contributions → ALEX → What I contributed → Additional Work) and asserts the title, status, Ed Donner attribution, five-role wording and each contribution line verbatim. It rejects any `aria-label` containing `ALEX`, the previous flagship title, and eighteen banned claim phrases including `reducing vector storage cost by ~90%`, `eight Terraform stages`, `least-privilege IAM`, parallel-agent wording and current-deployment wording. It also asserts that no `/work/alex/` route, sitemap entry or bundled ALEX screenshot exists. Every new assertion was negative-tested against a deliberately mutated build. No existing homepage or MoneyGuard assertion was weakened.
+- Headless Chromium on the exported site at 390/1024/1280 px: no horizontal overflow, no hydration warnings, exactly two flagship rows, correct block order, ALEX non-interactive with typography matching its Additional Work peers and no image in its block, all four contribution lines rendered, and unchanged MoneyGuard case-study link and Melbourne modal open/Escape behaviour. With JavaScript disabled the homepage renders 6,836 characters of meaningful text including the entire Learning & Contributions block. Console shows only the sandbox-blocked Google Fonts fetch and the pre-existing `favicon.ico` 404.
+- No change to the résumé PDF, Experience, Hero, How I Build, MoneyGuard content or case study, Melbourne University Ultimate wording, employment dates, metrics, unrelated metadata, project assets or dependencies.
+
+### Slice 5 record (accepted)
+
+Slice 4 merged in `0420e6c909b6b59c7d8c47648bef0453ace60401`. Slice 5 started from that exact latest `origin/main` SHA on branch `claude/portfolio-moneyguard-slice-5-ungd77`; no prior slice branch was used and no branch was stacked.
 
 Slice 5 approved scope: establish a reusable static case-study route system and publish exactly one case study, `/work/moneyguard/`. Case-study routes for Alex, Melbourne University Ultimate and the supporting builds were **not** created — their ownership, deployment and claim evidence are unresolved — and no placeholder or empty route was added for them.
 
@@ -307,16 +336,22 @@ Case-study routes for Alex, Melbourne University Ultimate and the supporting bui
 ## 10. Risks and open decisions
 
 1. **Trust:** approve evidence or revised disposition for work rights, role chronology, employer/client ownership, latency, conversion, service count, coverage, downtime, time saved, deployment, AWS cost, and AI privacy claims.
-2. **Public links:** provide a future recruiter-safe CodeInterview replacement if desired; add/approve an Alex source or demo; confirm current contact details and demo ownership.
+2. **Public links:** provide a future recruiter-safe CodeInterview replacement if desired; confirm current contact details and demo ownership. The open Alex source/demo item is closed by the Content Alignment Release: ALEX is presented as a course-based study with no link, so no source or demo is owed.
 3. **Cross-repository metadata:** update the blog's portfolio backlinks, canonical/`og:url`, and social image hostname in the blog-owned repository.
 4. **Verification contract:** the static HTML gate is automated; interaction, accessibility, responsive, and visual regression coverage remains manual.
 5. **Development dependencies:** the production dependency audit is clean, while seven development-tree audit findings remain for a separately scoped dependency review.
 
 ## 11. Next authorisation gate
 
-Slice 6 remains `NOT_STARTED` and unauthorised. It may start only after the Slice 5 PR is independently reviewed, accepted, and merged into `main`. The next worker must fetch the newly merged `origin/main`; no dependent or stacked branch may start from this branch.
+The Slice 5 PR was reviewed, accepted and merged into `main` as `3d8992e4c4f4578c0edbd758d93ced8351c34d81`, which satisfies the previous gate. The Content Alignment Release now holds the gate: Slice 6 remains `NOT_STARTED` and unauthorised, and may start only after the Content Alignment PR is independently reviewed, accepted, and merged into `main`. The next worker must fetch the newly merged `origin/main`; no dependent or stacked branch may start from the Content Alignment branch.
 
-Two Slice 5 decisions need owner judgment before Slice 6:
+Three decisions need owner judgment before the Content Alignment PR leaves draft:
+
+1. **Selected Work now holds two flagship projects.** The owner reviewed the preview and found two rows thin. ALEX was deliberately not used to fill the gap, because it is not owned work. Promoting a genuinely-owned third flagship — ApeUni FIB Extractor, whose dual-packaging claim is the one supporting-build claim already backed by its public repository, or CodeCraft, whose public editor is reachable without auth but whose auth/payments/collaboration wording is unconfirmed — is deferred and unresolved.
+2. **The Melbourne audit branch is still unmerged.** `claude/melb-ultimate-audit-pl7z8l` must be reconciled onto the Content Alignment branch before the PR leaves draft.
+3. **The ALEX contribution wording is deliberately conservative.** `Documented Nova model and AWS region feedback` claims documentation only, because the audit does not establish that the feedback was submitted upstream or accepted. If the owner can evidence that it reached the author or the course community, the line can be strengthened.
+
+Two Slice 5 decisions also remain open:
 
 1. **The existing MoneyGuard promotional image is not on the case-study page.** It renders `ZERO RAW DATA LEAKAGE`, `DATA PRIVACY FIRST — Local Masking Before Any LLM Call`, `TAG-DRIVEN ENGINE — Zero Hardcode`, `Built for Production` and invented dashboard figures, all of which the approved evidence contradicts, and its multi-column body text is not legible at 390 px. It remains unchanged on the homepage card. The dominant visual on the case-study page is instead a static rendering of the deterministic mock-provider output, which is traceable to `src/report.ts`, `src/providers/mock.ts` and `finance.example.json`. Reinstating the image, or commissioning a replacement whose wording matches the page, is an owner call.
 2. **The audit payload carries hours and gross income together**, so an hourly rate is derivable. The page states this plainly rather than describing the boundary as anonymity. Changing the boundary is a product decision recorded as open in the upstream repository.
