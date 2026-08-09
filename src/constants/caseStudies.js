@@ -479,20 +479,32 @@ export const MELBOURNE_CASE_STUDY = {
       ],
     },
     {
+      kind: "bullets",
+      id: "what-changed",
+      heading: "What changed",
+      items: [
+        "Authorization moved behind a single choke point: getServerSession is now called in exactly one module, and 23 of the 24 mutating handlers require a session.",
+        "Roles are read from the database per request rather than trusted from the token, so removing an admin takes effect immediately instead of at token expiry.",
+        "73 tests across 3 files, in a repository that had none — including one that discovers routes from the filesystem, so an unguarded endpoint fails CI rather than review.",
+        "Four update handlers stopped writing whatever the client sent and now name the fields they will write.",
+        "GitHub Actions runs typecheck, lint, tests and a build on every push, with the build deliberately run without database credentials.",
+      ],
+    },
+    {
       kind: "prose",
       id: "why-revisited",
-      heading: "Why I revisited it",
+      heading: "Why I went back",
       paragraphs: [
-        "It was built in July 2025 and then left alone. I came back to it in August 2026 to check whether what I had been saying about it was actually true, on the assumption that anyone reading a portfolio can open the repository and check for themselves.",
-        "It was not. The README described features the schemas did not support, and the authorization I believed was in place turned out to rest on a call that quietly returned the wrong thing. The work below is what that review turned into.",
+        "It was built in July 2025 and then left alone. I went back in August 2026 to audit it against its own claims, on the assumption that anyone reading a portfolio can open the repository and check — so the only claims worth making are the ones that survive that.",
+        "The audit found two things worth fixing, and both are below. Neither was visible from the outside: the application ran, the pages loaded, and the failure modes were quiet ones. Finding them is the part of this project I would most want to be asked about.",
       ],
     },
     {
       kind: "details",
       id: "finding-01",
-      heading: "Finding 01 — route groups hid the real URLs",
+      heading: "Tracing a “network error” to a URL that never existed",
       intro:
-        "Next.js route-group folder names are wrapped in parentheses and do not appear in the URL. That is documented behaviour, not a bug. Reading the folder tree as though it were the URL tree is what caused both of the following.",
+        "The symptom pointed at the network. The cause was a documented Next.js behaviour being read wrongly: route-group folder names are wrapped in parentheses and do not appear in the URL, so the folder tree and the URL tree are not the same tree. That one misreading produced both of the following.",
       items: [
         {
           heading: "Signup posted to a URL that was never the handler",
@@ -510,9 +522,9 @@ export const MELBOURNE_CASE_STUDY = {
     {
       kind: "details",
       id: "finding-02",
-      heading: "Finding 02 — valid sessions, missing roles",
+      heading: "Why a valid session carried no role",
       intro:
-        "This was fixed in the August 2026 work; what follows describes the state before that fix. It is the finding I would most want to be asked about, because the mechanism is not guessable from the symptom.",
+        "Fixed in the August 2026 work; what follows is the state before that fix. It is worth reading closely because the mechanism is not guessable from the symptom — the call that caused it looks correct, and typechecks.",
       items: [
         {
           heading: "The call succeeded and still returned nothing useful",
@@ -588,6 +600,10 @@ export const MELBOURNE_CASE_STUDY = {
         "Typecheck, lint, the 73 tests and a production build all pass, and CI runs the same four on every push.",
         "The authorization tests were falsified before being trusted: removing a guard from a handler makes the suite fail and name the file, rather than passing quietly.",
         "An unauthenticated write to a mutating endpoint was observed returning 401 against a locally running server.",
+        "23 of the 24 mutating handlers were enumerated from the source and confirmed to require a session, with POST /api/signup the single deliberate exception.",
+        "getServerSession resolves to exactly one call site in the codebase, which is what makes the omission that caused the role bug unwritable rather than merely discouraged.",
+        "The compound unique index on tournamentId, teamId and playerId was read from the schema, so the duplicate-selection rule is enforced by the database rather than asserted in prose.",
+        "The production build succeeds with no database credentials present, and every API route is emitted as dynamic rather than prerendered.",
         "TypeScript runs under strict, with a single explicit any remaining in roughly 15,000 lines — checkable in seconds, unlike a percentage.",
         "Supporting structure: a serverless-safe cached Mongoose connection, and a generic useApi/useCrud pair that 13 resource hooks are built on.",
       ],
@@ -595,7 +611,10 @@ export const MELBOURNE_CASE_STUDY = {
     {
       kind: "bullets",
       id: "unverified",
-      heading: "What remains unverified",
+      // Retitled, not softened: the six items below are unchanged in substance.
+      // "Scope of verification" describes what this is — a statement of how far
+      // the evidence reaches — where the previous heading read as a warning.
+      heading: "Scope of verification",
       items: [
         "No real MongoDB end-to-end verification was performed in the latest evidence audit.",
         "Duplicate-key and field-clearing behaviour was verified at the level of the query that gets constructed, not against a real database.",

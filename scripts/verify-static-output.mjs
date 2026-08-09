@@ -607,21 +607,53 @@ assert.ok(
 
 for (const heading of [
   "What the application is",
-  "Why I revisited it",
-  "Finding 01 — route groups hid the real URLs",
-  "Finding 02 — valid sessions, missing roles",
+  "What changed",
+  "Why I went back",
+  "to a URL that never existed",
+  "Why a valid session carried no role",
   "Structural authorization redesign",
   "Mass-assignment remediation",
   "Findings turned into regression tests and CI",
   "Data model decision",
   "What is verified",
-  "What remains unverified",
+  "Scope of verification",
 ]) {
   assert.ok(
     melbourneText.includes(heading),
     `Melbourne study is missing the "${heading}" section`,
   );
 }
+
+// The outcome has to be banked before the page describes what was wrong with
+// the project. A reader who skims headings should meet capability first.
+const changedIndex = melbourneText.indexOf("What changed");
+const wentBackIndex = melbourneText.indexOf("Why I went back");
+const firstInvestigationIndex = melbourneText.indexOf("to a URL that never existed");
+assert.ok(
+  changedIndex !== -1 && changedIndex < wentBackIndex,
+  "Melbourne study must state what changed before explaining why it was revisited",
+);
+assert.ok(
+  changedIndex < firstInvestigationIndex,
+  "Melbourne study must state what changed before the debugging sections",
+);
+
+// The evidence must outweigh the caveats. The page previously listed six
+// limitations against five verified claims, which reads as unproven work no
+// matter how good the underlying evidence is.
+const sectionListItems = (id, nextId) => {
+  const start = melbourneHtml.indexOf(`id="${id}"`);
+  const end = melbourneHtml.indexOf(`id="${nextId}"`);
+  assert.ok(start !== -1 && end > start, `Could not isolate the ${id} section`);
+  return (melbourneHtml.slice(start, end).match(/<li\b/g) ?? []).length;
+};
+const verifiedCount = sectionListItems("verified", "unverified");
+const scopeCount = (melbourneHtml.slice(melbourneHtml.indexOf('id="unverified"')).match(/<li\b/g) ?? [])
+  .length;
+assert.ok(
+  verifiedCount > scopeCount,
+  `Melbourne study lists ${verifiedCount} verified claims against ${scopeCount} limitations; the evidence must outweigh the caveats`,
+);
 
 // The three concepts the checkpoint exists to publish.
 for (const [concept, needle] of [
