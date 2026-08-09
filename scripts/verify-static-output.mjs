@@ -7,6 +7,7 @@ const homepagePath = path.join(outputDirectory, "index.html");
 // next.config.js sets `trailingSlash: true`, so the case study is emitted as a
 // directory index rather than `work/moneyguard.html`.
 const caseStudyPath = path.join(outputDirectory, "work", "moneyguard", "index.html");
+const alexStudyPath = path.join(outputDirectory, "work", "alex", "index.html");
 
 const toText = (markup) =>
   markup
@@ -48,6 +49,7 @@ const requiredContent = [
   "Added a database-integrity verification step to guide 5.",
   "Fixed the Planner's local test harness, which created a job for a user that did not exist.",
   "Documented the cross-region ECR fix for SageMaker deployments outside us-east-1.",
+  "Read the architecture study",
   // Experience
   "ByteCroniX - AI SaaS Platform",
   // How I Build
@@ -138,7 +140,10 @@ assert.ok(
   html.includes('aria-label="Read more about Melbourne University Ultimate Club Platform"'),
   "Homepage is missing the Melbourne University Ultimate modal trigger",
 );
-assert.ok(!html.includes('href="/work/alex/"'), "Alex must not receive an empty case-study route");
+assert.ok(
+  html.includes('href="/work/alex/"'),
+  "Homepage is missing the link to the ALEX architecture study",
+);
 assert.ok(
   !html.includes('href="/work/melbourne-university-ultimate/"'),
   "Melbourne University Ultimate must not receive an empty case-study route",
@@ -147,8 +152,8 @@ assert.ok(
 // --- ALEX is learning evidence, not a flagship -------------------------------
 
 // ALEX belongs to Learning & Contributions, which sits after both flagship
-// projects and before Additional Work. It has no modal trigger, no case study
-// and no live or source link of its own.
+// projects and before Additional Work. It has no modal trigger and no live
+// link; its only outbound link is the study page, which leads with attribution.
 const orderedHomepageMarkers = [
   "MoneyGuard AI Finance Pipeline",
   "Melbourne University Ultimate Club Platform",
@@ -156,6 +161,7 @@ const orderedHomepageMarkers = [
   "ALEX — AWS Multi-Agent Architecture Study",
   "Stack studied:",
   "What I contributed",
+  "Read the architecture study",
   "Additional Work",
 ];
 
@@ -171,8 +177,8 @@ for (const marker of orderedHomepageMarkers) {
 }
 
 assert.ok(
-  !/aria-label="[^"]*\bALEX\b[^"]*"/i.test(html),
-  "ALEX must not expose a modal trigger or link of its own",
+  !/aria-label="Read more about[^"]*ALEX/i.test(html),
+  "ALEX must not expose a flagship modal trigger",
 );
 
 const bannedAlexLanguage = [
@@ -387,8 +393,141 @@ const emittedCaseStudyDirectories = (await readdir(path.join(outputDirectory, "w
   .sort();
 assert.deepEqual(
   emittedCaseStudyDirectories,
-  ["moneyguard"],
-  "Static export must contain exactly the approved MoneyGuard case-study directory",
+  ["alex", "moneyguard"],
+  "Static export must contain exactly the approved case-study directories",
+);
+
+// --- ALEX architecture study -------------------------------------------------
+
+// The study page exists to be honest about work that is not Yuelin's. The
+// assertions below are the contract: attribution before anything else, the
+// architecture stated as the source says it behaves, the teardown recorded,
+// and no reach for ownership language.
+const alexHtml = await readFile(alexStudyPath, "utf8");
+const alexText = toText(alexHtml);
+
+assert.match(
+  alexHtml,
+  /<title>ALEX architecture study \| Yuelin Liu<\/title>/,
+  "ALEX study is missing its route-specific title",
+);
+assert.match(
+  alexHtml,
+  /<link[^>]+rel="canonical"[^>]+href="https:\/\/www\.liuyuelin\.dev\/work\/alex\/"/,
+  "ALEX study canonical URL is missing or incorrect",
+);
+assert.equal(
+  (alexHtml.match(/<h1\b/gi) ?? []).length,
+  1,
+  "ALEX study must render exactly one h1",
+);
+
+for (const heading of [
+  "Whose project this is",
+  "What I set out to learn",
+  "The architecture, as it actually runs",
+  "Request path",
+  "What I deployed, and what I tore down",
+  "What I contributed upstream",
+  "What this is not",
+]) {
+  assert.ok(alexText.includes(heading), `ALEX study is missing the ${heading} section`);
+}
+
+// Attribution must precede the architecture, not trail it.
+const orderedAlexMarkers = [
+  "Whose project this is",
+  "Ed Donner",
+  "MIT licence",
+  "I did not design this system",
+  "The architecture, as it actually runs",
+  "What this is not",
+  "Not my architecture.",
+];
+
+let previousAlexMarkerIndex = -1;
+for (const marker of orderedAlexMarkers) {
+  const index = alexText.indexOf(marker);
+  assert.ok(index !== -1, `ALEX study is missing required content: ${marker}`);
+  assert.ok(index > previousAlexMarkerIndex, `ALEX study content is out of order at: ${marker}`);
+  previousAlexMarkerIndex = index;
+}
+
+const requiredAlexContent = [
+  // The correction that started this release: sequential, not simultaneous.
+  'InvocationType="RequestResponse"',
+  "not simultaneously",
+  "the three specialists execute in sequence",
+  // The stage count that was previously overstated.
+  "seven Terraform root configurations",
+  // The deployment is past tense, with the reason it ended.
+  "Then I destroyed all of it.",
+  "Nothing described on this page is running today.",
+  // The diagram is text-bearing markup, so its labels are assertable.
+  "SQS analysis_jobs",
+  "Deterministic pre-pass",
+  "no model decides whether these run",
+  "nothing in the analysis path invokes it",
+  "Aurora Serverless v2",
+  // Contributions must name what is Ed's before what is Yuelin's.
+  "The verification script itself is Ed's",
+];
+
+for (const content of requiredAlexContent) {
+  assert.ok(alexText.includes(content), `ALEX study is missing required content: ${content}`);
+}
+
+// Every upstream claim carries its diff.
+for (const branch of [
+  "add-verify-database-step6",
+  "fix-guide8-undefined-accounts",
+  "docs/sagemaker-region-note",
+]) {
+  assert.ok(
+    alexHtml.includes(
+      `href="https://github.com/liuyuelintop/ed-ai-in-production-alex/compare/main...${branch}"`,
+    ),
+    `ALEX study is missing the evidence link for branch: ${branch}`,
+  );
+}
+
+const bannedAlexStudyLanguage = [
+  // Ownership. "Not my architecture." is required above, so the banned form
+  // has to be the affirmative one.
+  "this is my architecture",
+  "i designed",
+  "i architected",
+  "i built this system",
+  // Concurrency, which the source contradicts.
+  "in parallel",
+  "concurrently",
+  "simultaneous invocation",
+  // Unverified posture and figures.
+  "production-grade",
+  "production observability",
+  "enterprise-grade",
+  "least-privilege iam",
+  "eight terraform stages",
+  "~90%",
+  "currently deployed",
+  "live deployment",
+];
+
+const lowerAlexText = alexText.toLowerCase();
+for (const phrase of bannedAlexStudyLanguage) {
+  assert.ok(
+    !lowerAlexText.includes(phrase),
+    `ALEX study contains a rejected claim: ${phrase}`,
+  );
+}
+
+assert.ok(
+  alexText.length > 4000,
+  "ALEX study text is too small to be a meaningful static render",
+);
+assert.ok(
+  !/<main[^>]*>\s*<\/main>/i.test(alexHtml),
+  "ALEX study contains an empty application shell",
 );
 
 // --- Emitted public assets ---------------------------------------------------
@@ -416,8 +555,8 @@ assert.ok(
   "Sitemap is missing the MoneyGuard case-study route",
 );
 assert.ok(
-  !sitemap.includes("/work/alex/"),
-  "Sitemap must not advertise an ALEX case-study route",
+  sitemap.includes("<loc>https://www.liuyuelin.dev/work/alex/</loc>"),
+  "Sitemap is missing the ALEX architecture-study route",
 );
 
 const emittedMedia = await readdir(path.join(outputDirectory, "_next/static/media"));
@@ -434,5 +573,5 @@ assert.ok(
 );
 
 console.log(
-  "Static output verified: homepage and MoneyGuard case study render meaningful HTML with correct metadata, links, privacy language and public assets.",
+  "Static output verified: the homepage, the MoneyGuard case study and the ALEX architecture study render meaningful HTML with correct metadata, links, attribution, privacy language and public assets.",
 );

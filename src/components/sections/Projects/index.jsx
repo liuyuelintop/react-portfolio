@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from "react";
-import { ExternalLink } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, ExternalLink } from "lucide-react";
 import ProjectCard from "./ProjectCard";
 import ProjectModal from "./ProjectModal";
 import { ARCHITECTURE_STUDY, PROJECTS, SUPPORTING_PROJECTS } from "../../../constants/projects";
@@ -70,6 +71,13 @@ export default function Projects() {
                                 </li>
                             ))}
                         </ul>
+                        <Link
+                            href={ARCHITECTURE_STUDY.href}
+                            className={`mt-5 inline-flex items-center gap-2 text-sm font-medium text-neutral-200 transition-colors hover:text-cyan-300 ${focusRingClasses}`}
+                        >
+                            Read the architecture study
+                            <ArrowRight size={15} aria-hidden="true" />
+                        </Link>
                     </div>
                 </div>
 

@@ -1,5 +1,5 @@
 import { projectImages } from "./assets";
-import { MONEYGUARD_CASE_STUDY, caseStudyHref } from "./caseStudies";
+import { ALEX_CASE_STUDY, MONEYGUARD_CASE_STUDY, caseStudyHref } from "./caseStudies";
 
 export const PROJECTS = [
   {
@@ -52,8 +52,11 @@ export const PROJECTS = [
 export const ARCHITECTURE_STUDY = {
   intro:
     "Recent architecture I studied hands-on, and the corrections that came out of it.",
-  title: "ALEX — AWS Multi-Agent Architecture Study",
+  title: ALEX_CASE_STUDY.title,
   status: "Course-based study",
+  // The depth lives on the study page, which states the attribution first and
+  // carries the architecture diagram. The homepage block stays a summary.
+  href: caseStudyHref(ALEX_CASE_STUDY.slug),
   summary:
     "Adapted Ed Donner’s Udemy ALEX capstone locally to study an SQS-backed five-role portfolio-analysis workflow and Terraform-defined AWS architecture.",
   // Owner-attested, not repository-verified: the stack was deployed to AWS
