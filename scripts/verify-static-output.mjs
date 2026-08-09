@@ -45,10 +45,9 @@ const requiredContent = [
   "Deployed to AWS during the study, then torn down to stop the running cost.",
   "Stack studied:",
   "What I contributed",
-  "A database verification utility.",
-  "Corrections to the Planner test harness.",
-  "Corrections to the setup guide and documentation.",
-  "Documented Nova model and AWS region feedback.",
+  "Added a database-integrity verification step to guide 5.",
+  "Fixed the Planner's local test harness, which created a job for a user that did not exist.",
+  "Documented the cross-region ECR fix for SageMaker deployments outside us-east-1.",
   // Experience
   "ByteCroniX - AI SaaS Platform",
   // How I Build
@@ -195,6 +194,11 @@ const bannedAlexLanguage = [
   "agents in parallel",
   "parallel agents",
   "in parallel",
+  // The downstream agents are invoked with InvocationType="RequestResponse",
+  // and the verification script is Ed Donner's course material.
+  "concurrently",
+  "wrote a database verification utility",
+  "built a database verification utility",
   "currently deployed",
   "deployed serverless",
   "production deployment",

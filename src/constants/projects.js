@@ -70,11 +70,14 @@ export const ARCHITECTURE_STUDY = {
     "Aurora Serverless v2",
     "Next.js",
   ],
+  // Each line traces to a commit in liuyuelintop/ed-ai-in-production-alex.
+  // The verification script itself is course material; the guide step is not,
+  // so this claims the step and never the script.
   contributions: [
-    "A database verification utility.",
-    "Corrections to the Planner test harness.",
-    "Corrections to the setup guide and documentation.",
-    "Documented Nova model and AWS region feedback.",
+    "Added a database-integrity verification step to guide 5.",
+    "Fixed the Planner's local test harness, which created a job for a user that did not exist.",
+    "Corrected guide 8's logging example and rewrote its Charter validation and Tagger explainability sections to match the real agent code.",
+    "Documented the cross-region ECR fix for SageMaker deployments outside us-east-1.",
   ],
 };
 
