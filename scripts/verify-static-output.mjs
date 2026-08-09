@@ -8,6 +8,12 @@ const homepagePath = path.join(outputDirectory, "index.html");
 // directory index rather than `work/moneyguard.html`.
 const caseStudyPath = path.join(outputDirectory, "work", "moneyguard", "index.html");
 const alexStudyPath = path.join(outputDirectory, "work", "alex", "index.html");
+const melbourneStudyPath = path.join(
+  outputDirectory,
+  "work",
+  "melbourne-ultimate",
+  "index.html",
+);
 
 const toText = (markup) =>
   markup
@@ -136,17 +142,31 @@ assert.ok(
   html.includes('href="https://github.com/liuyuelintop/moneyguard-pipeline"'),
   "Homepage is missing the MoneyGuard public source link",
 );
+// Melbourne now links to its own case study rather than opening the modal, so
+// the previous modal-trigger assertion described a state the card no longer has.
+// It is replaced by the stronger pair below, not dropped.
+assert.match(
+  html,
+  /<a[^>]+href="\/work\/melbourne-ultimate\/"[^>]*>[\s\S]*?Read case study/,
+  "Homepage is missing the Melbourne University Ultimate 'Read case study' link",
+);
 assert.ok(
-  html.includes('aria-label="Read more about Melbourne University Ultimate Club Platform"'),
-  "Homepage is missing the Melbourne University Ultimate modal trigger",
+  html.includes('href="https://github.com/liuyuelintop/melb-uni-ultimate"'),
+  "Homepage is missing the Melbourne University Ultimate public source link",
+);
+assert.ok(
+  !/aria-label="Read more about[^"]*Melbourne University Ultimate/i.test(html),
+  "Melbourne University Ultimate must not expose a modal trigger now that it has a case study",
+);
+// The deployment was not independently verified in the latest audit, so the card
+// links to source and must not advertise a live site.
+assert.ok(
+  !html.includes("melb-uni-ultimate.vercel.app"),
+  "Melbourne University Ultimate must not link to an unverified live deployment",
 );
 assert.ok(
   html.includes('href="/work/alex/"'),
   "Homepage is missing the link to the ALEX architecture study",
-);
-assert.ok(
-  !html.includes('href="/work/melbourne-university-ultimate/"'),
-  "Melbourne University Ultimate must not receive an empty case-study route",
 );
 
 // --- ALEX is learning evidence, not a flagship -------------------------------
@@ -393,7 +413,7 @@ const emittedCaseStudyDirectories = (await readdir(path.join(outputDirectory, "w
   .sort();
 assert.deepEqual(
   emittedCaseStudyDirectories,
-  ["alex", "moneyguard"],
+  ["alex", "melbourne-ultimate", "moneyguard"],
   "Static export must contain exactly the approved case-study directories",
 );
 
@@ -532,6 +552,152 @@ assert.ok(
 
 // --- Emitted public assets ---------------------------------------------------
 
+// --- Melbourne University Ultimate case study --------------------------------
+
+// Owned work whose earlier copy overstated it. These assertions hold the page to
+// the evidence audit: the mechanisms it may describe, and the limits it must
+// keep stating.
+const melbourneHtml = await readFile(melbourneStudyPath, "utf8");
+const melbourneText = toText(melbourneHtml);
+
+assert.match(
+  melbourneHtml,
+  /<title>Melbourne University Ultimate case study \| Yuelin Liu<\/title>/,
+  "Melbourne study is missing its route-specific title",
+);
+assert.match(
+  melbourneHtml,
+  /<link[^>]+rel="canonical"[^>]+href="https:\/\/www\.liuyuelin\.dev\/work\/melbourne-ultimate\/"/,
+  "Melbourne study canonical URL is missing or incorrect",
+);
+assert.match(
+  melbourneHtml,
+  /<meta[^>]+property="og:url"[^>]+content="https:\/\/www\.liuyuelin\.dev\/work\/melbourne-ultimate\/"/,
+  "Melbourne study og:url is missing or incorrect",
+);
+assert.ok(
+  melbourneHtml.includes(
+    '<meta property="og:title" content="Melbourne University Ultimate case study | Yuelin Liu"/>',
+  ),
+  "Melbourne study og:title is missing or incorrect",
+);
+assert.ok(
+  melbourneHtml.includes(
+    '<meta name="twitter:title" content="Melbourne University Ultimate case study | Yuelin Liu"/>',
+  ),
+  "Melbourne study twitter:title is missing or incorrect",
+);
+assert.equal(
+  (melbourneHtml.match(/<h1\b/gi) ?? []).length,
+  1,
+  "Melbourne study must render exactly one h1",
+);
+assert.ok(
+  melbourneText.length > 3000,
+  "Melbourne study has too little pre-JavaScript text to be a meaningful static render",
+);
+assert.ok(
+  melbourneText.includes("Sole developer · Built July 2025 · Revisited and hardened August 2026"),
+  "Melbourne study is missing its ownership and lifecycle line",
+);
+assert.ok(
+  melbourneHtml.includes('href="https://github.com/liuyuelintop/melb-uni-ultimate"'),
+  "Melbourne study is missing its public source link",
+);
+
+for (const heading of [
+  "What the application is",
+  "Why I revisited it",
+  "Finding 01 — route groups hid the real URLs",
+  "Finding 02 — valid sessions, missing roles",
+  "Structural authorization redesign",
+  "Mass-assignment remediation",
+  "Findings turned into regression tests and CI",
+  "Data model decision",
+  "What is verified",
+  "What remains unverified",
+]) {
+  assert.ok(
+    melbourneText.includes(heading),
+    `Melbourne study is missing the "${heading}" section`,
+  );
+}
+
+// The three concepts the checkpoint exists to publish.
+for (const [concept, needle] of [
+  ["authorization", "23 of the 24 mutating handlers require a session"],
+  ["testing and CI", "73 tests across 3 files"],
+  ["data model", "unique index across those three fields"],
+]) {
+  assert.ok(
+    melbourneText.includes(needle),
+    `Melbourne study is missing its ${concept} evidence`,
+  );
+}
+
+// The limitations are load-bearing: they are the reason the rest is credible,
+// so each one is asserted individually rather than as a section heading alone.
+for (const limitation of [
+  "No real MongoDB end-to-end verification was performed",
+  "not against a real database",
+  "a signed-in non-admin session against a real database has not been fully exercised",
+  "The live deployment was not independently observed",
+  "Historical seeded admin credentials remain in the Git history",
+  "Possible stale MongoDB indexes remain an operational check",
+]) {
+  assert.ok(
+    melbourneText.includes(limitation),
+    `Melbourne study is missing the limitation: ${limitation}`,
+  );
+}
+
+// --- Contradicted wording, scoped to Melbourne only --------------------------
+
+// Whole-phrase, word-boundary, case-insensitive. The banned phrase is
+// "Open Source" — the "Source" call-to-action label is required copy and must
+// survive this check. Other projects may legitimately use these words, so the
+// homepage side is narrowed to the Melbourne card.
+const melbourneCardStart = text.indexOf("Melbourne University Ultimate Club Platform");
+const melbourneCardEnd = text.indexOf("Learning & Contributions");
+assert.ok(
+  melbourneCardStart !== -1 && melbourneCardEnd > melbourneCardStart,
+  "Could not isolate the Melbourne card on the homepage",
+);
+const melbourneCardText = text.slice(melbourneCardStart, melbourneCardEnd);
+
+const contradictedMelbourneWording = [
+  /\bopen[-\s]source\b/i,
+  /\bplayer statistics\b/i,
+  /\bstatistics tracking\b/i,
+  /\breusable template\b/i,
+  /\bmodular template\b/i,
+  /\btemplate for (?:other clubs|sports clubs)\b/i,
+  /\bcontact form\b/i,
+  /\bperformance[-\s]first\b/i,
+  /\bfast\b/i,
+  /\bactively maintained\b/i,
+  /\bcontinuously maintained\b/i,
+  /\btrusted by\b/i,
+  /\b\d[\d,]*\+? (?:users|members|clubs|teams|visitors|downloads)\b/i,
+];
+
+for (const pattern of contradictedMelbourneWording) {
+  assert.ok(
+    !pattern.test(melbourneCardText),
+    `Melbourne homepage card contains contradicted wording matching ${pattern}`,
+  );
+  assert.ok(
+    !pattern.test(melbourneText),
+    `Melbourne case study contains contradicted wording matching ${pattern}`,
+  );
+}
+
+// The required secondary call to action must not be a casualty of the check above.
+assert.ok(
+  melbourneCardText.includes("Source"),
+  "Melbourne card is missing its Source call to action",
+);
+
 const emittedFiles = [
   "robots.txt",
   "sitemap.xml",
@@ -558,6 +724,20 @@ assert.ok(
   sitemap.includes("<loc>https://www.liuyuelin.dev/work/alex/</loc>"),
   "Sitemap is missing the ALEX architecture-study route",
 );
+assert.ok(
+  sitemap.includes("<loc>https://www.liuyuelin.dev/work/melbourne-ultimate/</loc>"),
+  "Sitemap is missing the Melbourne University Ultimate case-study route",
+);
+// The sitemap is derived from CASE_STUDY_SLUGS, so this catches a study being
+// added to the data without being approved for publication.
+const sitemapWorkRoutes = [...sitemap.matchAll(/<loc>https:\/\/www\.liuyuelin\.dev(\/work\/[^<]*)<\/loc>/g)]
+  .map((match) => match[1])
+  .sort();
+assert.deepEqual(
+  sitemapWorkRoutes,
+  ["/work/alex/", "/work/melbourne-ultimate/", "/work/moneyguard/"],
+  "Sitemap must list exactly the approved routes under /work/",
+);
 
 const emittedMedia = await readdir(path.join(outputDirectory, "_next/static/media"));
 for (const imageName of ["moneyguard-ai-finance-pipeline", "melbUniUltimate"]) {
@@ -573,5 +753,5 @@ assert.ok(
 );
 
 console.log(
-  "Static output verified: the homepage, the MoneyGuard case study and the ALEX architecture study render meaningful HTML with correct metadata, links, attribution, privacy language and public assets.",
+  "Static output verified: the homepage, the MoneyGuard case study, the Melbourne University Ultimate case study and the ALEX architecture study render meaningful HTML with correct metadata, links, attribution, privacy language, stated limitations and public assets.",
 );

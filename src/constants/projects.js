@@ -1,5 +1,10 @@
 import { projectImages } from "./assets";
-import { ALEX_CASE_STUDY, MONEYGUARD_CASE_STUDY, caseStudyHref } from "./caseStudies";
+import {
+  ALEX_CASE_STUDY,
+  MELBOURNE_CASE_STUDY,
+  MONEYGUARD_CASE_STUDY,
+  caseStudyHref,
+} from "./caseStudies";
 
 export const PROJECTS = [
   {
@@ -19,27 +24,25 @@ export const PROJECTS = [
     year: "2026",
   },
   {
-    title: "Melbourne University Ultimate Club Platform",
+    title: MELBOURNE_CASE_STUDY.title,
     image: projectImages.melbUniUltimate,
     roleFit:
-      "Local product ownership, community workflows and maintainable Next.js delivery.",
+      "Root-cause debugging, server-side authorization hardening, data modelling and regression-proof CI.",
+    // Case-study copy is owned by caseStudies.js; this entry references it.
+    // The modal-only `detailed` and `features` copy is gone rather than hidden:
+    // the card links straight to the case study, so nothing rendered it, and
+    // every claim it carried was contradicted by the source.
     description: {
-      summary:
-        "An open-source Next.js 15 platform for sports club management, player stats and community engagement.",
-      detailed:
-        "This project shows practical product thinking: it translates a real local community need into maintainable workflows for events, announcements, player statistics and responsive dashboards.",
-      features: [
-        "Architected a modular open-source template for sports club management",
-        "Implemented player statistics tracking, events, announcements and community workflows",
-        "Used Next.js 15 server-side logic and optimized layouts for multi-device dashboards",
-        "Designed a maintainable base that can be adapted by other clubs and teams",
-      ],
+      summary: MELBOURNE_CASE_STUDY.summary,
     },
-    url: "https://melb-uni-ultimate.vercel.app",
+    ownership: MELBOURNE_CASE_STUDY.ownership,
+    caseStudyHref: caseStudyHref(MELBOURNE_CASE_STUDY.slug),
+    github: MELBOURNE_CASE_STUDY.sourceUrl,
+    // No `url`. The deployment was not independently verified in the latest
+    // audit and a historical seeded admin credential still needs owner-side
+    // rotation, so the card links to source rather than to a live site.
     technologies: {
-      main: ["Next.js 15", "TypeScript", "MongoDB", "Tailwind CSS"],
-      additional: ["shadcn/ui", "Responsive UI", "Vercel", "Open Source"],
-      others: ["Club Management", "Player Statistics"],
+      main: ["Next.js 15", "TypeScript", "MongoDB", "Vitest"],
     },
     year: "2025",
   },

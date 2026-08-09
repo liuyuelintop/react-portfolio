@@ -290,6 +290,12 @@ export default async function CaseStudyPage({ params }) {
           </h1>
           <p className="mt-5 text-lg leading-relaxed text-neutral-300">{caseStudy.summary}</p>
 
+          {/* Ownership and lifecycle, for studies that state them. A study that
+              omits it renders exactly as it did before. */}
+          {caseStudy.ownership && (
+            <p className="mt-4 text-sm leading-relaxed text-neutral-400">{caseStudy.ownership}</p>
+          )}
+
           {caseStudy.sections.map((section, index) =>
             section.kind === "sample" ? (
               <figure key="sample" className="mt-10">

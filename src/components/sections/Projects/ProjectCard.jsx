@@ -29,6 +29,10 @@ const ProjectCard = ({ project, index, onReadMore }) => {
           {project.description.summary}
         </p>
 
+        {project.ownership && (
+          <p className="mt-3 text-sm leading-relaxed text-neutral-400">{project.ownership}</p>
+        )}
+
         {project.roleFit && (
           <p className="mt-3 text-sm leading-relaxed text-neutral-400">{project.roleFit}</p>
         )}
@@ -86,6 +90,7 @@ ProjectCard.propTypes = {
       main: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
     roleFit: PropTypes.string,
+    ownership: PropTypes.string,
     url: PropTypes.string,
     github: PropTypes.string,
     caseStudyHref: PropTypes.string,

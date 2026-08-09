@@ -447,8 +447,170 @@ export const ALEX_CASE_STUDY = {
   ],
 };
 
+// Owned work, unlike ALEX. Every figure below was re-derived from the source at
+// commit b85d7f0 rather than carried over from an earlier draft of this page:
+// the project's own README had drifted, and a study that trusts a README
+// repeats its mistakes. Where a number could not be reproduced it was dropped
+// rather than softened. The "13 of 16" figure is measured at the pre-fix commit
+// d993b5f, because measuring it at b85d7f0 would only ever return zero.
+const MELBOURNE_SOURCE_URL = "https://github.com/liuyuelintop/melb-uni-ultimate";
+
+export const MELBOURNE_CASE_STUDY = {
+  slug: "melbourne-ultimate",
+  title: "Melbourne University Ultimate Club Platform",
+  summary:
+    "A Next.js 15 and MongoDB club-management application revisited and hardened around server-side authorization, database-backed roles, automated regression tests and CI.",
+  ownership: "Sole developer · Built July 2025 · Revisited and hardened August 2026",
+  metaTitle: "Melbourne University Ultimate case study | Yuelin Liu",
+  metaDescription:
+    "How a club-management app's authorization was traced to a silent session bug, centralised into one guard, and held in place by the project's first regression tests and CI — with the unverified parts stated.",
+  canonical: `${SITE_URL}/work/melbourne-ultimate/`,
+  sourceUrl: MELBOURNE_SOURCE_URL,
+  sourceLabel: "View the source on GitHub",
+
+  sections: [
+    {
+      kind: "prose",
+      id: "what-it-is",
+      heading: "What the application is",
+      paragraphs: [
+        "A website for a university Ultimate Frisbee club: announcements, events, a player roster, an alumni directory and club videos on the public side, with a single admin dashboard behind them for managing all of it. It runs on the Next.js 15 App Router with MongoDB through Mongoose, and has two roles — user and admin.",
+        "The one piece of real domain modelling is tournament selection. Players are attached to tournaments through a join collection rather than an array on either document, so a selection is its own record with its own constraints.",
+      ],
+    },
+    {
+      kind: "prose",
+      id: "why-revisited",
+      heading: "Why I revisited it",
+      paragraphs: [
+        "It was built in July 2025 and then left alone. I came back to it in August 2026 to check whether what I had been saying about it was actually true, on the assumption that anyone reading a portfolio can open the repository and check for themselves.",
+        "It was not. The README described features the schemas did not support, and the authorization I believed was in place turned out to rest on a call that quietly returned the wrong thing. The work below is what that review turned into.",
+      ],
+    },
+    {
+      kind: "details",
+      id: "finding-01",
+      heading: "Finding 01 — route groups hid the real URLs",
+      intro:
+        "Next.js route-group folder names are wrapped in parentheses and do not appear in the URL. That is documented behaviour, not a bug. Reading the folder tree as though it were the URL tree is what caused both of the following.",
+      items: [
+        {
+          heading: "Signup posted to a URL that was never the handler",
+          detail:
+            "The page posted to /api/auth/signup. The handler lives at /api/signup, because the (auth) folder around it is invisible in the URL. The request reached the NextAuth catch-all instead, which answered 400 with a plain-text body, and the client called response.json() unconditionally — so the parse error surfaced as “Network error”, blaming the network for a routing mistake.",
+        },
+        {
+          heading: "Middleware guarded a path that does not exist",
+          detail:
+            "The same misreading put the dashboard at /dashboard while the middleware matcher checked /admin, the folder name. Matching a URL that is never requested is indistinguishable from matching nothing at all.",
+        },
+      ],
+      note: "This is one specific documented behaviour being read wrongly in two places, not a general failure of the routing architecture.",
+    },
+    {
+      kind: "details",
+      id: "finding-02",
+      heading: "Finding 02 — valid sessions, missing roles",
+      intro:
+        "This was fixed in the August 2026 work; what follows describes the state before that fix. It is the finding I would most want to be asked about, because the mechanism is not guessable from the symptom.",
+      items: [
+        {
+          heading: "The call succeeded and still returned nothing useful",
+          detail:
+            "getServerSession() returned a valid session when its options were omitted — the secret still resolved, the cookie still decoded — but NextAuth ran its own default session callback instead of the project's, so role came back undefined. Established by reading the next-auth 4.24.11 source rather than inferred from the symptom.",
+        },
+        {
+          heading: "It was the common case, not an outlier",
+          detail:
+            "At the pre-fix commit, 13 of the 16 files that read a session called it without the project's auth options. A role check against an undefined role rejects everyone, including real admins — which also explained a seed route whose admin check had been commented out with a TODO rather than repaired.",
+        },
+        {
+          heading: "The type system could not have caught it",
+          detail:
+            "The options parameter is optional, so the correct call and the broken one both typecheck. That ruled out fixing it by convention or by review, and is why the remediation is structural rather than a set of corrected call sites.",
+        },
+      ],
+    },
+    {
+      kind: "bullets",
+      id: "authorization",
+      heading: "Structural authorization redesign",
+      items: [
+        "Session reading is centralised: getServerSession is called in exactly one module, so its options cannot be omitted at a call site that no longer exists.",
+        "23 of the 24 mutating handlers require a session. POST /api/signup is the one anonymous mutating endpoint, by design — without it no account could ever be created.",
+        "Role is read from the database on each request rather than taken from the JWT claim, so removing an admin takes effect on their next request instead of when their token expires. Anonymous callers skip the query.",
+        "The admin dashboard has a server-side gate in its route group's layout, redirecting unauthenticated visitors to /login and non-admins to /unauthorized. Middleware also checks the token, as a second layer rather than the deciding one.",
+        "Alumni contact and employment fields are removed on the server for non-admin callers, so they are absent from the response rather than hidden in the interface.",
+      ],
+    },
+    {
+      kind: "prose",
+      id: "mass-assignment",
+      heading: "Mass-assignment remediation",
+      paragraphs: [
+        "Four update handlers built their database update by spreading the raw request body, which made every field the schema accepts writable by the client — including audit fields, and a publish timestamp the server is supposed to set itself. Each now selects by name the fields it is willing to write.",
+        "Naming the fields also settled a question the create path had already answered and the update path had not: what a blank value means. Absent means leave it alone; a deliberately cleared optional field is removed from the document rather than stored as null, because a unique index treats every null as the same value and two records cleared the same way would collide with each other.",
+        "A test scans the route files for the original pattern, so the suite fails if that shape returns rather than relying on the next reviewer to notice it.",
+      ],
+    },
+    {
+      kind: "bullets",
+      id: "tests-ci",
+      heading: "Findings turned into regression tests and CI",
+      items: [
+        "73 tests across 3 files, in a repository that previously had none.",
+        "The authorization test discovers route files from the filesystem rather than from a hand-written list, so a newly added mutating route is included the moment it exists and has to either reject anonymous callers or be added to an explicit allowlist. That allowlist holds one entry.",
+        "Reaching the database is treated as a failure inside those tests rather than as a fixture, so a handler that queries before it authorises fails with a named error instead of hanging until the driver times out.",
+        "A second test scans every route file for the mass-assignment pattern described above.",
+        "GitHub Actions runs typecheck, lint, the tests and a build on every push and pull request.",
+        "The CI build runs with MONGODB_URI deliberately unset. Needing a database credential in order to build is a regression this project has had twice, so the pipeline fails on it rather than a deployment discovering it later.",
+      ],
+    },
+    {
+      kind: "decisions",
+      id: "data-model",
+      heading: "Data model decision",
+      items: [
+        {
+          decision: "Tournament selection is a join collection with a compound unique index",
+          reason:
+            "A selection is a relationship between a tournament, a team and a player, so it is stored as its own document under a unique index across those three fields. Selecting the same player twice for the same tournament and team is rejected by the database rather than by whichever code path happens to run.",
+          tradeoff:
+            "Reading a roster costs a join rather than reading an array off the tournament document, and the rule lives in an index rather than in application code — so it holds whether or not the caller remembered it, but it is no longer visible in the handler that writes the selection.",
+        },
+      ],
+    },
+    {
+      kind: "bullets",
+      id: "verified",
+      heading: "What is verified",
+      items: [
+        "Typecheck, lint, the 73 tests and a production build all pass, and CI runs the same four on every push.",
+        "The authorization tests were falsified before being trusted: removing a guard from a handler makes the suite fail and name the file, rather than passing quietly.",
+        "An unauthenticated write to a mutating endpoint was observed returning 401 against a locally running server.",
+        "TypeScript runs under strict, with a single explicit any remaining in roughly 15,000 lines — checkable in seconds, unlike a percentage.",
+        "Supporting structure: a serverless-safe cached Mongoose connection, and a generic useApi/useCrud pair that 13 resource hooks are built on.",
+      ],
+    },
+    {
+      kind: "bullets",
+      id: "unverified",
+      heading: "What remains unverified",
+      items: [
+        "No real MongoDB end-to-end verification was performed in the latest evidence audit.",
+        "Duplicate-key and field-clearing behaviour was verified at the level of the query that gets constructed, not against a real database.",
+        "Anonymous rejection is tested across every mutating handler, but a signed-in non-admin session against a real database has not been fully exercised.",
+        "The live deployment was not independently observed during the audit.",
+        "Historical seeded admin credentials remain in the Git history and would need rotation if they were ever used.",
+        "Possible stale MongoDB indexes remain an operational check rather than a settled question.",
+      ],
+    },
+  ],
+};
+
 export const CASE_STUDIES = {
   [MONEYGUARD_CASE_STUDY.slug]: MONEYGUARD_CASE_STUDY,
+  [MELBOURNE_CASE_STUDY.slug]: MELBOURNE_CASE_STUDY,
   [ALEX_CASE_STUDY.slug]: ALEX_CASE_STUDY,
 };
 
