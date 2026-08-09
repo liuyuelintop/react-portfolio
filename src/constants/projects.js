@@ -56,6 +56,20 @@ export const ARCHITECTURE_STUDY = {
   status: "Course-based study",
   summary:
     "Adapted Ed Donner’s Udemy ALEX capstone locally to study an SQS-backed five-role portfolio-analysis workflow and Terraform-defined AWS architecture.",
+  // Owner-attested, not repository-verified: the stack was deployed to AWS
+  // during the study and deliberately torn down afterwards. Stated in the past
+  // tense so it never reads as a running system.
+  deployment:
+    "Deployed to AWS during the study, then torn down to stop the running cost.",
+  // A record of what was worked with, not a claim of professional delivery.
+  stack: [
+    "Amazon Bedrock",
+    "AWS Lambda",
+    "Amazon SQS",
+    "Terraform",
+    "Aurora Serverless v2",
+    "Next.js",
+  ],
   contributions: [
     "A database verification utility.",
     "Corrections to the Planner test harness.",

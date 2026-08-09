@@ -41,6 +41,9 @@ const requiredContent = [
   "Udemy ALEX capstone",
   "SQS-backed five-role portfolio-analysis workflow",
   "Terraform-defined AWS architecture",
+  // Owner-attested deployment, stated in the past tense with the teardown.
+  "Deployed to AWS during the study, then torn down to stop the running cost.",
+  "Stack studied:",
   "What I contributed",
   "A database verification utility.",
   "Corrections to the Planner test harness.",
@@ -152,6 +155,7 @@ const orderedHomepageMarkers = [
   "Melbourne University Ultimate Club Platform",
   "Learning & Contributions",
   "ALEX — AWS Multi-Agent Architecture Study",
+  "Stack studied:",
   "What I contributed",
   "Additional Work",
 ];

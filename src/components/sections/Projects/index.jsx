@@ -55,6 +55,12 @@ export default function Projects() {
                         <p className="mt-1 max-w-2xl text-sm leading-relaxed text-neutral-400">
                             {ARCHITECTURE_STUDY.summary}
                         </p>
+                        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-400">
+                            {ARCHITECTURE_STUDY.deployment}
+                        </p>
+                        <p className="mt-3 text-sm text-neutral-400">
+                            Stack studied: {ARCHITECTURE_STUDY.stack.join(" · ")}
+                        </p>
                         <p className="mt-4 text-sm font-medium text-neutral-300">What I contributed</p>
                         <ul className="mt-2 max-w-2xl space-y-1.5 text-sm leading-relaxed text-neutral-400">
                             {ARCHITECTURE_STUDY.contributions.map((contribution) => (
