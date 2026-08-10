@@ -1,6 +1,6 @@
 # Portfolio Redesign Status
 
-Last updated: 2026-08-09 AEST (Content Alignment Release, ALEX checkpoint — study page added under owner override)
+Last updated: 2026-08-10 AEST (Experience truth rebuild — Experience corrected to two roles)
 Canonical redesign record for `www.liuyuelin.dev`.
 
 ## 1. Goal and non-goals
@@ -224,8 +224,9 @@ Slice 5 is merged. The Content Alignment Release is in progress on a draft PR. S
 | 3. Rendering Baseline | `feat/portfolio-rendering-baseline` | Codex Desktop / GPT-5.6 Sol / Extra High | Slice 2 merged and strategy approved | `MERGED` |
 | 4. Content-First Redesign | `claude/portfolio-content-first-redesign-qtds3c` | Claude Code / Claude Fable 5 / highest available | Slice 3 merged and design contract approved | `MERGED` |
 | 5. Case Studies (MoneyGuard only) | `claude/portfolio-moneyguard-slice-5-ungd77` | Claude Code / Claude Opus 5 / High | Slice 4 merged and content approved | `MERGED` |
-| Content Alignment Release | `claude/portfolio-align-reposition-alex-hw29j2` | Claude Code / Claude Opus 5 / High | Slice 5 merged and evidence audit accepted | `IN_PROGRESS_DRAFT_PR` |
-| 6. Release Hardening | `test/portfolio-release-hardening` | Codex Desktop / GPT-5.6 Sol / High | Content Alignment Release merged | `NOT_STARTED` |
+| Content Alignment Release | `claude/portfolio-align-reposition-alex-hw29j2` | Claude Code / Claude Opus 5 / High | Slice 5 merged and evidence audit accepted | `MERGED` |
+| Experience Truth Rebuild | `content/portfolio-experience-truth-rebuild` | Claude Code Desktop / Claude Opus 5 / High | Content Alignment Release merged | `OPEN_PR` |
+| 6. Release Hardening | `test/portfolio-release-hardening` | Codex Desktop / GPT-5.6 Sol / High | Experience Truth Rebuild merged | `NOT_STARTED` |
 
 The Slice 4 branch was proposed as `feat/portfolio-content-first-redesign`; the executing Claude Code remote platform assigns and enforces its own branch name, so the slice was delivered on `claude/portfolio-content-first-redesign-qtds3c` with the same baseline, scope and PR contract. Slice 5 was proposed as `feat/portfolio-case-studies` and was delivered on the platform-enforced `claude/portfolio-moneyguard-slice-5-ungd77` for the same reason, from the required baseline `0420e6c909b6b59c7d8c47648bef0453ace60401`. The Content Alignment Release was proposed as `feat/portfolio-content-alignment-release` and is being delivered on the platform-enforced `claude/portfolio-align-reposition-alex-hw29j2` for the same reason, from the required baseline `3d8992e4c4f4578c0edbd758d93ced8351c34d81`.
 
@@ -233,9 +234,30 @@ The Content Alignment Release is a multi-checkpoint release on one branch and on
 
 ## 9. Current slice status
 
-`PORTFOLIO_CONTENT_ALIGNMENT_ALEX_READY`
+`PORTFOLIO_EXPERIENCE_TRUTH_REBUILD_READY_FOR_REVIEW`
 
 Sections 3-7 retain the accepted audit baseline and evidence ledger. Where a later release changes public wording that section 6 recorded, the ledger row stays as the historical audit finding and the change is recorded here instead.
+
+### Experience truth rebuild
+
+The Content Alignment Release merged in `aeb2cfca57aa4a06a9f002c59806c140dd41f19c`. This checkpoint started from that exact latest `origin/main` SHA on branch `content/portfolio-experience-truth-rebuild`; no prior slice branch was reused and no branch was stacked.
+
+Scope: the public Experience section only. The career-fact reconstruction supersedes the Experience copy that was carried forward from the résumé, so the section now holds exactly two roles.
+
+- **Independent Developer**, `Sep 2025 - Present`, `Prospective Client Demos for a Melbourne Consultancy`, Melbourne. Two highlights: demonstration applications built for prospective clients from informal briefs, and the prototype stack (Next.js 15 App Router, Clerk OAuth, Convex). The previous entry claimed a freelance consultancy practice with commercial clients and production-ready SaaS delivery; none of that is evidenced, so the role no longer implies paid work, signed clients, client conversion, production delivery or ongoing support.
+- **Full-Stack Developer**, `Mar 2025 - Jun 2025`, `ByteCroniX — Early-Stage AI SaaS`, Melbourne. Three highlights: OpenAI function-calling flows in a Node.js/Express codebase, timing instrumentation on an inherited points-summary path, and the one performance observation the evidence supports — a local Docker/Postman integration-test response reduced from 26.7s to 5.6s. That is a single observed response, not a production benchmark, average or percentile, and the page states it at exactly that strength. The previous `81%` / `29s to 5.6s` framing, peak-production-load wording, form-completion attribution, four-microservice ownership, near-zero-downtime releases and 90% PR test coverage are all removed. The end date is corrected from `Aug 2025` to `Jun 2025`.
+- **Expresso Carwash was removed entirely** from the technical Experience section and was not replaced. The real employment there was service staff, not software development, so the Full-Stack Developer title, the management-portal build, the MongoDB/PostgreSQL and RBAC work, the Docker/GitHub Actions deployment automation and the ~6 hours/week saving all left the source with it. No replacement technical wording was written.
+
+Neither record carries a `type`, so no employment or payment badge renders. The renderer already treated `type` as optional and filtered absent metadata, so no component redesign or schema change was needed; the layout, placement, two-column desktop hierarchy, mobile stacking, typography, dark/cyan system and single-line technology list are unchanged. The section introduction was replaced, because the previous one framed the work as freelance delivery and deployment ownership.
+
+Verification for this checkpoint:
+
+- `npm ci`, `npm run lint`, `npm run build` (Turbopack), `npm run verify:static` and `git diff --check` all pass. `npm audit --omit=dev` reports zero production vulnerabilities.
+- `verify:static` gained a narrow Experience contract: the two role titles, both company labels and both periods are required; the Experience section must render exactly two `<article>` elements; the 26.7s-to-5.6s sentence must appear exactly once; no employment-type badge (`Freelance`, `Full-time`, `Commercial Project`, `Contract`, `Paid`) may render inside the section; and fifteen stale Experience phrases are rejected outright. The stale `ByteCroniX - AI SaaS Platform` requirement was replaced by the corrected label. Every new assertion was negative-tested against a deliberately mutated build. No existing project, case-study, metadata, sitemap or static-output assertion was weakened.
+- The exported homepage at 390/768/1024/1280 px: exactly two Experience entries, single-column stacking below `md` and the 0.62/1.38 two-column split at and above it, no page-level horizontal overflow at any width, no console output of any kind, and a heading outline that stays sequential (`h1` → `h2 Experience` → two `h3` roles). With JavaScript disabled the Experience section renders 1,277 characters of meaningful text containing both corrected records in full.
+- Selected Work, Learning & Contributions, MoneyGuard, Melbourne University Ultimate, ALEX, Hero, How I Build, Contact, the résumé PDF and all dependencies are untouched; the diff is three source files plus this document.
+
+One adjacent inconsistency is recorded but deliberately not fixed here: `HOW_I_BUILD` in `src/constants/constants.js` still cites the Expresso Carwash portal and "Maintained 4 Node.js microservices in a GCP/GKE AI SaaS environment" as evidence. How I Build is outside this checkpoint's blast radius and belongs to a separate reconciliation scope.
 
 ### Content Alignment Release — ALEX checkpoint
 
@@ -355,7 +377,7 @@ Case-study routes for Alex, Melbourne University Ultimate and the supporting bui
 
 ## 11. Next authorisation gate
 
-The Slice 5 PR was reviewed, accepted and merged into `main` as `3d8992e4c4f4578c0edbd758d93ced8351c34d81`, which satisfies the previous gate. The Content Alignment Release now holds the gate: Slice 6 remains `NOT_STARTED` and unauthorised, and may start only after the Content Alignment PR is independently reviewed, accepted, and merged into `main`. The next worker must fetch the newly merged `origin/main`; no dependent or stacked branch may start from the Content Alignment branch.
+The Content Alignment Release was reviewed, accepted and merged into `main` as `aeb2cfca57aa4a06a9f002c59806c140dd41f19c`, which satisfies the previous gate. The Experience truth rebuild now holds the gate: Slice 6 remains `NOT_STARTED` and unauthorised, and may start only after the Experience PR is independently reviewed, accepted, and merged into `main`. The next worker must fetch the newly merged `origin/main`; no dependent or stacked branch may start from the Experience branch.
 
 Three decisions need owner judgment before the Content Alignment PR leaves draft:
 

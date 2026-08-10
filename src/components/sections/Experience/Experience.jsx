@@ -70,8 +70,9 @@ export default function Experience() {
       <Reveal>
         <h2 className="text-3xl font-bold leading-tight text-white md:text-4xl">Experience</h2>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-neutral-400 md:text-lg">
-          Product delivery, API ownership, deployment work and AI-enabled workflow implementation
-          across freelance, SaaS and Melbourne business environments.
+          Hands-on development across prospective-client prototypes and an early-stage AI SaaS
+          codebase, focused on working implementations, API integration and diagnosing inherited
+          workflows.
         </p>
 
         <div className="mt-12">
