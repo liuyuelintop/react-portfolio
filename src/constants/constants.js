@@ -20,52 +20,56 @@ export const CONTACT = {
 };
 
 export const HOW_I_BUILD = {
-  intro: "I choose the right level of engineering for the problem.",
+  intro:
+    "I make the workflow concrete, measure what is actually happening, and turn fragile assumptions into explicit checks.",
   principles: [
     {
-      title: "I translate messy workflows into shipped product.",
+      title: "I start with the workflow, not the feature.",
       statement:
-        "I can talk to non-technical stakeholders, map the real workflow, and deliver software people can actually use.",
+        "I turn an unclear problem into a concrete working flow before adding abstraction, polish or extra infrastructure.",
       evidence: [
-        "Digitised Expresso Carwash spreadsheet workflows into a React/Node management portal.",
-        "Mapped API integrations, wireframes and SaaS feature scope for Melbourne clients and local sports clubs.",
+        "Built prospective-client prototypes for a specialty coffee retailer and a drone training provider from informal business briefs.",
+        "Built MoneyGuard around a real wage-checking workflow, separating model-assisted extraction from deterministic calculations.",
       ],
     },
     {
-      title: "I reduce risk between feature branch and production.",
+      title: "I measure before I optimise.",
       statement:
-        "I have worked beyond UI screens: APIs, auth, data flows, Docker, Kubernetes, CI/CD and test coverage.",
+        "I instrument inherited behaviour, trace where time or state is actually going, and change the smallest layer that explains the problem.",
       evidence: [
-        "Maintained 4 Node.js microservices in a GCP/GKE AI SaaS environment.",
-        "Added Jest and Playwright coverage so API and UI changes were safer to merge.",
+        "Instrumented ByteCroniX's inherited points-summary path, identified scoring services as the dominant latency contributors, then parallelised independent calls.",
+        "Revisited Melbourne Ultimate, traced silent session-role failures to fragmented authentication usage, and centralised session reads behind one database-verified guard.",
       ],
     },
     {
-      title: "I build AI workflows with engineering guardrails.",
+      title: "I turn assumptions into enforceable boundaries.",
       statement:
-        "I treat AI integrations as engineering systems, with structured outputs, deterministic validation, privacy boundaries and failure handling.",
+        "I prefer schemas, explicit write rules and regression checks over relying on UI conventions, model behaviour or code-review memory.",
       evidence: [
-        "Designed a TypeScript/Zod finance engine to validate LLM OCR output before using it.",
-        "Added masking, retry/backoff and timestamp throttling to keep AI integrations private and reliable.",
+        "Schema-validated MoneyGuard OCR output with Zod before deterministic wage calculations consume it.",
+        "Turned Melbourne Ultimate authorization and mass-assignment findings into automated regression tests and CI checks.",
       ],
     },
   ],
   toolbox: [
     {
-      label: "Frontend",
-      tools: ["React", "Next.js 14/15", "TypeScript", "Tailwind CSS", "Responsive UI"],
+      label: "Product UI",
+      tools: ["React 19", "Next.js 15/16", "TypeScript", "Tailwind CSS"],
     },
     {
-      label: "Backend",
-      tools: ["Node.js", "Express", "REST APIs", "JWT/OAuth", "PostgreSQL", "MongoDB"],
+      label: "APIs & Data",
+      tools: ["Node.js", "Express", "REST APIs", "MongoDB", "Convex"],
     },
     {
-      label: "Cloud & Quality",
-      tools: ["Docker", "Kubernetes", "GitHub Actions", "AWS Lambda", "GCP GKE", "Jest", "Playwright"],
+      // Clerk and NextAuth are named rather than a generic "JWT/OAuth" entry:
+      // both trace to work the page already describes. pytest and Playwright
+      // were dropped because nothing in the accepted evidence demonstrates them.
+      label: "Auth & Delivery",
+      tools: ["Clerk OAuth", "NextAuth", "GitHub Actions", "Docker", "Vitest"],
     },
     {
-      label: "AI Workflow",
-      tools: ["OpenAI SDK", "Gemini", "DeepSeek", "Bedrock", "Structured Outputs", "Zod"],
+      label: "AI & Validation",
+      tools: ["OpenAI Function Calling", "Gemini", "DeepSeek", "Zod"],
     },
   ],
 };
