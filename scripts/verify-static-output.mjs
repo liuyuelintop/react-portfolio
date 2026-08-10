@@ -56,8 +56,13 @@ const requiredContent = [
   "Fixed the Planner's local test harness, which created a job for a user that did not exist.",
   "Documented the cross-region ECR fix for SageMaker deployments outside us-east-1.",
   "Read the architecture study",
-  // Experience
-  "ByteCroniX - AI SaaS Platform",
+  // Experience — exactly two roles, stated at the strength the evidence supports.
+  "Independent Developer",
+  "Prospective Client Demos for a Melbourne Consultancy",
+  "Sep 2025 - Present",
+  "Full-Stack Developer",
+  "ByteCroniX — Early-Stage AI SaaS",
+  "Mar 2025 - Jun 2025",
   // How I Build
   "How I Build",
   "I translate messy workflows into shipped product.",
@@ -236,6 +241,72 @@ for (const phrase of bannedAlexLanguage) {
     !lowerHomepageText.includes(phrase.toLowerCase()),
     `Homepage contains a rejected ALEX claim: ${phrase}`,
   );
+}
+
+// --- Experience is two roles, stated at evidence strength --------------------
+
+// The Experience section previously carried a third role and a set of metrics
+// the career-fact reconstruction does not support. These assertions are the
+// regression net: the stale wording cannot come back, and neither can a third
+// entry.
+const experienceSectionStart = html.indexOf('id="experience"');
+const experienceSectionEnd = html.indexOf('id="how-i-build"');
+assert.ok(
+  experienceSectionStart !== -1 && experienceSectionEnd > experienceSectionStart,
+  "Could not isolate the Experience section",
+);
+const experienceHtml = html.slice(experienceSectionStart, experienceSectionEnd);
+const experienceText = toText(experienceHtml);
+
+assert.equal(
+  (experienceHtml.match(/<article\b/g) ?? []).length,
+  2,
+  "Experience must render exactly two roles",
+);
+
+// The one performance observation the evidence supports, at its exact strength:
+// a single local integration-test response, stated once and nowhere repeated.
+const observedLatencySentence =
+  "Profiled an inherited points-summary pipeline and parallelised independent service calls, reducing an observed local integration-test response from 26.7s to 5.6s.";
+assert.equal(
+  text.split(observedLatencySentence).length - 1,
+  1,
+  "The 26.7s to 5.6s observation must appear exactly once on the homepage",
+);
+
+// Employment type and payment status are unevidenced, so no role may render a
+// type badge. The Contact form's "Freelance build" option is deliberately
+// outside this slice.
+for (const badge of ["Freelance", "Full-time", "Commercial Project", "Contract", "Paid"]) {
+  assert.ok(
+    !experienceText.includes(badge),
+    `Experience renders an unevidenced employment-type badge: ${badge}`,
+  );
+}
+
+const staleExperienceWording = [
+  // Independent work overstated as a consultancy practice with commercial clients.
+  "Freelance Full-Stack Developer & Consultant",
+  "Independent Practice",
+  "production-ready SaaS",
+  "commercial clients and local sports clubs",
+  // ByteCroniX dates, metrics and ownership the reconstruction contradicts.
+  "Mar 2025 - Aug 2025",
+  "Reduced API response time by 81%",
+  "29s to 5.6s",
+  "peak production loads",
+  "directly increasing user form completion rates",
+  "Maintained 4 core Node.js microservices",
+  "near-zero-downtime",
+  "90% PR test coverage",
+  // Expresso Carwash was never software-development employment.
+  "Expresso Carwash Pty Ltd",
+  "saving approximately 6 hours per week per site",
+  "eliminating manual server updates",
+];
+
+for (const phrase of staleExperienceWording) {
+  assert.ok(!text.includes(phrase), `Homepage still renders stale Experience wording: ${phrase}`);
 }
 
 // --- MoneyGuard case study ---------------------------------------------------
