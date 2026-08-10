@@ -1,6 +1,6 @@
 # Portfolio Redesign Status
 
-Last updated: 2026-08-10 AEST (Experience truth rebuild — Experience corrected to two roles)
+Last updated: 2026-08-10 AEST (How I Build truth alignment — principles and toolbox rebuilt from accepted evidence)
 Canonical redesign record for `www.liuyuelin.dev`.
 
 ## 1. Goal and non-goals
@@ -225,8 +225,9 @@ Slice 5 is merged. The Content Alignment Release is in progress on a draft PR. S
 | 4. Content-First Redesign | `claude/portfolio-content-first-redesign-qtds3c` | Claude Code / Claude Fable 5 / highest available | Slice 3 merged and design contract approved | `MERGED` |
 | 5. Case Studies (MoneyGuard only) | `claude/portfolio-moneyguard-slice-5-ungd77` | Claude Code / Claude Opus 5 / High | Slice 4 merged and content approved | `MERGED` |
 | Content Alignment Release | `claude/portfolio-align-reposition-alex-hw29j2` | Claude Code / Claude Opus 5 / High | Slice 5 merged and evidence audit accepted | `MERGED` |
-| Experience Truth Rebuild | `content/portfolio-experience-truth-rebuild` | Claude Code Desktop / Claude Opus 5 / High | Content Alignment Release merged | `OPEN_PR` |
-| 6. Release Hardening | `test/portfolio-release-hardening` | Codex Desktop / GPT-5.6 Sol / High | Experience Truth Rebuild merged | `NOT_STARTED` |
+| Experience Truth Rebuild | `content/portfolio-experience-truth-rebuild` | Claude Code Desktop / Claude Opus 5 / High | Content Alignment Release merged | `MERGED` |
+| How I Build Truth Alignment | `content/how-i-build-truth-alignment` | Claude Code Desktop / Claude Opus 5 / High | Experience Truth Rebuild merged | `OPEN_PR` |
+| 6. Release Hardening | `test/portfolio-release-hardening` | Codex Desktop / GPT-5.6 Sol / High | How I Build Truth Alignment merged | `NOT_STARTED` |
 
 The Slice 4 branch was proposed as `feat/portfolio-content-first-redesign`; the executing Claude Code remote platform assigns and enforces its own branch name, so the slice was delivered on `claude/portfolio-content-first-redesign-qtds3c` with the same baseline, scope and PR contract. Slice 5 was proposed as `feat/portfolio-case-studies` and was delivered on the platform-enforced `claude/portfolio-moneyguard-slice-5-ungd77` for the same reason, from the required baseline `0420e6c909b6b59c7d8c47648bef0453ace60401`. The Content Alignment Release was proposed as `feat/portfolio-content-alignment-release` and is being delivered on the platform-enforced `claude/portfolio-align-reposition-alex-hw29j2` for the same reason, from the required baseline `3d8992e4c4f4578c0edbd758d93ced8351c34d81`.
 
@@ -234,9 +235,45 @@ The Content Alignment Release is a multi-checkpoint release on one branch and on
 
 ## 9. Current slice status
 
-`PORTFOLIO_EXPERIENCE_TRUTH_REBUILD_READY_FOR_REVIEW`
+`PORTFOLIO_HOW_I_BUILD_TRUTH_ALIGNMENT_READY_FOR_REVIEW`
 
 Sections 3-7 retain the accepted audit baseline and evidence ledger. Where a later release changes public wording that section 6 recorded, the ledger row stays as the historical audit finding and the change is recorded here instead.
+
+### How I Build truth alignment
+
+The Experience truth rebuild merged in `189f6efa8bdb971fce58f46998511d9557e8e8c0`. This checkpoint started from that exact latest `origin/main` SHA on branch `content/how-i-build-truth-alignment`; no prior content branch was reused and no branch was stacked.
+
+Scope: the public How I Build section only. It closes the adjacent inconsistency the Experience checkpoint recorded and deliberately left open — `HOW_I_BUILD` still cited the Expresso Carwash portal and four maintained GCP/GKE microservices as evidence for claims that Experience had already removed.
+
+The section keeps its name, its three-principle structure, its toolbox structure, its visual hierarchy and its responsive layout. `HowIBuild.jsx` already rendered an intro, three `{title, statement, evidence[]}` principles and an arbitrary number of `{label, tools[]}` toolbox rows, so the renderer was not touched: this is a constants-only content change plus the verifier and this document. No card, icon, badge, progress bar, animation, component or dependency was added.
+
+- **Intro.** `I choose the right level of engineering for the problem.` became `I make the workflow concrete, measure what is actually happening, and turn fragile assumptions into explicit checks.` The previous line described a disposition; the new one names the three habits the principles then evidence.
+- **Principle 1 — `I start with the workflow, not the feature.`** Evidence is the prospective-client prototypes (a specialty coffee retailer and a drone training provider, built from informal business briefs) and MoneyGuard's separation of model-assisted extraction from deterministic calculation. The prototype line is worded to match the Experience record: prospective clients and informal briefs, not paid freelance delivery, commercial production work, signed clients or converted clients. It replaces `I translate messy workflows into shipped product.`, whose evidence was the Expresso Carwash portal and scope work for "Melbourne clients and local sports clubs".
+- **Principle 2 — `I measure before I optimise.`** Evidence is the ByteCroniX instrumentation (inherited points-summary path, scoring services identified as the dominant latency contributors, independent calls then parallelised) and the Melbourne Ultimate session-role investigation (fragmented authentication usage centralised behind one database-verified guard). The `26.7s → 5.6s` figure is deliberately **not** repeated here; it stays bounded to its single appearance in Experience, and the verifier enforces that. It replaces `I reduce risk between feature branch and production.`, whose evidence was four maintained Node.js microservices in a GCP/GKE environment and unsupported Jest/Playwright coverage framing.
+- **Principle 3 — `I turn assumptions into enforceable boundaries.`** Evidence is MoneyGuard's Zod schema validation of OCR output ahead of deterministic wage calculations, and the Melbourne Ultimate authorization and mass-assignment findings turned into automated regression tests and CI checks. It replaces `I build AI workflows with engineering guardrails.`, whose evidence claimed masking, retry/backoff and timestamp throttling kept AI integrations "private and reliable" — a privacy and reliability claim the MoneyGuard audit contradicts.
+- **Toolbox.** Four restrained groups replace the previous four: `Product UI` (React 19, Next.js 15/16, TypeScript, Tailwind CSS), `APIs & Data` (Node.js, Express, REST APIs, MongoDB, Convex), `Auth & Delivery` (Clerk OAuth, NextAuth, GitHub Actions, Docker, Vitest) and `AI & Validation` (OpenAI Function Calling, Gemini, DeepSeek, Zod). Kubernetes, GCP GKE, AWS Lambda, Bedrock, Jest, PostgreSQL, `JWT/OAuth` and `Responsive UI` are gone: the first four are ownership-oriented cloud entries or course-derived technologies from the ALEX study, and the rest either duplicate other sections or are not independently demonstrated.
+
+Removing those technologies from How I Build does not remove them from the site. Bedrock and AWS Lambda still appear in the Learning & Contributions block, where the ALEX attribution explains their context accurately, and ALEX was not modified to achieve this. The verifier's How I Build exclusions are therefore section-scoped rather than page-wide.
+
+#### Owner override: the third and fourth toolbox rows
+
+The checkpoint brief fixed the toolbox as `Quality & Delivery` (GitHub Actions, Docker, Vitest, pytest, Playwright) and `AI & Validation` (…, Zod, Structured Outputs). Owner review of the section found the same defect in the toolbox that the principles had, and reversed that decision. The reversal is recorded here because it changes three verifier assertions.
+
+An entry-by-entry evidence audit of the fixed list found that `pytest`, `Playwright` and `Structured Outputs` appear nowhere in the accepted content except the toolbox itself. The only Python in the repository is Ed Donner's ALEX course code, so `pytest` would trace only to course-based material — which the brief's own exclusion rule already rejects. `Playwright` survived solely in `src/constants/technologies.js`, a legacy file still exported from the barrel but rendered by no mounted section since the Skills section was removed in Slice 4. `Structured Outputs` is a concept label rather than a demonstrated tool, and is already implied by the `OpenAI Function Calling` and `Zod` entries beside it.
+
+Meanwhile two evidenced technologies were absent: **Clerk OAuth**, which Experience names in the prototype stack, and **NextAuth**, which is the authentication layer behind the Melbourne session guard that this section's own Principle 2 evidence describes. Both are named specifically rather than as the generic `JWT/OAuth` entry the brief excluded, so neither is a duplicate label.
+
+The third row is therefore `Auth & Delivery` (Clerk OAuth, NextAuth, GitHub Actions, Docker, Vitest) and the fourth drops to four entries. The group count, the row count, the label-plus-list structure and the rendered geometry are unchanged: the toolbox `dl` still measures 139 px at 768/1024/1280 px and 258 px at 390 px, exactly as before the override.
+
+`technologies.js` is pre-existing dead data, not something this change orphaned, so it was left in place and is recorded here instead of being deleted inside a content checkpoint.
+
+Verification for this checkpoint:
+
+- `npm ci`, `npm run lint`, `npm run build` (Turbopack) and `npm run verify:static` pass; `git diff --check` is clean. `npm audit --omit=dev` reports zero production vulnerabilities. The Turbopack build succeeded, so the `--webpack` fallback was not needed.
+- `verify:static` gained a How I Build contract scoped between `id="how-i-build"` and `id="contact"`: the intro, all three principle titles and all six evidence lines are required verbatim; the four toolbox labels and the `Clerk OAuth` and `NextAuth` entries are required; the section must render exactly three `<article>` elements and exactly four `<dt>` rows; and a rejected-wording list covers the three old principle titles, the six stale evidence phrases, the removed technologies (`Kubernetes`, `AWS Lambda`, `Bedrock`, `GCP/GKE`, `Jest`, `JWT/OAuth`, `pytest`, `Playwright`, `Structured Outputs`), the bounded metrics (`26.7s`, `5.6s`, `81%`, `P95`, `P99`) and the over-claims the principles must not reach for (`production optimisation`, `production incident`, `production security`, `production-grade security`, `comprehensive security testing`, `absolute privacy`, `anonymous`, `zero data exposure`, `all vulnerabilities`). The stale `I translate messy workflows into shipped product.` requirement was replaced by the section-scoped block, not dropped. Thirty-one deliberate mutations of the built homepage were negative-tested and all thirty-one failed the verifier. No Experience, Selected Work, case-study, metadata or sitemap assertion was weakened.
+- The exported homepage in headless Chromium at 390/768/1024/1280 px: no page-level horizontal overflow and no internal section overflow at any width; the three principles stack in one column below `md` with a 45 px height spread, and sit in an equal-height three-column grid at and above it, so no principle is materially taller than its neighbours; the toolbox stays four rows at 139 px on desktop; the heading outline is unchanged and sequential (`h1` → `h2 How I Build` → three `h3` principles); console output is only the pre-existing `/favicon.ico` 404, with no hydration warning, React error or page error. With JavaScript disabled the section renders 1,701 characters of meaningful text containing the intro, all three principles, all six evidence lines and all four toolbox rows.
+- The rendered text of every other homepage section was extracted from a baseline build of `189f6ef` and from the final build and compared byte-for-byte: `hero`, `projects` (Selected Work, MoneyGuard, Melbourne University Ultimate, Learning & Contributions, ALEX, Additional Work), `experience` and `contact` are all **identical**. Only `how-i-build` changed.
+- MoneyGuard, the Melbourne University Ultimate case study, the ALEX study, the résumé PDF, Education, project routes, metadata and dependencies are untouched; the diff is two source files plus this document.
 
 ### Experience truth rebuild
 
@@ -257,7 +294,7 @@ Verification for this checkpoint:
 - The exported homepage at 390/768/1024/1280 px: exactly two Experience entries, single-column stacking below `md` and the 0.62/1.38 two-column split at and above it, no page-level horizontal overflow at any width, no console output of any kind, and a heading outline that stays sequential (`h1` → `h2 Experience` → two `h3` roles). With JavaScript disabled the Experience section renders 1,277 characters of meaningful text containing both corrected records in full.
 - Selected Work, Learning & Contributions, MoneyGuard, Melbourne University Ultimate, ALEX, Hero, How I Build, Contact, the résumé PDF and all dependencies are untouched; the diff is three source files plus this document.
 
-One adjacent inconsistency is recorded but deliberately not fixed here: `HOW_I_BUILD` in `src/constants/constants.js` still cites the Expresso Carwash portal and "Maintained 4 Node.js microservices in a GCP/GKE AI SaaS environment" as evidence. How I Build is outside this checkpoint's blast radius and belongs to a separate reconciliation scope.
+One adjacent inconsistency is recorded but deliberately not fixed here: `HOW_I_BUILD` in `src/constants/constants.js` still cites the Expresso Carwash portal and "Maintained 4 Node.js microservices in a GCP/GKE AI SaaS environment" as evidence. How I Build is outside this checkpoint's blast radius and belongs to a separate reconciliation scope. That scope is the How I Build truth alignment recorded above, which closed this item.
 
 ### Content Alignment Release — ALEX checkpoint
 
@@ -377,7 +414,7 @@ Case-study routes for Alex, Melbourne University Ultimate and the supporting bui
 
 ## 11. Next authorisation gate
 
-The Content Alignment Release was reviewed, accepted and merged into `main` as `aeb2cfca57aa4a06a9f002c59806c140dd41f19c`, which satisfies the previous gate. The Experience truth rebuild now holds the gate: Slice 6 remains `NOT_STARTED` and unauthorised, and may start only after the Experience PR is independently reviewed, accepted, and merged into `main`. The next worker must fetch the newly merged `origin/main`; no dependent or stacked branch may start from the Experience branch.
+The Experience truth rebuild was reviewed, accepted and merged into `main` as `189f6efa8bdb971fce58f46998511d9557e8e8c0`, which satisfies the previous gate. The How I Build truth alignment now holds the gate: Slice 6 remains `NOT_STARTED` and unauthorised, and may start only after the How I Build PR is independently reviewed, accepted, and merged into `main`. The next worker must fetch the newly merged `origin/main`; no dependent or stacked branch may start from the How I Build branch.
 
 Three decisions need owner judgment before the Content Alignment PR leaves draft:
 

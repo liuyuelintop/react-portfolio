@@ -63,9 +63,8 @@ const requiredContent = [
   "Full-Stack Developer",
   "ByteCroniX — Early-Stage AI SaaS",
   "Mar 2025 - Jun 2025",
-  // How I Build
+  // How I Build — its content contract is asserted section-scoped further down.
   "How I Build",
-  "I translate messy workflows into shipped product.",
   // Contact
   "liuyuelintop@gmail.com",
 ];
@@ -307,6 +306,119 @@ const staleExperienceWording = [
 
 for (const phrase of staleExperienceWording) {
   assert.ok(!text.includes(phrase), `Homepage still renders stale Experience wording: ${phrase}`);
+}
+
+// --- How I Build describes habits the accepted evidence demonstrates ----------
+
+// The previous principles predated the evidence reconciliation and cited work
+// that Experience has since removed. These assertions are scoped to the section
+// so that technologies which are accurately attributed elsewhere on the page —
+// Bedrock and AWS Lambda in the ALEX study block, for instance — stay legal
+// where their context is explained.
+const howIBuildStart = html.indexOf('id="how-i-build"');
+const howIBuildEnd = html.indexOf('id="contact"');
+assert.ok(
+  howIBuildStart !== -1 && howIBuildEnd > howIBuildStart,
+  "Could not isolate the How I Build section",
+);
+const howIBuildHtml = html.slice(howIBuildStart, howIBuildEnd);
+const howIBuildText = toText(howIBuildHtml);
+
+const requiredHowIBuildContent = [
+  // Intro.
+  "I make the workflow concrete, measure what is actually happening, and turn fragile assumptions into explicit checks.",
+  // The three principles.
+  "I start with the workflow, not the feature.",
+  "I measure before I optimise.",
+  "I turn assumptions into enforceable boundaries.",
+  // Evidence, one pair per principle, each traceable to accepted material.
+  "Built prospective-client prototypes for a specialty coffee retailer and a drone training provider from informal business briefs.",
+  "Built MoneyGuard around a real wage-checking workflow, separating model-assisted extraction from deterministic calculations.",
+  "Instrumented ByteCroniX's inherited points-summary path, identified scoring services as the dominant latency contributors, then parallelised independent calls.",
+  "Revisited Melbourne Ultimate, traced silent session-role failures to fragmented authentication usage, and centralised session reads behind one database-verified guard.",
+  "Schema-validated MoneyGuard OCR output with Zod before deterministic wage calculations consume it.",
+  "Turned Melbourne Ultimate authorization and mass-assignment findings into automated regression tests and CI checks.",
+  // The four restrained toolbox groups.
+  "Product UI",
+  "APIs & Data",
+  "Auth & Delivery",
+  "AI & Validation",
+  // Named rather than generic, and traceable: Clerk to the prototype stack in
+  // Experience, NextAuth to the Melbourne session guard this section cites.
+  "Clerk OAuth",
+  "NextAuth",
+];
+
+for (const content of requiredHowIBuildContent) {
+  assert.ok(
+    howIBuildText.includes(content),
+    `How I Build is missing required content: ${content}`,
+  );
+}
+
+assert.equal(
+  (howIBuildHtml.match(/<article\b/g) ?? []).length,
+  3,
+  "How I Build must render exactly three principles",
+);
+assert.equal(
+  (howIBuildHtml.match(/<dt\b/g) ?? []).length,
+  4,
+  "How I Build must render exactly four toolbox groups",
+);
+
+const staleHowIBuildWording = [
+  // Principle titles the reconciliation replaced.
+  "I translate messy workflows into shipped product.",
+  "I reduce risk between feature branch and production.",
+  "I build AI workflows with engineering guardrails.",
+  // Evidence contradicted by the career-fact reconstruction.
+  "Digitised Expresso Carwash spreadsheet workflows",
+  "Expresso Carwash",
+  "Melbourne clients and local sports clubs",
+  "Maintained 4 Node.js microservices",
+  "GCP/GKE",
+  "GCP GKE",
+  "Added Jest and Playwright coverage",
+  "Jest",
+  "masking, retry/backoff and timestamp throttling",
+  // Ownership-oriented cloud wording and course-derived technologies belong to
+  // Learning & Contributions, not to a claim about how Yuelin builds.
+  "Kubernetes",
+  "AWS Lambda",
+  "Bedrock",
+  "JWT/OAuth",
+  // Nothing in the accepted evidence demonstrates these. `pytest` and `Python`
+  // would only trace to the course-based ALEX material; `Playwright` survived
+  // solely in the unrendered legacy `technologies.js`.
+  "pytest",
+  "Playwright",
+  "Structured Outputs",
+  // The one latency observation stays bounded to Experience.
+  "26.7s",
+  "5.6s",
+  "81%",
+  "P95",
+  "P99",
+  // Over-claims the section must not reach for.
+  "production optimisation",
+  "production optimization",
+  "production incident",
+  "production security",
+  "production-grade security",
+  "comprehensive security testing",
+  "absolute privacy",
+  "anonymous",
+  "zero data exposure",
+  "all vulnerabilities",
+];
+
+const lowerHowIBuildText = howIBuildText.toLowerCase();
+for (const phrase of staleHowIBuildWording) {
+  assert.ok(
+    !lowerHowIBuildText.includes(phrase.toLowerCase()),
+    `How I Build still renders rejected wording: ${phrase}`,
+  );
 }
 
 // --- MoneyGuard case study ---------------------------------------------------
