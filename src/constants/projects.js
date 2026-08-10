@@ -1,5 +1,10 @@
 import { projectImages } from "./assets";
-import { MONEYGUARD_CASE_STUDY, caseStudyHref } from "./caseStudies";
+import {
+  ALEX_CASE_STUDY,
+  MELBOURNE_CASE_STUDY,
+  MONEYGUARD_CASE_STUDY,
+  caseStudyHref,
+} from "./caseStudies";
 
 export const PROJECTS = [
   {
@@ -19,80 +24,68 @@ export const PROJECTS = [
     year: "2026",
   },
   {
-    title: "Alex - AWS Multi-Agent Wealth Platform",
-    image: projectImages.alexAwsMultiAgentWealthPlatform,
-    roleFit:
-      "Serverless AWS architecture, agent orchestration, production observability and full-stack delivery.",
-    description: {
-      summary:
-        "A cloud-native wealth-planning product where five AI agents coordinate planning, reporting and retirement workflows on AWS.",
-      detailed:
-        "Alex is a September 2025 engineering build focused on turning a multi-agent wealth-planning concept into production-shaped cloud infrastructure. It connects a Next.js + Clerk interface to Bedrock-backed agent workflows, async Lambda + SQS jobs, Aurora Serverless v2 persistence, S3 Vectors RAG, Terraform-defined infrastructure, and LangFuse/CloudWatch observability.",
-      features: [
-        "Orchestrated five domain agents for planning, tagging, reporting, investment-charter generation and retirement analysis through event-driven AWS workflows.",
-        "Built async Lambda + SQS execution with structured outputs, tool calls, database writes and retry paths so agent work is observable instead of opaque.",
-        "Designed a cost-conscious RAG layer with S3 Vectors and SageMaker embeddings, reducing vector storage cost by ~90% versus an OpenSearch-style setup.",
-        "Provisioned eight Terraform stages covering permissions, research ingestion, agents, frontend delivery and enterprise guardrails.",
-        "Exposed the system through a Next.js + Clerk frontend behind CloudFront/API Gateway, with LangFuse traces, CloudWatch dashboards, throttling and least-privilege IAM.",
-      ],
-    },
-    technologies: {
-      main: [
-        "Next.js",
-        "TypeScript",
-        "Amazon Bedrock",
-        "Terraform",
-        "AWS Lambda",
-        "Amazon SQS",
-      ],
-      additional: [
-        "Aurora Serverless v2",
-        "S3 Vectors",
-        "SageMaker",
-        "App Runner",
-        "CloudFront",
-        "API Gateway",
-        "Clerk",
-        "LangFuse",
-        "CloudWatch",
-      ],
-      others: [
-        "OpenAI Agents SDK",
-        "Agentic Workflows",
-        "RAG",
-        "Infrastructure as Code",
-        "LLM Observability",
-        "Serverless Architecture",
-      ],
-    },
-    year: "2025",
-  },
-  {
-    title: "Melbourne University Ultimate Club Platform",
+    title: MELBOURNE_CASE_STUDY.title,
     image: projectImages.melbUniUltimate,
     roleFit:
-      "Local product ownership, community workflows and maintainable Next.js delivery.",
+      "Root-cause debugging, server-side authorization hardening, data modelling and regression-proof CI.",
+    // Case-study copy is owned by caseStudies.js; this entry references it.
+    // The modal-only `detailed` and `features` copy is gone rather than hidden:
+    // the card links straight to the case study, so nothing rendered it, and
+    // every claim it carried was contradicted by the source.
     description: {
-      summary:
-        "An open-source Next.js 15 platform for sports club management, player stats and community engagement.",
-      detailed:
-        "This project shows practical product thinking: it translates a real local community need into maintainable workflows for events, announcements, player statistics and responsive dashboards.",
-      features: [
-        "Architected a modular open-source template for sports club management",
-        "Implemented player statistics tracking, events, announcements and community workflows",
-        "Used Next.js 15 server-side logic and optimized layouts for multi-device dashboards",
-        "Designed a maintainable base that can be adapted by other clubs and teams",
-      ],
+      summary: MELBOURNE_CASE_STUDY.summary,
     },
-    url: "https://melb-uni-ultimate.vercel.app",
+    ownership: MELBOURNE_CASE_STUDY.ownership,
+    caseStudyHref: caseStudyHref(MELBOURNE_CASE_STUDY.slug),
+    github: MELBOURNE_CASE_STUDY.sourceUrl,
+    // No `url`. The deployment was not independently verified in the latest
+    // audit and a historical seeded admin credential still needs owner-side
+    // rotation, so the card links to source rather than to a live site.
     technologies: {
-      main: ["Next.js 15", "TypeScript", "MongoDB", "Tailwind CSS"],
-      additional: ["shadcn/ui", "Responsive UI", "Vercel", "Open Source"],
-      others: ["Club Management", "Player Statistics"],
+      main: ["Next.js 15", "TypeScript", "MongoDB", "Vitest"],
     },
     year: "2025",
   },
 ];
+
+// Not owned work: this is architecture Yuelin studied rather than authored, so
+// it is presented as learning evidence and never as a flagship project. Every
+// contribution below is directly attributable; the surrounding architecture is
+// course material.
+export const ARCHITECTURE_STUDY = {
+  intro:
+    "Recent architecture I studied hands-on, and the corrections that came out of it.",
+  title: ALEX_CASE_STUDY.title,
+  status: "Course-based study",
+  // The depth lives on the study page, which states the attribution first and
+  // carries the architecture diagram. The homepage block stays a summary.
+  href: caseStudyHref(ALEX_CASE_STUDY.slug),
+  summary:
+    "Adapted Ed Donner’s Udemy ALEX capstone locally to study an SQS-backed five-role portfolio-analysis workflow and Terraform-defined AWS architecture.",
+  // Owner-attested, not repository-verified: the stack was deployed to AWS
+  // during the study and deliberately torn down afterwards. Stated in the past
+  // tense so it never reads as a running system.
+  deployment:
+    "Deployed to AWS during the study, then torn down to stop the running cost.",
+  // A record of what was worked with, not a claim of professional delivery.
+  stack: [
+    "Amazon Bedrock",
+    "AWS Lambda",
+    "Amazon SQS",
+    "Terraform",
+    "Aurora Serverless v2",
+    "Next.js",
+  ],
+  // Each line traces to a commit in liuyuelintop/ed-ai-in-production-alex.
+  // The verification script itself is course material; the guide step is not,
+  // so this claims the step and never the script.
+  contributions: [
+    "Added a database-integrity verification step to guide 5.",
+    "Fixed the Planner's local test harness, which created a job for a user that did not exist.",
+    "Corrected guide 8's logging example and rewrote its Charter validation and Tagger explainability sections to match the real agent code.",
+    "Documented the cross-region ECR fix for SageMaker deployments outside us-east-1.",
+  ],
+};
 
 export const SUPPORTING_PROJECTS = [
   {

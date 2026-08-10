@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { CASE_STUDIES, CASE_STUDY_SLUGS } from "../../../src/constants/caseStudies";
+import AlexArchitectureDiagram from "../../../src/components/ui/diagrams/AlexArchitectureDiagram";
 import { focusRingClasses } from "../../../src/utils/accessibility";
 
 const SITE_URL = "https://www.liuyuelin.dev/";
@@ -55,6 +56,12 @@ export async function generateMetadata({ params }) {
 
 const backLinkClasses = `inline-flex items-center gap-2 py-3 text-sm font-medium text-neutral-400 transition-colors hover:text-cyan-300 ${focusRingClasses}`;
 
+// Diagrams are components rather than data, so a case study names one and the
+// renderer resolves it. An unknown name renders nothing rather than throwing.
+const DIAGRAMS = {
+  alex: AlexArchitectureDiagram,
+};
+
 function SectionHeading({ id, children }) {
   return (
     <h2 id={id} className="text-2xl font-bold leading-snug text-white md:text-3xl">
@@ -68,13 +75,181 @@ SectionHeading.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
+function Bullet() {
+  return (
+    <span aria-hidden="true" className="mr-3 text-cyan-300">
+      —
+    </span>
+  );
+}
+
+function SectionBody({ section }) {
+  switch (section.kind) {
+    case "prose":
+      return section.paragraphs.map((paragraph) => (
+        <p key={paragraph} className="mt-5 leading-relaxed text-neutral-300">
+          {paragraph}
+        </p>
+      ));
+
+    case "bullets":
+      return (
+        <ul className="mt-5 space-y-4">
+          {section.items.map((item) => (
+            <li key={item} className="leading-relaxed text-neutral-300">
+              <Bullet />
+              {item}
+            </li>
+          ))}
+        </ul>
+      );
+
+    case "steps":
+      return (
+        <ol className="mt-6 divide-y divide-neutral-800 border-y border-neutral-800">
+          {section.items.map((stage) => (
+            <li key={stage.step} className="py-5">
+              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <span className="font-mono text-sm text-cyan-300">{stage.step}</span>
+                <h3 className="text-base font-semibold text-white">{stage.label}</h3>
+              </div>
+              <p className="mt-2 leading-relaxed text-neutral-300">{stage.detail}</p>
+              <p className="mt-2 font-mono text-xs text-neutral-500">{stage.source}</p>
+            </li>
+          ))}
+        </ol>
+      );
+
+    case "decisions":
+      return (
+        <ul className="mt-6 divide-y divide-neutral-800 border-y border-neutral-800">
+          {section.items.map((item) => (
+            <li key={item.decision} className="py-6">
+              <h3 className="text-base font-semibold text-white">{item.decision}</h3>
+              <p className="mt-3 leading-relaxed text-neutral-300">{item.reason}</p>
+              <p className="mt-3 leading-relaxed text-neutral-400">
+                <span className="font-semibold text-neutral-300">Tradeoff accepted: </span>
+                {item.tradeoff}
+              </p>
+            </li>
+          ))}
+        </ul>
+      );
+
+    case "groups":
+      return (
+        <>
+          <p className="mt-5 leading-relaxed text-neutral-300">{section.intro}</p>
+          {section.groups.map((group) => (
+            <div key={group.heading} className="mt-10">
+              <h3 className="text-lg font-semibold text-white">{group.heading}</h3>
+              <ul className="mt-4 space-y-3">
+                {group.points.map((point) => (
+                  <li key={point} className="leading-relaxed text-neutral-300">
+                    <Bullet />
+                    {point}
+                  </li>
+                ))}
+              </ul>
+              {group.note && (
+                <p className="mt-5 border-l-2 border-cyan-300 pl-5 leading-relaxed text-neutral-200">
+                  {group.note}
+                </p>
+              )}
+            </div>
+          ))}
+        </>
+      );
+
+    case "details":
+      return (
+        <>
+          <p className="mt-5 leading-relaxed text-neutral-300">{section.intro}</p>
+          <ul className="mt-6 space-y-6">
+            {section.items.map((item) => (
+              <li key={item.heading}>
+                <h3 className="text-base font-semibold text-white">{item.heading}</h3>
+                <p className="mt-2 leading-relaxed text-neutral-300">{item.detail}</p>
+              </li>
+            ))}
+          </ul>
+          {section.note && (
+            <p className="mt-8 border-l-2 border-neutral-700 pl-5 leading-relaxed text-neutral-400">
+              {section.note}
+            </p>
+          )}
+        </>
+      );
+
+    // Each item carries its own evidence link, so a claim and the diff that
+    // backs it stay adjacent rather than collected into a footnote.
+    case "links":
+      return (
+        <>
+          {section.intro && (
+            <p className="mt-5 leading-relaxed text-neutral-300">{section.intro}</p>
+          )}
+          <ul className="mt-6 divide-y divide-neutral-800 border-y border-neutral-800">
+            {section.items.map((item) => (
+              <li key={item.label} className="py-6">
+                <h3 className="text-base font-semibold text-white">{item.label}</h3>
+                <p className="mt-3 leading-relaxed text-neutral-300">{item.detail}</p>
+                {item.href && (
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`mt-3 inline-flex items-center gap-1.5 font-mono text-xs text-neutral-400 transition-colors hover:text-cyan-300 ${focusRingClasses}`}
+                  >
+                    {item.linkLabel}
+                    <ExternalLink size={13} aria-hidden="true" />
+                  </a>
+                )}
+              </li>
+            ))}
+          </ul>
+        </>
+      );
+
+    case "diagram": {
+      const Diagram = DIAGRAMS[section.diagram];
+
+      return (
+        <>
+          {section.intro && (
+            <p className="mt-5 leading-relaxed text-neutral-300">{section.intro}</p>
+          )}
+          {Diagram && (
+            // The prose column is max-w-3xl, which is narrower than the drawing
+            // needs. Once the viewport can spare the room, the figure breaks out
+            // of the column rather than shrinking the labels.
+            <figure className="mt-8 lg:-mx-24 xl:-mx-32">
+              <Diagram />
+              {section.caption && (
+                <figcaption className="mt-3 text-sm leading-relaxed text-neutral-400">
+                  {section.caption}
+                </figcaption>
+              )}
+            </figure>
+          )}
+        </>
+      );
+    }
+
+    default:
+      return null;
+  }
+}
+
+SectionBody.propTypes = {
+  section: PropTypes.object.isRequired,
+};
+
 export default async function CaseStudyPage({ params }) {
   const { slug } = await params;
   const caseStudy = CASE_STUDIES[slug];
 
   if (!caseStudy) notFound();
-
-  const { privacy, verification, sample } = caseStudy;
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-neutral-950 text-neutral-300 antialiased">
@@ -115,138 +290,33 @@ export default async function CaseStudyPage({ params }) {
           </h1>
           <p className="mt-5 text-lg leading-relaxed text-neutral-300">{caseStudy.summary}</p>
 
-          <figure className="mt-10">
-            <pre className="overflow-x-auto rounded-lg border border-neutral-800 bg-neutral-900 p-4 text-sm leading-relaxed text-neutral-200 md:p-6">
-              <code>{sample.lines.join("\n")}</code>
-            </pre>
-            <figcaption className="mt-3 text-sm leading-relaxed text-neutral-400">
-              {sample.caption}
-            </figcaption>
-          </figure>
+          {/* Ownership and lifecycle, for studies that state them. A study that
+              omits it renders exactly as it did before. */}
+          {caseStudy.ownership && (
+            <p className="mt-4 text-sm leading-relaxed text-neutral-400">{caseStudy.ownership}</p>
+          )}
 
-          <section className="mt-16" aria-labelledby="problem">
-            <SectionHeading id="problem">The problem</SectionHeading>
-            {caseStudy.problem.map((paragraph) => (
-              <p key={paragraph} className="mt-5 leading-relaxed text-neutral-300">
-                {paragraph}
-              </p>
-            ))}
-          </section>
-
-          <section className="mt-16" aria-labelledby="constraints">
-            <SectionHeading id="constraints">Constraints</SectionHeading>
-            <ul className="mt-5 space-y-3">
-              {caseStudy.constraints.map((constraint) => (
-                <li key={constraint} className="leading-relaxed text-neutral-300">
-                  <span aria-hidden="true" className="mr-3 text-cyan-300">
-                    —
-                  </span>
-                  {constraint}
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          <section className="mt-16" aria-labelledby="workflow">
-            <SectionHeading id="workflow">Workflow</SectionHeading>
-            <ol className="mt-6 divide-y divide-neutral-800 border-y border-neutral-800">
-              {caseStudy.workflow.map((stage) => (
-                <li key={stage.step} className="py-5">
-                  <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                    <span className="font-mono text-sm text-cyan-300">{stage.step}</span>
-                    <h3 className="text-base font-semibold text-white">{stage.label}</h3>
-                  </div>
-                  <p className="mt-2 leading-relaxed text-neutral-300">{stage.detail}</p>
-                  <p className="mt-2 font-mono text-xs text-neutral-500">{stage.source}</p>
-                </li>
-              ))}
-            </ol>
-          </section>
-
-          <section className="mt-16" aria-labelledby="architecture">
-            <SectionHeading id="architecture">Architecture</SectionHeading>
-            <ul className="mt-5 space-y-4">
-              {caseStudy.architecture.map((point) => (
-                <li key={point} className="leading-relaxed text-neutral-300">
-                  <span aria-hidden="true" className="mr-3 text-cyan-300">
-                    —
-                  </span>
-                  {point}
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          <section className="mt-16" aria-labelledby="decisions">
-            <SectionHeading id="decisions">Decisions I can defend</SectionHeading>
-            <ul className="mt-6 divide-y divide-neutral-800 border-y border-neutral-800">
-              {caseStudy.decisions.map((item) => (
-                <li key={item.decision} className="py-6">
-                  <h3 className="text-base font-semibold text-white">{item.decision}</h3>
-                  <p className="mt-3 leading-relaxed text-neutral-300">{item.reason}</p>
-                  <p className="mt-3 leading-relaxed text-neutral-400">
-                    <span className="font-semibold text-neutral-300">Tradeoff accepted: </span>
-                    {item.tradeoff}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          <section className="mt-16" aria-labelledby="privacy">
-            <SectionHeading id="privacy">Privacy boundaries</SectionHeading>
-            <p className="mt-5 leading-relaxed text-neutral-300">{privacy.intro}</p>
-            {privacy.groups.map((group) => (
-              <div key={group.heading} className="mt-10">
-                <h3 className="text-lg font-semibold text-white">{group.heading}</h3>
-                <ul className="mt-4 space-y-3">
-                  {group.points.map((point) => (
-                    <li key={point} className="leading-relaxed text-neutral-300">
-                      <span aria-hidden="true" className="mr-3 text-cyan-300">
-                        —
-                      </span>
-                      {point}
-                    </li>
-                  ))}
-                </ul>
-                {group.note && (
-                  <p className="mt-5 border-l-2 border-cyan-300 pl-5 leading-relaxed text-neutral-200">
-                    {group.note}
-                  </p>
-                )}
-              </div>
-            ))}
-          </section>
-
-          <section className="mt-16" aria-labelledby="verification">
-            <SectionHeading id="verification">Verification</SectionHeading>
-            <p className="mt-5 leading-relaxed text-neutral-300">{verification.intro}</p>
-            <ul className="mt-6 space-y-6">
-              {verification.items.map((item) => (
-                <li key={item.heading}>
-                  <h3 className="text-base font-semibold text-white">{item.heading}</h3>
-                  <p className="mt-2 leading-relaxed text-neutral-300">{item.detail}</p>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-8 border-l-2 border-neutral-700 pl-5 leading-relaxed text-neutral-400">
-              {verification.gaps}
-            </p>
-          </section>
-
-          <section className="mt-16" aria-labelledby="limitations">
-            <SectionHeading id="limitations">Current limitations and what I would change</SectionHeading>
-            <ul className="mt-5 space-y-4">
-              {caseStudy.limitations.map((limitation) => (
-                <li key={limitation} className="leading-relaxed text-neutral-300">
-                  <span aria-hidden="true" className="mr-3 text-cyan-300">
-                    —
-                  </span>
-                  {limitation}
-                </li>
-              ))}
-            </ul>
-          </section>
+          {caseStudy.sections.map((section, index) =>
+            section.kind === "sample" ? (
+              <figure key="sample" className="mt-10">
+                <pre className="overflow-x-auto rounded-lg border border-neutral-800 bg-neutral-900 p-4 text-sm leading-relaxed text-neutral-200 md:p-6">
+                  <code>{section.lines.join("\n")}</code>
+                </pre>
+                <figcaption className="mt-3 text-sm leading-relaxed text-neutral-400">
+                  {section.caption}
+                </figcaption>
+              </figure>
+            ) : (
+              <section
+                key={section.id}
+                className={index === 0 ? "mt-10" : "mt-16"}
+                aria-labelledby={section.id}
+              >
+                <SectionHeading id={section.id}>{section.heading}</SectionHeading>
+                <SectionBody section={section} />
+              </section>
+            ),
+          )}
         </article>
 
         <div className="mt-16 flex flex-wrap gap-3 border-t border-neutral-800 pt-10">
