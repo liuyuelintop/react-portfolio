@@ -27,6 +27,7 @@ These bias toward caution over speed. For trivial edits, use judgment.
 ### 4. Verify your work
 - Turn tasks into checkable goals (e.g. "add validation" → "handle invalid input X without crashing").
 - After any change, run `npm run lint` and `npm run build`. There are no unit tests, so the build + a manual look in `npm run dev` are your safety net.
+- For recruiter-journey or release-boundary changes, also run `npm run verify`, which includes the static-output and Playwright browser gates.
 - `lint` runs with `--max-warnings 0`: a single warning fails it.
 
 ## Development Commands
@@ -38,6 +39,7 @@ npm run dev          # or pnpm run dev
 # Production build / local preview of the build
 npm run build
 npm run verify:static
+npm run verify       # lint + build + static and browser journey checks
 npm run preview
 
 # Lint (ESLint, React rules, zero-warning policy)
