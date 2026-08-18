@@ -15,6 +15,7 @@ npm run preview      # Preview production build locally
 
 # Code quality
 npm run lint         # Run ESLint with React rules
+npm run verify       # Full static + recruiter-journey release gate
 ```
 
 ## Project Architecture
@@ -68,7 +69,7 @@ import { useKeyboardShortcuts, useUI } from '../hooks';
 ```
 
 ### Development Notes
-- No existing tests - determine testing approach by examining codebase
+- Playwright recruiter-journey coverage lives in `tests/recruiter-journeys.spec.js`
 - npm and `package-lock.json` are the production package-manager contract
 - ESLint uses the Next.js Core Web Vitals flat configuration
 - `npm run verify:static` checks the generated homepage and case-study HTML, the sitemap, and required public assets

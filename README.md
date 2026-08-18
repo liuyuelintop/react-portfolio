@@ -87,6 +87,18 @@ Verify the generated static output after building:
 npm run verify:static
 ```
 
+Install Chromium once for the browser checks:
+
+```bash
+npx playwright install chromium
+```
+
+Run the complete pre-release gate:
+
+```bash
+npm run verify
+```
+
 Serve `out/` locally on port 4173:
 
 ```bash
@@ -103,7 +115,9 @@ npm run preview
 - required public assets, including the resume PDF and social/project images;
 - evidence-bounded public wording, attribution and stated limitations.
 
-The script is a deterministic static-output gate. It does not provide full automated browser, interaction, accessibility, responsive or visual-regression coverage.
+`tests/recruiter-journeys.spec.js` drives the production static export in Chromium. It checks direct loads with JavaScript disabled, navigation and case-study return paths, the résumé and outbound-link boundary, contact-form validation and mailto construction, keyboard order and focus visibility, reduced motion, supported viewport widths, horizontal overflow, and portfolio-owned browser errors. External sites and operating-system mail clients are deliberately not controlled; the gate verifies the outbound action instead.
+
+`npm run verify` runs lint, the production build, static-output verification, and the recruiter-journey browser suite. GitHub Actions runs the same command for pull requests and pushes to `main`.
 
 ## Deployment
 

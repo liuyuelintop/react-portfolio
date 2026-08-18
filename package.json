@@ -8,7 +8,9 @@
     "build": "next build",
     "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
     "preview": "python3 -m http.server 4173 --directory out",
-    "verify:static": "node scripts/verify-static-output.mjs"
+    "verify:static": "node scripts/verify-static-output.mjs",
+    "verify:journeys": "playwright test",
+    "verify": "npm run lint && npm run build && npm run verify:static && npm run verify:journeys"
   },
   "dependencies": {
     "framer-motion": "^11.13.5",
@@ -20,6 +22,7 @@
     "react-icons": "^5.5.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "autoprefixer": "^10.4.19",
     "eslint": "9.39.5",
     "eslint-config-next": "16.3.0",

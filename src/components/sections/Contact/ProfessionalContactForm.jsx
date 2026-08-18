@@ -13,9 +13,9 @@ const MESSAGE_TYPES = [
 
 const inputClassName = `w-full rounded-lg border border-neutral-500 bg-neutral-950 px-4 py-3 text-sm text-white placeholder-neutral-500 transition-colors focus:border-cyan-300 focus:outline-none ${focusRingClasses}`;
 
-const FormField = ({ label, error = "", children, required = false }) => (
+const FormField = ({ fieldId, label, error = "", children, required = false }) => (
   <div className="space-y-2">
-    <label className="block text-sm font-semibold text-white">
+    <label htmlFor={fieldId} className="block text-sm font-semibold text-white">
       {label}
       {required && <span className="text-cyan-300"> *</span>}
     </label>
@@ -25,6 +25,7 @@ const FormField = ({ label, error = "", children, required = false }) => (
 );
 
 FormField.propTypes = {
+  fieldId: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   error: PropTypes.string,
   children: PropTypes.node.isRequired,
@@ -163,16 +164,20 @@ export default function ProfessionalContactForm() {
       </p>
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-5">
-        <FormField label="Message focus" required>
+        <fieldset>
+          <legend className="mb-2 block text-sm font-semibold text-white">
+            Message focus<span className="text-cyan-300"> *</span>
+          </legend>
           <MessageTypeSelector
             selected={formData.messageType}
             onSelect={(messageType) => setFormData((previous) => ({ ...previous, messageType }))}
           />
-        </FormField>
+        </fieldset>
 
         <div className="grid gap-5 sm:grid-cols-2">
-          <FormField label="Your name" required error={errors.name}>
+          <FormField fieldId="contact-name" label="Your name" required error={errors.name}>
             <input
+              id="contact-name"
               type="text"
               name="name"
               value={formData.name}
@@ -182,8 +187,9 @@ export default function ProfessionalContactForm() {
             />
           </FormField>
 
-          <FormField label="Email address" required error={errors.email}>
+          <FormField fieldId="contact-email" label="Email address" required error={errors.email}>
             <input
+              id="contact-email"
               type="email"
               name="email"
               value={formData.email}
@@ -194,8 +200,9 @@ export default function ProfessionalContactForm() {
           </FormField>
         </div>
 
-        <FormField label="Company or team">
+        <FormField fieldId="contact-company" label="Company or team">
           <input
+            id="contact-company"
             type="text"
             name="company"
             value={formData.company}
@@ -205,8 +212,9 @@ export default function ProfessionalContactForm() {
           />
         </FormField>
 
-        <FormField label="Subject" required error={errors.subject}>
+        <FormField fieldId="contact-subject" label="Subject" required error={errors.subject}>
           <input
+            id="contact-subject"
             type="text"
             name="subject"
             value={formData.subject}
@@ -216,8 +224,9 @@ export default function ProfessionalContactForm() {
           />
         </FormField>
 
-        <FormField label="Message" required error={errors.message}>
+        <FormField fieldId="contact-message" label="Message" required error={errors.message}>
           <textarea
+            id="contact-message"
             name="message"
             value={formData.message}
             onChange={handleInputChange}
