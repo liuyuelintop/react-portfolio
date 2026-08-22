@@ -8,6 +8,96 @@
 
 const SITE_URL = "https://www.liuyuelin.dev";
 
+export const DSH_CASE_STUDY = {
+  slug: "dsh-conversation-exporter",
+  title: "DSH Conversation Exporter",
+  summary:
+    "A DeepSeek Harness Web plugin that exports a full conversation or selected whole turns as clean Markdown for reading, Git and cross-assistant handoff.",
+  ownership: "Built and packaged as a DSH Web plugin · 2026",
+  metaTitle: "DSH Conversation Exporter case study | Yuelin Liu",
+  metaDescription:
+    "How DSH Conversation Exporter filters a local Harness session into clean Markdown, keeps selective export bounded, and stays distinct from DSH's official Session Log.",
+  canonical: `${SITE_URL}/work/dsh-conversation-exporter/`,
+  sourceUrl: "https://github.com/liuyuelintop/dsh-conversation-exporter",
+  sourceLabel: "View the source on GitHub",
+
+  sections: [
+    {
+      kind: "prose",
+      id: "problem",
+      heading: "The problem",
+      paragraphs: [
+        "DeepSeek Harness preserves a detailed session record for debugging, recovery and replay. That official Session Log includes raw events, tool activity, metadata and attachments, which is the right boundary for a lossless record but not for a transcript someone wants to read, version in Git or hand to another assistant.",
+        "DSH Conversation Exporter adds a separate clean-export path for that second job. It is an additive plugin beside DSH's official Session Log; the official function belongs to DSH and is not functionality I built or replaced.",
+      ],
+    },
+    {
+      kind: "prose",
+      id: "export-chat",
+      heading: "What Export Chat does",
+      paragraphs: [
+        "Export Chat reads the current session through DSH's local session-query service, keeps the human-authored messages and the final visible assistant answer from each turn, then downloads one Markdown file in the browser. The final usable session title becomes the document heading and filename; message Markdown and Unicode are preserved.",
+        "The renderer owns the transcript structure. It labels Human and Assistant sections, closes an otherwise unterminated code fence before the next section, marks an unanswered turn as incomplete and represents an image-only human message with a neutral placeholder instead of dropping the turn.",
+      ],
+    },
+    {
+      kind: "bullets",
+      id: "selective-export",
+      heading: "What selective whole-turn export adds",
+      items: [
+        "Select turns… lists the conversation chronologically and starts with every whole Human-plus-final-Assistant turn selected.",
+        "Selection filters the same canonical conversation data used by full export, so request order cannot reorder or duplicate turns and unselected turns never reach the rendered Markdown.",
+        "The selector receives opaque indexes and previews capped at 180 characters from already-filtered text. Large selections switch from include/exclude arrays to a compact bitset, and the host rejects a stale selection if the turn count changed.",
+        "Human and Assistant bubbles cannot be selected independently; the unit is deliberately one whole conversation turn.",
+      ],
+    },
+    {
+      kind: "bullets",
+      id: "excluded-content",
+      heading: "What exported content deliberately excludes",
+      items: [
+        "Reasoning blocks, tool calls and results, intermediate assistant responses and streamed chunk fragments.",
+        "Plugin-injected context, goal and skill-catalog messages, subagent logs and other non-human user-message sources.",
+        "Runtime metadata such as paths, ids, timestamps and token accounting.",
+        "Attachments and image data. An image-only human turn remains visible as [Image omitted], but the asset itself is not embedded.",
+      ],
+    },
+    {
+      kind: "bullets",
+      id: "boundaries",
+      heading: "Host and request boundaries",
+      items: [
+        "The production path reads only the current session identified by DSH's framework-supplied session id and returns filtered data to the same local Web application. The plugin has no upload, cloud-storage, telemetry or analytics path.",
+        "The plugin owns two exact routes — /api/conversation.export and /api/conversation.turns — and leaves DSH's official /api/session.export route untouched.",
+        "Both plugin routes accept JSON POST requests only, enforce a 4 KiB body limit, mirror DSH Web's Host, Origin and Fetch Metadata trust checks, return no-store responses and keep operational error details out of browser responses.",
+        "Turn previews are derived after transcript filtering and contain only an index plus bounded Human and final-Assistant text; raw events, session ids and runtime metadata stay host-side.",
+      ],
+    },
+    {
+      kind: "bullets",
+      id: "package-verification",
+      heading: "How the npm package is verified",
+      items: [
+        "The package declares the DSH bundle patch, Web client entry, Node.js 20 minimum and the exact source files included in the published payload.",
+        "npm run verify runs the complete Node test suite, syntax-checks every JavaScript file and finishes with npm pack --dry-run so the installable package contents are checked as part of the same verification command.",
+        "Golden-file tests cover Markdown, Unicode, injected context, multi-step tool activity, incomplete and image-only turns, malformed fences and selective export. Production-boundary tests cover the local routes, trust checks, bounded bodies and generic failures.",
+      ],
+    },
+    {
+      kind: "bullets",
+      id: "limitations",
+      heading: "Current limitations",
+      items: [
+        "Only the current DSH session can be exported, and Markdown is the only output format.",
+        "Selection is whole-turn only; individual Human or Assistant bubbles are not selectable.",
+        "Attachments, image data, reasoning, tools, injected context, subagent logs and intermediate responses are intentionally omitted rather than archived elsewhere by the plugin.",
+        "Message Markdown is preserved except for one deterministic closing fence added when a message would otherwise leave a fenced code block open.",
+        "Version 0.3 targets @deepseek-ai/dsh@0.1.0-rc.6. DSH is developer-preview software, so later plugin API changes may require an exporter update.",
+      ],
+    },
+  ],
+};
+
 export const MONEYGUARD_CASE_STUDY = {
   slug: "moneyguard",
   title: "MoneyGuard",
@@ -628,6 +718,7 @@ export const MELBOURNE_CASE_STUDY = {
 };
 
 export const CASE_STUDIES = {
+  [DSH_CASE_STUDY.slug]: DSH_CASE_STUDY,
   [MONEYGUARD_CASE_STUDY.slug]: MONEYGUARD_CASE_STUDY,
   [MELBOURNE_CASE_STUDY.slug]: MELBOURNE_CASE_STUDY,
   [ALEX_CASE_STUDY.slug]: ALEX_CASE_STUDY,
