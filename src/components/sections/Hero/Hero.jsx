@@ -29,7 +29,7 @@ export default function Hero() {
           {HERO_CONTENT.name} · {HERO_CONTENT.eyebrow}
         </p>
 
-        <h1 className="mt-5 max-w-4xl text-4xl font-bold leading-tight text-white md:text-6xl">
+        <h1 className="mt-5 max-w-5xl text-4xl font-bold leading-tight text-white md:text-6xl">
           {HERO_CONTENT.headline}
         </h1>
 

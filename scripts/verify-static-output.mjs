@@ -38,8 +38,9 @@ const text = toText(html);
 const requiredContent = [
   // Hero
   "Yuelin Liu",
-  "Melbourne Full-Stack Software Engineer",
-  "messy operational workflows into software people can actually use",
+  "Melbourne · Full-Stack Developer · AI & LLM Applications",
+  "I build reliable full-stack software, with a focus on AI/LLM applications and developer tools.",
+  "I work across product UI, APIs, authentication, data workflows and model-integrated features—turning messy requirements into reliable software.",
   // Selected Work
   "Selected Work",
   "DSH Conversation Exporter",
