@@ -5,12 +5,14 @@ const CONTACT_EMAIL = "liuyuelintop@gmail.com";
 
 const CORE_ROUTES = [
   { path: "/", marker: "Selected Work", minimumTextLength: 5_000 },
+  { path: "/work/dsh-conversation-exporter/", marker: "Current limitations", minimumTextLength: 3_000 },
   { path: "/work/moneyguard/", marker: "Privacy boundaries", minimumTextLength: 5_000 },
   { path: "/work/melbourne-ultimate/", marker: "Scope of verification", minimumTextLength: 4_000 },
   { path: "/work/alex/", marker: "Whose project this is", minimumTextLength: 3_000 },
 ];
 
 const SOURCE_ACTIONS = [
+  ["/work/dsh-conversation-exporter/", "https://github.com/liuyuelintop/dsh-conversation-exporter"],
   ["/work/moneyguard/", "https://github.com/liuyuelintop/moneyguard-pipeline"],
   ["/work/melbourne-ultimate/", "https://github.com/liuyuelintop/melb-uni-ultimate"],
   ["/work/alex/", "https://github.com/liuyuelintop/ed-ai-in-production-alex"],
@@ -113,8 +115,8 @@ test("case-study entry, return, resume, and source actions stay usable", async (
   await page.goto("/");
   await waitForHydration(page);
 
-  await page.getByRole("link", { name: "Read the MoneyGuard AI Finance Pipeline case study" }).click();
-  await expect(page).toHaveURL(/\/work\/moneyguard\/$/);
+  await page.getByRole("link", { name: "Read the DSH Conversation Exporter case study" }).click();
+  await expect(page).toHaveURL(/\/work\/dsh-conversation-exporter\/$/);
   await page.getByRole("link", { name: "Back to Selected Work" }).first().click();
   await expect(page).toHaveURL(/\/#projects$/);
 

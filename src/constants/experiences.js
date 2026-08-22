@@ -8,8 +8,8 @@ export const EXPERIENCES = [
     },
     location: "Melbourne, Australia",
     highlights: [
-      "Built demonstration applications for prospective clients, including a specialty coffee retailer and a drone training provider, translating informal briefs into working prototypes for business pitches.",
-      "Implemented prototypes with Next.js 15 App Router, Clerk OAuth and Convex.",
+      "Build demonstration applications for prospective clients, including a specialty coffee retailer and a drone training provider, translating informal briefs into working prototypes for business pitches.",
+      "Implement authenticated, database-backed prototypes with Next.js 15 App Router, Clerk OAuth and Convex as requirements become clearer.",
     ],
     techStack: {
       frontend: ["Next.js 15 App Router"],

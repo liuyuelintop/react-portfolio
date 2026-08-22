@@ -1,9 +1,8 @@
 import { useCallback, useRef, useState } from "react";
-import Link from "next/link";
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import ProjectCard from "./ProjectCard";
 import ProjectModal from "./ProjectModal";
-import { ARCHITECTURE_STUDY, PROJECTS, SUPPORTING_PROJECTS } from "../../../constants/projects";
+import { PROJECTS, SUPPORTING_PROJECTS } from "../../../constants/projects";
 import { useUI } from "../../../hooks/useUI";
 import { focusRingClasses } from "../../../utils/accessibility";
 import Reveal from "../../ui/common/Reveal";
@@ -44,45 +43,7 @@ export default function Projects() {
                 </div>
 
                 <div className="mt-20">
-                    <h3 className="text-xl font-bold text-white">Learning &amp; Contributions</h3>
-                    <p className="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-400">
-                        {ARCHITECTURE_STUDY.intro}
-                    </p>
-                    <div className="mt-5 border-t border-neutral-800 py-4">
-                        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                            <span className="py-1 font-medium text-white">{ARCHITECTURE_STUDY.title}</span>
-                            <span className="text-sm text-neutral-400">{ARCHITECTURE_STUDY.status}</span>
-                        </div>
-                        <p className="mt-1 max-w-2xl text-sm leading-relaxed text-neutral-400">
-                            {ARCHITECTURE_STUDY.summary}
-                        </p>
-                        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-400">
-                            {ARCHITECTURE_STUDY.deployment}
-                        </p>
-                        <p className="mt-3 text-sm text-neutral-400">
-                            Stack studied: {ARCHITECTURE_STUDY.stack.join(" · ")}
-                        </p>
-                        <p className="mt-4 text-sm font-medium text-neutral-300">What I contributed</p>
-                        <ul className="mt-2 max-w-2xl space-y-1.5 text-sm leading-relaxed text-neutral-400">
-                            {ARCHITECTURE_STUDY.contributions.map((contribution) => (
-                                <li key={contribution} className="flex gap-2">
-                                    <span aria-hidden="true" className="text-neutral-600">—</span>
-                                    <span>{contribution}</span>
-                                </li>
-                            ))}
-                        </ul>
-                        <Link
-                            href={ARCHITECTURE_STUDY.href}
-                            className={`mt-5 inline-flex items-center gap-2 text-sm font-medium text-neutral-200 transition-colors hover:text-cyan-300 ${focusRingClasses}`}
-                        >
-                            Read the architecture study
-                            <ArrowRight size={15} aria-hidden="true" />
-                        </Link>
-                    </div>
-                </div>
-
-                <div className="mt-20">
-                    <h3 className="text-xl font-bold text-white">Additional Work</h3>
+                    <h3 className="text-xl font-bold text-white">More Engineering Work</h3>
                     <ul className="mt-5 divide-y divide-neutral-800 border-t border-neutral-800">
                         {SUPPORTING_PROJECTS.map((project) => (
                             <li key={project.title} className="py-4">

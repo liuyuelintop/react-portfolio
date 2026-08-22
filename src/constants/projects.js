@@ -1,6 +1,6 @@
 import { projectImages } from "./assets";
 import {
-  ALEX_CASE_STUDY,
+  DSH_CASE_STUDY,
   MELBOURNE_CASE_STUDY,
   MONEYGUARD_CASE_STUDY,
   caseStudyHref,
@@ -8,7 +8,24 @@ import {
 
 export const PROJECTS = [
   {
-    title: "MoneyGuard AI Finance Pipeline",
+    title: DSH_CASE_STUDY.title,
+    image: projectImages.dshConversationExporter,
+    description: {
+      summary:
+        "Exports full DeepSeek Harness conversations or selected whole turns as clean Markdown for reading, Git and cross-assistant handoff.",
+    },
+    ownership: "Built and packaged as a DSH Web plugin · 2026",
+    implementation:
+      "Preserves Markdown and Unicode, keeps selective turn handling bounded, and excludes reasoning, tool activity and runtime metadata from exports.",
+    caseStudyHref: caseStudyHref(DSH_CASE_STUDY.slug),
+    github: DSH_CASE_STUDY.sourceUrl,
+    technologies: {
+      main: ["JavaScript", "Node.js", "DSH plugin APIs", "Markdown"],
+    },
+    year: "2026",
+  },
+  {
+    title: MONEYGUARD_CASE_STUDY.title,
     image: projectImages.moneyguardAiFinancePipeline,
     description: {
       summary:
@@ -24,90 +41,25 @@ export const PROJECTS = [
     },
     year: "2026",
   },
-  {
-    title: MELBOURNE_CASE_STUDY.title,
-    image: projectImages.melbUniUltimate,
-    description: {
-      summary:
-        "A club platform for publishing updates and managing players, alumni, events and videos.",
-    },
-    ownership: MELBOURNE_CASE_STUDY.ownership,
-    implementation:
-      "Revisited after a source audit: traced a silent session bug, centralised server-side authorization, and added regression tests and CI.",
-    caseStudyHref: caseStudyHref(MELBOURNE_CASE_STUDY.slug),
-    github: MELBOURNE_CASE_STUDY.sourceUrl,
-    // No `url`. The deployment was not independently verified in the latest
-    // audit and a historical seeded admin credential still needs owner-side
-    // rotation, so the card links to source rather than to a live site.
-    technologies: {
-      main: ["Next.js 15", "TypeScript", "MongoDB", "Vitest"],
-    },
-    year: "2025",
-  },
 ];
-
-// Not owned work: this is architecture Yuelin studied rather than authored, so
-// it is presented as learning evidence and never as a flagship project. Every
-// contribution below is directly attributable; the surrounding architecture is
-// course material.
-export const ARCHITECTURE_STUDY = {
-  intro:
-    "Recent architecture I studied hands-on, and the corrections that came out of it.",
-  title: ALEX_CASE_STUDY.title,
-  status: "Course-based study",
-  // The depth lives on the study page, which states the attribution first and
-  // carries the architecture diagram. The homepage block stays a summary.
-  href: caseStudyHref(ALEX_CASE_STUDY.slug),
-  summary:
-    "Adapted Ed Donner’s Udemy ALEX capstone locally to study an SQS-backed five-role portfolio-analysis workflow and Terraform-defined AWS architecture.",
-  // Owner-attested, not repository-verified: the stack was deployed to AWS
-  // during the study and deliberately torn down afterwards. Stated in the past
-  // tense so it never reads as a running system.
-  deployment:
-    "Deployed to AWS during the study, then torn down to stop the running cost.",
-  // A record of what was worked with, not a claim of professional delivery.
-  stack: [
-    "Amazon Bedrock",
-    "AWS Lambda",
-    "Amazon SQS",
-    "Terraform",
-    "Aurora Serverless v2",
-    "Next.js",
-  ],
-  // Each line traces to a commit in liuyuelintop/ed-ai-in-production-alex.
-  // The verification script itself is course material; the guide step is not,
-  // so this claims the step and never the script.
-  contributions: [
-    "Added a database-integrity verification step to guide 5.",
-    "Fixed the Planner's local test harness, which created a job for a user that did not exist.",
-    "Corrected guide 8's logging example and rewrote its Charter validation and Tagger explainability sections to match the real agent code.",
-    "Documented the cross-region ECR fix for SageMaker deployments outside us-east-1.",
-  ],
-};
 
 export const SUPPORTING_PROJECTS = [
   {
-    title: "SaaS IDE Platform",
+    title: "AI Harness",
+    status: "Current work",
     summary:
-      "Next.js IDE-style product with auth, payments, snippets and real-time collaboration concepts.",
-    url: "https://codecraft.liuyuelin.dev/",
+      "GitHub-native AI-assisted engineering workflow built around NEXT → IMPLEMENT → ACCEPT → SHIP, exact PR-head SHA acceptance, deterministic verification and explicit human approval.",
   },
   {
-    title: "Remote Interview Platform",
+    title: MELBOURNE_CASE_STUDY.title,
     summary:
-      "Technical interview workflow with coding environment, video/audio and candidate review flows.",
-    status: "Private demo",
+      "Revisited a Next.js/MongoDB application to centralise server-side authorisation and turn authentication and write-path defects into regression tests and CI.",
+    url: MELBOURNE_CASE_STUDY.sourceUrl,
   },
   {
-    title: "ApeUni FIB Extractor Monorepo",
+    title: "Client Data Delivery Validator",
     summary:
-      "Browser automation toolkit packaged as both a Tampermonkey userscript and Chrome extension.",
-    url: "https://github.com/liuyuelintop/apeuni-fib-extractor-monorepo",
-  },
-  {
-    title: "Next Markdown Blog",
-    summary:
-      "Technical writing platform with MDX, syntax highlighting, SEO and static content workflows.",
-    url: "https://blog.liuyuelin.dev/",
+      "Python/pandas validation workflow for synthetic client-delivery CSV data with structured validation results and 12 pytest regression cases.",
+    url: "https://github.com/liuyuelintop/client-data-delivery-validator",
   },
 ];

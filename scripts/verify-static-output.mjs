@@ -7,6 +7,12 @@ const homepagePath = path.join(outputDirectory, "index.html");
 // next.config.js sets `trailingSlash: true`, so the case study is emitted as a
 // directory index rather than `work/moneyguard.html`.
 const caseStudyPath = path.join(outputDirectory, "work", "moneyguard", "index.html");
+const dshStudyPath = path.join(
+  outputDirectory,
+  "work",
+  "dsh-conversation-exporter",
+  "index.html",
+);
 const alexStudyPath = path.join(outputDirectory, "work", "alex", "index.html");
 const melbourneStudyPath = path.join(
   outputDirectory,
@@ -36,26 +42,13 @@ const requiredContent = [
   "messy operational workflows into software people can actually use",
   // Selected Work
   "Selected Work",
-  "MoneyGuard AI Finance Pipeline",
+  "DSH Conversation Exporter",
+  "MoneyGuard",
+  "More Engineering Work",
+  "AI Harness",
+  "Current work",
   "Melbourne University Ultimate Club Platform",
-  "Additional Work",
-  // ALEX is learning evidence, not owned work: the course attribution, the
-  // five-role wording and the attributable contributions must all survive.
-  "Learning & Contributions",
-  "ALEX — AWS Multi-Agent Architecture Study",
-  "Course-based study",
-  "Adapted Ed Donner",
-  "Udemy ALEX capstone",
-  "SQS-backed five-role portfolio-analysis workflow",
-  "Terraform-defined AWS architecture",
-  // Owner-attested deployment, stated in the past tense with the teardown.
-  "Deployed to AWS during the study, then torn down to stop the running cost.",
-  "Stack studied:",
-  "What I contributed",
-  "Added a database-integrity verification step to guide 5.",
-  "Fixed the Planner's local test harness, which created a job for a user that did not exist.",
-  "Documented the cross-region ECR fix for SageMaker deployments outside us-east-1.",
-  "Read the architecture study",
+  "Client Data Delivery Validator",
   // Experience — exactly two roles, stated at the strength the evidence supports.
   "Independent Developer",
   "Prospective Client Demos for a Melbourne Consultancy",
@@ -136,7 +129,16 @@ assert.ok(text.length > 5000, "Homepage text is too small to be a meaningful sta
 assert.ok(!/<main[^>]*>\s*<\/main>/i.test(html), "Homepage contains an empty application shell");
 assert.ok(!/h-screen items-center justify-center bg-neutral-950/.test(html), "Homepage contains the obsolete spinner shell");
 
-// The MoneyGuard card links straight to its case study instead of opening the modal.
+// Both flagship cards link straight to evidence-bearing case studies.
+assert.match(
+  html,
+  /<a[^>]+href="\/work\/dsh-conversation-exporter\/"[^>]*>[\s\S]*?Read case study/,
+  "Homepage is missing the DSH Conversation Exporter 'Read case study' link",
+);
+assert.ok(
+  html.includes('href="https://github.com/liuyuelintop/dsh-conversation-exporter"'),
+  "Homepage is missing the DSH Conversation Exporter public source link",
+);
 assert.match(
   html,
   /<a[^>]+href="\/work\/moneyguard\/"[^>]*>[\s\S]*?Read case study/,
@@ -146,40 +148,36 @@ assert.ok(
   html.includes('href="https://github.com/liuyuelintop/moneyguard-pipeline"'),
   "Homepage is missing the MoneyGuard public source link",
 );
-// Melbourne now links to its own case study rather than opening the modal, so
-// the previous modal-trigger assertion described a state the card no longer has.
-// It is replaced by the stronger pair below, not dropped.
-assert.match(
-  html,
-  /<a[^>]+href="\/work\/melbourne-ultimate\/"[^>]*>[\s\S]*?Read case study/,
-  "Homepage is missing the Melbourne University Ultimate 'Read case study' link",
-);
 assert.ok(
   html.includes('href="https://github.com/liuyuelintop/melb-uni-ultimate"'),
   "Homepage is missing the Melbourne University Ultimate public source link",
 );
+assert.ok(
+  html.includes('href="https://github.com/liuyuelintop/client-data-delivery-validator"'),
+  "Homepage is missing the Client Data Delivery Validator public source link",
+);
 
 const flagshipEvidenceHierarchy = [
   {
-    title: "MoneyGuard AI Finance Pipeline",
-    end: "Melbourne University Ultimate Club Platform",
+    title: "DSH Conversation Exporter",
+    end: "MoneyGuard",
     markers: [
-      "Turns a timecard photo into a weekly wage, spending and surplus audit.",
-      "Designed and built the end-to-end pipeline · 2026",
-      "Keeps ledger calculations local, validates model-generated OCR with Zod, and streams audit prose through separate providers.",
-      "Stack · TypeScript · Node.js · Gemini LLM · DeepSeek LLM",
+      "Exports full DeepSeek Harness conversations or selected whole turns as clean Markdown for reading, Git and cross-assistant handoff.",
+      "Built and packaged as a DSH Web plugin · 2026",
+      "Preserves Markdown and Unicode, keeps selective turn handling bounded, and excludes reasoning, tool activity and runtime metadata from exports.",
+      "Stack · JavaScript · Node.js · DSH plugin APIs · Markdown",
       "Read case study",
       "Source",
     ],
   },
   {
-    title: "Melbourne University Ultimate Club Platform",
-    end: "Learning & Contributions",
+    title: "MoneyGuard",
+    end: "More Engineering Work",
     markers: [
-      "A club platform for publishing updates and managing players, alumni, events and videos.",
-      "Sole developer · Built July 2025 · Revisited and hardened August 2026",
-      "Revisited after a source audit: traced a silent session bug, centralised server-side authorization, and added regression tests and CI.",
-      "Stack · Next.js 15 · TypeScript · MongoDB · Vitest",
+      "Turns a timecard photo into a weekly wage, spending and surplus audit.",
+      "Designed and built the end-to-end pipeline · 2026",
+      "Keeps ledger calculations local, validates model-generated OCR with Zod, and streams audit prose through separate providers.",
+      "Stack · TypeScript · Node.js · Gemini LLM · DeepSeek LLM",
       "Read case study",
       "Source",
     ],
@@ -202,34 +200,28 @@ for (const project of flagshipEvidenceHierarchy) {
 }
 
 assert.ok(
-  !/aria-label="Read more about[^"]*Melbourne University Ultimate/i.test(html),
-  "Melbourne University Ultimate must not expose a modal trigger now that it has a case study",
-);
-// The deployment was not independently verified in the latest audit, so the card
-// links to source and must not advertise a live site.
-assert.ok(
-  !html.includes("melb-uni-ultimate.vercel.app"),
-  "Melbourne University Ultimate must not link to an unverified live deployment",
+  !html.includes('aria-label="Read the Melbourne University Ultimate Club Platform case study"'),
+  "Melbourne University Ultimate must not render as a Featured Work card",
 );
 assert.ok(
-  html.includes('href="/work/alex/"'),
-  "Homepage is missing the link to the ALEX architecture study",
+  !html.includes('alt="Melbourne University Ultimate Club Platform product screenshot"'),
+  "Melbourne University Ultimate must not render a Featured Work image",
+);
+assert.ok(
+  !html.includes('href="/work/melbourne-ultimate/"'),
+  "The compact Melbourne University Ultimate listing must link to source, not present as a featured case-study action",
 );
 
-// --- ALEX is learning evidence, not a flagship -------------------------------
-
-// ALEX belongs to Learning & Contributions, which sits after both flagship
-// projects and before Additional Work. It has no modal trigger and no live
-// link; its only outbound link is the study page, which leads with attribution.
+// The recruiter path now leads with developer tooling, then AI application
+// engineering, then a compact and deliberately subordinate supporting list.
 const orderedHomepageMarkers = [
-  "MoneyGuard AI Finance Pipeline",
+  "DSH Conversation Exporter",
+  "MoneyGuard",
+  "More Engineering Work",
+  "AI Harness",
+  "Current work",
   "Melbourne University Ultimate Club Platform",
-  "Learning & Contributions",
-  "ALEX — AWS Multi-Agent Architecture Study",
-  "Stack studied:",
-  "What I contributed",
-  "Read the architecture study",
-  "Additional Work",
+  "Client Data Delivery Validator",
 ];
 
 let previousMarkerIndex = -1;
@@ -243,10 +235,54 @@ for (const marker of orderedHomepageMarkers) {
   previousMarkerIndex = index;
 }
 
+const projectSectionStart = html.indexOf('id="projects"');
+const projectSectionEnd = html.indexOf('id="experience"');
 assert.ok(
-  !/aria-label="Read more about[^"]*ALEX/i.test(html),
-  "ALEX must not expose a flagship modal trigger",
+  projectSectionStart !== -1 && projectSectionEnd > projectSectionStart,
+  "Could not isolate the Selected Work section",
 );
+const projectSectionHtml = html.slice(projectSectionStart, projectSectionEnd);
+assert.equal(
+  (projectSectionHtml.match(/<article\b/g) ?? []).length,
+  2,
+  "Selected Work must render exactly two large Featured Work cards",
+);
+
+const supportingStart = projectSectionHtml.indexOf("More Engineering Work");
+assert.ok(supportingStart !== -1, "Could not isolate More Engineering Work");
+const supportingHtml = projectSectionHtml.slice(supportingStart);
+const supportingText = toText(supportingHtml);
+assert.equal(
+  (supportingHtml.match(/<li\b/g) ?? []).length,
+  3,
+  "More Engineering Work must render exactly three compact list entries",
+);
+for (const summary of [
+  "GitHub-native AI-assisted engineering workflow built around NEXT → IMPLEMENT → ACCEPT → SHIP, exact PR-head SHA acceptance, deterministic verification and explicit human approval.",
+  "Revisited a Next.js/MongoDB application to centralise server-side authorisation and turn authentication and write-path defects into regression tests and CI.",
+  "Python/pandas validation workflow for synthetic client-delivery CSV data with structured validation results and 12 pytest regression cases.",
+]) {
+  assert.ok(supportingText.includes(summary), `Supporting work is missing evidence: ${summary}`);
+}
+assert.ok(
+  !supportingHtml.includes("liuyuelintop/ai-harness"),
+  "AI Harness must not expose a source link while its repository is private",
+);
+
+for (const removedHomepageWork of [
+  "Learning & Contributions",
+  "ALEX — AWS Multi-Agent Architecture Study",
+  "Additional Work",
+  "SaaS IDE Platform",
+  "Remote Interview Platform",
+  "ApeUni FIB Extractor Monorepo",
+  "Next Markdown Blog",
+]) {
+  assert.ok(
+    !text.includes(removedHomepageWork),
+    `Homepage still renders removed work hierarchy: ${removedHomepageWork}`,
+  );
+}
 
 const bannedAlexLanguage = [
   // Previous flagship positioning.
@@ -315,6 +351,16 @@ assert.equal(
   1,
   "The 26.7s to 5.6s observation must appear exactly once on the homepage",
 );
+
+for (const currentRoleEvidence of [
+  "Build demonstration applications for prospective clients, including a specialty coffee retailer and a drone training provider, translating informal briefs into working prototypes for business pitches.",
+  "Implement authenticated, database-backed prototypes with Next.js 15 App Router, Clerk OAuth and Convex as requirements become clearer.",
+]) {
+  assert.ok(
+    experienceText.includes(currentRoleEvidence),
+    `Independent Developer is missing current-role evidence: ${currentRoleEvidence}`,
+  );
+}
 
 // Employment type and payment status are unevidenced, so no role may render a
 // type badge. The Contact form's "Freelance build" option is deliberately
@@ -463,6 +509,90 @@ for (const phrase of staleHowIBuildWording) {
     `How I Build still renders rejected wording: ${phrase}`,
   );
 }
+
+// --- DSH Conversation Exporter case study -----------------------------------
+
+const dshHtml = await readFile(dshStudyPath, "utf8");
+const dshText = toText(dshHtml);
+
+assert.match(
+  dshHtml,
+  /<title>DSH Conversation Exporter case study \| Yuelin Liu<\/title>/,
+  "DSH case study is missing its route-specific title",
+);
+assert.match(
+  dshHtml,
+  /<link[^>]+rel="canonical"[^>]+href="https:\/\/www\.liuyuelin\.dev\/work\/dsh-conversation-exporter\/"/,
+  "DSH case study canonical URL is missing or incorrect",
+);
+assert.match(
+  dshHtml,
+  /<meta[^>]+property="og:url"[^>]+content="https:\/\/www\.liuyuelin\.dev\/work\/dsh-conversation-exporter\/"/,
+  "DSH case study og:url is missing or incorrect",
+);
+assert.equal(
+  (dshHtml.match(/<h1\b/gi) ?? []).length,
+  1,
+  "DSH case study must render exactly one h1",
+);
+
+for (const heading of [
+  "The problem",
+  "What Export Chat does",
+  "What selective whole-turn export adds",
+  "What exported content deliberately excludes",
+  "Host and request boundaries",
+  "How the npm package is verified",
+  "Current limitations",
+]) {
+  assert.ok(dshText.includes(heading), `DSH case study is missing the ${heading} section`);
+}
+
+for (const content of [
+  "the official function belongs to DSH and is not functionality I built or replaced",
+  "the final visible assistant answer from each turn",
+  "previews capped at 180 characters",
+  "Reasoning blocks, tool calls and results",
+  "/api/conversation.export and /api/conversation.turns",
+  "enforce a 4 KiB body limit",
+  "npm pack --dry-run",
+  "Version 0.3 targets @deepseek-ai/dsh@0.1.0-rc.6",
+]) {
+  assert.ok(dshText.includes(content), `DSH case study is missing required evidence: ${content}`);
+}
+
+for (const phrase of [
+  "active users",
+  "users served",
+  "adoption",
+  "production scale",
+  "built DeepSeek",
+  "contributed to DeepSeek",
+]) {
+  assert.ok(
+    !dshText.toLowerCase().includes(phrase.toLowerCase()),
+    `DSH case study contains an unsupported claim: ${phrase}`,
+  );
+}
+assert.ok(
+  !/\b\d[\d,]*\+?\s+downloads\b/i.test(dshText),
+  "DSH case study contains an unsupported download metric",
+);
+
+for (const link of [
+  'href="https://github.com/liuyuelintop/dsh-conversation-exporter"',
+  'href="/#projects"',
+]) {
+  assert.ok(dshHtml.includes(link), `DSH case study is missing a required link: ${link}`);
+}
+assert.ok(
+  dshText.length > 3000,
+  "DSH case study text is too small to answer the bounded evidence questions",
+);
+assert.ok(
+  !/<main[^>]*>\s*<\/main>/i.test(dshHtml),
+  "DSH case study contains an empty application shell",
+);
 
 // --- MoneyGuard case study ---------------------------------------------------
 
@@ -619,6 +749,10 @@ assert.ok(
   "Case study text is too small to be a meaningful static render",
 );
 assert.ok(
+  dshText.length < caseStudyText.length,
+  "The bounded DSH case study must remain materially shorter than MoneyGuard",
+);
+assert.ok(
   !/<main[^>]*>\s*<\/main>/i.test(caseStudyHtml),
   "Case study contains an empty application shell",
 );
@@ -639,7 +773,7 @@ const emittedCaseStudyDirectories = (await readdir(path.join(outputDirectory, "w
   .sort();
 assert.deepEqual(
   emittedCaseStudyDirectories,
-  ["alex", "melbourne-ultimate", "moneyguard"],
+  ["alex", "dsh-conversation-exporter", "melbourne-ultimate", "moneyguard"],
   "Static export must contain exactly the approved case-study directories",
 );
 
@@ -915,13 +1049,13 @@ for (const limitation of [
 // "Open Source" — the "Source" call-to-action label is required copy and must
 // survive this check. Other projects may legitimately use these words, so the
 // homepage side is narrowed to the Melbourne card.
-const melbourneCardStart = text.indexOf("Melbourne University Ultimate Club Platform");
-const melbourneCardEnd = text.indexOf("Learning & Contributions");
+const melbourneCardStart = supportingText.indexOf("Melbourne University Ultimate Club Platform");
+const melbourneCardEnd = supportingText.indexOf("Client Data Delivery Validator");
 assert.ok(
   melbourneCardStart !== -1 && melbourneCardEnd > melbourneCardStart,
-  "Could not isolate the Melbourne card on the homepage",
+  "Could not isolate the Melbourne supporting-work listing on the homepage",
 );
-const melbourneCardText = text.slice(melbourneCardStart, melbourneCardEnd);
+const melbourneCardText = supportingText.slice(melbourneCardStart, melbourneCardEnd);
 
 const contradictedMelbourneWording = [
   /\bopen[-\s]source\b/i,
@@ -942,19 +1076,13 @@ const contradictedMelbourneWording = [
 for (const pattern of contradictedMelbourneWording) {
   assert.ok(
     !pattern.test(melbourneCardText),
-    `Melbourne homepage card contains contradicted wording matching ${pattern}`,
+    `Melbourne homepage listing contains contradicted wording matching ${pattern}`,
   );
   assert.ok(
     !pattern.test(melbourneText),
     `Melbourne case study contains contradicted wording matching ${pattern}`,
   );
 }
-
-// The required secondary call to action must not be a casualty of the check above.
-assert.ok(
-  melbourneCardText.includes("Source"),
-  "Melbourne card is missing its Source call to action",
-);
 
 const emittedFiles = [
   "robots.txt",
@@ -975,6 +1103,10 @@ const sitemap = await readFile(path.join(outputDirectory, "sitemap.xml"), "utf8"
 assert.ok(robots.includes("Sitemap: https://www.liuyuelin.dev/sitemap.xml"));
 assert.ok(sitemap.includes("<loc>https://www.liuyuelin.dev/</loc>"));
 assert.ok(
+  sitemap.includes("<loc>https://www.liuyuelin.dev/work/dsh-conversation-exporter/</loc>"),
+  "Sitemap is missing the DSH Conversation Exporter case-study route",
+);
+assert.ok(
   sitemap.includes("<loc>https://www.liuyuelin.dev/work/moneyguard/</loc>"),
   "Sitemap is missing the MoneyGuard case-study route",
 );
@@ -993,12 +1125,17 @@ const sitemapWorkRoutes = [...sitemap.matchAll(/<loc>https:\/\/www\.liuyuelin\.d
   .sort();
 assert.deepEqual(
   sitemapWorkRoutes,
-  ["/work/alex/", "/work/melbourne-ultimate/", "/work/moneyguard/"],
+  [
+    "/work/alex/",
+    "/work/dsh-conversation-exporter/",
+    "/work/melbourne-ultimate/",
+    "/work/moneyguard/",
+  ],
   "Sitemap must list exactly the approved routes under /work/",
 );
 
 const emittedMedia = await readdir(path.join(outputDirectory, "_next/static/media"));
-for (const imageName of ["moneyguard-ai-finance-pipeline", "melbUniUltimate"]) {
+for (const imageName of ["dsh-conversation-exporter", "moneyguard-ai-finance-pipeline"]) {
   assert.ok(
     emittedMedia.some((file) => file.startsWith(`${imageName}.`) && file.endsWith(".webp")),
     `Bundled project image is missing: ${imageName}`,
@@ -1006,10 +1143,14 @@ for (const imageName of ["moneyguard-ai-finance-pipeline", "melbUniUltimate"]) {
 }
 
 assert.ok(
+  emittedMedia.every((file) => !file.startsWith("melbUniUltimate.")),
+  "The Melbourne Ultimate screenshot must no longer be bundled as Featured Work media",
+);
+assert.ok(
   emittedMedia.every((file) => !file.startsWith("alex-aws-multi-agent-wealth-platform.")),
   "The ALEX flagship screenshot must no longer be bundled into the static export",
 );
 
 console.log(
-  "Static output verified: the homepage, the MoneyGuard case study, the Melbourne University Ultimate case study and the ALEX architecture study render meaningful HTML with correct metadata, links, attribution, privacy language, stated limitations and public assets.",
+  "Static output verified: the homepage evidence hierarchy and all four case studies render meaningful HTML with correct metadata, source boundaries, stated limitations and public assets.",
 );
