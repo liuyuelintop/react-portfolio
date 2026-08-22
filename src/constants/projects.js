@@ -10,12 +10,13 @@ export const PROJECTS = [
   {
     title: "MoneyGuard AI Finance Pipeline",
     image: projectImages.moneyguardAiFinancePipeline,
-    roleFit:
-      "Local data-minimization boundary, stream-safe retry semantics, and dependency-injected providers.",
-    // Case-study copy is owned by caseStudies.js; this entry references it.
     description: {
-      summary: MONEYGUARD_CASE_STUDY.summary,
+      summary:
+        "Turns a timecard photo into a weekly wage, spending and surplus audit.",
     },
+    ownership: "Designed and built the end-to-end pipeline · 2026",
+    implementation:
+      "Keeps ledger calculations local, validates model-generated OCR with Zod, and streams audit prose through separate providers.",
     caseStudyHref: caseStudyHref(MONEYGUARD_CASE_STUDY.slug),
     github: MONEYGUARD_CASE_STUDY.sourceUrl,
     technologies: {
@@ -26,16 +27,13 @@ export const PROJECTS = [
   {
     title: MELBOURNE_CASE_STUDY.title,
     image: projectImages.melbUniUltimate,
-    roleFit:
-      "Root-cause debugging, server-side authorization hardening, data modelling and regression-proof CI.",
-    // Case-study copy is owned by caseStudies.js; this entry references it.
-    // The modal-only `detailed` and `features` copy is gone rather than hidden:
-    // the card links straight to the case study, so nothing rendered it, and
-    // every claim it carried was contradicted by the source.
     description: {
-      summary: MELBOURNE_CASE_STUDY.summary,
+      summary:
+        "A club platform for publishing updates and managing players, alumni, events and videos.",
     },
     ownership: MELBOURNE_CASE_STUDY.ownership,
+    implementation:
+      "Revisited after a source audit: traced a silent session bug, centralised server-side authorization, and added regression tests and CI.",
     caseStudyHref: caseStudyHref(MELBOURNE_CASE_STUDY.slug),
     github: MELBOURNE_CASE_STUDY.sourceUrl,
     // No `url`. The deployment was not independently verified in the latest

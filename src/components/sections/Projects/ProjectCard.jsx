@@ -30,14 +30,20 @@ const ProjectCard = ({ project, index, onReadMore }) => {
         </p>
 
         {project.ownership && (
-          <p className="mt-3 text-sm leading-relaxed text-neutral-400">{project.ownership}</p>
+          <p className="mt-3 text-sm font-medium leading-relaxed text-neutral-300">
+            {project.ownership}
+          </p>
         )}
 
-        {project.roleFit && (
-          <p className="mt-3 text-sm leading-relaxed text-neutral-400">{project.roleFit}</p>
+        {project.implementation && (
+          <p className="mt-3 text-sm leading-relaxed text-neutral-400">
+            {project.implementation}
+          </p>
         )}
 
-        <p className="mt-4 text-sm text-neutral-400">{tags.join(" · ")}</p>
+        <p className="mt-4 text-sm text-neutral-500">
+          <span className="font-medium">Stack</span> · {tags.join(" · ")}
+        </p>
 
         <div className="mt-6 flex flex-wrap gap-3">
           {project.caseStudyHref ? (
@@ -89,7 +95,7 @@ ProjectCard.propTypes = {
     technologies: PropTypes.shape({
       main: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
-    roleFit: PropTypes.string,
+    implementation: PropTypes.string,
     ownership: PropTypes.string,
     url: PropTypes.string,
     github: PropTypes.string,

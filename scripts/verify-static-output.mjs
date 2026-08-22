@@ -158,6 +158,49 @@ assert.ok(
   html.includes('href="https://github.com/liuyuelintop/melb-uni-ultimate"'),
   "Homepage is missing the Melbourne University Ultimate public source link",
 );
+
+const flagshipEvidenceHierarchy = [
+  {
+    title: "MoneyGuard AI Finance Pipeline",
+    end: "Melbourne University Ultimate Club Platform",
+    markers: [
+      "Turns a timecard photo into a weekly wage, spending and surplus audit.",
+      "Designed and built the end-to-end pipeline · 2026",
+      "Keeps ledger calculations local, validates model-generated OCR with Zod, and streams audit prose through separate providers.",
+      "Stack · TypeScript · Node.js · Gemini LLM · DeepSeek LLM",
+      "Read case study",
+      "Source",
+    ],
+  },
+  {
+    title: "Melbourne University Ultimate Club Platform",
+    end: "Learning & Contributions",
+    markers: [
+      "A club platform for publishing updates and managing players, alumni, events and videos.",
+      "Sole developer · Built July 2025 · Revisited and hardened August 2026",
+      "Revisited after a source audit: traced a silent session bug, centralised server-side authorization, and added regression tests and CI.",
+      "Stack · Next.js 15 · TypeScript · MongoDB · Vitest",
+      "Read case study",
+      "Source",
+    ],
+  },
+];
+
+for (const project of flagshipEvidenceHierarchy) {
+  const start = text.indexOf(project.title);
+  const end = text.indexOf(project.end, start);
+  assert.ok(start !== -1 && end > start, `Could not isolate homepage project: ${project.title}`);
+
+  const projectText = text.slice(start, end);
+  let previousIndex = -1;
+  for (const marker of project.markers) {
+    const index = projectText.indexOf(marker);
+    assert.ok(index !== -1, `${project.title} is missing evidence marker: ${marker}`);
+    assert.ok(index > previousIndex, `${project.title} evidence hierarchy is out of order at: ${marker}`);
+    previousIndex = index;
+  }
+}
+
 assert.ok(
   !/aria-label="Read more about[^"]*Melbourne University Ultimate/i.test(html),
   "Melbourne University Ultimate must not expose a modal trigger now that it has a case study",
