@@ -1,11 +1,11 @@
 export const HERO_CONTENT = {
   name: "Yuelin Liu",
   resumeUrl: "/resume/yuelin-liu-resume.pdf",
-  eyebrow: "Melbourne Full-Stack Software Engineer",
+  eyebrow: "Melbourne · Full-Stack Developer · AI & LLM Applications",
   headline:
-    "I turn messy operational workflows into software people can actually use.",
+    "I build reliable full-stack software, with a focus on AI/LLM applications and developer tools.",
   summary:
-    "My strongest fit is with teams that need practical ownership across product UI, API contracts, authentication, cloud delivery and AI-assisted workflows.",
+    "I work across product UI, APIs, authentication, data workflows and model-integrated features—turning messy requirements into reliable software.",
 };
 
 export const CONTACT = {
