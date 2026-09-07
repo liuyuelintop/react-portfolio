@@ -130,7 +130,7 @@ assert.ok(text.length > 5000, "Homepage text is too small to be a meaningful sta
 assert.ok(!/<main[^>]*>\s*<\/main>/i.test(html), "Homepage contains an empty application shell");
 assert.ok(!/h-screen items-center justify-center bg-neutral-950/.test(html), "Homepage contains the obsolete spinner shell");
 
-// Both flagship cards link straight to evidence-bearing case studies.
+// Featured cards link straight to evidence-bearing case studies.
 assert.match(
   html,
   /<a[^>]+href="\/work\/dsh-conversation-exporter\/"[^>]*>[\s\S]*?Read case study/,
@@ -159,6 +159,17 @@ assert.ok(
 );
 
 const flagshipEvidenceHierarchy = [
+  {
+    title: "Job Search Dispatch",
+    end: "DSH Conversation Exporter",
+    markers: [
+      "Turns a captured job ad into an evidence-grounded application draft, with human review before submission.",
+      "Built and iterated as a personal project · 2026 · Private source repository",
+      "Connects an open-tab browser bridge, scoped evidence, multi-model drafting and failure recovery in one local workflow.",
+      "Stack · React · Node.js · Chrome Extension · LLM APIs",
+      "Read case study",
+    ],
+  },
   {
     title: "DSH Conversation Exporter",
     end: "MoneyGuard",
@@ -213,9 +224,10 @@ assert.ok(
   "The compact Melbourne University Ultimate listing must link to source, not present as a featured case-study action",
 );
 
-// The recruiter path now leads with developer tooling, then AI application
-// engineering, then a compact and deliberately subordinate supporting list.
+// The recruiter path leads with the integrated Dispatch workflow, followed
+// by developer tooling, AI application engineering and compact supporting work.
 const orderedHomepageMarkers = [
+  "Job Search Dispatch",
   "DSH Conversation Exporter",
   "MoneyGuard",
   "More Engineering Work",
@@ -245,8 +257,8 @@ assert.ok(
 const projectSectionHtml = html.slice(projectSectionStart, projectSectionEnd);
 assert.equal(
   (projectSectionHtml.match(/<article\b/g) ?? []).length,
-  2,
-  "Selected Work must render exactly two large Featured Work cards",
+  3,
+  "Selected Work must render exactly three large Featured Work cards",
 );
 
 const supportingStart = projectSectionHtml.indexOf("More Engineering Work");
@@ -423,10 +435,10 @@ const requiredHowIBuildContent = [
   "I turn assumptions into enforceable boundaries.",
   // Evidence, one pair per principle, each traceable to accepted material.
   "Built prospective-client prototypes for a specialty coffee retailer and a drone training provider from informal business briefs.",
-  "Built MoneyGuard around a real wage-checking workflow, separating model-assisted extraction from deterministic calculations.",
+  "Connected job capture, evidence-based triage, application drafting and follow-up in Job Search Dispatch, keeping the applicant in control of the route and submission.",
   "Instrumented ByteCroniX's inherited points-summary path, identified scoring services as the dominant latency contributors, then parallelised independent calls.",
   "Revisited Melbourne Ultimate, traced silent session-role failures to fragmented authentication usage, and centralised session reads behind one database-verified guard.",
-  "Schema-validated MoneyGuard OCR output with Zod before deterministic wage calculations consume it.",
+  "Restricted Job Search Dispatch drafting to confirmed, permitted evidence and added validation, bounded repair and failure diagnostics before a generated letter replaces saved work.",
   "Turned Melbourne Ultimate authorization and mass-assignment findings into automated regression tests and CI checks.",
   // The four restrained toolbox groups.
   "Product UI",
@@ -509,6 +521,52 @@ for (const phrase of staleHowIBuildWording) {
     !lowerHowIBuildText.includes(phrase.toLowerCase()),
     `How I Build still renders rejected wording: ${phrase}`,
   );
+}
+
+// --- Job Search Dispatch: private source, public evidence-bounded story -------
+
+const dispatchHtml = await readFile(
+  path.join(outputDirectory, "work", "job-search-dispatch", "index.html"), "utf8",
+);
+const dispatchText = toText(dispatchHtml);
+assert.ok(html.includes('href="/work/job-search-dispatch/"'), "Homepage must link to Dispatch");
+assert.ok(html.includes("Running application · synthetic demo data"), "Dispatch screenshot must disclose synthetic data");
+assert.equal((dispatchHtml.match(/<h1\b/g) ?? []).length, 1);
+assert.match(dispatchHtml, /<title>Job Search Dispatch case study \| Yuelin Liu<\/title>/);
+for (const metadata of [
+  '<link rel="canonical" href="https://www.liuyuelin.dev/work/job-search-dispatch/"',
+  '<meta property="og:url" content="https://www.liuyuelin.dev/work/job-search-dispatch/"',
+]) {
+  assert.ok(dispatchHtml.includes(metadata), `Dispatch metadata is missing: ${metadata}`);
+}
+for (const marker of [
+  "from an AI-generated React MVP",
+  "One ticket, from capture to review",
+  "Decisions I can defend",
+  "A concrete iteration: whose number is it?",
+  "confirmed application-draft evidence claims",
+  "Model calls leave the machine",
+  "all 210 deterministic tests passed",
+  "synthetic fixture data",
+  "Current scope and limitations",
+  "Later human edits are not semantically re-verified",
+  "private source repository",
+]) {
+  assert.ok(dispatchText.includes(marker), `Dispatch case study is missing: ${marker}`);
+}
+assert.ok(dispatchHtml.includes('href="/#projects"'), "Dispatch must return to Selected Work");
+assert.ok(dispatchText.length > 5000, "Dispatch must render a complete static story");
+for (const markup of [html, dispatchHtml]) {
+  assert.ok(!markup.includes('href="https://github.com/liuyuelintop/job-search-dispatch-browser-bridge'),
+    "Dispatch must not link visitors to a private repository");
+}
+for (const pattern of [
+  /\b(?:fully offline|zero data leakage|guaranteed accuracy|hallucination[- ]free)\b/i,
+  /\b(?:automatically submits applications|guarantees truthful claims)\b/i,
+  /\b(?:saved|saves) \d+ (?:hours|minutes)\b/i,
+  /\b\d[\d,]*\+? (?:users|customers|interviews)\b/i,
+]) {
+  assert.ok(!pattern.test(dispatchText), `Dispatch contains an unsupported claim: ${pattern}`);
 }
 
 // --- DSH Conversation Exporter case study -----------------------------------
@@ -774,7 +832,7 @@ const emittedCaseStudyDirectories = (await readdir(path.join(outputDirectory, "w
   .sort();
 assert.deepEqual(
   emittedCaseStudyDirectories,
-  ["alex", "dsh-conversation-exporter", "melbourne-ultimate", "moneyguard"],
+  ["alex", "dsh-conversation-exporter", "job-search-dispatch", "melbourne-ultimate", "moneyguard"],
   "Static export must contain exactly the approved case-study directories",
 );
 
@@ -1129,13 +1187,19 @@ assert.deepEqual(
   [
     "/work/alex/",
     "/work/dsh-conversation-exporter/",
+    "/work/job-search-dispatch/",
     "/work/melbourne-ultimate/",
     "/work/moneyguard/",
   ],
   "Sitemap must list exactly the approved routes under /work/",
 );
 
+assert.ok(sitemap.includes("<loc>https://www.liuyuelin.dev/work/job-search-dispatch/</loc>"),
+  "Sitemap is missing Dispatch");
+
 const emittedMedia = await readdir(path.join(outputDirectory, "_next/static/media"));
+assert.ok(emittedMedia.some((file) => file.startsWith("job-search-dispatch.") && file.endsWith(".png")),
+  "Bundled Dispatch screenshot is missing");
 for (const imageName of ["dsh-conversation-exporter", "moneyguard-ai-finance-pipeline"]) {
   assert.ok(
     emittedMedia.some((file) => file.startsWith(`${imageName}.`) && file.endsWith(".webp")),
@@ -1153,5 +1217,5 @@ assert.ok(
 );
 
 console.log(
-  "Static output verified: the homepage evidence hierarchy and all four case studies render meaningful HTML with correct metadata, source boundaries, stated limitations and public assets.",
+  "Static output verified: the homepage evidence hierarchy and all five case studies render meaningful HTML with correct metadata, source boundaries, stated limitations and public assets.",
 );

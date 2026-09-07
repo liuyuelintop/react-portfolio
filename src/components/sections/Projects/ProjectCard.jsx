@@ -14,13 +14,20 @@ const ProjectCard = ({ project, index, onReadMore }) => {
 
   return (
     <article className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-center lg:gap-10">
-      <OptimizedImage
-        src={project.image}
-        alt={`${project.title} product screenshot`}
-        className="rounded-lg border border-neutral-800"
-        aspectRatio="aspect-video"
-        loading={index === 0 ? "eager" : "lazy"}
-      />
+      <figure>
+        <OptimizedImage
+          src={project.image}
+          alt={`${project.title} product screenshot`}
+          className="rounded-lg border border-neutral-800"
+          aspectRatio="aspect-video"
+          loading={index === 0 ? "eager" : "lazy"}
+        />
+        {project.imageCaption && (
+          <figcaption className="mt-2 text-xs leading-relaxed text-neutral-400">
+            {project.imageCaption}
+          </figcaption>
+        )}
+      </figure>
 
       <div>
         <h3 className="text-2xl font-bold leading-snug text-white">{project.title}</h3>
@@ -89,6 +96,7 @@ ProjectCard.propTypes = {
   project: PropTypes.shape({
     title: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
+    imageCaption: PropTypes.string,
     description: PropTypes.shape({
       summary: PropTypes.string.isRequired,
     }).isRequired,

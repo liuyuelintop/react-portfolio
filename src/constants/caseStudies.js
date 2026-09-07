@@ -8,6 +8,134 @@
 
 const SITE_URL = "https://www.liuyuelin.dev";
 
+// Claims and the synthetic screenshot are traced in docs/DISPATCH_CASE_STUDY_EVIDENCE.md.
+export const DISPATCH_CASE_STUDY = {
+  slug: "job-search-dispatch",
+  title: "Job Search Dispatch",
+  summary:
+    "A local job-search workspace that turns a captured job ad into an evidence-grounded application draft, with the applicant in control of every decision and submission.",
+  ownership: "Built and iterated as a personal project · 2026 · Private source repository",
+  metaTitle: "Job Search Dispatch case study | Yuelin Liu",
+  metaDescription:
+    "How I connected a browser bridge, evidence-scoped drafting and recoverable model operations into a local job-search workflow, with human review before submission.",
+  canonical: `${SITE_URL}/work/job-search-dispatch/`,
+  sections: [
+    {
+      kind: "prose",
+      id: "problem",
+      heading: "The problem: continuity between finding a job and applying",
+      paragraphs: [
+        "A job-search workflow crosses several disconnected surfaces: the job board, a record of past work, a model conversation, an application draft and a follow-up list. The difficult part is carrying the right facts and decisions between them without losing the original ad or letting a fluent draft overstate the applicant's experience.",
+        "I developed Job Search Dispatch from an AI-generated React MVP into an integrated local application. The work spans a Node.js server, a Chrome browser bridge, reusable evidence records, model routing and the review experience. A ticket holds the job, the model's recommendation, the applicant's decision and the resulting materials together.",
+      ],
+    },
+    {
+      kind: "steps",
+      id: "workflow",
+      heading: "One ticket, from capture to review",
+      items: [
+        {
+          step: "01",
+          label: "Capture the job the applicant is already reading",
+          detail:
+            "For SEEK, the extension reads visible metadata and the complete job description from a matching open tab. LinkedIn first tries a credential-free public request, then falls back to the bridge. Imported text remains editable; the applicant confirms whether the ad is still open.",
+          source: "Open job tab → browser bridge → editable job ticket",
+        },
+        {
+          step: "02",
+          label: "Separate a recommendation from a decision",
+          detail:
+            "Triage returns structured job details, fit, gaps and an APPLY, NETWORK or SKIP suggestion using confirmed candidate records. The applicant chooses the route. Pipeline queues surface tickets awaiting a decision, drafts in progress and follow-ups due.",
+          source: "Confirmed evidence → model suggestion → human route choice",
+        },
+        {
+          step: "03",
+          label: "Draft with evidence, then check the result",
+          detail:
+            "Application drafting uses confirmed evidence explicitly allowed for that purpose. The cover-letter writer is followed by a separate verifier call and deterministic validation. A hard validation failure permits one targeted repair; a result that still fails is not saved as the new letter.",
+          source: "Writer → verifier → validation → at most one repair",
+        },
+        {
+          step: "04",
+          label: "Keep the last mile human",
+          detail:
+            "The applicant can inspect paragraph evidence, edit the letter, review model-call details and copy clean text. Submission stays manual. The workspace keeps the ticket and next action available for the follow-up.",
+          source: "Review → edit → copy → manual submission",
+        },
+      ],
+    },
+    {
+      kind: "decisions",
+      id: "decisions",
+      heading: "Decisions I can defend",
+      items: [
+        {
+          decision: "Read an existing browser tab instead of building a crawler",
+          reason:
+            "The applicant already has the rendered job page. A narrowly scoped extension can bring that content into the same Fetch from URL flow while preserving an editable full description and a shared trace ID for failures.",
+          tradeoff:
+            "The extension must be installed and a matching job tab must remain open. It does not open pages, crawl in the background, autofill forms or submit applications.",
+        },
+        {
+          decision: "Make candidate evidence an explicit drafting input",
+          reason:
+            "Each evidence record carries confirmation, permitted uses and a claim boundary. Triage matches are intersected with confirmed application-draft evidence before entering the cover-letter prompt. Reusable fragments must resolve to that same allow-list.",
+          tradeoff:
+            "Preparing evidence takes effort. Valid references establish eligibility, not whether every sentence is true; model verification and final human review still have distinct jobs.",
+        },
+        {
+          decision: "Treat model calls as operations that can fail",
+          reason:
+            "Stage and trace diagnostics, server-owned deadlines and cancellation make a long-running call inspectable. Failed or cancelled attempts preserve existing work. Writer, verifier and optional repair receipts explain which calls ran and what cost information is available.",
+          tradeoff:
+            "A successful cover-letter run uses two model calls, or three with repair. The fixed Anthropic review route requires its own credential even when the writer uses a custom provider; available cost figures are estimates rather than invoices.",
+        },
+      ],
+    },
+    {
+      kind: "prose",
+      id: "iteration",
+      heading: "A concrete iteration: whose number is it?",
+      paragraphs: [
+        "A job ad can contain numbers that say nothing about the applicant's achievements. The numeric check needed to distinguish a number present in the ad from one supported by the evidence cited in a letter paragraph. I tightened the check so numeric support comes from that paragraph's cited, confirmed application-draft evidence claims, rather than the job description or unrelated profile text.",
+        "I also made a failed generation explain its stage and blocking checks instead of leaving the user with a generic failure. Numeric findings identify the paragraph, sentence and unsupported token while keeping the previous saved letter intact. Regression cases cover the source boundary and the failure diagnostics.",
+        "This remains a deterministic token check, not a proof of meaning: finding the same number in an eligible claim does not establish that a generated sentence describes it correctly. That distinction is why the verifier and human review remain part of the workflow.",
+      ],
+    },
+    {
+      kind: "bullets",
+      id: "data-boundaries",
+      heading: "Where the data goes",
+      items: [
+        "Canonical candidate records live in a versioned profile file outside the repository, with owner-only storage and backups. Tickets, provider settings, keys and a capped model-attempt history persist in browser localStorage.",
+        "Model calls leave the machine: the local server sends the selected credential and operation-specific job context plus eligible candidate data to the relevant provider. Local storage does not make generation an offline operation.",
+        "Prompt builders exclude contact details, raw attachments and full extracted résumé text. Operation-specific evidence selection happens in the browser; it is not a separate server-authoritative projection service.",
+        "Attempt history can contain generated personal application text. It retains at most 50 attempts and excludes full prompts and API keys; the user can export or clear it explicitly.",
+      ],
+    },
+    {
+      kind: "prose",
+      id: "verification",
+      heading: "What I verified",
+      paragraphs: [
+        "For this case study, I ran npm run verify against an isolated copy of the committed source on 8 September 2026: all 210 deterministic tests passed. The suite covers evidence eligibility, provider routing, cancellation and timeout behavior, cover-letter validation, failure receipts and fixture isolation.",
+        "The portfolio screenshot shows the running application's built-in synthetic fixture data. Its example companies, ticket counts and fit scores illustrate the interface; they are not real applications or outcome metrics. Fixture mode prevents model calls and persistent writes.",
+      ],
+    },
+    {
+      kind: "bullets",
+      id: "limitations",
+      heading: "Current scope and limitations",
+      items: [
+        "This is a personal local application with a private source repository. No user-adoption, interview-conversion or time-saved result is claimed.",
+        "The verification above does not establish live model quality or re-test SEEK and LinkedIn extraction against current job-board pages. Provider responses and page structures can change.",
+        "Later human edits are not semantically re-verified. Every final claim still needs review before the applicant uses it.",
+        "There is no automatic submission, cloud sync or résumé upload/parser workflow. React and Babel load from a CDN, so the no-build local runner still needs internet access.",
+      ],
+    },
+  ],
+};
+
 export const DSH_CASE_STUDY = {
   slug: "dsh-conversation-exporter",
   title: "DSH Conversation Exporter",
@@ -718,6 +846,7 @@ export const MELBOURNE_CASE_STUDY = {
 };
 
 export const CASE_STUDIES = {
+  [DISPATCH_CASE_STUDY.slug]: DISPATCH_CASE_STUDY,
   [DSH_CASE_STUDY.slug]: DSH_CASE_STUDY,
   [MONEYGUARD_CASE_STUDY.slug]: MONEYGUARD_CASE_STUDY,
   [MELBOURNE_CASE_STUDY.slug]: MELBOURNE_CASE_STUDY,

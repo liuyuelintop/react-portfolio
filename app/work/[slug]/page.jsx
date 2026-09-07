@@ -320,15 +320,17 @@ export default async function CaseStudyPage({ params }) {
         </article>
 
         <div className="mt-16 flex flex-wrap gap-3 border-t border-neutral-800 pt-10">
-          <a
-            href={caseStudy.sourceUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`inline-flex items-center justify-center gap-2 rounded-lg bg-white px-5 py-3 text-sm font-semibold text-neutral-950 transition-colors hover:bg-neutral-200 ${focusRingClasses}`}
-          >
-            {caseStudy.sourceLabel}
-            <ExternalLink size={16} aria-hidden="true" />
-          </a>
+          {caseStudy.sourceUrl && (
+            <a
+              href={caseStudy.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`inline-flex items-center justify-center gap-2 rounded-lg bg-white px-5 py-3 text-sm font-semibold text-neutral-950 transition-colors hover:bg-neutral-200 ${focusRingClasses}`}
+            >
+              {caseStudy.sourceLabel}
+              <ExternalLink size={16} aria-hidden="true" />
+            </a>
+          )}
           <Link
             href={BACK_HREF}
             className={`inline-flex items-center justify-center gap-2 rounded-lg border border-neutral-500 px-5 py-3 text-sm font-semibold text-neutral-200 transition-colors hover:border-neutral-300 hover:text-white ${focusRingClasses}`}

@@ -1,5 +1,6 @@
 import { projectImages } from "./assets";
 import {
+  DISPATCH_CASE_STUDY,
   DSH_CASE_STUDY,
   MELBOURNE_CASE_STUDY,
   MONEYGUARD_CASE_STUDY,
@@ -7,6 +8,22 @@ import {
 } from "./caseStudies";
 
 export const PROJECTS = [
+  {
+    title: DISPATCH_CASE_STUDY.title,
+    image: projectImages.jobSearchDispatch,
+    imageCaption: "Running application · synthetic demo data",
+    description: {
+      summary: "Turns a captured job ad into an evidence-grounded application draft, with human review before submission.",
+    },
+    ownership: DISPATCH_CASE_STUDY.ownership,
+    implementation:
+      "Connects an open-tab browser bridge, scoped evidence, multi-model drafting and failure recovery in one local workflow.",
+    caseStudyHref: caseStudyHref(DISPATCH_CASE_STUDY.slug),
+    technologies: {
+      main: ["React", "Node.js", "Chrome Extension", "LLM APIs"],
+    },
+    year: "2026",
+  },
   {
     title: DSH_CASE_STUDY.title,
     image: projectImages.dshConversationExporter,
