@@ -5,6 +5,7 @@ const CONTACT_EMAIL = "liuyuelintop@gmail.com";
 
 const CORE_ROUTES = [
   { path: "/", marker: "Selected Work", minimumTextLength: 5_000 },
+  { path: "/work/job-search-dispatch/", marker: "Current scope and limitations", minimumTextLength: 5_000 },
   { path: "/work/dsh-conversation-exporter/", marker: "Current limitations", minimumTextLength: 3_000 },
   { path: "/work/moneyguard/", marker: "Privacy boundaries", minimumTextLength: 5_000 },
   { path: "/work/melbourne-ultimate/", marker: "Scope of verification", minimumTextLength: 4_000 },
@@ -115,10 +116,15 @@ test("case-study entry, return, resume, and source actions stay usable", async (
   await page.goto("/");
   await waitForHydration(page);
 
-  await page.getByRole("link", { name: "Read the DSH Conversation Exporter case study" }).click();
-  await expect(page).toHaveURL(/\/work\/dsh-conversation-exporter\/$/);
-  await page.getByRole("link", { name: "Back to Selected Work" }).first().click();
-  await expect(page).toHaveURL(/\/#projects$/);
+  for (const [title, slug] of [
+    ["Job Search Dispatch", "job-search-dispatch"],
+    ["DSH Conversation Exporter", "dsh-conversation-exporter"],
+  ]) {
+    await page.getByRole("link", { name: `Read the ${title} case study` }).click();
+    await expect(page).toHaveURL(new RegExp(`/work/${slug}/$`));
+    await page.getByRole("link", { name: "Back to Selected Work" }).first().click();
+    await expect(page).toHaveURL(/\/#projects$/);
+  }
 
   const resume = page.getByRole("link", { name: /download.*resume/i });
   await expect(resume).toHaveAttribute("href", "/resume/yuelin-liu-resume.pdf");

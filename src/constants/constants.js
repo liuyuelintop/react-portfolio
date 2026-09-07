@@ -29,7 +29,7 @@ export const HOW_I_BUILD = {
         "I turn an unclear problem into a concrete working flow before adding abstraction, polish or extra infrastructure.",
       evidence: [
         "Built prospective-client prototypes for a specialty coffee retailer and a drone training provider from informal business briefs.",
-        "Built MoneyGuard around a real wage-checking workflow, separating model-assisted extraction from deterministic calculations.",
+        "Connected job capture, evidence-based triage, application drafting and follow-up in Job Search Dispatch, keeping the applicant in control of the route and submission.",
       ],
     },
     {
@@ -46,7 +46,7 @@ export const HOW_I_BUILD = {
       statement:
         "I prefer schemas, explicit write rules and regression checks over relying on UI conventions, model behaviour or code-review memory.",
       evidence: [
-        "Schema-validated MoneyGuard OCR output with Zod before deterministic wage calculations consume it.",
+        "Restricted Job Search Dispatch drafting to confirmed, permitted evidence and added validation, bounded repair and failure diagnostics before a generated letter replaces saved work.",
         "Turned Melbourne Ultimate authorization and mass-assignment findings into automated regression tests and CI checks.",
       ],
     },
