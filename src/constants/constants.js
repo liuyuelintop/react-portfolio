@@ -29,7 +29,7 @@ export const HOW_I_BUILD = {
         "I turn an unclear problem into a concrete working flow before adding abstraction, polish or extra infrastructure.",
       evidence: [
         "Built prospective-client prototypes for a specialty coffee retailer and a drone training provider from informal business briefs.",
-        "Connected job capture, evidence-based triage, application drafting and follow-up in Job Search Dispatch, keeping the applicant in control of the route and submission.",
+        "Connected job capture, evidence-based triage, document review and follow-up in Job Search Dispatch, with saved application progress and manual submission.",
       ],
     },
     {

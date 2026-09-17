@@ -17,10 +17,10 @@ export const PROJECTS = [
     },
     ownership: DISPATCH_CASE_STUDY.ownership,
     implementation:
-      "Connects an open-tab browser bridge, scoped evidence, multi-model drafting and failure recovery in one local workflow.",
+      "Rebuilt with Vite and TypeScript: browser capture, evidence-linked letter review and configurable Writer, Verifier and Repair roles.",
     caseStudyHref: caseStudyHref(DISPATCH_CASE_STUDY.slug),
     technologies: {
-      main: ["React", "Node.js", "Chrome Extension", "LLM APIs"],
+      main: ["React / Vite", "TypeScript", "Node.js", "LLM APIs"],
     },
     year: "2026",
   },

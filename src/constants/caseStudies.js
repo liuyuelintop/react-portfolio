@@ -17,7 +17,7 @@ export const DISPATCH_CASE_STUDY = {
   ownership: "Built and iterated as a personal project · 2026 · Private source repository",
   metaTitle: "Job Search Dispatch case study | Yuelin Liu",
   metaDescription:
-    "How I connected a browser bridge, evidence-scoped drafting and recoverable model operations into a local job-search workflow, with human review before submission.",
+    "How I evolved a browser bridge and evidence-grounded drafting into a typed local workspace, with configurable model roles and a document-focused review experience.",
   canonical: `${SITE_URL}/work/job-search-dispatch/`,
   sections: [
     {
@@ -26,7 +26,7 @@ export const DISPATCH_CASE_STUDY = {
       heading: "The problem: continuity between finding a job and applying",
       paragraphs: [
         "A job-search workflow crosses several disconnected surfaces: the job board, a record of past work, a model conversation, an application draft and a follow-up list. The difficult part is carrying the right facts and decisions between them without losing the original ad or letting a fluent draft overstate the applicant's experience.",
-        "I developed Job Search Dispatch from an AI-generated React MVP into an integrated local application. The work spans a Node.js server, a Chrome browser bridge, reusable evidence records, model routing and the review experience. A ticket holds the job, the model's recommendation, the applicant's decision and the resulting materials together.",
+        "I developed Job Search Dispatch from an AI-generated React MVP into an integrated local application. The current application uses React, Vite and TypeScript, a local Node.js server and a JavaScript Chrome extension. Jobs, My profile and Settings separate daily application work, reusable candidate evidence and model configuration. A ticket keeps the original ad, assessment, application materials and progress together.",
       ],
     },
     {
@@ -43,23 +43,23 @@ export const DISPATCH_CASE_STUDY = {
         },
         {
           step: "02",
-          label: "Separate a recommendation from a decision",
+          label: "Keep recommendations separate from application progress",
           detail:
-            "Triage returns structured job details, fit, gaps and an APPLY, NETWORK or SKIP suggestion using confirmed candidate records. The applicant chooses the route. Pipeline queues surface tickets awaiting a decision, drafts in progress and follow-ups due.",
-          source: "Confirmed evidence → model suggestion → human route choice",
+            "Triage returns structured job details, fit, gaps and a route suggestion using confirmed candidate records. The Jobs list follows original creation order and shows actual application progress with a contextual Continue action. Source and progress filters narrow the list; drafting no longer requires a separate APPLY decision.",
+          source: "Confirmed evidence → assessment → applicant-controlled progress",
         },
         {
           step: "03",
           label: "Draft with evidence, then check the result",
           detail:
-            "Application drafting uses confirmed evidence explicitly allowed for that purpose. The cover-letter writer is followed by a separate verifier call and deterministic validation. A hard validation failure permits one targeted repair; a result that still fails is not saved as the new letter.",
-          source: "Writer → verifier → validation → at most one repair",
+            "Application drafting uses confirmed evidence explicitly allowed for that purpose. Writer only is the default and must pass deterministic hard checks. An optional Verifier adds a model review; with Repair also enabled, a hard verifier failure permits at most one targeted repair. A result that still fails is not saved as the new letter.",
+          source: "Writer → optional Verifier → validation → optional bounded Repair",
         },
         {
           step: "04",
           label: "Keep the last mile human",
           detail:
-            "The applicant can inspect paragraph evidence, edit the letter, review model-call details and copy clean text. Submission stays manual. The workspace keeps the ticket and next action available for the follow-up.",
+            "The letter opens as a continuous document. Selecting a paragraph reveals its cited evidence; a separate editor saves changes, and run details expose the model calls and available cost estimates. The applicant reviews and copies clean text for manual submission, then records progress and reminders in the same ticket.",
           source: "Review → edit → copy → manual submission",
         },
       ],
@@ -86,10 +86,20 @@ export const DISPATCH_CASE_STUDY = {
         {
           decision: "Treat model calls as operations that can fail",
           reason:
-            "Stage and trace diagnostics, server-owned deadlines and cancellation make a long-running call inspectable. Failed or cancelled attempts preserve existing work. Writer, verifier and optional repair receipts explain which calls ran and what cost information is available.",
+            "Stage and trace diagnostics, server-owned deadlines and cancellation make a long-running call inspectable. Failed or cancelled attempts preserve existing work. Writer and any enabled Verifier or Repair receipts explain which calls ran and what cost information is available. Effective routes are validated before drafting and frozen for the run.",
           tradeoff:
-            "A successful cover-letter run uses two model calls, or three with repair. The fixed Anthropic review route requires its own credential even when the writer uses a custom provider; available cost figures are estimates rather than invoices.",
+            "Writer only uses one model call; an enabled Verifier adds a second and conditional Repair can add a third. Roles can follow the preceding route or use their own configured provider. Extra review costs time and tokens, and displayed costs remain estimates rather than invoices.",
         },
+      ],
+    },
+    {
+      kind: "prose",
+      id: "workspace-evolution",
+      heading: "Evolving the workspace without losing saved work",
+      paragraphs: [
+        "I migrated the no-build prototype to a bundled Vite frontend and strict TypeScript across the application and server, with shared Zod boundary contracts. Feature modules, state owners and persistence adapters now have separate responsibilities. Existing browser storage keys, saved routes and unknown fields remain compatible; the extension stays JavaScript.",
+        "The new interface reduces daily work to Jobs, My profile and Settings. Each ticket has Overview, Cover letter, Application pack and Progress & notes. Reading a letter is separate from editing it, and paragraph evidence stays within reach. Provider credentials and model routing have separate settings pages, while returning to Jobs restores focus without reordering the applicant's records.",
+        "The migration preserves the local data model rather than introducing cloud sync. Production startup checks that the bundled output matches its source and rejects missing or stale builds. Profile writes are serialized within a session, but separate browser windows can still overwrite whole-profile snapshots.",
       ],
     },
     {
@@ -98,8 +108,8 @@ export const DISPATCH_CASE_STUDY = {
       heading: "A concrete iteration: whose number is it?",
       paragraphs: [
         "A job ad can contain numbers that say nothing about the applicant's achievements. The numeric check needed to distinguish a number present in the ad from one supported by the evidence cited in a letter paragraph. I tightened the check so numeric support comes from that paragraph's cited, confirmed application-draft evidence claims, rather than the job description or unrelated profile text.",
-        "I also made a failed generation explain its stage and blocking checks instead of leaving the user with a generic failure. Numeric findings identify the paragraph, sentence and unsupported token while keeping the previous saved letter intact. Regression cases cover the source boundary and the failure diagnostics.",
-        "This remains a deterministic token check, not a proof of meaning: finding the same number in an eligible claim does not establish that a generated sentence describes it correctly. That distinction is why the verifier and human review remain part of the workflow.",
+        "I extended percentage checks to require the same quantity and unit in cited evidence: percent and percentage points are distinct, and a bare number cannot support a percentage claim. I also made a failed generation explain its stage and blocking checks instead of leaving the user with a generic failure. Numeric findings identify the paragraph, sentence and unsupported token while keeping the previous saved letter intact. Regression cases cover the source boundary and the failure diagnostics.",
+        "This remains a deterministic token check, not a proof of meaning: finding the same number in an eligible claim does not establish that a generated sentence describes it correctly. The optional Verifier can add another review, but final human review remains necessary.",
       ],
     },
     {
@@ -118,8 +128,9 @@ export const DISPATCH_CASE_STUDY = {
       id: "verification",
       heading: "What I verified",
       paragraphs: [
-        "For this case study, I ran npm run verify against an isolated copy of the committed source on 8 September 2026: all 210 deterministic tests passed. The suite covers evidence eligibility, provider routing, cancellation and timeout behavior, cover-letter validation, failure receipts and fixture isolation.",
-        "The portfolio screenshot shows the running application's built-in synthetic fixture data. Its example companies, ticket counts and fit scores illustrate the interface; they are not real applications or outcome metrics. Fixture mode prevents model calls and persistent writes.",
+        "For this refresh, I ran npm run verify against an isolated copy of the committed source on 17 September 2026: strict type checking, JavaScript syntax checks and all 371 deterministic tests passed. The production Vite build also passed. Coverage includes evidence eligibility, configurable model roles, percentage support, persistence, cancellation, diagnostics and fixture isolation.",
+        "I also ran the current UI journeys against the production bundle at 1440, 390 and 320 pixels. All three passed, covering navigation, paragraph evidence, edits surviving refresh, reminders, profile and settings surfaces with synthetic data and no live model calls.",
+        "The portfolio screenshot shows the running application's built-in synthetic fixture data. Its example companies, ticket counts and application statuses illustrate the interface; they are not real applications or outcome metrics. Fixture mode prevents model calls and persistent writes.",
       ],
     },
     {
@@ -130,7 +141,7 @@ export const DISPATCH_CASE_STUDY = {
         "This is a personal local application with a private source repository. No user-adoption, interview-conversion or time-saved result is claimed.",
         "The verification above does not establish live model quality or re-test SEEK and LinkedIn extraction against current job-board pages. Provider responses and page structures can change.",
         "Later human edits are not semantically re-verified. Every final claim still needs review before the applicant uses it.",
-        "There is no automatic submission, cloud sync or résumé upload/parser workflow. React and Babel load from a CDN, so the no-build local runner still needs internet access.",
+        "There is no automatic submission, cloud sync or résumé upload/parser workflow. The frontend is bundled locally with Vite; model calls and URL ingestion still require network access. The separate Profile v2 experiment remains parked and does not feed drafting.",
       ],
     },
   ],
