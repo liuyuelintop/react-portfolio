@@ -11,13 +11,13 @@ export const PROJECTS = [
   {
     title: DISPATCH_CASE_STUDY.title,
     image: projectImages.jobSearchDispatch,
-    imageCaption: "Running application · synthetic demo data",
+    imageCaption: "Jobs workspace · Synthetic demo data",
     description: {
-      summary: "Turns a captured job ad into an evidence-grounded application draft, with human review before submission.",
+      summary: "An AI-powered job-search workspace for assessing opportunities, preparing tailored applications and keeping every next step organised.",
     },
     ownership: DISPATCH_CASE_STUDY.ownership,
     implementation:
-      "Rebuilt with Vite and TypeScript: browser capture, evidence-linked letter review and configurable Writer, Verifier and Repair roles.",
+      "Connects captured job ads with saved experience to assess fit and draft application materials, including cover letters—without repeatedly rebuilding context in an AI chat. Configurable Writer, Verifier and Repair roles support letter drafting and review, while application progress and follow-ups stay together.",
     caseStudyHref: caseStudyHref(DISPATCH_CASE_STUDY.slug),
     technologies: {
       main: ["React / Vite", "TypeScript", "Node.js", "LLM APIs"],

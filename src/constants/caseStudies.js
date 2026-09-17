@@ -14,7 +14,7 @@ export const DISPATCH_CASE_STUDY = {
   title: "Job Search Dispatch",
   summary:
     "A local job-search workspace that turns a captured job ad into an evidence-grounded application draft, with the applicant in control of every decision and submission.",
-  ownership: "Built and iterated as a personal project · 2026 · Private source repository",
+  ownership: "Designed and built end to end · Personal project · 2026 · Private repository",
   metaTitle: "Job Search Dispatch case study | Yuelin Liu",
   metaDescription:
     "How I evolved a browser bridge and evidence-grounded drafting into a typed local workspace, with configurable model roles and a document-focused review experience.",

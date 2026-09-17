@@ -163,9 +163,9 @@ const flagshipEvidenceHierarchy = [
     title: "Job Search Dispatch",
     end: "DSH Conversation Exporter",
     markers: [
-      "Turns a captured job ad into an evidence-grounded application draft, with human review before submission.",
-      "Built and iterated as a personal project · 2026 · Private source repository",
-      "Rebuilt with Vite and TypeScript: browser capture, evidence-linked letter review and configurable Writer, Verifier and Repair roles.",
+      "An AI-powered job-search workspace for assessing opportunities, preparing tailored applications and keeping every next step organised.",
+      "Designed and built end to end · Personal project · 2026 · Private repository",
+      "Connects captured job ads with saved experience to assess fit and draft application materials, including cover letters—without repeatedly rebuilding context in an AI chat. Configurable Writer, Verifier and Repair roles support letter drafting and review, while application progress and follow-ups stay together.",
       "Stack · React / Vite · TypeScript · Node.js · LLM APIs",
       "Read case study",
     ],
@@ -530,7 +530,7 @@ const dispatchHtml = await readFile(
 );
 const dispatchText = toText(dispatchHtml);
 assert.ok(html.includes('href="/work/job-search-dispatch/"'), "Homepage must link to Dispatch");
-assert.ok(html.includes("Running application · synthetic demo data"), "Dispatch screenshot must disclose synthetic data");
+assert.ok(html.includes("Jobs workspace · Synthetic demo data"), "Dispatch screenshot must disclose synthetic data");
 assert.equal((dispatchHtml.match(/<h1\b/g) ?? []).length, 1);
 assert.match(dispatchHtml, /<title>Job Search Dispatch case study \| Yuelin Liu<\/title>/);
 for (const metadata of [
