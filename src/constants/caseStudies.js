@@ -162,7 +162,7 @@ export const DISPATCH_CASE_STUDY = {
   ],
 };
 
-// Claims and the composed screenshot are traced in docs/MARSHAL_CASE_STUDY_EVIDENCE.md.
+// Claims and the illustrative cover are traced in docs/MARSHAL_CASE_STUDY_EVIDENCE.md.
 export const MARSHAL_CASE_STUDY = {
   slug: "marshal",
   title: "Marshal",
@@ -298,7 +298,7 @@ export const MARSHAL_CASE_STUDY = {
       paragraphs: [
         "GitHub Actions runs four checks on every push: type checking, 220 unit and contract tests, the browser journeys on phone and desktop viewports, and a container build that renders a multilingual PDF and inspects its page count, page size and embedded fonts. A fifth job scans the full history for secrets. The run for the pipeline release on 2 October 2026 passed.",
         "The roadmap records 58 browser journeys passing at that release, including a phone-sized run from capture to both PDF downloads. The journeys use a stubbed model, and no test calls a paid model.",
-        "The image on this site sets two captures of a throwaway local instance, one desktop and one phone, inside drawn device frames; the phone shows the revision the desktop had just saved. Every role and company in it is fictional test data.",
+        "The cover image on this site is illustrative artwork made with an image-generation model from my brief, not a capture of the running app. Its interface is a stylised redesign: the real app is plainer and has no sidebar or search. What it names is real: the fit check, the evidence-backed draft, tracking to an offer, syncing between laptop and phone, and private self-hosting. Every company in it is fictional.",
       ],
     },
     {

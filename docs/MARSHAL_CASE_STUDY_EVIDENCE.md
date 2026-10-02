@@ -50,28 +50,32 @@ Paths below refer to the source repository at that commit.
   local Mac and is installed in CI. The page therefore cites the CI run and the
   roadmap record rather than a local run.
 
-## Screenshot
+## Cover image
 
-`src/assets/projects/marshal.webp` (2000 × 1125) was regenerated on 2 October
-2026 to read as a product cover rather than a test capture.
+`src/assets/projects/marshal.webp` (1672 × 941) was replaced on 3 October 2026
+with illustrative artwork. The owner generated it with an image-generation
+model from a written brief and chose it over the earlier capture-based cover,
+which read as a prototype.
 
-- **Screens are real.** A throwaway instance was started from the source at
-  `5230d26` with a temporary data directory and the committed web build. Five
-  fictional jobs were seeded through `PUT /api/user-state`; a sixth was added
-  in the desktop browser and saved, producing revision 2. A phone-sized context
-  then loaded that revision and was scrolled to the job list. Both were captured
-  with Playwright at 2× (desktop 1040 px wide, full page; phone 390 × 844). The
-  desktop bar reads "Saved · rev 2" and the phone bar "Updated from Mac · rev 2"
-  because that is the state the app was in. No interface pixel was edited, and
-  the temporary data directory was deleted afterwards.
-- **Frames are drawn.** The browser chrome, its `marshal.example-tailnet.ts.net`
-  address, the phone bezel, the dotted connector with its "rev 2" label, the
-  wordmark, the tagline (from the source README) and the backdrop are
-  composition, not product UI. Colours come from the app's own tokens in
-  `web/src/styles.css`.
-- **Data is fictional.** Roles and companies (Northwind, Contoso, Fabrikam,
-  Tailspin, Adventure Works, Wingtip) are placeholders. The homepage caption and
-  the case study both say so.
+- **It is not a screenshot.** The interface on the laptop and phone is the
+  model's stylised redesign. The running app has no sidebar, no "Workspace" or
+  "Evidence" navigation, no "Archived" tab and no search field, and its layout
+  is plainer. The homepage caption says "Illustrative cover artwork · Not a
+  screenshot of the running app", and the case study repeats this in "What I
+  verified".
+- **What it names is real.** The floating cards and labels correspond to
+  features traced in the table above: fit check with a pursue decision and time
+  budget, an evidence-backed draft tied to a confirmed fact, the four-step
+  progress track with a due item, a saved/synced state between laptop and
+  phone, résumé and cover-letter downloads, and private self-hosting with no
+  public port.
+- **Nothing about the product is quantified.** The image carries no user
+  counts, ratings, testimonials or third-party logos. Company names (Northwind,
+  Contoso, Fabrikam, Tailspin) are placeholders with plain monogram marks.
+
+The earlier capture-based cover, the script that produced it and the brief
+given to the image model are kept outside this repository, in the Marshal
+checkout's git-ignored `out/cover/` directory.
 
 ## Not claimed
 

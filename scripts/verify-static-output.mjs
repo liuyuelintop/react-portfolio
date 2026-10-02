@@ -599,8 +599,8 @@ const marshalHtml = await readFile(
 const marshalText = toText(marshalHtml);
 assert.ok(html.includes('href="/work/marshal/"'), "Homepage must link to Marshal");
 assert.ok(
-  html.includes("Pipeline board on desktop and phone · Fictional test data"),
-  "Marshal screenshot must disclose fictional test data",
+  html.includes("Illustrative cover artwork · Not a screenshot of the running app"),
+  "Marshal cover must be disclosed as illustrative artwork",
 );
 assert.equal((marshalHtml.match(/<h1\b/g) ?? []).length, 1);
 assert.match(marshalHtml, /<title>Marshal case study \| Yuelin Liu<\/title>/);
@@ -622,7 +622,8 @@ for (const marker of [
   "The repository is private while the project is pre-alpha",
   "220 unit and contract tests",
   "The journeys use a stubbed model",
-  "Every role and company in it is fictional test data",
+  "not a capture of the running app",
+  "Every company in it is fictional",
   "Current scope and limitations",
   "Marshal is pre-alpha and has one user, me",
   "Nobody else has self-hosted it yet",

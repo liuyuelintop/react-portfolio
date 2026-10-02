@@ -12,7 +12,7 @@ export const PROJECTS = [
   {
     title: MARSHAL_CASE_STUDY.title,
     image: projectImages.marshal,
-    imageCaption: "Pipeline board on desktop and phone · Fictional test data",
+    imageCaption: "Illustrative cover artwork · Not a screenshot of the running app",
     description: {
       summary:
         "A self-hosted job-application workspace for laptop and phone: capture a job ad, check the fit, draft material that only says what I can back up, and track each application to an offer.",
