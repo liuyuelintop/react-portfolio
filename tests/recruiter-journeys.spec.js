@@ -5,6 +5,7 @@ const CONTACT_EMAIL = "liuyuelintop@gmail.com";
 
 const CORE_ROUTES = [
   { path: "/", marker: "Selected Work", minimumTextLength: 5_000 },
+  { path: "/work/marshal/", marker: "Built to be shared", minimumTextLength: 5_000 },
   { path: "/work/job-search-dispatch/", marker: "Current scope and limitations", minimumTextLength: 5_000 },
   { path: "/work/dsh-conversation-exporter/", marker: "Current limitations", minimumTextLength: 3_000 },
   { path: "/work/moneyguard/", marker: "Privacy boundaries", minimumTextLength: 5_000 },
@@ -117,6 +118,7 @@ test("case-study entry, return, resume, and source actions stay usable", async (
   await waitForHydration(page);
 
   for (const [title, slug] of [
+    ["Marshal", "marshal"],
     ["Job Search Dispatch", "job-search-dispatch"],
     ["DSH Conversation Exporter", "dsh-conversation-exporter"],
   ]) {

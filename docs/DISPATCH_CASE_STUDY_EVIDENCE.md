@@ -76,3 +76,26 @@ asserted. The separate Profile v2 experiment remains parked.
 No build/deployment configuration was changed. The existing GitHub/Vercel
 integration publishes main; GitHub checks and deployment status record the
 cloud result for the resulting portfolio commit.
+
+## Refresh, 2 October 2026
+
+The card and case study were updated for work merged after the 17 September
+review. Nothing was re-run for this refresh; the added statements cite the
+source repository's own records at local main `62bbd27` and are worded that way
+on the page.
+
+| Added claim | Source |
+| --- | --- |
+| SEEK is fetched by headless Chromium first; LinkedIn tries a public request, then headless; the open-tab bridge is the fallback | `app/server/fetch-url.ts` |
+| Headless extraction restricted to SEEK and LinkedIn, private destinations blocked, resolved address pinned | `app/server/headless-extract.ts`, `app/server/headless-proxy.ts`, `app/server/fetch-transport.ts` |
+| Managed LaunchAgent service, versioned runtime, previous runtime kept for rollback; backup and restore | `PROJECT_STATUS.md` (PR #27, #29, #30), `docs/guides/RUNNING_4174.md` |
+| Pinned, project-local Chromium | `PROJECT_STATUS.md` (PR #65), `docs/verification/2026-09-27-release-closeout.md` |
+| Writer can use a personal Codex or Claude subscription through the official CLI sign-in; local providers are Writer-only | `PROJECT_STATUS.md` (2026-09-24 entries), `app/server/local-codex.ts`, `app/server/local-claude.ts` |
+| One declaration of model inputs, drift test, What AI uses page | `PROJECT_STATUS.md` (slice B, PR #61), `app/src/domain/ai-inputs.ts`, `app/ai-inputs.test.mjs` |
+| Redesign with a system-following dark theme; Verifier/Repair shown as Fact-check/Auto-fix | `PROJECT_STATUS.md` (2026-09-26 redesign) |
+| Résumé positioning by local rules and a locally rendered two-page A4 PDF with staleness flags | `PROJECT_STATUS.md` (2026-09-28), `docs/guides/ticket-resume.md` |
+| 28 September release record: 614 deterministic, 40 browser flows, 1 backup-restore, 2 writing comparisons, 3 fixed-origin checks, no failures or skips | `docs/verification/ticket-resume-release.json` |
+| One deployed request extracted a live SEEK ad through the headless path in 1315 ms on 27 September | `docs/verification/2026-09-27-release-closeout.md` |
+| Older browser suites for the previous interface are stale and outside the release gate | `PROJECT_STATUS.md` ("Still open" under the 2026-09-26 redesign) |
+
+The card image is unchanged from 17 September and predates the redesign.

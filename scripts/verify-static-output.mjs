@@ -43,6 +43,8 @@ const requiredContent = [
   "I work across product UI, APIs, authentication, data workflows and model-integrated features—turning messy requirements into reliable software.",
   // Selected Work
   "Selected Work",
+  "Marshal",
+  "Job Search Dispatch",
   "DSH Conversation Exporter",
   "MoneyGuard",
   "More Engineering Work",
@@ -160,12 +162,23 @@ assert.ok(
 
 const flagshipEvidenceHierarchy = [
   {
+    title: "Marshal",
+    end: "Job Search Dispatch",
+    markers: [
+      "A self-hosted job-application workspace for laptop and phone: capture a job ad, check the fit, draft material that only says what I can back up, and track each application to an offer.",
+      "Designed and built end to end · Personal project · 2026 · Pre-alpha · Private repository",
+      "Rebuilds the ideas proven in my Mac-only Dispatch tool as one private instance that my own devices reach over Tailscale, with no public port. Designed to be shared: each person runs their own copy with Docker and their own API key, so nobody hosts anyone else's data.",
+      "Stack · TypeScript · React / Vite · Node.js · Docker",
+      "Read case study",
+    ],
+  },
+  {
     title: "Job Search Dispatch",
     end: "DSH Conversation Exporter",
     markers: [
       "An AI-powered job-search workspace for assessing opportunities, preparing tailored applications and keeping every next step organised.",
       "Designed and built end to end · Personal project · 2026 · Private repository",
-      "Connects captured job ads with saved experience to assess fit and draft application materials, including cover letters—without repeatedly rebuilding context in an AI chat. Configurable Writer, Verifier and Repair roles support letter drafting and review, while application progress and follow-ups stay together.",
+      "Connects captured job ads with saved experience to assess fit and draft application materials, including cover letters—without repeatedly rebuilding context in an AI chat. Job ads arrive through a guarded headless fetch or a browser extension, the Writer runs on bring-your-own-key providers or a signed-in Codex or Claude subscription, and application progress and follow-ups stay together.",
       "Stack · React / Vite · TypeScript · Node.js · LLM APIs",
       "Read case study",
     ],
@@ -224,9 +237,11 @@ assert.ok(
   "The compact Melbourne University Ultimate listing must link to source, not present as a featured case-study action",
 );
 
-// The recruiter path leads with the integrated Dispatch workflow, followed
-// by developer tooling, AI application engineering and compact supporting work.
+// The recruiter path leads with Marshal and the Dispatch workflow it grew out
+// of, followed by developer tooling, AI application engineering and compact
+// supporting work.
 const orderedHomepageMarkers = [
+  "Marshal",
   "Job Search Dispatch",
   "DSH Conversation Exporter",
   "MoneyGuard",
@@ -257,8 +272,8 @@ assert.ok(
 const projectSectionHtml = html.slice(projectSectionStart, projectSectionEnd);
 assert.equal(
   (projectSectionHtml.match(/<article\b/g) ?? []).length,
-  3,
-  "Selected Work must render exactly three large Featured Work cards",
+  4,
+  "Selected Work must render exactly four large Featured Work cards",
 );
 
 const supportingStart = projectSectionHtml.indexOf("More Engineering Work");
@@ -547,6 +562,9 @@ for (const marker of [
   "confirmed application-draft evidence claims",
   "Model calls leave the machine",
   "all 371 deterministic tests passed",
+  "What changed in late September 2026",
+  "614 deterministic tests",
+  "I did not re-run that gate for this page",
   "Writer only is the default",
   "Evolving the workspace without losing saved work",
   "shared Zod boundary contracts",
@@ -571,6 +589,63 @@ for (const pattern of [
   /\b\d[\d,]*\+? (?:users|customers|interviews)\b/i,
 ]) {
   assert.ok(!pattern.test(dispatchText), `Dispatch contains an unsupported claim: ${pattern}`);
+}
+
+// --- Marshal: private source, pre-alpha, evidence-bounded story ---------------
+
+const marshalHtml = await readFile(
+  path.join(outputDirectory, "work", "marshal", "index.html"), "utf8",
+);
+const marshalText = toText(marshalHtml);
+assert.ok(html.includes('href="/work/marshal/"'), "Homepage must link to Marshal");
+assert.ok(
+  html.includes("Pipeline board on desktop and phone · Fictional test data"),
+  "Marshal screenshot must disclose fictional test data",
+);
+assert.equal((marshalHtml.match(/<h1\b/g) ?? []).length, 1);
+assert.match(marshalHtml, /<title>Marshal case study \| Yuelin Liu<\/title>/);
+for (const metadata of [
+  '<link rel="canonical" href="https://www.liuyuelin.dev/work/marshal/"',
+  '<meta property="og:url" content="https://www.liuyuelin.dev/work/marshal/"',
+]) {
+  assert.ok(marshalHtml.includes(metadata), `Marshal metadata is missing: ${metadata}`);
+}
+for (const marker of [
+  "the tool I already had only ran on one Mac",
+  "It is a clean-room successor",
+  "One application, from a phone capture to an offer",
+  "Decisions I can defend",
+  "One instance per person, not a shared service",
+  "No port is open to the internet",
+  "It is not live sync",
+  "Built to be shared",
+  "The repository is private while the project is pre-alpha",
+  "220 unit and contract tests",
+  "The journeys use a stubbed model",
+  "Every role and company in it is fictional test data",
+  "Current scope and limitations",
+  "Marshal is pre-alpha and has one user, me",
+  "Nobody else has self-hosted it yet",
+]) {
+  assert.ok(marshalText.includes(marker), `Marshal case study is missing: ${marker}`);
+}
+assert.ok(marshalHtml.includes('href="/#projects"'), "Marshal must return to Selected Work");
+assert.ok(marshalText.length > 5000, "Marshal must render a complete static story");
+for (const markup of [html, marshalHtml]) {
+  assert.ok(!markup.includes('href="https://github.com/liuyuelintop/marshal'),
+    "Marshal must not link visitors to a private repository");
+}
+const marshalCardStart = text.indexOf("Marshal");
+const marshalCardText = text.slice(marshalCardStart, text.indexOf("Job Search Dispatch", marshalCardStart));
+for (const claimText of [marshalText, marshalCardText]) {
+  for (const pattern of [
+    /\b(?:open[- ]source|fully offline|zero data leakage|guaranteed accuracy|hallucination[- ]free)\b/i,
+    /\b(?:automatically submits applications|guarantees truthful claims|production[- ]ready)\b/i,
+    /\b(?:saved|saves) \d+ (?:hours|minutes)\b/i,
+    /\b\d[\d,]*\+? (?:users|customers|interviews|friends)\b/i,
+  ]) {
+    assert.ok(!pattern.test(claimText), `Marshal contains an unsupported claim: ${pattern}`);
+  }
 }
 
 // --- DSH Conversation Exporter case study -----------------------------------
@@ -836,7 +911,7 @@ const emittedCaseStudyDirectories = (await readdir(path.join(outputDirectory, "w
   .sort();
 assert.deepEqual(
   emittedCaseStudyDirectories,
-  ["alex", "dsh-conversation-exporter", "job-search-dispatch", "melbourne-ultimate", "moneyguard"],
+  ["alex", "dsh-conversation-exporter", "job-search-dispatch", "marshal", "melbourne-ultimate", "moneyguard"],
   "Static export must contain exactly the approved case-study directories",
 );
 
@@ -1192,6 +1267,7 @@ assert.deepEqual(
     "/work/alex/",
     "/work/dsh-conversation-exporter/",
     "/work/job-search-dispatch/",
+    "/work/marshal/",
     "/work/melbourne-ultimate/",
     "/work/moneyguard/",
   ],
@@ -1204,7 +1280,7 @@ assert.ok(sitemap.includes("<loc>https://www.liuyuelin.dev/work/job-search-dispa
 const emittedMedia = await readdir(path.join(outputDirectory, "_next/static/media"));
 assert.ok(emittedMedia.some((file) => file.startsWith("job-search-dispatch.") && file.endsWith(".png")),
   "Bundled Dispatch screenshot is missing");
-for (const imageName of ["dsh-conversation-exporter", "moneyguard-ai-finance-pipeline"]) {
+for (const imageName of ["marshal", "dsh-conversation-exporter", "moneyguard-ai-finance-pipeline"]) {
   assert.ok(
     emittedMedia.some((file) => file.startsWith(`${imageName}.`) && file.endsWith(".webp")),
     `Bundled project image is missing: ${imageName}`,
@@ -1221,5 +1297,5 @@ assert.ok(
 );
 
 console.log(
-  "Static output verified: the homepage evidence hierarchy and all five case studies render meaningful HTML with correct metadata, source boundaries, stated limitations and public assets.",
+  "Static output verified: the homepage evidence hierarchy and all six case studies render meaningful HTML with correct metadata, source boundaries, stated limitations and public assets.",
 );

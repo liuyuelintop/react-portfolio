@@ -38,8 +38,8 @@ export const DISPATCH_CASE_STUDY = {
           step: "01",
           label: "Capture the job the applicant is already reading",
           detail:
-            "For SEEK, the extension reads visible metadata and the complete job description from a matching open tab. LinkedIn first tries a credential-free public request, then falls back to the bridge. Imported text remains editable; the applicant confirms whether the ad is still open.",
-          source: "Open job tab → browser bridge → editable job ticket",
+            "Fetch from URL covers the common case: a SEEK ad is read by a headless Chromium on the local server, and LinkedIn first tries a credential-free public request. When that fails, the extension reads visible metadata and the complete job description from a matching open tab. Imported text remains editable; the applicant confirms whether the ad is still open.",
+          source: "Job URL → guarded headless fetch or open-tab bridge → editable job ticket",
         },
         {
           step: "02",
@@ -70,11 +70,11 @@ export const DISPATCH_CASE_STUDY = {
       heading: "Decisions I can defend",
       items: [
         {
-          decision: "Read an existing browser tab instead of building a crawler",
+          decision: "Fetch one job at a time, on request, instead of building a crawler",
           reason:
-            "The applicant already has the rendered job page. A narrowly scoped extension can bring that content into the same Fetch from URL flow while preserving an editable full description and a shared trace ID for failures.",
+            "The applicant supplies one URL or already has the rendered page open. A headless fetch restricted to SEEK and LinkedIn, with private destinations blocked and the resolved address pinned, covers the URL; a narrowly scoped extension covers the open tab. Both feed the same Fetch from URL flow, preserving an editable full description and a shared trace ID for failures.",
           tradeoff:
-            "The extension must be installed and a matching job tab must remain open. It does not open pages, crawl in the background, autofill forms or submit applications.",
+            "Headless extraction depends on each job board's current page structure, and the bridge needs the extension installed and a matching tab open. Neither crawls in the background, autofills forms or submits applications.",
         },
         {
           decision: "Make candidate evidence an explicit drafting input",
@@ -100,6 +100,20 @@ export const DISPATCH_CASE_STUDY = {
         "I migrated the no-build prototype to a bundled Vite frontend and strict TypeScript across the application and server, with shared Zod boundary contracts. Feature modules, state owners and persistence adapters now have separate responsibilities. Existing browser storage keys, saved routes and unknown fields remain compatible; the extension stays JavaScript.",
         "The new interface reduces daily work to Jobs, My profile and Settings. Each ticket has Overview, Cover letter, Application pack and Progress & notes. Reading a letter is separate from editing it, and paragraph evidence stays within reach. Provider credentials and model routing have separate settings pages, while returning to Jobs restores focus without reordering the applicant's records.",
         "The migration preserves the local data model rather than introducing cloud sync. Production startup checks that the bundled output matches its source and rejects missing or stale builds. Profile writes are serialized within a session, but separate browser windows can still overwrite whole-profile snapshots.",
+      ],
+    },
+    {
+      kind: "bullets",
+      id: "late-september",
+      heading: "What changed in late September 2026",
+      items: [
+        "It now runs as a managed macOS service: a LaunchAgent starts a versioned runtime at login on a fixed local port, and the previous runtime is kept for rollback. Backup and restore were added for the saved workspace.",
+        "Fetch from URL gained the guarded headless path described above, using a pinned Chromium installed inside the project rather than whatever the machine happens to have.",
+        "The Writer can run on a personal Codex or Claude subscription through the official command-line sign-in, alongside bring-your-own-key providers. Subscription routes are limited to the Writer role.",
+        "One declaration lists what each model step reads. A drift test builds every prompt from sentinel data and fails when a prompt and the declaration disagree, and My profile opens on a What AI uses page driven by the same declaration.",
+        "The interface was redesigned with a dark theme that follows the system, and Verifier and Repair are now shown as Fact-check and Auto-fix.",
+        "A ticket can recommend a résumé positioning using local rules and download a locally rendered two-page A4 PDF, flagging the file when its source, template or positioning changes.",
+        "Its evidence model became the starting point for Marshal, which rebuilds the idea for use across more than one device.",
       ],
     },
     {
@@ -130,6 +144,7 @@ export const DISPATCH_CASE_STUDY = {
       paragraphs: [
         "For this refresh, I ran npm run verify against an isolated copy of the committed source on 17 September 2026: strict type checking, JavaScript syntax checks and all 371 deterministic tests passed. The production Vite build also passed. Coverage includes evidence eligibility, configurable model roles, percentage support, persistence, cancellation, diagnostics and fixture isolation.",
         "I also ran the current UI journeys against the production bundle at 1440, 390 and 320 pixels. All three passed, covering navigation, paragraph evidence, edits surviving refresh, reminders, profile and settings surfaces with synthetic data and no live model calls.",
+        "The project's own release record for 28 September 2026 lists 614 deterministic tests, 40 browser release flows, one backup-restore check, two writing comparisons and three fixed-origin extension checks, all passing with none skipped. The day before, one request to the deployed service extracted a live SEEK ad through the headless path in about 1.3 seconds. I did not re-run that gate for this page, and several older browser suites written for the previous interface are stale and sit outside it.",
         "The portfolio screenshot shows the running application's built-in synthetic fixture data. Its example companies, ticket counts and application statuses illustrate the interface; they are not real applications or outcome metrics. Fixture mode prevents model calls and persistent writes.",
       ],
     },
@@ -139,9 +154,163 @@ export const DISPATCH_CASE_STUDY = {
       heading: "Current scope and limitations",
       items: [
         "This is a personal local application with a private source repository. No user-adoption, interview-conversion or time-saved result is claimed.",
-        "The verification above does not establish live model quality or re-test SEEK and LinkedIn extraction against current job-board pages. Provider responses and page structures can change.",
+        "The verification above does not establish live model quality. One recorded SEEK extraction is not ongoing coverage of SEEK or LinkedIn pages; provider responses and page structures can change.",
         "Later human edits are not semantically re-verified. Every final claim still needs review before the applicant uses it.",
-        "There is no automatic submission, cloud sync or résumé upload/parser workflow. The frontend is bundled locally with Vite; model calls and URL ingestion still require network access. The separate Profile v2 experiment remains parked and does not feed drafting.",
+        "There is no automatic submission, cloud sync or résumé upload/parser workflow, and it runs on one Mac. The frontend is bundled locally with Vite; model calls and URL ingestion still require network access. The separate Profile v2 experiment remains parked and does not feed drafting.",
+      ],
+    },
+  ],
+};
+
+// Claims and the composed screenshot are traced in docs/MARSHAL_CASE_STUDY_EVIDENCE.md.
+export const MARSHAL_CASE_STUDY = {
+  slug: "marshal",
+  title: "Marshal",
+  summary:
+    "A self-hosted job-application workspace I can use from my laptop and my phone: capture a job ad, check the fit, draft material that only says what I can back up, and track each application to an offer.",
+  ownership:
+    "Designed and built end to end · Personal project · 2026 · Pre-alpha · Private repository",
+  metaTitle: "Marshal case study | Yuelin Liu",
+  metaDescription:
+    "Why I rebuilt a Mac-only job-search tool as a private, self-hosted workspace for laptop and phone, how friends can run their own copy, and what is and is not verified.",
+  canonical: `${SITE_URL}/work/marshal/`,
+  sections: [
+    {
+      kind: "prose",
+      id: "why",
+      heading: "Why it exists: the tool I already had only ran on one Mac",
+      paragraphs: [
+        "Job Search Dispatch, my earlier tool, proved the idea in daily use: record experience once, let a model read a job ad against it, and draft application material that stays inside what I have confirmed. But it lives on one Mac. It runs as a macOS service and keeps working state in that machine's browser, so a job I found on my phone during a long day out had to wait until I was back at the desk.",
+        "Marshal rebuilds the idea for that gap, and for a second one. Friends asked to use the earlier tool, and I did not want their résumés on my server or mine on theirs. So Marshal is a single-person instance by design: I run one for myself, reachable only from my own devices, and anyone else can run their own copy from the same repository.",
+        "It is a clean-room successor. Marshal takes over the earlier tool's concepts, not its code or data: every module is rewritten, and nothing from the old data directory, history or fixtures is copied.",
+      ],
+    },
+    {
+      kind: "steps",
+      id: "workflow",
+      heading: "One application, from a phone capture to an offer",
+      items: [
+        {
+          step: "01",
+          label: "Capture where I am",
+          detail:
+            "Paste a job ad into the phone or the laptop. The ad is capped at 50,000 characters and an optional source link is kept as plain text. The capture is saved to the server so the other device can load it.",
+          source: "Paste → job record → explicit Save",
+        },
+        {
+          step: "02",
+          label: "Decide whether it is worth the time",
+          detail:
+            "Triage matches the ad's requirements one by one against my confirmed experience and quotes the ad for each requirement; a quote that cannot be found in the ad is not accepted. Hard requirements I record myself, such as work rights, are checked by plain code and never sent to the model. The result is a decision of pursue, explore, clarify or skip, with a suggested time budget.",
+          source: "Confirmed claims + quoted requirements → decision card",
+        },
+        {
+          step: "03",
+          label: "Draft, check and accept",
+          detail:
+            "For a job worth pursuing, Marshal plans the letter from the triage result and the model writes inside that plan. Each sentence is then checked against the facts it cites: a number or a name those facts do not contain is flagged. A separate audit runs unless I waive it, and the waiver is recorded. I accept the letter or discard it.",
+          source: "Letter plan → draft → sentence check → audit → acceptance",
+        },
+        {
+          step: "04",
+          label: "Download the documents",
+          detail:
+            "The accepted letter renders to a one-page A4 PDF and the tailored résumé to two pages, using a headless Chromium inside the container with network access blocked during rendering. A download is refused when its source has changed since it was accepted.",
+          source: "Accepted text → HTML template → A4 PDF",
+        },
+        {
+          step: "05",
+          label: "Track it to the end",
+          detail:
+            "A board follows each application through Not applied, Applied, Interviewing and Offer, and a due queue lists the follow-ups that are due today or overdue. Status changes are appended to a history rather than overwritten. I submit every application myself.",
+          source: "Pipeline board → due queue → manual submission",
+        },
+      ],
+    },
+    {
+      kind: "decisions",
+      id: "decisions",
+      heading: "Decisions I can defend",
+      items: [
+        {
+          decision: "One instance per person, not a shared service",
+          reason:
+            "Keeping several people's résumés apart would touch every store, route, cache and backup, and one mistake would leak someone's career history. With one instance per person there is no cross-user isolation to get wrong, and friends do not have to trust my server.",
+          tradeoff:
+            "Each person has to run Docker and bring their own model API key. There is no sign-up page and no hosted option.",
+        },
+        {
+          decision: "Reachable only over a private network",
+          reason:
+            "The container publishes to the host's loopback address only, and Tailscale serves it over HTTPS to devices on my own tailnet. No port is open to the internet, so there is no public login to build or defend.",
+          tradeoff:
+            "Every device I use has to be on the tailnet, and a container still shares the host's kernel. The boundary I rely on is at the application, credential and storage level.",
+        },
+        {
+          decision: "Explicit save and load between devices, with revisions",
+          reason:
+            "Each device works on its own copy and saves against a revision number. A save from a device that is behind is refused with a conflict, both versions are kept, and I choose. The server keeps the last 20 revisions of each document.",
+          tradeoff:
+            "It is not live sync. I press Save on one device and Load on the other, and a conflict asks me a question instead of merging for me.",
+        },
+        {
+          decision: "Remove unconfirmed experience on the server, before the prompt exists",
+          reason:
+            "The model reads a filtered projection of my profile, never the profile itself. A claim is included only if I have confirmed its current wording, it is cleared for that use and it has not expired. Prompts are assembled on the server, so an out-of-date browser cannot widen what the model sees.",
+          tradeoff:
+            "Recording and confirming claims takes effort, and editing a claim means confirming it again. The sentence check compares numbers and names; it does not prove a sentence means what the fact means, so I still read every letter.",
+        },
+        {
+          decision: "Paste the job ad instead of fetching it",
+          reason:
+            "Fetching a URL from a server needs its own defences against being pointed at private addresses, plus page extraction that breaks when a job board changes. Pasting let phone capture and triage ship without that surface.",
+          tradeoff:
+            "There is no fetch-from-link button yet. The earlier Mac tool still has one.",
+        },
+      ],
+    },
+    {
+      kind: "bullets",
+      id: "sharing",
+      heading: "Built to be shared",
+      items: [
+        "On a laptop: clone the repository, copy the example environment file and run one Docker Compose command. The app listens on the machine's loopback address only.",
+        "On a small server: one script sets the allowed origin, builds the image, waits for the health check and puts the instance behind Tailscale. Backup and restore scripts are included, with optional encryption for the archive.",
+        "Model access is bring-your-own-key for an Anthropic or OpenAI-compatible endpoint. The key stays in the server's environment and is never sent to a browser.",
+        "Profile, résumé and working state are plain JSON files in one data directory that the owner can read, back up and compare.",
+        "The repository ships fictional examples only. Real profiles, résumés, keys and rendered PDFs are ignored by Git, and a secret scan runs over the full history on every push.",
+        "The licence is MIT. The repository is private while the project is pre-alpha, so the sharing path is designed and documented rather than proven by other users.",
+      ],
+    },
+    {
+      kind: "prose",
+      id: "my-instance",
+      heading: "My own instance",
+      paragraphs: [
+        "Mine runs on a Google Cloud e2-micro virtual machine in Sydney with 1 GB of memory. I measured the server at about 55 MiB when idle and about 150 MiB while rendering a two-page PDF, which is why a machine that small is enough; swap is there for image builds, not for rendering.",
+        "The container runs as a non-root user with a read-only root filesystem, and renders one PDF at a time to keep memory predictable. I checked the save, load and conflict flow from a real iPhone over Tailscale on 30 September 2026.",
+      ],
+    },
+    {
+      kind: "prose",
+      id: "verification",
+      heading: "What I verified",
+      paragraphs: [
+        "GitHub Actions runs four checks on every push: type checking, 220 unit and contract tests, the browser journeys on phone and desktop viewports, and a container build that renders a multilingual PDF and inspects its page count, page size and embedded fonts. A fifth job scans the full history for secrets. The run for the pipeline release on 2 October 2026 passed.",
+        "The roadmap records 58 browser journeys passing at that release, including a phone-sized run from capture to both PDF downloads. The journeys use a stubbed model, and no test calls a paid model.",
+        "The image on this site is composed from two captures saved by those browser journeys, one desktop and one phone. Every role and company in it is fictional test data.",
+      ],
+    },
+    {
+      kind: "bullets",
+      id: "limitations",
+      heading: "Current scope and limitations",
+      items: [
+        "Marshal is pre-alpha and has one user, me. It was started on 29 September 2026. No adoption, interview-conversion or time-saved result is claimed.",
+        "The source repository is private. Nobody else has self-hosted it yet, so the setup guide has only been exercised by me.",
+        "The tests establish that the rules hold with a stubbed model. They do not establish the quality of what a live model writes.",
+        "The sentence check is a deterministic comparison of numbers and names against cited facts, not a judgement of meaning. Final review remains mine.",
+        "There is no automatic submission, no fetch-from-link capture, no live sync and no multi-user mode. Model calls leave the server for the configured provider.",
       ],
     },
   ],
@@ -857,6 +1026,7 @@ export const MELBOURNE_CASE_STUDY = {
 };
 
 export const CASE_STUDIES = {
+  [MARSHAL_CASE_STUDY.slug]: MARSHAL_CASE_STUDY,
   [DISPATCH_CASE_STUDY.slug]: DISPATCH_CASE_STUDY,
   [DSH_CASE_STUDY.slug]: DSH_CASE_STUDY,
   [MONEYGUARD_CASE_STUDY.slug]: MONEYGUARD_CASE_STUDY,

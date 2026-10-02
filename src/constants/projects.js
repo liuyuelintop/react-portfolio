@@ -2,12 +2,30 @@ import { projectImages } from "./assets";
 import {
   DISPATCH_CASE_STUDY,
   DSH_CASE_STUDY,
+  MARSHAL_CASE_STUDY,
   MELBOURNE_CASE_STUDY,
   MONEYGUARD_CASE_STUDY,
   caseStudyHref,
 } from "./caseStudies";
 
 export const PROJECTS = [
+  {
+    title: MARSHAL_CASE_STUDY.title,
+    image: projectImages.marshal,
+    imageCaption: "Pipeline board on desktop and phone · Fictional test data",
+    description: {
+      summary:
+        "A self-hosted job-application workspace for laptop and phone: capture a job ad, check the fit, draft material that only says what I can back up, and track each application to an offer.",
+    },
+    ownership: MARSHAL_CASE_STUDY.ownership,
+    implementation:
+      "Rebuilds the ideas proven in my Mac-only Dispatch tool as one private instance that my own devices reach over Tailscale, with no public port. Designed to be shared: each person runs their own copy with Docker and their own API key, so nobody hosts anyone else's data.",
+    caseStudyHref: caseStudyHref(MARSHAL_CASE_STUDY.slug),
+    technologies: {
+      main: ["TypeScript", "React / Vite", "Node.js", "Docker"],
+    },
+    year: "2026",
+  },
   {
     title: DISPATCH_CASE_STUDY.title,
     image: projectImages.jobSearchDispatch,
@@ -17,7 +35,7 @@ export const PROJECTS = [
     },
     ownership: DISPATCH_CASE_STUDY.ownership,
     implementation:
-      "Connects captured job ads with saved experience to assess fit and draft application materials, including cover letters—without repeatedly rebuilding context in an AI chat. Configurable Writer, Verifier and Repair roles support letter drafting and review, while application progress and follow-ups stay together.",
+      "Connects captured job ads with saved experience to assess fit and draft application materials, including cover letters—without repeatedly rebuilding context in an AI chat. Job ads arrive through a guarded headless fetch or a browser extension, the Writer runs on bring-your-own-key providers or a signed-in Codex or Claude subscription, and application progress and follow-ups stay together.",
     caseStudyHref: caseStudyHref(DISPATCH_CASE_STUDY.slug),
     technologies: {
       main: ["React / Vite", "TypeScript", "Node.js", "LLM APIs"],
