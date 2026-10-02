@@ -298,7 +298,7 @@ export const MARSHAL_CASE_STUDY = {
       paragraphs: [
         "GitHub Actions runs four checks on every push: type checking, 220 unit and contract tests, the browser journeys on phone and desktop viewports, and a container build that renders a multilingual PDF and inspects its page count, page size and embedded fonts. A fifth job scans the full history for secrets. The run for the pipeline release on 2 October 2026 passed.",
         "The roadmap records 58 browser journeys passing at that release, including a phone-sized run from capture to both PDF downloads. The journeys use a stubbed model, and no test calls a paid model.",
-        "The image on this site is composed from two captures saved by those browser journeys, one desktop and one phone. Every role and company in it is fictional test data.",
+        "The image on this site sets two captures of a throwaway local instance, one desktop and one phone, inside drawn device frames; the phone shows the revision the desktop had just saved. Every role and company in it is fictional test data.",
       ],
     },
     {

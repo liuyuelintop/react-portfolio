@@ -52,13 +52,26 @@ Paths below refer to the source repository at that commit.
 
 ## Screenshot
 
-`src/assets/projects/marshal.webp` is composed from two captures written by the
-source repository's browser journeys into its git-ignored `out/e2e/` directory:
-`desktop-pipeline-board.png` (cropped) and `phone-pipeline-applied.png` (top of
-the capture, scaled). They are placed side by side on a plain background with a
-border; no interface element was drawn or edited. All roles and companies in
-the captures are the journeys' fictional fixtures. The homepage caption and the
-case study both disclose this.
+`src/assets/projects/marshal.webp` (2000 × 1125) was regenerated on 2 October
+2026 to read as a product cover rather than a test capture.
+
+- **Screens are real.** A throwaway instance was started from the source at
+  `5230d26` with a temporary data directory and the committed web build. Five
+  fictional jobs were seeded through `PUT /api/user-state`; a sixth was added
+  in the desktop browser and saved, producing revision 2. A phone-sized context
+  then loaded that revision and was scrolled to the job list. Both were captured
+  with Playwright at 2× (desktop 1040 px wide, full page; phone 390 × 844). The
+  desktop bar reads "Saved · rev 2" and the phone bar "Updated from Mac · rev 2"
+  because that is the state the app was in. No interface pixel was edited, and
+  the temporary data directory was deleted afterwards.
+- **Frames are drawn.** The browser chrome, its `marshal.example-tailnet.ts.net`
+  address, the phone bezel, the dotted connector with its "rev 2" label, the
+  wordmark, the tagline (from the source README) and the backdrop are
+  composition, not product UI. Colours come from the app's own tokens in
+  `web/src/styles.css`.
+- **Data is fictional.** Roles and companies (Northwind, Contoso, Fabrikam,
+  Tailspin, Adventure Works, Wingtip) are placeholders. The homepage caption and
+  the case study both say so.
 
 ## Not claimed
 
