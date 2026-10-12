@@ -1,14 +1,15 @@
 export const HERO_CONTENT = {
   name: "Yuelin Liu",
   resumeUrl: "/resume/yuelin-liu-resume.pdf",
-  eyebrow: "Melbourne · Full-Stack Developer · AI & LLM Applications",
+  eyebrow: "Melbourne · Software Engineer · Full-stack, Backend & AI",
   headline:
-    "I build reliable full-stack software, with a focus on AI/LLM applications and developer tools.",
+    "I build full-stack tools with clear workflows and dependable data boundaries.",
   summary:
-    "I work across product UI, APIs, authentication, data workflows and model-integrated features—turning messy requirements into reliable software.",
+    "My work spans self-hosted applications, deterministic finance tools and AI integrations. I design the workflow, build the UI and backend, and test what happens when requests or assumptions fail.",
 };
 
 export const CONTACT = {
+  intro: "Based in Melbourne and open to junior and early-career software engineering, full-stack, backend and AI implementation roles in Australia. Email me for role details or to discuss the engineering behind these projects.",
   address: "Melbourne, VIC, Australia",
   phoneNo: "+61 451 690 105",
   email: "liuyuelintop@gmail.com",
@@ -29,7 +30,7 @@ export const HOW_I_BUILD = {
         "I turn an unclear problem into a concrete working flow before adding abstraction, polish or extra infrastructure.",
       evidence: [
         "Built prospective-client prototypes for a specialty coffee retailer and a drone training provider from informal business briefs.",
-        "Connected job capture, evidence-based triage, document review and follow-up in Job Search Dispatch, with saved application progress and manual submission.",
+        "Simplified Marshal by removing mandatory AI assessment and approval steps, while retaining evidence permissions and checks at export.",
       ],
     },
     {

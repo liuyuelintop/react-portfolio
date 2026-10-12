@@ -85,6 +85,31 @@ function Bullet() {
 
 function SectionBody({ section }) {
   switch (section.kind) {
+    case "disclosure":
+      return (
+        <details className="mt-5 rounded-lg border border-neutral-700 p-5">
+          <summary className={`cursor-pointer font-medium text-cyan-300 ${focusRingClasses}`}>
+            {section.summary}
+          </summary>
+          {section.sections.map((child, index) => (
+            <div key={child.id || index} className="mt-10">
+              {child.heading && <h3 className="text-xl font-semibold text-white">{child.heading}</h3>}
+              <SectionBody section={child} />
+            </div>
+          ))}
+        </details>
+      );
+
+    case "sample":
+      return (
+        <figure>
+          <pre className="overflow-x-auto rounded-lg bg-neutral-900 p-4 text-sm">
+            <code>{section.lines.join("\n")}</code>
+          </pre>
+          <figcaption className="mt-3 text-sm text-neutral-400">{section.caption}</figcaption>
+        </figure>
+      );
+
     case "prose":
       return section.paragraphs.map((paragraph) => (
         <p key={paragraph} className="mt-5 leading-relaxed text-neutral-300">

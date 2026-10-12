@@ -11,15 +11,16 @@ import {
 export const PROJECTS = [
   {
     title: MARSHAL_CASE_STUDY.title,
-    image: projectImages.marshal,
-    imageCaption: "Illustrative cover artwork · Not a screenshot of the running app",
+    image: "/images/marshal-workflow.svg",
+    imageAlt: "Marshal workflow: independent cover letter and résumé editors, optional assessment, guarded export and revisioned saves",
+    imageCaption: "Merged workflow diagram · Not a product screenshot",
     description: {
       summary:
-        "A self-hosted job-application workspace for laptop and phone: capture a job ad, check the fit, draft material that only says what I can back up, and track each application to an offer.",
+        "A self-hosted application workspace that makes writing and reviewing documents simpler across laptop and phone.",
     },
     ownership: MARSHAL_CASE_STUDY.ownership,
     implementation:
-      "Rebuilds the ideas proven in my Mac-only Dispatch tool as one private instance that my own devices reach over Tailscale, with no public port. Designed to be shared: each person runs their own copy with Docker and their own API key, so nobody hosts anyone else's data.",
+      "Removed mandatory AI assessment and approval steps while retaining evidence permissions, independent document editing, guarded export and revision conflicts that protect newer work.",
     caseStudyHref: caseStudyHref(MARSHAL_CASE_STUDY.slug),
     technologies: {
       main: ["TypeScript", "React / Vite", "Node.js", "Docker"],
@@ -27,15 +28,35 @@ export const PROJECTS = [
     year: "2026",
   },
   {
+    title: MONEYGUARD_CASE_STUDY.title,
+    image: "/images/moneyguard-planning.svg",
+    imageAlt: "MoneyGuard decision flow: reviewed inputs feed deterministic surplus, labour-cost and payday-buffer calculations",
+    imageCaption: "Planning flow diagram · Not a product screenshot",
+    description: {
+      summary:
+        "A local-first wage planning tool for understanding weekly surplus, purchase costs in paid hours and cash before payday.",
+    },
+    ownership: MONEYGUARD_CASE_STUDY.ownership,
+    implementation:
+      "Built deterministic cash-flow and delayed-payday comparisons with browser-local history. Optional AI explains selected figures; it does not calculate the financial result.",
+    caseStudyHref: caseStudyHref(MONEYGUARD_CASE_STUDY.slug),
+    github: MONEYGUARD_CASE_STUDY.sourceUrl,
+    sourceLabel: "Pipeline source",
+    technologies: {
+      main: ["TypeScript", "Next.js / React", "IndexedDB", "Vitest / Playwright"],
+    },
+    year: "2026",
+  },
+  {
     title: DISPATCH_CASE_STUDY.title,
     image: projectImages.jobSearchDispatch,
-    imageCaption: "Jobs workspace · Synthetic demo data",
+    imageCaption: "Jobs workspace · Synthetic demo data · September 2026 interface",
     description: {
-      summary: "An AI-powered job-search workspace for assessing opportunities, preparing tailored applications and keeping every next step organised.",
+      summary: "A local job-search tool built around resilient job-ad ingestion and inspectable model calls.",
     },
     ownership: DISPATCH_CASE_STUDY.ownership,
     implementation:
-      "Connects captured job ads with saved experience to assess fit and draft application materials, including cover letters—without repeatedly rebuilding context in an AI chat. Job ads arrive through a guarded headless fetch or a browser extension, the Writer runs on bring-your-own-key providers or a signed-in Codex or Claude subscription, and application progress and follow-ups stay together.",
+      "Combined guarded headless fetching with an open-tab browser fallback, then added provider routing, cancellation and failure diagnostics. The workflow lessons became the starting point for Marshal.",
     caseStudyHref: caseStudyHref(DISPATCH_CASE_STUDY.slug),
     technologies: {
       main: ["React / Vite", "TypeScript", "Node.js", "LLM APIs"],
@@ -59,23 +80,7 @@ export const PROJECTS = [
     },
     year: "2026",
   },
-  {
-    title: MONEYGUARD_CASE_STUDY.title,
-    image: projectImages.moneyguardAiFinancePipeline,
-    description: {
-      summary:
-        "Turns a timecard photo into a weekly wage, spending and surplus audit.",
-    },
-    ownership: "Designed and built the end-to-end pipeline · 2026",
-    implementation:
-      "Keeps ledger calculations local, validates model-generated OCR with Zod, and streams audit prose through separate providers.",
-    caseStudyHref: caseStudyHref(MONEYGUARD_CASE_STUDY.slug),
-    github: MONEYGUARD_CASE_STUDY.sourceUrl,
-    technologies: {
-      main: ["TypeScript", "Node.js", "Gemini LLM", "DeepSeek LLM"],
-    },
-    year: "2026",
-  },
+
 ];
 
 export const SUPPORTING_PROJECTS = [

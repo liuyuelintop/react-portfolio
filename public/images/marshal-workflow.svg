@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+<title id="title">Marshal: independent documents, shared workspace</title><desc id="desc">A saved job and permitted background feed independent cover letter and résumé editors. Human review precedes guarded export. Assessment is optional; saves detect revision conflicts.</desc>
+<rect width="960" height="540" rx="20" fill="#101923"/>
+<g font-family="Arial, sans-serif">
+<text x="48" y="58" fill="#67e8f9" font-size="17" letter-spacing="3">MARSHAL / WORKFLOW</text>
+<text x="48" y="112" fill="#f5f5f5" font-size="34" font-weight="700">Fewer gates. More control.</text>
+<text x="48" y="147" fill="#a3b4c6" font-size="20">One workspace across laptop and phone</text>
+<g fill="#182735" stroke="#456075" stroke-width="2"><rect x="48" y="206" width="238" height="156" rx="12"/><rect x="350" y="194" width="235" height="80" rx="12"/><rect x="350" y="300" width="235" height="80" rx="12"/><rect x="650" y="206" width="262" height="156" rx="12"/></g>
+<g fill="none" stroke="#67e8f9" stroke-width="3"><path d="M286 284H318V234H342M318 284V340H342M585 234H614V284H642M585 340H614V284"/><path d="m334 226 8 8-8 8m0 90 8 8-8 8m292-64 8 8-8 8"/></g>
+<g fill="#f5f5f5" font-size="25" font-weight="700"><text x="72" y="255">Saved job</text><text x="374" y="230">Cover letter</text><text x="374" y="336">Résumé</text><text x="674" y="255">Review + export</text></g>
+<g fill="#b3c6d7" font-size="18"><text x="72" y="291">+ permitted</text><text x="72" y="318">background</text><text x="374" y="256">Generate · edit</text><text x="374" y="362">Generate · edit</text><text x="674" y="292">Current text or A4 PDF</text><text x="674" y="319">Permission checks</text></g>
+<path d="M48 422H912" stroke="#456075"/><text x="48" y="461" fill="#67e8f9" font-size="20">Optional assessment</text><text x="440" y="461" fill="#cbd5e1" font-size="20">Autosave with revision conflicts</text><text x="48" y="504" fill="#a3b4c6" font-size="16">Implementation diagram · Not a product screenshot</text>
+</g></svg>

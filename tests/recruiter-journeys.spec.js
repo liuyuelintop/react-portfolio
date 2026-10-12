@@ -8,7 +8,7 @@ const CORE_ROUTES = [
   { path: "/work/marshal/", marker: "Built to be shared", minimumTextLength: 5_000 },
   { path: "/work/job-search-dispatch/", marker: "Current scope and limitations", minimumTextLength: 5_000 },
   { path: "/work/dsh-conversation-exporter/", marker: "Current limitations", minimumTextLength: 3_000 },
-  { path: "/work/moneyguard/", marker: "Privacy boundaries", minimumTextLength: 5_000 },
+  { path: "/work/moneyguard/", marker: "Evidence and current scope", minimumTextLength: 5_000 },
   { path: "/work/melbourne-ultimate/", marker: "Scope of verification", minimumTextLength: 4_000 },
   { path: "/work/alex/", marker: "Whose project this is", minimumTextLength: 3_000 },
 ];
@@ -78,6 +78,11 @@ test.describe("static export contract", () => {
       await expect(page.locator("main")).toContainText(route.marker);
       await expect(page.locator("h1")).toHaveCount(1);
 
+      // Native disclosures must expose the full technical account without JS.
+      for (const summary of await page.locator("details > summary").all()) {
+        await summary.click();
+        await expect(summary.locator("..")).toHaveAttribute("open", "");
+      }
       const visibleText = await page.locator("body").innerText();
       expect(visibleText.length).toBeGreaterThan(route.minimumTextLength);
 
@@ -119,6 +124,7 @@ test("case-study entry, return, resume, and source actions stay usable", async (
 
   for (const [title, slug] of [
     ["Marshal", "marshal"],
+    ["MoneyGuard", "moneyguard"],
     ["Job Search Dispatch", "job-search-dispatch"],
     ["DSH Conversation Exporter", "dsh-conversation-exporter"],
   ]) {
@@ -143,6 +149,17 @@ test("case-study entry, return, resume, and source actions stay usable", async (
   }
 
   expect(errors).toEqual([]);
+});
+
+test("MoneyGuard separates the current product from the earlier pipeline", async ({ page }) => {
+  await page.goto("/work/moneyguard/");
+  await expect(page.getByRole("heading", { name: "Three questions the product can answer" })).toBeVisible();
+  const details = page.locator("details");
+  await expect(details).not.toHaveAttribute("open", "");
+  await details.locator("summary").focus();
+  await page.keyboard.press("Enter");
+  await expect(details).toHaveAttribute("open", "");
+  await expect(details.getByRole("heading", { name: "Privacy boundaries", exact: true })).toBeVisible();
 });
 
 test("contact validation blocks bad details and prepares the correct email draft", async ({ page }) => {
@@ -201,7 +218,7 @@ test("keyboard order and focus indicators cover critical actions", async ({ page
     if (route.path === "/") await waitForHydration(page);
 
     const expected = await page.locator(
-      'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      'a[href], summary, button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
     ).evaluateAll((elements) => elements
       .filter((element) => {
         const rect = element.getBoundingClientRect();

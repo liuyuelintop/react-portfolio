@@ -99,3 +99,22 @@ on the page.
 | Older browser suites for the previous interface are stale and outside the release gate | `PROJECT_STATUS.md` ("Still open" under the 2026-09-26 redesign) |
 
 The card image is unchanged from 17 September and predates the redesign.
+
+## Refresh, 12 October 2026
+
+GitHub API confirms promoted main `9c071ed66866db890e15b744d752ba45f02264fd`.
+The local checkout is develop `21c8905` with untracked research/materials; those
+files were not used as shipped evidence or modified.
+
+The homepage now emphasises ingestion, provider operations and failure handling,
+distinguishing Dispatch from its cross-device successor. The existing capture
+is explicitly dated September 2026; it is not represented as the later interface.
+The 17 September local tests and 28 September release results remain historical,
+not newly executed checks or a permanent test-count guarantee.
+
+The added simplification example traces to merged `19b8af6`:
+`app/src/features/shared/ui/StatusPill.tsx` and `StageTrack.tsx` map the old
+Employer replied state to Applied, while `app/src/features/ticket/Ticket.tsx`
+removes it from the selectable stages. Stored status values remain compatible.
+The prompt-input declaration is in `app/src/domain/ai-inputs.ts` with sentinel
+coverage in `app/ai-inputs.test.mjs`.

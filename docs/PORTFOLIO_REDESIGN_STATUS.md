@@ -426,3 +426,62 @@ Two Slice 5 decisions also remain open:
 
 1. **The existing MoneyGuard promotional image is not on the case-study page.** It renders `ZERO RAW DATA LEAKAGE`, `DATA PRIVACY FIRST — Local Masking Before Any LLM Call`, `TAG-DRIVEN ENGINE — Zero Hardcode`, `Built for Production` and invented dashboard figures, all of which the approved evidence contradicts, and its multi-column body text is not legible at 390 px. It remains unchanged on the homepage card. The dominant visual on the case-study page is instead a static rendering of the deterministic mock-provider output, which is traceable to `src/report.ts`, `src/providers/mock.ts` and `finance.example.json`. Reinstating the image, or commissioning a replacement whose wording matches the page, is an owner call.
 2. **The audit payload carries hours and gross income together**, so an hourly rate is derivable. The page states this plainly rather than describing the boundary as anonymity. Changing the boundary is a product decision recorded as open in the upstream repository.
+
+## Autonomous evidence refresh — 12 October 2026
+
+Local changes only; no commit, push, merge or deployment. Entry portfolio tree
+was clean at `f442db9`. Other project repositories remained read-only.
+
+- Homepage leads with Marshal's workflow simplification, MoneyGuard's deterministic
+  planning, Dispatch's integration work and the bounded DSH plugin. Existing
+  Experience and supporting projects remain; no unverified Krea employment added.
+- Marshal source `67379b5` and remote MoneyGuard source `79848c1` replace stale
+  narratives. Their dedicated evidence files distinguish merged work, inspected
+  tests, historical deployment records and exclusions. Dispatch main is `9c071ed`.
+- MoneyGuard's earlier pipeline detail remains available in a keyboard-operable
+  disclosure; its public CTA is explicitly pipeline source. Diagrams replace
+  stale cover art and carry screenshot disclaimers and descriptive alt text.
+- Résumé Markdown and both public PDF aliases were corrected together. Removed
+  unsupported consultancy `(Contract)`, the claim that drafts need no line-by-line
+  review, permanently asserted historical test totals, and blanket AI-payload
+  privacy wording. Bounded the local latency observation and coursework ownership.
+  Existing contact, work-rights, education and qualification details are preserved
+  as owner-supplied facts, not newly independently certified.
+- `scripts/render-resume.py` reproducibly renders the Markdown using ReportLab
+  (available in the bundled Python runtime), embeds fonts and writes identical
+  two-page PDFs at the existing URLs. Re-render and inspect when changing copy.
+
+Validation results are recorded at completed handoff below.
+
+Completed handoff validation:
+
+- `npm run lint`: passed, zero warnings.
+- `npm run verify` / default `npm run build`: blocked by Turbopack's CSS worker
+  binding restriction (`Operation not permitted`), reproduced with escalation.
+  No build configuration or dependency was changed to hide the failure.
+- `npm run build -- --webpack`: passed, all six case studies statically exported.
+- `npm run verify:static`: passed, including private-source CTA exclusions,
+  updated hierarchy, retired Marshal wording, diagram disclosure and the
+  existing privacy/ownership restrictions.
+- `npm run verify:journeys`: **27 passed, 3 existing conditional skips**. The
+  skipped mobile duplicates cover desktop tab order, reduced motion and the
+  width matrix, each exercised in its dedicated context. No new skip was added.
+- Initial browser failures were test assumptions about collapsed text and the
+  missing native summary tab stop. The final checks open the disclosure without
+  JavaScript and include its keyboard focus, retaining all text thresholds.
+- Development visual checks at 1440 and 390 px: homepage, Marshal and MoneyGuard,
+  rendered project diagrams, no page overflow or browser exceptions. Use
+  `localhost`, not `127.0.0.1`, for this dev server's allowed asset origin.
+- Both résumé pages rendered and inspected; PDFs have embedded fonts and two
+  pages. Both public aliases and the exported download have identical bytes.
+  Extracted-text checks confirm corrections and retained education details.
+- Final data formatting was checked for complete MoneyGuard object equality;
+  lint, Webpack build and static checks passed again after that whitespace-only
+  cleanup. The passing browser results apply to unchanged rendered behaviour.
+- Dev server stopped. The Next.js-generated `AGENTS.md` addition was removed,
+  preserving the original instructions. No temporary Git worktree was created.
+
+Source reviews do not claim that Marshal or MoneyGuard's full suites or live
+providers were exercised here. Current application deployment verification is
+outside the portfolio change. No user decision is needed to review the local
+candidate; publication remains unperformed.

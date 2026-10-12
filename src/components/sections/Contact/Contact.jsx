@@ -45,8 +45,7 @@ export default function Contact() {
       <Reveal>
         <h2 className="text-3xl font-bold leading-tight text-white md:text-4xl">Contact</h2>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-neutral-400 md:text-lg">
-          I am based in Melbourne and open to full-stack software engineer opportunities. Email is
-          usually the cleanest path for role details, interview scheduling and technical context.
+          {CONTACT.intro}
         </p>
 
         <div className="mt-12 grid gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-16">

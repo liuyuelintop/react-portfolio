@@ -113,7 +113,7 @@ export const DISPATCH_CASE_STUDY = {
         "One declaration lists what each model step reads. A drift test builds every prompt from sentinel data and fails when a prompt and the declaration disagree, and My profile opens on a What AI uses page driven by the same declaration.",
         "The interface was redesigned with a dark theme that follows the system, and Verifier and Repair are now shown as Fact-check and Auto-fix.",
         "A ticket can recommend a résumé positioning using local rules and download a locally rendered two-page A4 PDF, flagging the file when its source, template or positioning changes.",
-        "Its evidence model became the starting point for Marshal, which rebuilds the idea for use across more than one device.",
+        "I simplified application progress to four visible stages and mapped old Employer replied records to Applied without deleting the stored status. Its evidence model then became the starting point for Marshal, which rebuilds the idea for use across more than one device.",
       ],
     },
     {
@@ -142,10 +142,10 @@ export const DISPATCH_CASE_STUDY = {
       id: "verification",
       heading: "What I verified",
       paragraphs: [
-        "For this refresh, I ran npm run verify against an isolated copy of the committed source on 17 September 2026: strict type checking, JavaScript syntax checks and all 371 deterministic tests passed. The production Vite build also passed. Coverage includes evidence eligibility, configurable model roles, percentage support, persistence, cancellation, diagnostics and fixture isolation.",
+        "During the 17 September review, I ran npm run verify against an isolated copy of the committed source on 17 September 2026: strict type checking, JavaScript syntax checks and all 371 deterministic tests passed. The production Vite build also passed. Coverage includes evidence eligibility, configurable model roles, percentage support, persistence, cancellation, diagnostics and fixture isolation.",
         "I also ran the current UI journeys against the production bundle at 1440, 390 and 320 pixels. All three passed, covering navigation, paragraph evidence, edits surviving refresh, reminders, profile and settings surfaces with synthetic data and no live model calls.",
         "The project's own release record for 28 September 2026 lists 614 deterministic tests, 40 browser release flows, one backup-restore check, two writing comparisons and three fixed-origin extension checks, all passing with none skipped. The day before, one request to the deployed service extracted a live SEEK ad through the headless path in about 1.3 seconds. I did not re-run that gate for this page, and several older browser suites written for the previous interface are stale and sit outside it.",
-        "The portfolio screenshot shows the running application's built-in synthetic fixture data. Its example companies, ticket counts and application statuses illustrate the interface; they are not real applications or outcome metrics. Fixture mode prevents model calls and persistent writes.",
+        "The portfolio screenshot was captured on 17 September, before the later interface redesign, using the application's built-in synthetic fixture data. Its example companies, ticket counts and application statuses illustrate the interface; they are not real applications or outcome metrics. Fixture mode prevents model calls and persistent writes.",
       ],
     },
     {
@@ -162,68 +162,61 @@ export const DISPATCH_CASE_STUDY = {
   ],
 };
 
-// Claims and the illustrative cover are traced in docs/MARSHAL_CASE_STUDY_EVIDENCE.md.
+// Merged-source claims are traced in docs/MARSHAL_CASE_STUDY_EVIDENCE.md.
 export const MARSHAL_CASE_STUDY = {
   slug: "marshal",
   title: "Marshal",
   summary:
-    "A self-hosted job-application workspace I can use from my laptop and my phone: capture a job ad, check the fit, draft material that only says what I can back up, and track each application to an offer.",
-  ownership:
-    "Designed and built end to end · Personal project · 2026 · Pre-alpha · Private repository",
+    "A self-hosted application workspace for laptop and phone. Its most important iteration removed mandatory AI approval steps so the applicant can write, edit and export documents directly.",
+  ownership: "Designed and built end to end · Personal project · 2026 · Pre-alpha · Private repository",
   metaTitle: "Marshal case study | Yuelin Liu",
   metaDescription:
-    "Why I rebuilt a Mac-only job-search tool as a private, self-hosted workspace for laptop and phone, how friends can run their own copy, and what is and is not verified.",
+    "How I simplified a self-hosted application workflow while retaining evidence permissions, revision conflicts and checks at the document export boundary.",
   canonical: `${SITE_URL}/work/marshal/`,
   sections: [
     {
       kind: "prose",
-      id: "why",
-      heading: "Why it exists: the tool I already had only ran on one Mac",
+      id: "problem",
+      heading: "From one Mac to a workspace across devices",
       paragraphs: [
-        "Job Search Dispatch, my earlier tool, proved the idea in daily use: record experience once, let a model read a job ad against it, and draft application material that stays inside what I have confirmed. But it lives on one Mac. It runs as a macOS service and keeps working state in that machine's browser, so a job I found on my phone during a long day out had to wait until I was back at the desk.",
-        "Marshal rebuilds the idea for that gap, and for a second one. Friends asked to use the earlier tool, and I did not want their résumés on my server or mine on theirs. So Marshal is a single-person instance by design: I run one for myself, reachable only from my own devices, and anyone else can run their own copy from the same repository.",
-        "It is a clean-room successor. Marshal takes over the earlier tool's concepts, not its code or data: every module is rewritten, and nothing from the old data directory, history or fixtures is copied.",
+        "Job Search Dispatch gave me a local application workflow, but the tool I already had only ran on one Mac. I wanted to capture a job on my phone and finish its documents at a desk without copying records between devices. Marshal is a clean-room successor: I carried over the evidence model and lessons from use, rather than the earlier code or personal data.",
+        "I designed and built the React/TypeScript interface, Node.js service, file persistence and Docker setup. One person owns one instance, with a server-held model key and a shared workspace for their devices. This is an actively developed personal tool, not a multi-user service.",
+      ],
+    },
+    {
+      kind: "prose",
+      id: "simplification",
+      heading: "The useful change was removing steps",
+      paragraphs: [
+        "The first workflow required an assessment, a pursuit decision, a letter plan, an audit or waiver, and acceptance before export. That put the application's process ahead of the task: getting a usable document written and reviewed.",
+        "I removed the mandatory assessment and audit/acceptance chain, including the model audit and repair stack. In the merged implementation, a cover letter and a résumé can each be generated directly from the saved job description and permitted background. Each has its own editor and generation action; the optional Match assessment is reference material rather than a gate.",
+        "This is a deliberate tradeoff. Fewer steps also means fewer model review layers. I kept permission filtering, bounded output validation and export checks in code, and made human review explicit. A shorter workflow does not make a model's writing inherently more accurate.",
       ],
     },
     {
       kind: "steps",
       id: "workflow",
-      heading: "One application, from a phone capture to an offer",
+      heading: "Capture, write, review and track",
       items: [
         {
-          step: "01",
-          label: "Capture where I am",
-          detail:
-            "Paste a job ad into the phone or the laptop. The ad is capped at 50,000 characters and an optional source link is kept as plain text. The capture is saved to the server so the other device can load it.",
-          source: "Paste → job record → explicit Save",
+          step: "01", label: "Bring in the job",
+          detail: "Supported SEEK and LinkedIn links can be fetched into an editable preview. Pasting the description remains the fallback. Capture is limited to supported sources; it is not a general web crawler.",
+          source: "Supported URL or pasted text → reviewed job description",
         },
         {
-          step: "02",
-          label: "Decide whether it is worth the time",
-          detail:
-            "Triage matches the ad's requirements one by one against my confirmed experience and quotes the ad for each requirement; a quote that cannot be found in the ad is not accepted. Hard requirements I record myself, such as work rights, are checked by plain code and never sent to the model. The result is a decision of pursue, explore, clarify or skip, with a suggested time budget.",
-          source: "Confirmed claims + quoted requirements → decision card",
+          step: "02", label: "Work on either document",
+          detail: "Generate a cover letter or résumé independently, then edit the text. A failed generation must not erase the other document or overwrite edits made while the request was running. Previous versions remain available.",
+          source: "Saved job + permitted background → independent document editors",
         },
         {
-          step: "03",
-          label: "Draft, check and accept",
-          detail:
-            "For a job worth pursuing, Marshal plans the letter from the triage result and the model writes inside that plan. Each sentence is then checked against the facts it cites: a number or a name those facts do not contain is flagged. A separate audit runs unless I waive it, and the waiver is recorded. I accept the letter or discard it.",
-          source: "Letter plan → draft → sentence check → audit → acceptance",
+          step: "03", label: "Review and export the current text",
+          detail: "Copy the text or render an A4 PDF from the readable document. The export boundary rechecks permissions and document guards; rendering checks source changes and the resulting PDF. No separate AI acceptance ceremony is required.",
+          source: "Human review → guarded export → manual submission",
         },
         {
-          step: "04",
-          label: "Download the documents",
-          detail:
-            "The accepted letter renders to a one-page A4 PDF and the tailored résumé to two pages, using a headless Chromium inside the container with network access blocked during rendering. A download is refused when its source has changed since it was accepted.",
-          source: "Accepted text → HTML template → A4 PDF",
-        },
-        {
-          step: "05",
-          label: "Track it to the end",
-          detail:
-            "A board follows each application through Not applied, Applied, Interviewing and Offer, and a due queue lists the follow-ups that are due today or overdue. Status changes are appended to a history rather than overwritten. I submit every application myself.",
-          source: "Pipeline board → due queue → manual submission",
+          step: "04", label: "Keep progress separate from AI advice",
+          detail: "Record application progress and follow-ups in the workspace. The applicant decides whether to apply and updates the record; a generated fit assessment does not submit an application or move it through the pipeline.",
+          source: "Applicant-owned progress and next action",
         },
       ],
     },
@@ -233,39 +226,19 @@ export const MARSHAL_CASE_STUDY = {
       heading: "Decisions I can defend",
       items: [
         {
+          decision: "Autosave with conflict detection instead of silent last-write-wins",
+          reason: "Job edits are debounced into revisioned saves. The server rejects a stale revision, writes atomically and keeps the last 20 revisions. A failed save or conflict retains the browser's working copy so a phone and laptop do not silently overwrite one another's newer changes.",
+          tradeoff: "This is not collaborative live editing. The owner still has to resolve a conflict, and a local recovery copy is not a substitute for a backup.",
+        },
+        {
+          decision: "Enforce evidence permissions on the server",
+          reason: "Before prompt assembly, server-side projection removes unconfirmed, expired and out-of-scope claims. Generated replies are checked for supported references and numeric quantities. Export also checks revoked permissions, so removing an approval is meaningful beyond the model prompt.",
+          tradeoff: "These deterministic checks catch bounded errors, not semantic truth. A valid citation can still be used misleadingly; the applicant must read the final document, including manual edits.",
+        },
+        {
           decision: "One instance per person, not a shared service",
-          reason:
-            "Keeping several people's résumés apart would touch every store, route, cache and backup, and one mistake would leak someone's career history. With one instance per person there is no cross-user isolation to get wrong, and friends do not have to trust my server.",
-          tradeoff:
-            "Each person has to run Docker and bring their own model API key. There is no sign-up page and no hosted option.",
-        },
-        {
-          decision: "Reachable only over a private network",
-          reason:
-            "The container publishes to the host's loopback address only, and Tailscale serves it over HTTPS to devices on my own tailnet. No port is open to the internet, so there is no public login to build or defend.",
-          tradeoff:
-            "Every device I use has to be on the tailnet, and a container still shares the host's kernel. The boundary I rely on is at the application, credential and storage level.",
-        },
-        {
-          decision: "Explicit save and load between devices, with revisions",
-          reason:
-            "Each device works on its own copy and saves against a revision number. A save from a device that is behind is refused with a conflict, both versions are kept, and I choose. The server keeps the last 20 revisions of each document.",
-          tradeoff:
-            "It is not live sync. I press Save on one device and Load on the other, and a conflict asks me a question instead of merging for me.",
-        },
-        {
-          decision: "Remove unconfirmed experience on the server, before the prompt exists",
-          reason:
-            "The model reads a filtered projection of my profile, never the profile itself. A claim is included only if I have confirmed its current wording, it is cleared for that use and it has not expired. Prompts are assembled on the server, so an out-of-date browser cannot widen what the model sees.",
-          tradeoff:
-            "Recording and confirming claims takes effort, and editing a claim means confirming it again. The sentence check compares numbers and names; it does not prove a sentence means what the fact means, so I still read every letter.",
-        },
-        {
-          decision: "Paste the job ad instead of fetching it",
-          reason:
-            "Fetching a URL from a server needs its own defences against being pointed at private addresses, plus page extraction that breaks when a job board changes. Pasting let phone capture and triage ship without that surface.",
-          tradeoff:
-            "There is no fetch-from-link button yet. The earlier Mac tool still has one.",
+          reason: "The Docker recipe binds the host port to loopback and documents access through Tailscale. JSON files keep the owner's workspace readable and portable without an account system or shared tenant database. Provider keys stay on the server.",
+          tradeoff: "The owner operates the instance and its backups. The private network protects access to the workspace; model calls still send selected input to the configured provider.",
         },
       ],
     },
@@ -274,31 +247,19 @@ export const MARSHAL_CASE_STUDY = {
       id: "sharing",
       heading: "Built to be shared",
       items: [
-        "On a laptop: clone the repository, copy the example environment file and run one Docker Compose command. The app listens on the machine's loopback address only.",
-        "On a small server: one script sets the allowed origin, builds the image, waits for the health check and puts the instance behind Tailscale. Backup and restore scripts are included, with optional encryption for the archive.",
-        "Model access is bring-your-own-key for an Anthropic or OpenAI-compatible endpoint. The key stays in the server's environment and is never sent to a browser.",
-        "Profile, résumé and working state are plain JSON files in one data directory that the owner can read, back up and compare.",
-        "The repository ships fictional examples only. Real profiles, résumés, keys and rendered PDFs are ignored by Git, and a secret scan runs over the full history on every push.",
-        "The licence is MIT. The repository is private while the project is pre-alpha, so the sharing path is designed and documented rather than proven by other users.",
-      ],
-    },
-    {
-      kind: "prose",
-      id: "my-instance",
-      heading: "My own instance",
-      paragraphs: [
-        "Mine runs on a Google Cloud e2-micro virtual machine in Sydney with 1 GB of memory. I measured the server at about 55 MiB when idle and about 150 MiB while rendering a two-page PDF, which is why a machine that small is enough; swap is there for image builds, not for rendering.",
-        "The container runs as a non-root user with a read-only root filesystem, and renders one PDF at a time to keep memory predictable. I checked the save, load and conflict flow from a real iPhone over Tailscale on 30 September 2026.",
+        "The repository includes a Docker Compose setup, self-hosting documentation and backup/restore scripts. The intended model is a separate copy and API key for each person.",
+        "The source is MIT-licensed but remains private while the project is pre-alpha. A documented setup is not evidence that other people have adopted it.",
+        "An earlier deployment record describes my instance on a small Google Cloud VM in Sydney and an iPhone check over Tailscale. I have not verified the deployed revision against the current merged redesign; the capability descriptions here refer to source, not a new deployment result.",
       ],
     },
     {
       kind: "prose",
       id: "verification",
-      heading: "What I verified",
+      heading: "What the evidence establishes",
       paragraphs: [
-        "GitHub Actions runs four checks on every push: type checking, 220 unit and contract tests, the browser journeys on phone and desktop viewports, and a container build that renders a multilingual PDF and inspects its page count, page size and embedded fonts. A fifth job scans the full history for secrets. The run for the pipeline release on 2 October 2026 passed.",
-        "The roadmap records 58 browser journeys passing at that release, including a phone-sized run from capture to both PDF downloads. The journeys use a stubbed model, and no test calls a paid model.",
-        "The cover image on this site is illustrative artwork made with an image-generation model from my brief, not a capture of the running app. Its interface is a stylised redesign: the real app is plainer and has no sidebar or search. What it names is real: the fit check, the evidence-backed draft, tracking to an offer, syncing between laptop and phone, and private self-hosting. Every company in it is fictional.",
+        "This review uses merged main at 67379b5, checked against GitHub on 12 October 2026. Its CI run completed successfully. The source contains contract checks for independent document generation and export, and browser cases for edits during generation, partial failure, retry and save conflicts. I did not rerun the Marshal suite for this portfolio update.",
+        "The automated journeys use a stubbed model. They test application behaviour and validation rules, not the quality or reliability of live-model writing. The newer triage-repair branch and uncommitted work are excluded from this account.",
+        "The homepage visual is a workflow diagram drawn from this merged implementation, not a screenshot. It contains no applicant records, generated application text or private interface capture.",
       ],
     },
     {
@@ -306,11 +267,9 @@ export const MARSHAL_CASE_STUDY = {
       id: "limitations",
       heading: "Current scope and limitations",
       items: [
-        "Marshal is pre-alpha and has one user, me. It was started on 29 September 2026. No adoption, interview-conversion or time-saved result is claimed.",
-        "The source repository is private. Nobody else has self-hosted it yet, so the setup guide has only been exercised by me.",
-        "The tests establish that the rules hold with a stubbed model. They do not establish the quality of what a live model writes.",
-        "The sentence check is a deterministic comparison of numbers and names against cited facts, not a judgement of meaning. Final review remains mine.",
-        "There is no automatic submission, no fetch-from-link capture, no live sync and no multi-user mode. Model calls leave the server for the configured provider.",
+        "Marshal is pre-alpha and used for my own applications. No adoption, interview-conversion or time-saved result is claimed.",
+        "Live-model writing quality, the current deployment revision and an off-machine backup restoration rehearsal remain unverified in this review.",
+        "There is no automatic submission or multi-user collaboration. Supported job-board extraction and model responses depend on external services, and both can fail.",
       ],
     },
   ],
@@ -410,271 +369,344 @@ export const MONEYGUARD_CASE_STUDY = {
   slug: "moneyguard",
   title: "MoneyGuard",
   summary:
-    "A TypeScript pipeline that reads a timecard photo with a vision model, computes the week's wage and burn figures locally, then streams a written audit from a separate text model.",
+    "A wage and cash-flow workspace for hourly workers: review weekly figures, compare the cost of a purchase in paid hours, and check whether cash lasts until an expected or delayed payday.",
   metaTitle: "MoneyGuard case study | Yuelin Liu",
   metaDescription:
-    "How MoneyGuard splits OCR from reasoning, validates untrusted model output with Zod, and where its data boundary actually sits — with the tradeoffs stated.",
+    "How I evolved an AI extraction pipeline into a local-first planning tool, keeping financial calculations deterministic and optional model explanations behind explicit data boundaries.",
   canonical: `${SITE_URL}/work/moneyguard/`,
   sourceUrl: "https://github.com/liuyuelintop/moneyguard-pipeline",
-  sourceLabel: "View the source on GitHub",
-
+  sourceLabel: "View the earlier pipeline source",
+  ownership: "Designed and built · Personal project · 2026 · Web source private; earlier pipeline public",
   sections: [
     {
-      kind: "sample",
-      caption:
-        "Output of the deterministic mock providers: moneyguard --mock fixtures/timecard.png, run against the sample ledger. The code owns every line except the audit prose.",
-      lines: [
-        "📊 Wage Audit (2026-W26)",
-        "---",
-        "🕒 Labor:   38 hrs",
-        "💰 Gross:   $950.00 AUD",
-        "📉 Burn:    $552.38 AUD",
-        "💎 Surplus: $397.62 AUD | STABLE",
-        "---",
-        "🧠 Audit:",
-        "先停下来给自己一个肯定——一周四十多个小时的体力活扛下来…",
-      ],
-    },
-    {
       kind: "prose",
-      id: "problem",
-      heading: "The problem",
+      id: "product",
+      heading: "From extracting a timecard to making a decision",
       paragraphs: [
-        "The input is a photograph of an industrial timecard. The data it has to be reasoned against is a local JSON ledger of personal line items — rent, insurance, subscriptions, groceries — each carrying tags and a monthly or weekly cadence.",
-        "For the CLI and library form factor the design goal was to keep those line items on the machine running the pipeline while still letting a text model reason about real figures rather than placeholders. MoneyGuard resolves that by doing the ledger math in the local process and sending only selected values and aggregates upstream.",
-      ],
-    },
-    {
-      kind: "bullets",
-      id: "constraints",
-      heading: "Constraints",
-      items: [
-        "Node 22 or newer, and exactly two runtime dependencies: @google/genai and zod.",
-        "The whole pipeline has to run, and be tested, with no API keys and no network — through deterministic mock providers.",
-        "TypeScript under strict with noUncheckedIndexedAccess. CI runs typecheck, the test suite and the build on every push and pull request to main.",
-        "Vision output arrives as model output, not as a typed API response, so it is untrusted at the boundary.",
-        "The original transport was a Telegram bot, whose message edits are rate limited, so streamed re-renders have to be paced by the transport rather than by the pipeline.",
-        "The local ledger is read from finance.json in the process working directory.",
+        "A weekly wage total is only a starting point. An hourly worker also needs to know what remains after expenses, how much work a purchase represents, and whether bills fall before the next pay arrives. I built the web workspace around those decisions, extending the earlier TypeScript OCR and audit pipeline.",
+        "The web app uses Next.js, React, TypeScript and Dexie. Reviewed inputs feed pure calculation functions; saved audits stay in IndexedDB in the browser. The fixture workflow can demonstrate the product without credentials or a real timecard. Real OCR and AI are disabled in the public fixture configuration.",
       ],
     },
     {
       kind: "steps",
-      id: "workflow",
-      heading: "Workflow",
+      id: "planning",
+      heading: "Three questions the product can answer",
       items: [
         {
           step: "01",
-          label: "Timecard image",
-          detail:
-            "Read from disk by the CLI, or accepted as a size-bounded multipart upload by the hosted endpoint.",
-          source: "src/cli/main.ts · src/http/extract.ts",
+          label: "What is left from this week's work?",
+          detail: "Review hours, pay and expenses to compute wage, weekly burn and surplus. Editable inputs make the calculation inspectable instead of hiding it inside a model response.",
+          source: "Reviewed inputs → deterministic weekly position"
         },
         {
           step: "02",
-          label: "Vision OCR",
-          detail:
-            "The image and a fixed OCR prompt go to the vision provider, wrapped in a bounded retry with exponential backoff and equal jitter.",
-          source: "src/pipeline.ts · src/prompts.ts",
+          label: "How much work does this purchase cost?",
+          detail: "A what-if cost becomes estimated paid hours at the current modeled hourly value, alongside its effect on surplus. Shift and buffer comparisons help explore alternatives without changing the saved audit.",
+          source: "Scenario cost → paid hours + resulting surplus"
         },
         {
           step: "03",
-          label: "Zod validation",
-          detail:
-            "safeParse coerces hours from a possible string, constrains them to the interval (0, 168], and rejects an unexpected confidence value instead of casting.",
-          source: "src/schemas.ts",
+          label: "Will cash last if payday moves?",
+          detail: "Payday Check walks dated expenses in order and finds the lowest balance before the deposit. A delayed-payday comparison includes bills in the extra interval. The deposit is shown separately so it cannot conceal an earlier shortage.",
+          source: "Opening cash + dated bills → pre-deposit low point"
         },
-        {
-          step: "04",
-          label: "Local financial computation",
-          detail:
-            "computeMetrics normalizes every ledger item to a weekly amount, sums three tag subtotals, and classifies a health tier. Pure function, no I/O.",
-          source: "src/metrics.ts",
-        },
-        {
-          step: "05",
-          label: "Minimized audit payload",
-          detail:
-            "buildAuditPayload composes fixed sections from the metrics, the hours and the pay period. Ledger line items and the raw role string are not part of it.",
-          source: "src/payload.ts",
-        },
-        {
-          step: "06",
-          label: "Streamed report",
-          detail:
-            "The audit provider streams tokens into a report skeleton the code owns — a cursor frame per chunk, then one clean final frame.",
-          source: "src/pipeline.ts · src/report.ts",
-        },
-      ],
-    },
-    {
-      kind: "bullets",
-      id: "architecture",
-      heading: "Architecture",
-      items: [
-        "runMoneyGuardPipeline(imageBuffer, { onReportUpdate }) is the end-to-end CLI/library orchestration entry point. It is channel-agnostic: streaming is handed back through a callback, so the caller owns transport and pacing.",
-        "Two interfaces — VisionProvider and AuditProvider — sit between the pipeline and any SDK. The live adapters are Gemini for vision and DeepSeek for audit; the offline path uses a deterministic mock pair.",
-        "OCR and the local ledger read are independent, so they run in a single Promise.all.",
-        "The pipeline returns { ok: true } or { ok: false, kind, message }, where kind is config, vision or model. Transports render message and never inspect internals.",
-        "The Markdown report skeleton is built in code from the computed metrics; the model supplies only the prose inside it.",
-        "A second entry point, extractMoneyGuardTotals, stops after vision plus local math and never calls the audit provider. The hosted /extract endpoint is built on it.",
-        "loadConfig builds the pipeline's configuration object, while live provider adapters and the transport/server boundaries still read their own credentials, model, debug or listener values from process.env.",
       ],
     },
     {
       kind: "decisions",
-      id: "decisions",
-      heading: "Decisions I can defend",
+      id: "product-decisions",
+      heading: "Keep the financial answer in code",
       items: [
         {
-          decision: "Separate the vision provider from the reasoning provider",
-          reason:
-            "OCR and empathetic copywriting are different jobs. Each stage gets a model suited to it, and neither is trusted to do the other's work.",
-          tradeoff:
-            "Live mode needs two API credentials and carries two vendor contracts and two failure surfaces instead of one.",
+          decision: "One calculation model for expected and delayed payday",
+          reason: "Both scenarios use the same deterministic forecast. The cash-flow calculation uses integer cents, and the status is based on the balance before the optional deposit. Tests include cases where delaying payday changes a safe result into a shortage.",
+          tradeoff: "This is a projection from the user's inputs, not a bank connection or a guarantee. The hourly-value fallback uses gross pay when net pay is unavailable; it is not a tax calculation."
         },
         {
-          decision: "Treat model output as untrusted and validate it with Zod",
-          reason:
-            "OCR output is generated text, not a typed API response. It is parsed at the boundary rather than cast.",
-          tradeoff:
-            "The schema is strict enough to reject readable results. A confidence of \"medium\" fails rather than degrading, and hours outside (0, 168] fail even when the photo was legible — so some recoverable reads surface as a vision error.",
+          decision: "Save the base plan, keep comparisons temporary",
+          reason: "Audit history and the base Payday Check draft use browser-local storage. Audit JSON can be exported and imported through a validated schema. Extra delayed-payday inputs stay in the current session and do not become hidden changes to the saved plan.",
+          tradeoff: "Browser storage can be cleared and does not sync across devices. Saved audits can be exported, while the base Payday Check draft must be re-entered on another device. Temporary comparisons must be entered again after leaving the session."
         },
         {
-          decision: "Compute ledger metrics locally for the CLI and library workflow",
-          reason:
-            "computeMetrics is a pure function over the in-memory ledger, which keeps line-item names, amounts and per-item tags out of the outbound prompt.",
-          tradeoff:
-            "The model can only reason over aggregates the code chose to expose. It cannot notice an individual line item, so any per-item insight has to be added as new code.",
-        },
-        {
-          decision: "Send selected OCR values and aggregate metrics instead of ledger line items",
-          reason:
-            "The audit prompt is assembled from computed figures and fixed directive strings, so the ledger file itself never has to cross the network.",
-          tradeoff:
-            "The payload still carries hours worked and weekly gross income together, and an hourly rate follows from those two numbers. This buys minimization, not de-identification.",
-        },
-        {
-          decision: "Retry a stream only before its first emitted chunk",
-          reason:
-            "Re-running a live stream would replay tokens the reader has already seen, so streamWithConnectRetry retries connection establishment and nothing after it.",
-          tradeoff:
-            "A failure after the first token is terminal. There is no resume path, so the reader is left with a partial report and an error.",
-        },
-        {
-          decision: "Keep transport throttling outside the core pipeline",
-          reason:
-            "Edit rate limits belong to the channel, not to the domain. The pipeline calls onReportUpdate per chunk and each transport paces re-renders to one per 1000 ms while always applying the final frame.",
-          tradeoff:
-            "The contract is restated in every transport rather than enforced once. The same constant is declared separately in the CLI and the Telegram adapter, and a new transport that omits it gets no pacing at all.",
-        },
-        {
-          decision: "Inject providers, and ship a deterministic mock pair",
-          reason:
-            "Providers are constructor arguments to the pipeline, so the suite injects stubs directly and the mock pair runs the full path with no keys and no network.",
-          tradeoff:
-            "Nothing in the suite exercises a real Gemini or DeepSeek response. Live-provider behaviour is only covered where a stub models it, so a wire-format change is not caught by tests.",
-        },
-        {
-          decision: "Distinguish local configuration failures from vision and model failures",
-          reason:
-            "A malformed finance.json is the operator's problem and a 429 is not, so the discriminated result separates them and the error message is mapped before it reaches a transport.",
-          tradeoff:
-            "The discrimination is deliberately coarse — three kinds and one user-facing string. A transport cannot tell a rate limit from an auth failure, because the finer category only reaches the log.",
+          decision: "Let AI explain selected figures without owning the arithmetic",
+          reason: "An optional Gemini path for the owner accepts a consented question and selected current-audit metrics. It is gated to localhost or a configured protected preview, with production disabled. The ordinary follow-up flow remains local.",
+          tradeoff: "The free-text question itself can contain personal information. Masking the audit fields does not make that question private or prove the aggregate figures cannot be inferred from. Model prose still needs review."
         },
       ],
     },
     {
-      kind: "groups",
-      id: "privacy",
-      heading: "Privacy boundaries",
-      intro:
-        "The two form factors have different postures. They are described separately here because blending them would misrepresent both.",
-      groups: [
+      kind: "prose",
+      id: "product-evidence",
+      heading: "Evidence and current scope",
+      paragraphs: [
+        "The web-product claims were checked against remote main at 79848c1 on 12 October 2026, including the merged owner-AI and delayed-payday changes that were newer than my local checkout. Calculation, storage, payload and browser tests describe these boundaries. Those source tests were inspected, not rerun for this portfolio update; no current deployment or live-provider quality result is claimed.",
+        "The web repository is private. The public source link below belongs to the earlier pipeline, whose OCR, streaming and data-boundary details are separated below. Its CLI and hosted endpoint have different data flows from the browser workspace. No usage, savings or financial-outcome metric is claimed.",
+      ],
+    },
+    {
+      kind: "disclosure",
+      id: "pipeline-detail",
+      heading: "Earlier pipeline: architecture and verification",
+      summary: "Explore OCR, streaming and privacy boundaries",
+      sections: [
         {
-          heading: "CLI and library",
-          points: [
-            "finance.json is read into memory on the machine running the pipeline. Line-item names, amounts, cadences and per-item tags are not placed in the audit payload — buildAuditPayload composes fixed sections from the computed metrics instead.",
-            "currentRole never reaches the prompt as a string. Its only effect is to select one of two fixed directive sentences.",
-            "An unrecognised marketCondition value is normalized to neutral during validation, so an arbitrary string cannot be forwarded into a prompt.",
-            "What does cross the network in live mode: the vision provider receives the timecard image, and the audit provider receives hours worked, the pay period, weekly gross income, weekly burn with essential, strategic and discretionary subtotals, net surplus, and the health tier.",
+          kind: "sample",
+          caption:
+            "Output of the deterministic mock providers: moneyguard --mock fixtures/timecard.png, run against the sample ledger. The code owns every line except the audit prose.",
+          lines: [
+            "📊 Wage Audit (2026-W26)",
+            "---",
+            "🕒 Labor:   38 hrs",
+            "💰 Gross:   $950.00 AUD",
+            "📉 Burn:    $552.38 AUD",
+            "💎 Surplus: $397.62 AUD | STABLE",
+            "---",
+            "🧠 Audit:",
+            "先停下来给自己一个肯定——一周四十多个小时的体力活扛下来…",
+          ],
+        },
+        {
+          kind: "prose",
+          id: "problem",
+          heading: "The problem",
+          paragraphs: [
+            "The input is a photograph of an industrial timecard. The data it has to be reasoned against is a local JSON ledger of personal line items — rent, insurance, subscriptions, groceries — each carrying tags and a monthly or weekly cadence.",
+            "For the CLI and library form factor the design goal was to keep those line items on the machine running the pipeline while still letting a text model reason about real figures rather than placeholders. MoneyGuard resolves that by doing the ledger math in the local process and sending only selected values and aggregates upstream.",
+          ],
+        },
+        {
+          kind: "bullets",
+          id: "constraints",
+          heading: "Constraints",
+          items: [
+            "Node 22 or newer, and exactly two runtime dependencies: @google/genai and zod.",
+            "The whole pipeline has to run, and be tested, with no API keys and no network — through deterministic mock providers.",
+            "TypeScript under strict with noUncheckedIndexedAccess. CI runs typecheck, the test suite and the build on every push and pull request to main.",
+            "Vision output arrives as model output, not as a typed API response, so it is untrusted at the boundary.",
+            "The original transport was a Telegram bot, whose message edits are rate limited, so streamed re-renders have to be paced by the transport rather than by the pipeline.",
+            "The local ledger is read from finance.json in the process working directory.",
+          ],
+        },
+        {
+          kind: "steps",
+          id: "workflow",
+          heading: "Workflow",
+          items: [
+            {
+              step: "01",
+              label: "Timecard image",
+              detail:
+                "Read from disk by the CLI, or accepted as a size-bounded multipart upload by the hosted endpoint.",
+              source: "src/cli/main.ts · src/http/extract.ts",
+            },
+            {
+              step: "02",
+              label: "Vision OCR",
+              detail:
+                "The image and a fixed OCR prompt go to the vision provider, wrapped in a bounded retry with exponential backoff and equal jitter.",
+              source: "src/pipeline.ts · src/prompts.ts",
+            },
+            {
+              step: "03",
+              label: "Zod validation",
+              detail:
+                "safeParse coerces hours from a possible string, constrains them to the interval (0, 168], and rejects an unexpected confidence value instead of casting.",
+              source: "src/schemas.ts",
+            },
+            {
+              step: "04",
+              label: "Local financial computation",
+              detail:
+                "computeMetrics normalizes every ledger item to a weekly amount, sums three tag subtotals, and classifies a health tier. Pure function, no I/O.",
+              source: "src/metrics.ts",
+            },
+            {
+              step: "05",
+              label: "Minimized audit payload",
+              detail:
+                "buildAuditPayload composes fixed sections from the metrics, the hours and the pay period. Ledger line items and the raw role string are not part of it.",
+              source: "src/payload.ts",
+            },
+            {
+              step: "06",
+              label: "Streamed report",
+              detail:
+                "The audit provider streams tokens into a report skeleton the code owns — a cursor frame per chunk, then one clean final frame.",
+              source: "src/pipeline.ts · src/report.ts",
+            },
+          ],
+        },
+        {
+          kind: "bullets",
+          id: "architecture",
+          heading: "Architecture",
+          items: [
+            "runMoneyGuardPipeline(imageBuffer, { onReportUpdate }) is the end-to-end CLI/library orchestration entry point. It is channel-agnostic: streaming is handed back through a callback, so the caller owns transport and pacing.",
+            "Two interfaces — VisionProvider and AuditProvider — sit between the pipeline and any SDK. The live adapters are Gemini for vision and DeepSeek for audit; the offline path uses a deterministic mock pair.",
+            "OCR and the local ledger read are independent, so they run in a single Promise.all.",
+            "The pipeline returns { ok: true } or { ok: false, kind, message }, where kind is config, vision or model. Transports render message and never inspect internals.",
+            "The Markdown report skeleton is built in code from the computed metrics; the model supplies only the prose inside it.",
+            "A second entry point, extractMoneyGuardTotals, stops after vision plus local math and never calls the audit provider. The hosted /extract endpoint is built on it.",
+            "loadConfig builds the pipeline's configuration object, while live provider adapters and the transport/server boundaries still read their own credentials, model, debug or listener values from process.env.",
+          ],
+        },
+        {
+          kind: "decisions",
+          id: "decisions",
+          heading: "Decisions I can defend",
+          items: [
+            {
+              decision: "Separate the vision provider from the reasoning provider",
+              reason:
+                "OCR and empathetic copywriting are different jobs. Each stage gets a model suited to it, and neither is trusted to do the other's work.",
+              tradeoff:
+                "Live mode needs two API credentials and carries two vendor contracts and two failure surfaces instead of one.",
+            },
+            {
+              decision: "Treat model output as untrusted and validate it with Zod",
+              reason:
+                "OCR output is generated text, not a typed API response. It is parsed at the boundary rather than cast.",
+              tradeoff:
+                "The schema is strict enough to reject readable results. A confidence of \"medium\" fails rather than degrading, and hours outside (0, 168] fail even when the photo was legible — so some recoverable reads surface as a vision error.",
+            },
+            {
+              decision: "Compute ledger metrics locally for the CLI and library workflow",
+              reason:
+                "computeMetrics is a pure function over the in-memory ledger, which keeps line-item names, amounts and per-item tags out of the outbound prompt.",
+              tradeoff:
+                "The model can only reason over aggregates the code chose to expose. It cannot notice an individual line item, so any per-item insight has to be added as new code.",
+            },
+            {
+              decision: "Send selected OCR values and aggregate metrics instead of ledger line items",
+              reason:
+                "The audit prompt is assembled from computed figures and fixed directive strings, so the ledger file itself never has to cross the network.",
+              tradeoff:
+                "The payload still carries hours worked and weekly gross income together, and an hourly rate follows from those two numbers. This buys minimization, not de-identification.",
+            },
+            {
+              decision: "Retry a stream only before its first emitted chunk",
+              reason:
+                "Re-running a live stream would replay tokens the reader has already seen, so streamWithConnectRetry retries connection establishment and nothing after it.",
+              tradeoff:
+                "A failure after the first token is terminal. There is no resume path, so the reader is left with a partial report and an error.",
+            },
+            {
+              decision: "Keep transport throttling outside the core pipeline",
+              reason:
+                "Edit rate limits belong to the channel, not to the domain. The pipeline calls onReportUpdate per chunk and each transport paces re-renders to one per 1000 ms while always applying the final frame.",
+              tradeoff:
+                "The contract is restated in every transport rather than enforced once. The same constant is declared separately in the CLI and the Telegram adapter, and a new transport that omits it gets no pacing at all.",
+            },
+            {
+              decision: "Inject providers, and ship a deterministic mock pair",
+              reason:
+                "Providers are constructor arguments to the pipeline, so the suite injects stubs directly and the mock pair runs the full path with no keys and no network.",
+              tradeoff:
+                "Nothing in the suite exercises a real Gemini or DeepSeek response. Live-provider behaviour is only covered where a stub models it, so a wire-format change is not caught by tests.",
+            },
+            {
+              decision: "Distinguish local configuration failures from vision and model failures",
+              reason:
+                "A malformed finance.json is the operator's problem and a 429 is not, so the discriminated result separates them and the error message is mapped before it reaches a transport.",
+              tradeoff:
+                "The discrimination is deliberately coarse — three kinds and one user-facing string. A transport cannot tell a rate limit from an auth failure, because the finer category only reaches the log.",
+            },
+          ],
+        },
+        {
+          kind: "groups",
+          id: "privacy",
+          heading: "Privacy boundaries",
+          intro:
+            "The two form factors have different postures. They are described separately here because blending them would misrepresent both.",
+          groups: [
+            {
+              heading: "CLI and library",
+              points: [
+                "finance.json is read into memory on the machine running the pipeline. Line-item names, amounts, cadences and per-item tags are not placed in the audit payload — buildAuditPayload composes fixed sections from the computed metrics instead.",
+                "currentRole never reaches the prompt as a string. Its only effect is to select one of two fixed directive sentences.",
+                "An unrecognised marketCondition value is normalized to neutral during validation, so an arbitrary string cannot be forwarded into a prompt.",
+                "What does cross the network in live mode: the vision provider receives the timecard image, and the audit provider receives hours worked, the pay period, weekly gross income, weekly burn with essential, strategic and discretionary subtotals, net surplus, and the health tier.",
+              ],
+              note:
+                "The audit payload is not anonymous. It carries hours worked and weekly gross income in the same message, and an hourly rate follows directly from those two numbers. What the boundary provides is data minimization, not de-identification.",
+            },
+            {
+              heading: "Hosted /extract endpoint",
+              points: [
+                "This form factor sends data across the network by design. The uploaded image goes to the vision provider, and the response returns hourlyRate to the authenticated caller as part of the documented contract. It is not a local-only workflow.",
+                "POST /extract requires a bearer credential compared with a constant-time comparison, and authorization is checked before the request body is read.",
+                "Uploads are capped at 5 MiB for the image and 5 MiB plus 256 KiB for the whole request. The declared MIME type must be PNG or JPEG and must match a bounded container-structure check — which is a structural check, not a full image decode.",
+                "Responses carry Cache-Control: no-store and are fixed to a source field plus a totals-only extraction object. Raw image bytes, OCR text, filenames and shift rows are not part of the response shape.",
+                "Milestone logs carry a stage, a result, an elapsed time, an optional attempt ordinal and a validated correlation id — not payloads, headers or environment values.",
+              ],
+            },
+          ],
+        },
+        {
+          kind: "details",
+          id: "verification",
+          heading: "Verification",
+          intro:
+            "Eleven Vitest files run entirely offline through mock and stub providers, and CI runs typecheck, the suite and the build on every push and pull request to main. What each group asserts, and by what method:",
+          items: [
+            {
+              heading: "The privacy assertion is a substring check on sentinel values",
+              detail:
+                "The test ledger uses an hourly rate of 99.99, a rent item of 7777.77 and a currentRole of PRIVATE_ROLE_SENTINEL, chosen so that none of them appear in any computed output string. The captured audit prompt is then asserted not to contain those substrings, the field name hourlyRate, the line-item names, or the tag string strategic_weapon. That establishes those exact strings are absent from that payload. It does not establish that the payload is non-derivable — the same prompt still contains hours and gross income.",
+            },
+            {
+              heading: "Stream retry semantics",
+              detail:
+                "One test makes the stream throw before its first chunk and asserts the retry re-establishes it and yields the full sequence. A second makes it throw after one chunk, then asserts the error propagates, the stream factory was called exactly once, and only that one chunk was ever emitted.",
+            },
+            {
+              heading: "Finance math",
+              detail:
+                "Monthly-to-weekly normalization at a factor of 12/52, per-tag subtotals over only the items carrying a tag, and examples spanning the tiers defined by the greater-than-500, greater-than-200 and greater-than-zero surplus thresholds.",
+            },
+            {
+              heading: "Ledger schema rejection",
+              detail:
+                "Missing fields, a non-positive hourly rate, an empty item list, an unknown tag and an invalid cadence each return a config failure, and the audit provider is asserted to have been called zero times.",
+            },
+            {
+              heading: "OCR failure paths",
+              detail:
+                "A null OCR response and a zero-hours response each return a vision failure with no audit call, and an unknown marketCondition is asserted not to appear in the outbound prompt.",
+            },
+            {
+              heading: "Streaming frames",
+              detail:
+                "The final frame is asserted to be marked final and free of the trailing cursor character, and at least one earlier frame is asserted to carry it.",
+            },
+            {
+              heading: "HTTP endpoint",
+              detail:
+                "Auth rejection before any provider work, request and image size caps, MIME-signature mismatches, provider-failure mapping, and an assertion that a successful body's keys are exactly source and extraction with a fixed totals-only key list inside.",
+            },
+            {
+              heading: "Log shape",
+              detail:
+                "Milestone events are checked against an allow-list of permitted keys, so a payload cannot reach a log line by being added to an event object.",
+            },
           ],
           note:
-            "The audit payload is not anonymous. It carries hours worked and weekly gross income in the same message, and an hourly rate follows directly from those two numbers. What the boundary provides is data minimization, not de-identification.",
+            "Not covered: real Gemini or DeepSeek responses — every provider in the suite is a stub or the mock — and whether the aggregate payload can be re-identified in practice, which no test attempts.",
         },
         {
-          heading: "Hosted /extract endpoint",
-          points: [
-            "This form factor sends data across the network by design. The uploaded image goes to the vision provider, and the response returns hourlyRate to the authenticated caller as part of the documented contract. It is not a local-only workflow.",
-            "POST /extract requires a bearer credential compared with a constant-time comparison, and authorization is checked before the request body is read.",
-            "Uploads are capped at 5 MiB for the image and 5 MiB plus 256 KiB for the whole request. The declared MIME type must be PNG or JPEG and must match a bounded container-structure check — which is a structural check, not a full image decode.",
-            "Responses carry Cache-Control: no-store and are fixed to a source field plus a totals-only extraction object. Raw image bytes, OCR text, filenames and shift rows are not part of the response shape.",
-            "Milestone logs carry a stage, a result, an elapsed time, an optional attempt ordinal and a validated correlation id — not payloads, headers or environment values.",
+          kind: "bullets",
+          id: "limitations",
+          heading: "Current limitations and what I would change",
+          items: [
+            "The audit payload still carries hours and gross income together. Making it genuinely non-derivable means bucketing or dropping one of them, which changes what the model is able to say. That decision is still open.",
+            "Three of the six accepted cost tags — liability, subscription and variable — validate but receive no weekly subtotal. Surfacing one of those existing tags needs a new Metrics field, its computation in metrics.ts and an output line in payload.ts; a brand-new tag would also need a schema enum entry.",
+            "The 1000 ms throttle is declared separately in the CLI and the Telegram adapter. Keeping pacing in the transport is deliberate; duplicating the constant is not, and a shared export would preserve the property without the copy.",
+            "The hosted endpoint returns hourlyRate because the response contract says so. Removing it would be a coordinated change across the endpoint and its client.",
+            "The ledger path is fixed to finance.json in the process working directory, with no flag or environment override; the CLI only falls back to finance.example.json.",
+            "Currency is hard-coded to AUD in the payload strings and in the totals response, even though the ledger schema already carries a currency field.",
           ],
         },
-      ],
-    },
-    {
-      kind: "details",
-      id: "verification",
-      heading: "Verification",
-      intro:
-        "Eleven Vitest files run entirely offline through mock and stub providers, and CI runs typecheck, the suite and the build on every push and pull request to main. What each group asserts, and by what method:",
-      items: [
-        {
-          heading: "The privacy assertion is a substring check on sentinel values",
-          detail:
-            "The test ledger uses an hourly rate of 99.99, a rent item of 7777.77 and a currentRole of PRIVATE_ROLE_SENTINEL, chosen so that none of them appear in any computed output string. The captured audit prompt is then asserted not to contain those substrings, the field name hourlyRate, the line-item names, or the tag string strategic_weapon. That establishes those exact strings are absent from that payload. It does not establish that the payload is non-derivable — the same prompt still contains hours and gross income.",
-        },
-        {
-          heading: "Stream retry semantics",
-          detail:
-            "One test makes the stream throw before its first chunk and asserts the retry re-establishes it and yields the full sequence. A second makes it throw after one chunk, then asserts the error propagates, the stream factory was called exactly once, and only that one chunk was ever emitted.",
-        },
-        {
-          heading: "Finance math",
-          detail:
-            "Monthly-to-weekly normalization at a factor of 12/52, per-tag subtotals over only the items carrying a tag, and examples spanning the tiers defined by the greater-than-500, greater-than-200 and greater-than-zero surplus thresholds.",
-        },
-        {
-          heading: "Ledger schema rejection",
-          detail:
-            "Missing fields, a non-positive hourly rate, an empty item list, an unknown tag and an invalid cadence each return a config failure, and the audit provider is asserted to have been called zero times.",
-        },
-        {
-          heading: "OCR failure paths",
-          detail:
-            "A null OCR response and a zero-hours response each return a vision failure with no audit call, and an unknown marketCondition is asserted not to appear in the outbound prompt.",
-        },
-        {
-          heading: "Streaming frames",
-          detail:
-            "The final frame is asserted to be marked final and free of the trailing cursor character, and at least one earlier frame is asserted to carry it.",
-        },
-        {
-          heading: "HTTP endpoint",
-          detail:
-            "Auth rejection before any provider work, request and image size caps, MIME-signature mismatches, provider-failure mapping, and an assertion that a successful body's keys are exactly source and extraction with a fixed totals-only key list inside.",
-        },
-        {
-          heading: "Log shape",
-          detail:
-            "Milestone events are checked against an allow-list of permitted keys, so a payload cannot reach a log line by being added to an event object.",
-        },
-      ],
-      note:
-        "Not covered: real Gemini or DeepSeek responses — every provider in the suite is a stub or the mock — and whether the aggregate payload can be re-identified in practice, which no test attempts.",
-    },
-    {
-      kind: "bullets",
-      id: "limitations",
-      heading: "Current limitations and what I would change",
-      items: [
-        "The audit payload still carries hours and gross income together. Making it genuinely non-derivable means bucketing or dropping one of them, which changes what the model is able to say. That decision is still open.",
-        "Three of the six accepted cost tags — liability, subscription and variable — validate but receive no weekly subtotal. Surfacing one of those existing tags needs a new Metrics field, its computation in metrics.ts and an output line in payload.ts; a brand-new tag would also need a schema enum entry.",
-        "The 1000 ms throttle is declared separately in the CLI and the Telegram adapter. Keeping pacing in the transport is deliberate; duplicating the constant is not, and a shared export would preserve the property without the copy.",
-        "The hosted endpoint returns hourlyRate because the response contract says so. Removing it would be a coordinated change across the endpoint and its client.",
-        "The ledger path is fixed to finance.json in the process working directory, with no flag or environment override; the CLI only falls back to finance.example.json.",
-        "Currency is hard-coded to AUD in the payload strings and in the totals response, even though the ledger schema already carries a currency field.",
       ],
     },
   ],

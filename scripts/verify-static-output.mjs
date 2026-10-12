@@ -38,9 +38,9 @@ const text = toText(html);
 const requiredContent = [
   // Hero
   "Yuelin Liu",
-  "Melbourne · Full-Stack Developer · AI & LLM Applications",
-  "I build reliable full-stack software, with a focus on AI/LLM applications and developer tools.",
-  "I work across product UI, APIs, authentication, data workflows and model-integrated features—turning messy requirements into reliable software.",
+  "Melbourne · Software Engineer · Full-stack, Backend & AI",
+  "I build full-stack tools with clear workflows and dependable data boundaries.",
+  "My work spans self-hosted applications, deterministic finance tools and AI integrations. I design the workflow, build the UI and backend, and test what happens when requests or assumptions fail.",
   // Selected Work
   "Selected Work",
   "Marshal",
@@ -161,52 +161,30 @@ assert.ok(
 );
 
 const flagshipEvidenceHierarchy = [
-  {
-    title: "Marshal",
-    end: "Job Search Dispatch",
-    markers: [
-      "A self-hosted job-application workspace for laptop and phone: capture a job ad, check the fit, draft material that only says what I can back up, and track each application to an offer.",
-      "Designed and built end to end · Personal project · 2026 · Pre-alpha · Private repository",
-      "Rebuilds the ideas proven in my Mac-only Dispatch tool as one private instance that my own devices reach over Tailscale, with no public port. Designed to be shared: each person runs their own copy with Docker and their own API key, so nobody hosts anyone else's data.",
-      "Stack · TypeScript · React / Vite · Node.js · Docker",
-      "Read case study",
-    ],
-  },
-  {
-    title: "Job Search Dispatch",
-    end: "DSH Conversation Exporter",
-    markers: [
-      "An AI-powered job-search workspace for assessing opportunities, preparing tailored applications and keeping every next step organised.",
-      "Designed and built end to end · Personal project · 2026 · Private repository",
-      "Connects captured job ads with saved experience to assess fit and draft application materials, including cover letters—without repeatedly rebuilding context in an AI chat. Job ads arrive through a guarded headless fetch or a browser extension, the Writer runs on bring-your-own-key providers or a signed-in Codex or Claude subscription, and application progress and follow-ups stay together.",
-      "Stack · React / Vite · TypeScript · Node.js · LLM APIs",
-      "Read case study",
-    ],
-  },
-  {
-    title: "DSH Conversation Exporter",
-    end: "MoneyGuard",
-    markers: [
-      "Exports full DeepSeek Harness conversations or selected whole turns as clean Markdown for reading, Git and cross-assistant handoff.",
-      "Built and packaged as a DSH Web plugin · 2026",
-      "Preserves Markdown and Unicode, keeps selective turn handling bounded, and excludes reasoning, tool activity and runtime metadata from exports.",
-      "Stack · JavaScript · Node.js · DSH plugin APIs · Markdown",
-      "Read case study",
-      "Source",
-    ],
-  },
-  {
-    title: "MoneyGuard",
-    end: "More Engineering Work",
-    markers: [
-      "Turns a timecard photo into a weekly wage, spending and surplus audit.",
-      "Designed and built the end-to-end pipeline · 2026",
-      "Keeps ledger calculations local, validates model-generated OCR with Zod, and streams audit prose through separate providers.",
-      "Stack · TypeScript · Node.js · Gemini LLM · DeepSeek LLM",
-      "Read case study",
-      "Source",
-    ],
-  },
+  { title: "Marshal", end: "MoneyGuard", markers: [
+    "A self-hosted application workspace that makes writing and reviewing documents simpler across laptop and phone.",
+    "Designed and built end to end · Personal project · 2026 · Pre-alpha · Private repository",
+    "Removed mandatory AI assessment and approval steps while retaining evidence permissions, independent document editing, guarded export and revision conflicts that protect newer work.",
+    "Stack · TypeScript · React / Vite · Node.js · Docker", "Read case study",
+  ] },
+  { title: "MoneyGuard", end: "Job Search Dispatch", markers: [
+    "A local-first wage planning tool for understanding weekly surplus, purchase costs in paid hours and cash before payday.",
+    "Designed and built · Personal project · 2026 · Web source private; earlier pipeline public",
+    "Built deterministic cash-flow and delayed-payday comparisons with browser-local history. Optional AI explains selected figures; it does not calculate the financial result.",
+    "Stack · TypeScript · Next.js / React · IndexedDB · Vitest / Playwright", "Read case study", "Pipeline source",
+  ] },
+  { title: "Job Search Dispatch", end: "DSH Conversation Exporter", markers: [
+    "A local job-search tool built around resilient job-ad ingestion and inspectable model calls.",
+    "Designed and built end to end · Personal project · 2026 · Private repository",
+    "Combined guarded headless fetching with an open-tab browser fallback, then added provider routing, cancellation and failure diagnostics. The workflow lessons became the starting point for Marshal.",
+    "Stack · React / Vite · TypeScript · Node.js · LLM APIs", "Read case study",
+  ] },
+  { title: "DSH Conversation Exporter", end: "More Engineering Work", markers: [
+    "Exports full DeepSeek Harness conversations or selected whole turns as clean Markdown for reading, Git and cross-assistant handoff.",
+    "Built and packaged as a DSH Web plugin · 2026",
+    "Preserves Markdown and Unicode, keeps selective turn handling bounded, and excludes reasoning, tool activity and runtime metadata from exports.",
+    "Stack · JavaScript · Node.js · DSH plugin APIs · Markdown", "Read case study", "Source",
+  ] },
 ];
 
 for (const project of flagshipEvidenceHierarchy) {
@@ -237,14 +215,13 @@ assert.ok(
   "The compact Melbourne University Ultimate listing must link to source, not present as a featured case-study action",
 );
 
-// The recruiter path leads with Marshal and the Dispatch workflow it grew out
-// of, followed by developer tooling, AI application engineering and compact
-// supporting work.
+// Lead with product simplification and deterministic planning, then integration
+// engineering and developer tooling.
 const orderedHomepageMarkers = [
   "Marshal",
+  "MoneyGuard",
   "Job Search Dispatch",
   "DSH Conversation Exporter",
-  "MoneyGuard",
   "More Engineering Work",
   "AI Harness",
   "Current work",
@@ -450,7 +427,7 @@ const requiredHowIBuildContent = [
   "I turn assumptions into enforceable boundaries.",
   // Evidence, one pair per principle, each traceable to accepted material.
   "Built prospective-client prototypes for a specialty coffee retailer and a drone training provider from informal business briefs.",
-  "Connected job capture, evidence-based triage, document review and follow-up in Job Search Dispatch, with saved application progress and manual submission.",
+  "Simplified Marshal by removing mandatory AI assessment and approval steps, while retaining evidence permissions and checks at export.",
   "Instrumented ByteCroniX's inherited points-summary path, identified scoring services as the dominant latency contributors, then parallelised independent calls.",
   "Revisited Melbourne Ultimate, traced silent session-role failures to fragmented authentication usage, and centralised session reads behind one database-verified guard.",
   "Restricted Job Search Dispatch drafting to confirmed, permitted evidence and added validation, bounded repair and failure diagnostics before a generated letter replaces saved work.",
@@ -599,8 +576,8 @@ const marshalHtml = await readFile(
 const marshalText = toText(marshalHtml);
 assert.ok(html.includes('href="/work/marshal/"'), "Homepage must link to Marshal");
 assert.ok(
-  html.includes("Illustrative cover artwork · Not a screenshot of the running app"),
-  "Marshal cover must be disclosed as illustrative artwork",
+  html.includes("Merged workflow diagram · Not a product screenshot"),
+  "Marshal visual must be disclosed as a diagram",
 );
 assert.equal((marshalHtml.match(/<h1\b/g) ?? []).length, 1);
 assert.match(marshalHtml, /<title>Marshal case study \| Yuelin Liu<\/title>/);
@@ -612,21 +589,22 @@ for (const metadata of [
 }
 for (const marker of [
   "the tool I already had only ran on one Mac",
-  "It is a clean-room successor",
-  "One application, from a phone capture to an offer",
-  "Decisions I can defend",
+  "clean-room successor",
+  "The useful change was removing steps",
+  "I removed the mandatory assessment and audit/acceptance chain",
+  "optional Match assessment is reference material rather than a gate",
+  "Autosave with conflict detection",
+  "keeps the last 20 revisions",
   "One instance per person, not a shared service",
-  "No port is open to the internet",
-  "It is not live sync",
+  "model calls still send selected input",
   "Built to be shared",
-  "The repository is private while the project is pre-alpha",
-  "220 unit and contract tests",
-  "The journeys use a stubbed model",
-  "not a capture of the running app",
-  "Every company in it is fictional",
+  "remains private while the project is pre-alpha",
+  "67379b5",
+  "CI run completed successfully",
+  "automated journeys use a stubbed model",
+  "not a screenshot",
   "Current scope and limitations",
-  "Marshal is pre-alpha and has one user, me",
-  "Nobody else has self-hosted it yet",
+  "Live-model writing quality, the current deployment revision",
 ]) {
   assert.ok(marshalText.includes(marker), `Marshal case study is missing: ${marker}`);
 }
@@ -637,7 +615,7 @@ for (const markup of [html, marshalHtml]) {
     "Marshal must not link visitors to a private repository");
 }
 const marshalCardStart = text.indexOf("Marshal");
-const marshalCardText = text.slice(marshalCardStart, text.indexOf("Job Search Dispatch", marshalCardStart));
+const marshalCardText = text.slice(marshalCardStart, text.indexOf("MoneyGuard", marshalCardStart));
 for (const claimText of [marshalText, marshalCardText]) {
   for (const pattern of [
     /\b(?:open[- ]source|fully offline|zero data leakage|guaranteed accuracy|hallucination[- ]free)\b/i,
@@ -648,6 +626,20 @@ for (const claimText of [marshalText, marshalCardText]) {
     assert.ok(!pattern.test(claimText), `Marshal contains an unsupported claim: ${pattern}`);
   }
 }
+
+// Guard retired workflow claims and private source boundaries.
+for (const stale of ["no fetch-from-link capture", "audit required unless waived", "draft material that only says what I can back up", "220 unit and contract tests"]) {
+  assert.ok(!marshalText.toLowerCase().includes(stale.toLowerCase()), `Marshal contains retired copy: ${stale}`);
+}
+for (const markup of [html, await readFile(caseStudyPath, "utf8")]) {
+  assert.ok(!markup.includes('href="https://github.com/liuyuelintop/moneyguard-web'),
+    "MoneyGuard must not expose a private web-source CTA");
+}
+for (const diagram of ["marshal-workflow", "moneyguard-planning"]) {
+  const svg = await readFile(path.join(outputDirectory, "images", `${diagram}.svg`), "utf8");
+  assert.ok(svg.includes("Not a product screenshot") && svg.includes("<desc"), "Diagram needs disclosure and description");
+}
+assert.ok(!html.includes('alt="Marshal product screenshot"'), "Marshal diagram must not be called a screenshot in alt text");
 
 // --- DSH Conversation Exporter case study -----------------------------------
 
@@ -744,7 +736,7 @@ assert.match(
   "Case study is missing its route-specific title",
 );
 const caseStudyDescription =
-  "How MoneyGuard splits OCR from reasoning, validates untrusted model output with Zod, and where its data boundary actually sits — with the tradeoffs stated.";
+  "How I evolved an AI extraction pipeline into a local-first planning tool, keeping financial calculations deterministic and optional model explanations behind explicit data boundaries.";
 assert.ok(
   caseStudyHtml.includes(`<meta name="description" content="${caseStudyDescription}"/>`),
   "Case study description is missing or incorrect",
@@ -783,6 +775,11 @@ assert.equal(
 );
 
 const requiredCaseStudySections = [
+  "From extracting a timecard to making a decision",
+  "Three questions the product can answer",
+  "Keep the financial answer in code",
+  "Evidence and current scope",
+  "Earlier pipeline: architecture and verification",
   "The problem",
   "Constraints",
   "Workflow",
@@ -801,6 +798,12 @@ for (const heading of requiredCaseStudySections) {
 }
 
 const requiredCaseStudyContent = [
+  "79848c1",
+  "source tests were inspected, not rerun",
+  "free-text question itself can contain personal information",
+  "production disabled",
+  "before the optional deposit",
+  "session and do not become hidden changes",
   // Workflow sequence, rendered statically without a diagram library.
   "Timecard image",
   "Vision OCR",
@@ -1281,7 +1284,7 @@ assert.ok(sitemap.includes("<loc>https://www.liuyuelin.dev/work/job-search-dispa
 const emittedMedia = await readdir(path.join(outputDirectory, "_next/static/media"));
 assert.ok(emittedMedia.some((file) => file.startsWith("job-search-dispatch.") && file.endsWith(".png")),
   "Bundled Dispatch screenshot is missing");
-for (const imageName of ["marshal", "dsh-conversation-exporter", "moneyguard-ai-finance-pipeline"]) {
+for (const imageName of ["dsh-conversation-exporter"]) {
   assert.ok(
     emittedMedia.some((file) => file.startsWith(`${imageName}.`) && file.endsWith(".webp")),
     `Bundled project image is missing: ${imageName}`,

@@ -6,10 +6,10 @@ import { focusRingClasses } from "../../../utils/accessibility";
 
 const ProjectCard = ({ project, index, onReadMore }) => {
   const externalUrl = project.url || project.github;
-  const externalLabel = project.url ? "Live" : "Source";
+  const externalLabel = project.url ? "Live" : (project.sourceLabel || "Source");
   const externalAriaLabel = project.url
     ? `Visit ${project.title} live site`
-    : `View ${project.title} source code`;
+    : `View ${project.title} ${project.sourceLabel || "source code"}`;
   const tags = project.technologies.main.slice(0, 4);
 
   return (
@@ -17,7 +17,7 @@ const ProjectCard = ({ project, index, onReadMore }) => {
       <figure>
         <OptimizedImage
           src={project.image}
-          alt={`${project.title} product screenshot`}
+          alt={project.imageAlt || `${project.title} product screenshot`}
           className="rounded-lg border border-neutral-800"
           aspectRatio="aspect-video"
           loading={index === 0 ? "eager" : "lazy"}
@@ -97,6 +97,8 @@ ProjectCard.propTypes = {
     title: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
     imageCaption: PropTypes.string,
+    imageAlt: PropTypes.string,
+    sourceLabel: PropTypes.string,
     description: PropTypes.shape({
       summary: PropTypes.string.isRequired,
     }).isRequired,

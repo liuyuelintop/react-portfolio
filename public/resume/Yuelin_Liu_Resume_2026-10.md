@@ -10,61 +10,57 @@ Melbourne, VIC · 0451 690 105 · [liuyuelintop@gmail.com](mailto:liuyuelintop@g
 
 ## Profile
 
-Full-stack engineer who works from the user's problem down to the architecture, then proves the result with tests. At an AI SaaS startup I traced a 26.7 s API path to its slowest dependencies and cut it to 5.6 s. Since then I have designed and built five products end to end, including a self-hosted job-application workspace that runs across laptop and phone, a privacy-first wage tool for hourly workers, and an open-source plugin published on npm.
+Melbourne-based software engineer targeting early-career full-stack, backend and AI implementation roles. I build product interfaces, APIs and data workflows, with particular attention to deterministic validation, failure handling and clear boundaries around model-generated output. My projects include a self-hosted application workspace, a browser-local wage planner and a published developer plugin.
 
 ## Skills
 
 - **Languages:** TypeScript, JavaScript (ES6+), Python, SQL, HTML5, CSS3
 - **Frontend:** React 19, Next.js 15/16 (App Router), Vite, Tailwind CSS, responsive design, Chrome extensions (MV3)
 - **Backend and data:** Node.js, Express, REST APIs, BFF (backend-for-frontend), MongoDB (Mongoose), Convex, IndexedDB (Dexie), Zod schema validation, authentication and RBAC (Clerk OAuth, NextAuth)
-- **Cloud and DevOps:** AWS (Lambda, SQS, Bedrock, SageMaker, Aurora Serverless, API Gateway, CloudFront), Terraform, Google Cloud (GCP), Docker, CI/CD (GitHub Actions, Vercel), NGINX, Linux, Git
-- **Testing and quality:** Playwright (end-to-end), Vitest, Jest, Supertest, contract testing, Postman
-- **AI and LLM engineering:** OpenAI, Anthropic Claude, Google Gemini and DeepSeek APIs; function calling; structured outputs; agent frameworks (OpenAI Agents SDK, LangGraph, CrewAI, AutoGen); MCP; prompt testing; evidence grounding; AI coding agents (Claude Code, Codex)
+- **Delivery and testing:** Docker, GitHub Actions, Vercel, Git, Playwright, Vitest, Jest, Supertest, Postman
+- **AI implementation:** LLM APIs, function calling, structured output validation, evidence filtering, provider routing, streaming and cancellation
+- **Cloud training:** AWS (Lambda, SQS, Bedrock, Aurora, SageMaker, API Gateway, CloudFront), Terraform; self-hosting on Google Cloud
 
 ## Experience
 
-### Independent Full-Stack Developer — Melbourne Tech Consultancy (Contract) | Sep 2025 – Present
+### Independent Developer — Prospective Client Demos for a Melbourne Consultancy | Sep 2025 – Present
 
-- Turned informal, still-changing briefs from prospective specialty-coffee and drone-training clients into authenticated, database-backed prototypes that the consultancy demonstrated in its pitches.
-- Owned each build end to end on short deadlines: data model, sign-in (Clerk OAuth), real-time backend (Convex) and Vercel deployment on Next.js 15, reshaping scope and schema as requirements firmed up.
+- Built demonstration applications from informal briefs for prospective specialty-coffee and drone-training clients, supporting a Melbourne consultancy's business pitches.
+- Implemented authenticated, database-backed prototypes with Next.js App Router, Clerk OAuth and Convex as requirements became clearer.
 
 ### Full-Stack Developer — ByteCroniX (early-stage AI SaaS) | Mar 2025 – Jun 2025
 
-- **Cut an inherited points-summary request from 26.7 s to 5.6 s (79% faster)** in integration testing: added timing instrumentation, found the scoring services were the dominant cost, then ran the independent service calls in parallel.
-- Implemented OpenAI function-calling flows in the Node.js/Express backend for AI-assisted product interactions, delivered through BFF routes shared by the web, Android and iOS clients.
-- Worked alongside senior engineers on API testing (Jest, Supertest, Postman), NGINX troubleshooting and multi-service CI/CD.
+- Instrumented an inherited points-summary path, identified scoring services as the dominant latency contributors and parallelised independent calls. An observed local integration-test response fell from 26.7 s to 5.6 s; this was not a production benchmark.
+- Implemented OpenAI function-calling flows in a Node.js/Express codebase for AI-assisted product interactions.
 
 ## Products & Projects
 
 ### Marshal — Self-hosted job-application workspace for laptop and phone | Sep 2026 – Present
 
-*Why: my earlier tool, Job Search Dispatch, only ran on one Mac. I wanted to capture, write and track applications from any device, safely, and to give friends the same capability without asking them to trust my server.*
+*Personal project; pre-alpha, private source. A successor to my Mac-only Dispatch workflow, designed for laptop and phone.*
 
-- **Works wherever I am, privately.** One instance serves laptop and phone over a private Tailscale network with no public port: capture a job ad on the phone, finish at the desk, and neither device overwrites the other's newer work.
-- **The whole application loop in one place.** Capture → requirement-by-requirement fit check → cover letter → tailored A4 résumé and letter PDFs → pipeline board from Captured to Offer, with a queue of follow-ups that are due.
-- **Drafts I can send without rechecking every line.** The AI only sees experience I have confirmed, every paragraph shows the facts behind it, and a deterministic check flags any number or name those facts do not support.
-- **Built to be shared.** MIT-licensed and single-user by design: each friend runs their own copy with their own API key, on a laptop with one Docker Compose command or on a small VPS using the included deploy, backup and restore scripts. Their data stays in readable files they own. My instance runs on a 1 GB Google Cloud VM in Sydney.
-- **Proof.** 220 unit and contract tests, 50+ browser journeys on phone and desktop viewports, a Docker PDF-rendering check and a secret scan pass on every push in GitHub Actions. *TypeScript, React 19, Node.js, Playwright, Docker.*
+- **Simplified the product.** Removed mandatory assessment, audit and acceptance steps. Cover letters and résumés generate and edit independently; optional fit assessment is reference material.
+- **Protected newer work.** Built revisioned autosave, stale-write conflicts, local recovery and atomic JSON persistence, with previous revisions retained.
+- **Kept checks at the boundaries.** Server-side filtering limits model inputs to confirmed, permitted evidence. Bounded citation/numeric checks and export guards support human review; they do not establish semantic truth.
+- **Made self-hosting explicit.** Docker Compose, loopback binding, Tailscale access and backup/restore scripts. An earlier GCP deployment is documented; the deployed revision of the current redesign is unverified.
+- **Verification.** Contract and stubbed browser tests cover document independence, failure recovery and conflicts. They do not establish live-model quality. *TypeScript, React, Node.js, Docker.*
 
 ### Job Search Dispatch — Job-ad ingestion gateway and browser bridge | Jul 2026 – Present
 
-*Problem: job boards refuse server-side fetches, and pasting long ads by hand is slow and lossy. Once the ad is in, model calls across providers hang, time out or drift without anyone noticing.*
-
-- **Dual-channel ingestion.** Fetch-by-URL runs a headless Chromium restricted to supported job boards, behind SSRF checks and DNS pinning; when that fails, a Manifest V3 extension reads the ad from the user's own open tab. On the deployed service a live SEEK ad extracted in 1.3 s.
+- **Dual-channel ingestion.** Fetch-by-URL runs a headless Chromium restricted to supported job boards, behind SSRF checks and DNS pinning; when that fails, a Manifest V3 extension reads the ad from the user's own open tab.
 - **Flexible, dependable model access.** Bring-your-own-key routing across Anthropic, OpenAI, Gemini and DeepSeek, or the user's own Codex or Claude subscription through the official CLI sign-in, with trace IDs, server-owned deadlines and cancellation that reaches the upstream call.
-- **Release discipline.** Runs as a managed macOS LaunchAgent. Every release is gated by 614 deterministic tests and 40 browser flows, and a drift test fails when a prompt reads any field its declared input contract omits.
+- **Release discipline.** Runs as a managed macOS LaunchAgent. The 28 September release record lists 614 deterministic tests and 40 browser flows passing, and a drift test fails when a prompt reads any field its declared input contract omits.
 
-### MoneyGuard — Local-first wage and cashflow tool for hourly workers | Jun 2026 – Aug 2026
+### MoneyGuard — Local-first wage and cashflow tool for hourly workers | 2026
 
 *Problem: hourly and casual workers are paid from timecards and cannot easily see what a week's shifts leave after expenses, or whether their cash will last until payday.*
 
-- **Photo to decision.** Timecard photo → reviewed extraction → Zod-validated data → pure, deterministic wage, burn and surplus calculations → payday forecast (safe / caution / critical), buffer planner and a "cost in labour hours" simulator.
-- **Privacy as a product decision.** Financial history stays in the browser (IndexedDB). The optional AI explanation receives only masked weekly metrics, never images, line items or identifiers, and vision OCR runs only with explicit consent.
-- **Runs without secrets.** Fixture providers let the whole product and its Vitest and Playwright suites run offline with no API keys. *Next.js 16, React 19, TypeScript, Dexie.*
+- **Kept financial results deterministic.** Reviewed weekly inputs feed wage, burn and surplus calculations, purchase cost in paid hours, and expected/delayed-payday comparisons. A later deposit cannot hide a pre-payday shortage.
+- **Designed for local ownership.** Audit history uses browser IndexedDB with validated exports. The base Payday Check draft is saved; temporary delay scenarios stay in the session.
+- **Bounded optional AI.** Optional Gemini explanations are gated to local development or a configured protected preview and send a consented question plus selected current-audit metrics. Free text may contain personal information. Public fixture configuration disables real OCR and AI; model output does not own the arithmetic.
+- **Testable boundaries.** Added calculation, payload, storage and browser test coverage around the planning workflow. *Next.js, React, TypeScript, Dexie, Vitest, Playwright.*
 
 ### DSH Conversation Exporter — Open-source developer plugin on npm | Jul 2026 – Aug 2026
-
-*Problem: DeepSeek Harness exports a session only as a raw event log (a ZIP of JSONL), which suits replay but not reading, version control or handing a conversation to another assistant.*
 
 - Published an MIT-licensed npm package (v0.3) that adds one-click **Export Chat**: clean Markdown of the human messages and final answers, with optional whole-turn selection, leaving the official log untouched.
 - Filters on the host before export, dropping reasoning, tool activity and runtime metadata while preserving Markdown and Unicode. Release checks cover tests, syntax and an npm dry run. Listed in the Awesome DSH Plugin catalogue.
@@ -80,8 +76,7 @@ Full-stack engineer who works from the user's problem down to the architecture, 
 
 ### AI in Production: Gen AI and Agentic AI at Scale — Ed Donner, Udemy (18.5 h) | Oct 2025
 
-- **Deployed the capstone multi-agent system end to end in my own AWS account** from seven Terraform stages: an SQS queue with dead-letter queue feeding five agent Lambdas on Bedrock-hosted models, Aurora Serverless v2, a SageMaker embedding endpoint with S3 Vectors search, App Runner, API Gateway and CloudFront.
-- Traced from the code how the orchestrator really invokes its agents, sent four corrections upstream to the course's guides and test harness, then tore the stack down once idle cost outweighed learning value. Coursework also covered LLM deployment on Vercel, Azure and GCP, CI/CD and LangFuse observability.
+- Deployed Ed Donner's capstone in my AWS account using seven Terraform configurations; traced its agent invocation, database and queue flows, proposed upstream corrections, then tore it down after the learning exercise. This was course architecture, not a system I designed.
 
 ### The Complete Agentic AI Engineering Course (2025) — Ed Donner, Udemy (17 h) | Aug 2025
 
