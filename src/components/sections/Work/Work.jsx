@@ -3,40 +3,54 @@ import Link from "next/link";
 import { TOOLBOX } from "../../../constants/constants";
 import { WORK, WORK_FIGURES } from "../../../constants/work";
 import HourMark from "../../ui/common/HourMark";
-import FlowFigure from "./figures/FlowFigure";
+import ReceiptFigure from "./figures/ReceiptFigure";
+import RevisionFigure from "./figures/RevisionFigure";
+import TraceFigure from "./figures/TraceFigure";
 
 const externalProps = { target: "_blank", rel: "noopener noreferrer" };
 
+// Each story's figure is its own kind, keyed by the story's `figure`.
+const FIGURES = { marshal: RevisionFigure, latency: TraceFigure, timecard: ReceiptFigure };
+
 function LeadStory({ lead, flip }) {
+  const Figure = FIGURES[lead.figure];
+  const classes = ["story", `fig-${lead.figure}`];
+  if (lead.layout === "wide") classes.push("wide");
+  else if (flip) classes.push("flip");
+
   return (
-    <article className={flip ? "story flip" : "story"}>
+    <article className={classes.join(" ")}>
       <div className="copy">
-        <p className="kicker">
-          <b>{lead.name}</b> <span>{lead.context}</span>
-        </p>
-        <h4 className="headline">{lead.headline}</h4>
-        {lead.paragraphs.map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
-        ))}
-        <p className="aside">{lead.stack}</p>
-        {lead.links.length > 0 && (
-          <div className="links">
-            {lead.links.map((link) =>
-              link.external ? (
-                <a key={link.label} className="quiet" href={link.href} {...externalProps}>
-                  {link.label}
-                </a>
-              ) : (
-                <Link key={link.label} className="quiet" href={link.href}>
-                  {link.label}
-                </Link>
-              ),
-            )}
-          </div>
-        )}
+        <header>
+          <p className="kicker">
+            <b>{lead.name}</b> <span>{lead.context}</span>
+          </p>
+          <h4 className="headline">{lead.headline}</h4>
+        </header>
+        <div className="body">
+          {lead.paragraphs.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+          <p className="aside">{lead.stack}</p>
+          {lead.links.length > 0 && (
+            <div className="links">
+              {lead.links.map((link) =>
+                link.external ? (
+                  <a key={link.label} className="quiet" href={link.href} {...externalProps}>
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link key={link.label} className="quiet" href={link.href}>
+                    {link.label}
+                  </Link>
+                ),
+              )}
+            </div>
+          )}
+        </div>
       </div>
       <figure className="fig">
-        <FlowFigure figure={WORK_FIGURES[lead.figure]} />
+        <Figure figure={WORK_FIGURES[lead.figure]} />
         <figcaption className="cap">{lead.figureCaption}</figcaption>
       </figure>
     </article>

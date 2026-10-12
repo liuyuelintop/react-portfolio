@@ -45,15 +45,18 @@ private repository link, personal record, prompt, credential or applicant data.
 ## Visual
 
 The homepage figure (`WORK_FIGURES.marshal` in `src/constants/work.js`, rendered
-by `FlowFigure`) is a code-authored illustration: one job followed through the
-merged workflow in six steps (bring in the job, filter the background, generate
-either document, check the reply, edit on any device, review and export), with
-two switches. "Before: the first workflow" shows the five mandatory steps;
-every step restates the case study's workflow, decisions and simplification
-sections, and the first workflow's steps are named, not described beyond what
-that section says. "Before: copy and paste" is the owner's first-person account
-of applying through a chat assistant before the product existed; it is a
-description of the problem, not a measured comparison, and claims no time saved.
+by `RevisionFigure`) is a code-authored illustration: the workflow as a document
+under tracked changes, compared against one of two earlier ways of applying.
+Both comparisons accept to the same six lines (bring in the job, filter the
+background, generate either document, check the reply, edit and review on any
+device, export). "Against: the first workflow" strikes the five mandatory steps
+the case study names and marks the three code checks as kept, which the
+simplification section states ("I kept permission filtering, bounded output
+validation and export checks in code, and made human review explicit"); it does
+not claim the first workflow lacked link capture or revisions. "Against: by hand
+in a chat" is the owner's first-person account of applying through a chat
+assistant before the product existed; it is a description of the problem, not a
+measured comparison, and claims no time saved.
 
 The homepage story's hosting sentence follows the Marshal README and
 `docs/SELF_HOSTING.md` as read at local main `e2abb4b` on 13 October 2026: local

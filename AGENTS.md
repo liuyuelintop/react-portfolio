@@ -63,11 +63,11 @@ app/                # Route-owned layout, homepage metadata, robots and sitemap
 src/
 ├── components/
 │   ├── layout/      # Masthead + LampCord (shared with case studies)
-│   ├── sections/    # Hero, Work (+ figures/), FurtherOut, Contact
+│   ├── sections/    # Hero, Work (+ figures/: one per lead story), FurtherOut, Contact
 │   └── ui/          # Reusable: common/ (Toast, ErrorBoundary, HourMark)
 │                    #   and diagrams/
 ├── constants/       # ALL page content lives here (data-driven)
-├── hooks/           # useLight, useKeyboardShortcuts
+├── hooks/           # useLight, useKeyboardShortcuts, useFirstSight
 ├── utils/           # Accessibility utilities
 ├── assets/          # Bundled images
 └── ../public/resume # Static resume PDF copied into the export
@@ -94,7 +94,7 @@ The page reads as one day: Morning, Midday, Golden hour, Late. Projects, Experie
 Rules that came out of the redesign and are easy to undo by accident:
 - **The work is the loudest thing.** In a chapter the principle is a small label; the project name and the decision headline carry the weight. Personal material supports the work and must not out-engineer it.
 - **Further out is one sideways strip of five places**, each one photograph and one line. The order is the owner's (field, away, town, sill, table). `verify:static` fails if it grows, and the strip must stay a labelled, keyboard-reachable region. It scrolls natively: no parallax or scroll-driven effects. Alcohol stays understated: one bottle, one line about memory, no counts or preferences.
-- **A figure must show the product or the work, not a toy.** All three lead-story figures are one component, `figures/FlowFigure.jsx`: a rail of steps on two lanes and one card per step, with the data in `WORK_FIGURES` (`src/constants/work.js`). Add or change a figure by editing that data; add a payload kind only when no existing one fits. A figure plays once when first seen, never loops, waits while the pointer rests on the card, and does not auto-play under reduced motion. Every step is in the static HTML.
+- **A figure must show the product or the work, not a toy, and each story has its own kind.** Marshal's is `figures/RevisionFigure.jsx` (the workflow under tracked changes), ByteCroniX's is `figures/TraceFigure.jsx` (one request as a trace, walked through the method), and MoneyGuard's is `figures/ReceiptFigure.jsx` (the report as a receipt, each line traced back across the model boundary). The data lives in `WORK_FIGURES` (`src/constants/work.js`); change a figure by editing that data. Do not fold them back into one shared component: the owner asked for each figure to match its story. Across all three, you are outlined, code is solid and a model is dashed. A figure performs once when first seen (`useFirstSight`), never loops, and stays static under reduced motion. Every step and trace is in the static HTML. The trace's spans are a sketch; only its two totals are observed, and its caption says so.
 - **Marshal is self-hosted and MIT-licensed, but its repository is private.** The story may describe how it is run (one machine, Docker, or a server over a private Tailscale network) with the boundary that model calls still send input to the chosen provider. It must not be called open source while the repository is private; `verify:static` rejects that wording.
 - **ByteCroniX is bounded by the owner's evidence register.** The story may say what that register marks as first-person or corroborated (BFF/REST integrations for web, Android and iOS clients; OpenAI function calling; API testing and delivery workflows; the 26.7s to 5.6s local observation). It must not claim service ownership, coverage figures, deployment mechanics, leadership or production results; `verify:static` rejects that wording.
 - **One paper colour.** Every section shares one background, in day and in night. Do not add per-section background colours or a section that is always dark.

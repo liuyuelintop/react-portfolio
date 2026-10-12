@@ -591,6 +591,34 @@ mobile Chromium (27 passed, 3 skipped by design).
   described the project as open source; its repository is private, so the site
   says MIT-licensed with source private while pre-alpha.
 
+**Owner review, fifth pass: one figure per story.** The owner found that three
+figures on one component read as one template and asked for interactions that
+fit each project. `FlowFigure` was replaced by three figures, each built on the
+material its story argues with:
+
+- *Marshal — tracked changes* (`RevisionFigure`). The headline is "The useful
+  change was removing steps", so the reader removes them: the workflow is a
+  sheet with struck and added lines, compared against the chat loop or the first
+  workflow, and "Accept all changes" folds the struck lines away. Against the
+  first workflow the code checks are shown as kept, not added.
+- *ByteCroniX — a request trace* (`TraceFigure`). "Measure before I optimise"
+  becomes the order of the controls: one opaque 26.7s bar, timing logs split it,
+  the scoring services are picked out, and the change leaves the total "Not
+  measured yet" until "Measure again" replays it to 5.6s. Only the totals are
+  observed; the spans are labelled a sketch in the figure and its caption. The
+  story is laid out wide so the trace has the page's width.
+- *MoneyGuard — a traced receipt* (`ReceiptFigure`). "Keep the financial answer
+  in code" becomes a question the reader asks of the report: choose a line and
+  see who wrote it and whether it ever crossed the model boundary (Burn never
+  does). The misread voids the receipt with the pipeline's own message.
+
+Alternatives considered and not built: a phone-and-laptop save-conflict demo
+for Marshal (product detail rather than the decision), a live hours calculator
+for MoneyGuard (the owner rejected a calculator earlier as script-like), and
+per-span timings for ByteCroniX (not in the evidence). `npm run verify` passes:
+lint, export, `verify:static` with the figure markers rewritten, and the
+Playwright journeys (27 passed, 3 skipped by design).
+
 **Open.** `public/assets/og-image.png` still shows the previous dark design. The
 legacy `src/constants/technologies.js` and the unused images under
 `src/assets/projects/` predate this work and are untouched.

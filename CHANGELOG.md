@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-10-13 (figures)
+
+### Changed
+- Gave each lead story its own kind of figure instead of one shared flow component, so each illustration argues what its story argues. Marshal's is the workflow as a document under tracked changes: the chat loop's or the first workflow's steps struck, Marshal's lines added, and "Accept all changes" folds the struck lines away. ByteCroniX's is one request as a trace: it starts as one opaque 26.7s bar, timing logs split it into spans, the scoring services are picked out, the change leaves the total "Not measured yet" until "Measure again" replays it at 5.6s. MoneyGuard's is the report as a receipt: choosing a line traces it back to whoever wrote it and marks where it crosses the model boundary; a misread of 380 hours voids the receipt at the schema check.
+- ByteCroniX's story now sits full width, with its headline beside the prose and the trace beneath both.
+
+### Removed
+- Removed `FlowFigure` and its payload renderers.
+
 ## 2026-10-13
 
 ### Changed

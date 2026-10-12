@@ -117,106 +117,161 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .story .fig { grid-column: 7 / span 6; }
   .story.flip .copy { grid-column: 8 / span 5; grid-row: 1; }
   .story.flip .fig { grid-column: 1 / span 6; grid-row: 1; }
+  /* A wide story puts its headline beside the prose and its figure beneath both. */
+  .story.wide .copy { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 1.5rem; align-items: start; }
+  .story.wide header { grid-column: 1 / span 5; }
+  .story.wide .body { grid-column: 7 / span 6; }
+  .story.wide .body > p:first-child { margin-top: 0; }
+  .story.wide .headline { font-size: clamp(2.6rem, 4.8vw, 4.3rem); }
+  .story.wide .fig { grid-column: 1 / -1; margin-top: 0.75rem; }
 }
 
-/* Figures you can use. All three are the same component: a rail of steps on
-   two lanes, and one card per step. Dashed, solid and outlined stations mean
-   what each figure's legend says they mean. */
+/* Figures you can use. Each story has its own kind, matched to what it argues:
+   an edited document (Marshal), a request trace (ByteCroniX) and a receipt you
+   can trace line by line (MoneyGuard). Across all three, you are outlined, code
+   is solid and a model is dashed. */
 .fig { margin: 0; }
+.fig h5 { margin: 0; font: 600 1rem/1.3 var(--sans); }
+.fig .how { margin: 0.3rem 0 0; color: var(--muted); font-size: 0.95rem; }
 .panel { padding: 1.4rem; background: var(--lift); border: 1px solid var(--rule); border-radius: 8px; transition: background 0.6s; }
 @media (min-width: 900px) { .panel { padding: 1.9rem; } }
-.panel h5 { margin: 0; font: 600 1rem/1.3 var(--sans); }
-.panel .how { margin: 0.3rem 0 0; color: var(--muted); font-size: 0.95rem; }
-.tog { margin-top: 1.4rem; padding: 0.6rem 1.05rem; border: 1.5px solid var(--ink); border-radius: 999px; background: none; color: var(--ink); font: 500 0.95rem/1.2 var(--sans); cursor: pointer; transition: background 0.2s, color 0.2s; }
+.tog { margin-top: 1.4rem; padding: 0.6rem 1.05rem; border: 1.5px solid var(--ink); border-radius: 999px; background: none; color: var(--ink); font: 500 0.95rem/1.2 var(--sans); cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s; }
 .tog:hover:not([aria-disabled="true"]) { background: var(--ink); color: var(--lift); }
 .tog[aria-disabled="true"] { cursor: default; opacity: 0.45; }
+.tog.solid { background: var(--ink); color: var(--lift); }
+.tog.solid:hover { background: var(--link); border-color: var(--link); }
+.tog.scenario { border-style: dashed; border-color: var(--link); color: var(--link); }
+.tog.scenario:hover, .tog.scenario[aria-pressed="true"] { background: var(--link); border-style: solid; color: var(--lift); }
+.fig-controls { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.25rem; }
+.fig-controls .tog { margin-top: 0; padding: 0.5rem 0.95rem; font-size: 0.9rem; }
+.actor { display: inline-block; padding: 0.05rem 0.45rem; border: 1.5px solid var(--ink); border-radius: 6px; color: var(--ink); font: 500 0.75rem/1.5 var(--sans); white-space: nowrap; }
+.actor.a-code { background: var(--ink); color: var(--lift); }
+.actor.a-model, .actor.a-chat, .actor.a-gate { border-style: dashed; border-color: var(--link); color: var(--link); }
 
-.flowfig .lane { margin: 0.9rem 0 0; color: var(--muted); font-size: 0.8rem; }
-.flowfig .rail + .lane { margin-top: 0; }
-.rail { position: relative; height: 5.4rem; margin: 0.15rem 0; }
-.rail svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.rail line { stroke: var(--rule); stroke-width: 1.5; vector-effect: non-scaling-stroke; transition: stroke 0.4s; }
-.rail line.done { stroke: var(--ink); }
-.rail line.cut { stroke-dasharray: 2 5; }
-.rail ol { margin: 0; padding: 0; list-style: none; }
-.rail li { position: absolute; z-index: 1; display: grid; place-items: center; width: 1.75rem; height: 1.75rem; margin: -0.875rem 0 0 -0.875rem; border: 1.5px solid var(--ink); border-radius: 50%; background: var(--lift); color: var(--ink); font-size: 0.8rem; font-weight: 600; line-height: 1; cursor: pointer; opacity: 0.45; transition: opacity 0.4s, background 0.4s, color 0.4s, left 0.5s, top 0.5s; }
-.rail li.reached { opacity: 1; }
-.rail li.tone-dashed { border-style: dashed; border-color: var(--link); color: var(--link); }
-.rail li.tone-solid.reached { background: var(--ink); color: var(--lift); }
-.rail li.cut { opacity: 0.2; cursor: default; }
-.rail .marker { position: absolute; width: 2.6rem; height: 2.6rem; margin: -1.3rem 0 0 -1.3rem; border: 2px solid var(--sun); border-radius: 50%; box-shadow: 0 0 0 5px var(--halo); transition: left 0.6s cubic-bezier(.4,0,.2,1), top 0.6s cubic-bezier(.4,0,.2,1); }
-.flow-stage { display: grid; margin-top: 1.1rem; padding-top: 1rem; border-top: 1px solid var(--rule); overflow: hidden; }
-.flow-card { grid-area: 1 / 1; visibility: hidden; }
-.flow-card.on { visibility: visible; }
-.flow-card .where { display: flex; align-items: center; gap: 0.6rem; margin: 0; color: var(--muted); font-size: 0.85rem; }
-.flow-card .actor { padding: 0.1rem 0.5rem; border: 1.5px solid var(--ink); border-radius: 6px; color: var(--ink); font-size: 0.8rem; line-height: 1.5; }
-.flow-card .actor.tone-dashed { border-style: dashed; border-color: var(--link); color: var(--link); }
-.flow-card .actor.tone-solid { background: var(--ink); color: var(--lift); }
-.flow-card .what { margin: 0.55rem 0 0; font: 400 1.5rem/1.2 var(--serif); letter-spacing: -0.01em; }
-.flow-card .why { margin: 0.35rem 0 0; color: var(--body); font-size: 0.95rem; line-height: 1.5; }
+/* Marshal: the workflow on a sheet of paper, under tracked changes. Marks for
+   what was removed (−) and added (+) sit in the left margin. */
+.sheet { --gutter: 2.9rem; position: relative; padding: 1.4rem 1.25rem 1.4rem var(--gutter); background: var(--lift); border: 1px solid var(--rule); border-radius: 2px; box-shadow: 0 22px 40px -32px rgba(24, 36, 28, 0.45); transition: background 0.6s; }
+.sheet::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(var(--gutter) - 0.85rem); width: 1px; background: var(--underline); }
+@media (min-width: 900px) { .sheet { --gutter: 3.5rem; padding: 1.9rem 1.9rem 1.9rem var(--gutter); } }
+.rev-tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+.rev-tabs .tog { margin-top: 0; padding: 0.35rem 0.8rem; border-width: 1px; border-color: var(--rule); font-size: 0.85rem; }
+.rev-tabs .tog[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--lift); }
+/* The list reaches into the margin so its marks are not clipped when a line folds away. */
+.rev-doc { margin: 1.1rem 0 0 calc(-1 * var(--gutter)); padding: 0; list-style: none; }
+.rev-line { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.55s cubic-bezier(.4,0,.2,1), opacity 0.35s; }
+.rev-inner { min-height: 0; overflow: hidden; }
+.rev-head { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 0.75rem; width: 100%; padding: 0.55rem 0 0.55rem var(--gutter); border: 0; background: linear-gradient(var(--rule), var(--rule)) no-repeat var(--gutter) 0 / calc(100% - var(--gutter)) 1px; color: var(--ink); font: 400 1.1rem/1.3 var(--serif); text-align: left; cursor: pointer; }
+.rev-doc li:first-child .rev-head { background: none; }
+.rev-head:hover .txt { color: var(--link); }
+.rev-head .mark { position: absolute; top: 0.55rem; left: calc(var(--gutter) - 2.25rem); width: 1.2rem; color: var(--link); font: 600 1rem/1.3 var(--sans); text-align: center; transition: opacity 0.3s; }
+.rev-line.del .txt { color: var(--muted); background: linear-gradient(var(--link), var(--link)) no-repeat 0 62% / 100% 1.5px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.rev-line.ins .txt { box-shadow: inset 0 -0.42em var(--wash); -webkit-box-decoration-break: clone; box-decoration-break: clone; transition: box-shadow 0.4s; }
+.rev-note { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.3s; }
+.rev-note p { min-height: 0; overflow: hidden; margin: 0 0 0 var(--gutter); color: var(--body); font-size: 0.92rem; line-height: 1.5; transition: padding 0.3s; }
+.rev-head[aria-expanded="true"] + .rev-note { grid-template-rows: 1fr; }
+.rev-head[aria-expanded="true"] + .rev-note p { padding-bottom: 0.7rem; }
+.revfig.accepted .rev-line.del { grid-template-rows: 0fr; opacity: 0; }
+.revfig.accepted .rev-line.ins .txt { box-shadow: inset 0 0 transparent; }
+.revfig.accepted .rev-line.ins .mark { opacity: 0; }
+.rev-summary { margin: 0; padding-top: 1rem; border-top: 1px solid var(--rule); color: var(--body); font: italic 400 1.05rem/1.4 var(--serif); }
 
-/* What is being passed on at a step */
-.payload { margin: 0.85rem 0 0; padding: 0.7rem 0.85rem; border: 1px solid var(--rule); border-radius: 6px; background: var(--paper); font-size: 0.9rem; line-height: 1.5; transition: background 0.6s; }
-.payload code, pre.payload { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.82rem; }
-pre.payload { overflow-x: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
-.payload.chain { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 0.5rem; list-style: none; }
-.payload.chain li { display: flex; align-items: center; gap: 0.5rem; }
-.payload.chain li:not(:first-child)::before { content: "→"; color: var(--muted); }
-.payload.chain[data-separator="+"] li:not(:first-child)::before { content: "+"; }
-.payload.rows { display: grid; gap: 0.5rem; }
-.payload.rows dt { color: var(--muted); font-size: 0.8rem; }
-.payload.rows dd { margin: 0; }
-.payload.timecard { display: flex; align-items: center; gap: 0.9rem; }
-.payload.timecard .file { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.82rem; }
-.payload.timecard .sheet { display: grid; gap: 0.22rem; width: 2.4rem; padding: 0.35rem 0.3rem; border: 1px solid var(--muted); border-radius: 2px; background: var(--lift); }
-.payload.timecard .sheet i { height: 2px; background: var(--muted); }
-.payload.timecard .sheet i:last-child { width: 60%; background: var(--ink); }
-.payload.verdict { display: grid; gap: 0.15rem; }
-.payload.verdict span { color: var(--muted); }
-.payload.verdict.no { border-color: var(--link); }
-.payload.metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem 1rem; }
-.payload.metrics dt { color: var(--muted); font-size: 0.8rem; }
-.payload.metrics dd { margin: 0; font: 500 1.2rem/1.2 var(--serif); font-variant-numeric: tabular-nums; }
-.payload.split { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
-.payload.split p { margin: 0; }
-.payload.split b { display: block; color: var(--muted); font-size: 0.8rem; font-weight: 400; }
-.payload.split s { color: var(--muted); text-decoration-color: var(--muted); }
-.payload.pips { display: grid; gap: 0.5rem; }
-.payload.pips .row { display: flex; gap: 0.4rem; }
-.payload.pips i { width: 1.6rem; height: 0.5rem; border: 1.5px dashed var(--link); border-radius: 2px; }
-.payload.pips i.met { border-style: solid; background: var(--link); }
-.payload.bars { display: grid; gap: 0.8rem; }
-.payload.bars .lbl { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
-.payload.bars .lbl b { font: 500 1.3rem/1 var(--serif); font-variant-numeric: tabular-nums; }
-.payload.bars .track { height: 0.8rem; margin-top: 0.35rem; border-radius: 2px; background: var(--rule); overflow: hidden; }
-.payload.bars .track i { display: block; height: 100%; background: var(--ink); transform: scaleX(var(--share)); transform-origin: 0 50%; }
-.payload.bars .accent .track i { background: var(--link); }
-.payload.bars .pace { color: var(--muted); font-size: 0.8rem; }
-.payload.stream { display: grid; gap: 0.55rem; }
-.payload.stream .lines { display: grid; gap: 0.35rem; }
-.payload.stream .lines i { height: 0.45rem; border-radius: 2px; background: var(--rule); transform-origin: 0 50%; }
-.payload.stream .lines i:nth-child(2) { width: 82%; }
-.payload.stream .lines i:nth-child(3) { width: 46%; }
-.payload.report em { color: var(--link); font-style: normal; }
-.flow-controls { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.1rem; }
-.flow-controls .tog { margin-top: 0; padding: 0.5rem 0.9rem; font-size: 0.9rem; }
-.flow-controls .play { min-width: 7.4rem; text-align: center; }
-.flow-controls .scenario { border-style: dashed; border-color: var(--link); color: var(--link); }
-.flow-controls .scenario:hover, .flow-controls .scenario[aria-pressed="true"] { background: var(--link); border-style: solid; color: var(--lift); }
-@media (min-width: 900px) { .rail { height: 6rem; } .payload.metrics { grid-template-columns: repeat(4, auto); justify-content: start; gap: 0.5rem 1.75rem; } }
-@media (prefers-reduced-motion: no-preference) {
-  .flow-card.on { animation: card-in 0.4s cubic-bezier(.2,.7,.3,1); }
-  .flow-card.on.back { animation-name: card-back; }
-  .flow-card.on .bars .track i { animation: fill var(--duration) linear both; }
-  .flow-card.on .stream .lines i { animation: stream 1.4s ease-in-out infinite; }
-  .flow-card.on .stream .lines i:nth-child(2) { animation-delay: 0.18s; }
-  .flow-card.on .stream .lines i:nth-child(3) { animation-delay: 0.36s; }
-  @keyframes card-in { from { opacity: 0; transform: translateX(1.4rem); } }
-  @keyframes card-back { from { opacity: 0; transform: translateX(-1.4rem); } }
-  @keyframes fill { from { transform: scaleX(0); } }
-  @keyframes stream { 0%, 100% { transform: scaleX(0.35); opacity: 0.5; } 50% { transform: scaleX(1); opacity: 1; } }
+/* ByteCroniX: one request as a trace. Seconds run along one axis for every
+   row; the method beside it is the order the reader walks it in. */
+.tracefig { display: grid; gap: 1.5rem 3rem; }
+.tr-chart { display: grid; gap: 0.35rem; }
+.trow { display: grid; gap: 0.25rem; transition: opacity 0.5s; }
+.trow .tl { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.15rem 0.6rem; margin: 0; color: var(--muted); font-size: 0.85rem; line-height: 1.3; }
+.trow .track { position: relative; height: 1.5rem; }
+.trow .tick { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--rule); }
+.trow .bar { position: absolute; top: 0.3rem; bottom: 0.3rem; border-radius: 2px; background: var(--muted); transition: left 0.75s cubic-bezier(.4,0,.2,1), width 0.75s cubic-bezier(.4,0,.2,1), background 0.4s, opacity 0.4s; }
+.trow .ghost { position: absolute; top: 0.3rem; bottom: 0.3rem; border: 1.5px dashed var(--muted); border-radius: 2px; }
+.trow.request .tl { color: var(--ink); }
+.trow.request .track { height: 2.1rem; }
+.trow.request .bar { background: var(--ink); transform-origin: 0 50%; }
+.trow.request .total { font: 500 1.65rem/1 var(--serif); font-variant-numeric: tabular-nums; }
+.trow.request .total.unknown { color: var(--muted); font: italic 400 1.15rem/1.3 var(--serif); }
+.trow.request .was { color: var(--muted); font-size: 0.9rem; }
+.view-measured .trow.request .total { color: var(--link); }
+.view-changed .trow.request .bar { opacity: 0; }
+.view-opaque .trow.span { opacity: 0; }
+.trow.span em { padding: 0 0.45rem; border: 1px solid var(--link); border-radius: 999px; color: var(--link); font-size: 0.72rem; font-style: normal; opacity: 0; transition: opacity 0.4s; }
+.trow.span.dominant em { opacity: 1; }
+.trow.span.dominant .bar { background: var(--link); }
+.trow.axis .track { height: 1.1rem; }
+.trow.axis .track span { position: absolute; color: var(--muted); font-size: 0.72rem; font-variant-numeric: tabular-nums; transform: translateX(-50%); }
+.trow.axis .track span:first-child { transform: none; }
+.tr-spans { position: relative; display: grid; gap: 0.35rem; }
+.tr-blind { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; border: 1.5px dashed var(--rule); border-radius: 4px; color: var(--muted); font: italic 400 1.05rem/1.4 var(--serif); text-align: center; opacity: 0; pointer-events: none; transition: opacity 0.4s; }
+.view-opaque .tr-blind { opacity: 1; }
+.tr-chart .pace { margin: 0.35rem 0 0; color: var(--muted); font-size: 0.8rem; }
+.tracefig.armed .trow.request .bar { transform: scaleX(0); }
+.tr-steps { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
+.tr-steps li { border-bottom: 1px solid var(--rule); }
+.tr-steps button { display: flex; align-items: baseline; gap: 0.7rem; width: 100%; padding: 0.6rem 0; border: 0; background: none; color: var(--muted); font: 500 0.95rem/1.35 var(--sans); text-align: left; cursor: pointer; }
+.tr-steps button:hover { color: var(--link); }
+.tr-steps .n { display: inline-grid; flex: none; place-items: center; width: 1.45rem; height: 1.45rem; border: 1.5px solid currentColor; border-radius: 50%; font-size: 0.72rem; line-height: 1; transform: translateY(0.15rem); }
+.tr-steps li.done button, .tr-steps li.now button { color: var(--ink); }
+.tr-steps li.done .n { background: var(--ink); border-color: var(--ink); color: var(--lift); }
+.tr-steps li.now .n { border-color: var(--sun); box-shadow: 0 0 0 3px var(--halo); }
+.tr-steps p { margin: 0 0 0.8rem 2.15rem; color: var(--body); font-size: 0.9rem; line-height: 1.5; }
+.tr-steps li:not(.now) p { display: none; }
+@media (min-width: 640px) { .trow { grid-template-columns: 11.5rem minmax(0, 1fr); align-items: center; column-gap: 1.25rem; } }
+@media (min-width: 900px) {
+  .tracefig { grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr); }
+  .tracefig .tr-head { grid-column: 1 / -1; }
+  .tracefig .tr-chart { grid-column: 1; grid-row: 2 / span 2; align-self: start; }
+  .tracefig .tr-steps { grid-column: 2; grid-row: 2; }
+  .tracefig .fig-controls { grid-column: 2; grid-row: 3; align-self: end; margin-top: 0; }
 }
-@media (prefers-reduced-motion: reduce) { .rail .marker, .rail li, .rail line { transition: none; } }
+
+/* MoneyGuard: the report as a receipt, and the trace of whichever line is
+   chosen. The dashed rule in a trace is where it crosses the model boundary. */
+.rc-grid { display: grid; gap: 2rem; margin-top: 1.25rem; }
+@media (min-width: 560px) { .rc-grid { grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); align-items: start; } }
+.receipt { --zig: 7px; position: relative; max-width: 22rem; padding: 1.1rem 1rem 1.9rem; background: var(--lift); border: 1px solid var(--rule); border-bottom: 0; font: 400 0.82rem/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; transition: background 0.6s; -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(2 * var(--zig)) 100%; mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(2 * var(--zig)) 100%; }
+.rc-title { margin: 0 0 0.5rem; padding-bottom: 0.55rem; border-bottom: 1px dashed var(--muted); font-weight: 600; }
+.receipt ul { margin: 0; padding: 0; list-style: none; transition: opacity 0.4s; }
+.receipt li:last-child { margin-top: 0.45rem; padding-top: 0.45rem; border-top: 1px dashed var(--muted); }
+.receipt button { display: flex; gap: 0.5rem; width: calc(100% + 0.8rem); margin: 0 -0.4rem; padding: 0.3rem 0.4rem; border: 0; border-radius: 3px; background: none; color: var(--ink); font: inherit; text-align: left; cursor: pointer; transition: background 0.2s, color 0.2s; }
+.receipt button:hover { background: var(--wash); }
+.receipt button[aria-pressed="true"] { background: var(--ink); color: var(--lift); }
+.receipt .k { flex: none; width: 4.4rem; opacity: 0.7; }
+.receipt .v { font-variant-numeric: tabular-nums; }
+.receipt .stream { display: grid; flex: 1; align-content: center; gap: 0.3rem; min-height: 2.6rem; }
+.receipt .stream i { display: block; height: 0.38rem; border-radius: 2px; background: var(--link); opacity: 0.6; transform-origin: 0 50%; }
+.receipt .stream i:nth-of-type(2) { width: 84%; }
+.receipt .stream i:nth-of-type(3) { width: 48%; }
+.receipt button[aria-pressed="true"] .stream i { background: var(--underline); opacity: 1; }
+.receiptfig.void .receipt ul { opacity: 0.15; }
+.rc-void { position: absolute; top: 3.1rem; right: 0.8rem; left: 0.8rem; margin: 0; padding: 0.7rem 0.75rem; border: 1.5px dashed var(--link); border-radius: 4px; background: var(--lift); color: var(--link); transform: rotate(-2deg); }
+.lc-head { margin: 0; font: 400 1.4rem/1.2 var(--serif); letter-spacing: -0.01em; }
+.lineage { margin: 0.9rem 0 0; padding: 0; list-style: none; }
+.lineage .node { position: relative; display: grid; grid-template-columns: 3.6rem minmax(0, 1fr); gap: 0.1rem 0.75rem; padding-bottom: 1rem; }
+.lineage .node .actor { grid-row: 1 / span 2; align-self: start; text-align: center; }
+.lineage .node b { font-size: 0.95rem; font-weight: 600; line-height: 1.35; }
+.lineage .node .d { color: var(--body); font-size: 0.9rem; line-height: 1.45; }
+.lineage .node:not(:last-child)::before { content: ""; position: absolute; top: 1.75rem; bottom: 0.2rem; left: 1.8rem; width: 1.5px; background: var(--rule); }
+.lineage .boundary { margin: 0.15rem 0 1.15rem; border-top: 1.5px dashed var(--link); }
+.lineage .boundary span { position: relative; top: -0.72rem; margin-left: 4.35rem; padding: 0 0.45rem; background: var(--paper); color: var(--link); font-size: 0.78rem; font-weight: 500; transition: background 0.6s; }
+.lc-safe { margin: 0; color: var(--body); font: italic 400 1.02rem/1.4 var(--serif); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .revfig.armed .rev-line.del .txt { background-size: 0% 1.5px; }
+  .revfig.armed.seen .rev-line.del .txt { animation: strike 0.5s cubic-bezier(.6,0,.3,1) calc(0.35s + var(--order) * 0.3s) both; }
+  .tracefig.running .trow.request .bar { animation: grow var(--run) linear both; }
+  .receiptfig.armed .receipt li { opacity: 0; }
+  .receiptfig.armed.seen .receipt li { animation: print 0.35s ease-out calc(var(--order) * 0.22s) both; }
+  .receiptfig.armed.seen .stream i { animation: stream 0.8s ease-out calc(1.25s + var(--line, 0) * 0.3s) both; }
+  .receiptfig.armed.seen .stream i:nth-of-type(2) { --line: 1; }
+  .receiptfig.armed.seen .stream i:nth-of-type(3) { --line: 2; }
+  .lineage li { animation: trace-in 0.35s ease-out both; }
+  @keyframes strike { from { background-size: 0% 1.5px; } to { background-size: 100% 1.5px; } }
+  @keyframes grow { from { transform: scaleX(0); } }
+  @keyframes print { from { opacity: 0; transform: translateY(-0.35rem); } to { opacity: 1; transform: none; } }
+  @keyframes stream { from { transform: scaleX(0); } }
+  @keyframes trace-in { from { opacity: 0; transform: translateX(-0.4rem); } }
+}
+@media (prefers-reduced-motion: reduce) { .rev-line, .rev-note, .rev-note p, .rev-head .mark, .rev-line .txt, .trow, .trow .bar, .trow.span em, .tr-blind, .receipt ul { transition: none; } }
 
 /* More evidence under each chapter */
 .also { list-style: none; margin: 2.5rem 0 0; padding: 0; border-top: 1px solid var(--rule); }

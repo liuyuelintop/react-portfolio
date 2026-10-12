@@ -38,11 +38,12 @@ Paths below refer to remote `79848c1` (unchanged core also inspected locally).
 ## Visual and publication boundaries
 
 The homepage figure (`WORK_FIGURES.timecard` in `src/constants/work.js`, rendered
-by `FlowFigure`) is a
-code-authored illustration of the public pipeline: one timecard followed through
-seven steps (photo arrives, vision OCR, schema check, calculation, minimised
-payload, audit model, report returns), with an optional misread of the hours as
-380 that stops at the schema check. It replaced the static
+by `ReceiptFigure`) is a
+code-authored illustration of the public pipeline: the mock-run report as a
+receipt, where each line can be traced back to whoever wrote it (photo, vision
+OCR, schema check, calculation, local ledger, minimised payload, audit model),
+with the crossing between code and a model marked, and an optional misread of
+the hours as 380 that stops at the schema check with the pipeline's own message. It replaced the static
 `moneyguard-planning.svg` diagram in the October 2026 redesign. Its claims trace
 to `liuyuelintop/moneyguard-pipeline` as read on 13 October 2026:
 
