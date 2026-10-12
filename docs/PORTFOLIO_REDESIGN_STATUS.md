@@ -490,8 +490,16 @@ candidate; publication remains unperformed.
 
 Branch `redesign/one-day`, cut from `main` at `d8fbd93`. At the owner's request
 this redesign is one branch worked to completion rather than the one-PR-per-slice
-contract in section 2. Committed and pushed as that branch on 13 October 2026;
-not merged to `main` and not deployed to production.
+contract in section 2. Committed and pushed as that branch on 13 October 2026.
+The figure pass followed on `claude/project-cards-design-refresh-26w36c`, and at
+the owner's request both were fast-forwarded to `main` the same day after a
+review of the Vercel preview on a phone. The previous `main` (`d8fbd93`) is
+tagged `pre-one-day`; the release is tagged `one-day-v1`.
+
+**Rolling back.** Fastest: promote the earlier production deployment with
+Vercel's Instant Rollback (no Git change). In Git, `git revert --no-edit
+pre-one-day..main` adds commits that undo the redesign without rewriting
+history; resetting `main` to `pre-one-day` also works but needs a force push.
 
 **What changed.** The dark, card-based homepage (`Hero → Selected Work →
 Experience → How I Build → Contact`) is replaced by a light editorial page that
