@@ -37,9 +37,35 @@ Paths below refer to remote `79848c1` (unchanged core also inspected locally).
 
 ## Visual and publication boundaries
 
-`public/images/moneyguard-planning.svg` is a code-authored implementation diagram,
-not a screenshot or financial forecast. It contains no records or invented
-performance figures. The old pipeline cover is retained but no longer imported.
+The homepage figure (`WORK_FIGURES.timecard` in `src/constants/work.js`, rendered
+by `FlowFigure`) is a
+code-authored illustration of the public pipeline: one timecard followed through
+seven steps (photo arrives, vision OCR, schema check, calculation, minimised
+payload, audit model, report returns), with an optional misread of the hours as
+380 that stops at the schema check. It replaced the static
+`moneyguard-planning.svg` diagram in the October 2026 redesign. Its claims trace
+to `liuyuelintop/moneyguard-pipeline` as read on 13 October 2026:
+
+- The Telegram transport is `examples/telegram/adapter.ts`, described in the
+  README as the original bot transport; the CLI is `src/cli/main.ts`.
+- `VisionResultSchema.totalHours` is `z.coerce.number().positive().max(168)`
+  (`src/schemas.ts`), so `"38"` is coerced and `380` is rejected.
+- On a failed `safeParse`, `runMoneyGuardPipeline` returns before
+  `computeMetrics`, `buildAuditPayload` or the audit provider run, with the
+  message "Could not pinpoint the 'Running Total'. Try a clearer shot."
+  (`src/pipeline.ts`).
+- The sample figures (38 hrs, $950.00, $552.38, $397.62, STABLE) are the mock-run
+  report already quoted in the case study.
+
+- `buildAuditPayload(metrics, ocr, finance.context)` composes the audit payload;
+  the case study already states that ledger line items and the raw role string
+  are not part of it. The figure says "minimised", not private or anonymous.
+- The report step shows the mock-run layout with a placeholder for the model's
+  prose; no model prose is invented.
+
+The caption states that the sample figures are the pipeline's mock run on a
+sample ledger and that it is not the product interface. No live-provider result is
+shown. The old pipeline cover is retained but no longer imported.
 
 No public-source, user-adoption, financial-advice accuracy, current deployment or
 live-model quality claim is added. Browser-local storage is not represented as

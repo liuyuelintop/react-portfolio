@@ -25,8 +25,8 @@ This is a React 19 portfolio application built with the Next.js 16 App Router an
 ### Core Technologies
 - **React 19** with modern hooks
 - **Next.js 16** App Router with `output: "export"`
-- **Tailwind CSS** with the single dark visual theme
-- **Framer Motion** for animations and micro-interactions
+- **Tailwind CSS** plus a small palette of CSS variables in `src/index.css` (day by default, night via the lamp cord)
+- **Framer Motion** for the toast and error-boundary transitions only; page motion is CSS and SVG
 - **ESLint** with React-specific rules
 
 ### Component Structure
@@ -35,23 +35,23 @@ app/                       # Static routes, metadata, robots and sitemap
   work/[slug]/page.jsx     # Static case-study route (see AGENTS.md)
 src/
 ├── components/
-│   ├── layout/           # Navigation and layout (Navbar)
-│   ├── sections/         # Main content sections (Hero, Experience, Projects, etc.)
-│   └── ui/              # Reusable UI components (animations, forms, common)
+│   ├── layout/           # Masthead and lamp cord (shared with case studies)
+│   ├── sections/         # Hero, Work (+ figures), FurtherOut, Contact
+│   └── ui/              # Reusable UI components (common, diagrams)
 ├── constants/           # Application data and configuration
-├── contexts/           # React contexts for theme and UI state
-├── hooks/              # Custom React hooks
+├── hooks/              # Custom React hooks (useLight, useKeyboardShortcuts)
 ├── utils/              # Accessibility utilities
 └── assets/             # Static assets and images
 ```
 
 ### Key Features
 - **Static-first rendering**: Meaningful homepage HTML before JavaScript
-- **Client interactions**: Motion, modal, navigation, form, and browser effects
-- **Accessibility**: WCAG AA compliance with keyboard shortcuts (Alt+H/W/E/B/C)
-- **Project Gallery**: 3-component architecture (ProjectCard, ProjectModal, LiveDemoPreview)
-- **Case studies**: static `/work/<slug>/` routes driven by `src/constants/caseStudies.js`; a project entry opts in with `caseStudyHref`
-- **Animations**: Framer Motion with scroll-triggered effects
+- **One day, one page**: Morning (hero) → Midday (work) → Golden hour (Further out) → Late (Contact)
+- **Day and night**: `data-light` on `<html>`, toggled by the lamp cord and restored before paint by an inline script in `app/layout.jsx`
+- **Work chapters**: three principles, each with one lead story, one interactive figure and evidence rows (`src/constants/work.js`)
+- **Accessibility**: WCAG AA compliance with keyboard shortcuts (Alt+H/W/F/C)
+- **Case studies**: static `/work/<slug>/` routes driven by `src/constants/caseStudies.js`; a story or row links to one with `caseStudyHref`
+- **Motion**: CSS transitions, one SVG disc throw, all respecting reduced motion
 
 ### Environment Variables
 The live portfolio does not require environment variables. Browser-exposed values must use the Next.js public prefix:
@@ -62,10 +62,10 @@ The live portfolio does not require environment variables. Browser-exposed value
 ### Import Patterns
 The project uses organized imports:
 ```javascript
-// Components are exported from index.js files
-import { Hero, Projects, Experience } from '../components';
-import { HERO_CONTENT, HOW_I_BUILD, PROJECTS } from '../constants';
-import { useKeyboardShortcuts, useUI } from '../hooks';
+// Components are imported from their folder paths; constants and hooks are barrelled
+import Work from './components/sections/Work/Work';
+import { HERO_CONTENT, TOOLBOX, WORK } from '../constants';
+import { useKeyboardShortcuts, useLight } from '../hooks';
 ```
 
 ### Development Notes

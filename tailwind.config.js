@@ -3,32 +3,20 @@ const tailwindConfig = {
   content: ["./app/**/*.{js,jsx}", "./src/**/*.{js,jsx}"],
   theme: {
     extend: {
-      spacing: {
-        18: "4.5rem",
+      // The palette lives in src/index.css as CSS variables so that the lamp
+      // cord can switch it; these names only point at it.
+      colors: {
+        paper: "var(--paper)",
+        lift: "var(--lift)",
+        ink: "var(--ink)",
+        body: "var(--body)",
+        muted: "var(--muted)",
+        link: "var(--link)",
+        rule: "var(--rule)",
       },
-      lineClamp: {
-        3: "3",
-      },
-      backdropBlur: {
-        sm: "4px",
-      },
-      blur: {
-        project: "120px",
-      },
-      boxShadow: {
-        glass: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
-        project: "0 20px 25px -5px rgba(168, 85, 247, 0.1)",
-        contact: "0 10px 15px -3px rgba(168, 85, 247, 0.2)",
-      },
-      minHeight: {
-        card: "480px",
-      },
-      gridAutoRows: {
-        project: "minmax(480px, 1fr)",
-      },
-      gradientColorStops: {
-        "purple-400": "#c084fc",
-        "blue-400": "#60a5fa",
+      fontFamily: {
+        sans: ['"Schibsted Grotesk"', '"Helvetica Neue"', "Arial", "sans-serif"],
+        serif: ["Newsreader", '"Iowan Old Style"', "Georgia", "serif"],
       },
     },
   },

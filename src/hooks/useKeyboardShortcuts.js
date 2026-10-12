@@ -18,13 +18,9 @@ export const useKeyboardShortcuts = () => {
             e.preventDefault();
             scrollToSection('projects');
             break;
-          case 'e':
+          case 'f':
             e.preventDefault();
-            scrollToSection('experience');
-            break;
-          case 'b':
-            e.preventDefault();
-            scrollToSection('how-i-build');
+            scrollToSection('further-out');
             break;
           case 'c':
             e.preventDefault();
@@ -52,7 +48,7 @@ export const useKeyboardShortcuts = () => {
     const showKeyboardShortcuts = () => {
       toast.info('Keyboard shortcuts available', {
         title: 'Navigation Help',
-        message: 'Alt + H/W/E/B/C for sections, Alt + ? for help',
+        message: 'Alt + H/W/F/C for sections, Alt + ? for help',
         duration: 4000
       });
     };

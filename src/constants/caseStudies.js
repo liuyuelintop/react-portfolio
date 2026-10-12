@@ -8,7 +8,7 @@
 
 const SITE_URL = "https://www.liuyuelin.dev";
 
-// Claims and the synthetic screenshot are traced in docs/DISPATCH_CASE_STUDY_EVIDENCE.md.
+// Claims are traced in docs/DISPATCH_CASE_STUDY_EVIDENCE.md.
 export const DISPATCH_CASE_STUDY = {
   slug: "job-search-dispatch",
   title: "Job Search Dispatch",
@@ -145,7 +145,6 @@ export const DISPATCH_CASE_STUDY = {
         "During the 17 September review, I ran npm run verify against an isolated copy of the committed source on 17 September 2026: strict type checking, JavaScript syntax checks and all 371 deterministic tests passed. The production Vite build also passed. Coverage includes evidence eligibility, configurable model roles, percentage support, persistence, cancellation, diagnostics and fixture isolation.",
         "I also ran the current UI journeys against the production bundle at 1440, 390 and 320 pixels. All three passed, covering navigation, paragraph evidence, edits surviving refresh, reminders, profile and settings surfaces with synthetic data and no live model calls.",
         "The project's own release record for 28 September 2026 lists 614 deterministic tests, 40 browser release flows, one backup-restore check, two writing comparisons and three fixed-origin extension checks, all passing with none skipped. The day before, one request to the deployed service extracted a live SEEK ad through the headless path in about 1.3 seconds. I did not re-run that gate for this page, and several older browser suites written for the previous interface are stale and sit outside it.",
-        "The portfolio screenshot was captured on 17 September, before the later interface redesign, using the application's built-in synthetic fixture data. Its example companies, ticket counts and application statuses illustrate the interface; they are not real applications or outcome metrics. Fixture mode prevents model calls and persistent writes.",
       ],
     },
     {
@@ -259,7 +258,7 @@ export const MARSHAL_CASE_STUDY = {
       paragraphs: [
         "This review uses merged main at 67379b5, checked against GitHub on 12 October 2026. Its CI run completed successfully. The source contains contract checks for independent document generation and export, and browser cases for edits during generation, partial failure, retry and save conflicts. I did not rerun the Marshal suite for this portfolio update.",
         "The automated journeys use a stubbed model. They test application behaviour and validation rules, not the quality or reliability of live-model writing. The newer triage-repair branch and uncommitted work are excluded from this account.",
-        "The homepage visual is a workflow diagram drawn from this merged implementation, not a screenshot. It contains no applicant records, generated application text or private interface capture.",
+        "The homepage figure is an illustration of the step removal, drawn from this merged implementation; it is not a screenshot. It contains no applicant records, generated application text or private interface capture.",
       ],
     },
     {

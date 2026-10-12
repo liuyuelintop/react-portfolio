@@ -2,18 +2,21 @@
 
 import { useEffect } from "react";
 import { MotionConfig } from "framer-motion";
-import { ThemeProvider } from "./contexts/ThemeContext";
-import { UIProvider } from "./contexts/UIContext";
 import ErrorBoundary from "./components/ui/common/ErrorBoundary";
 import useKeyboardShortcuts from "./hooks/useKeyboardShortcuts";
 import { createSkipLink } from "./utils/accessibility";
 import { ToastProvider } from "./components/ui/common/Toast";
-import Navbar from "./components/layout/Navbar/Navbar";
+import Masthead from "./components/layout/Masthead/Masthead";
 import Hero from "./components/sections/Hero/Hero";
-import Projects from "./components/sections/Projects";
-import Experience from "./components/sections/Experience/Experience";
-import HowIBuild from "./components/sections/HowIBuild/HowIBuild";
+import Work from "./components/sections/Work/Work";
+import FurtherOut from "./components/sections/FurtherOut/FurtherOut";
 import Contact from "./components/sections/Contact/Contact";
+
+const NAV_LINKS = [
+  { label: "Work", href: "#projects" },
+  { label: "Further out", href: "#further-out" },
+  { label: "Contact", href: "#contact" },
+];
 
 function AppContent() {
   // Enable keyboard shortcuts
@@ -32,36 +35,30 @@ function AppContent() {
   }, []);
 
   return (
-    <div className="overflow-x-hidden bg-neutral-950 text-neutral-300 antialiased">
-      <Navbar />
+    <div className="overflow-x-clip antialiased">
+      <Masthead homeHref="#hero" links={NAV_LINKS} />
 
-      <main id="main-content" className="pb-24" tabIndex="-1">
+      <main id="main-content" tabIndex="-1">
         <ErrorBoundary sectionName="hero section">
-          <section id="hero" className="scroll-mt-24">
+          <section id="hero">
             <Hero />
           </section>
         </ErrorBoundary>
 
-        <ErrorBoundary sectionName="selected work section">
-          <section id="projects" className="scroll-mt-24">
-            <Projects />
+        <ErrorBoundary sectionName="work section">
+          <section id="projects" className="day">
+            <Work />
           </section>
         </ErrorBoundary>
 
-        <ErrorBoundary sectionName="experience section">
-          <section id="experience" className="scroll-mt-24">
-            <Experience />
-          </section>
-        </ErrorBoundary>
-
-        <ErrorBoundary sectionName="how i build section">
-          <section id="how-i-build" className="scroll-mt-24">
-            <HowIBuild />
+        <ErrorBoundary sectionName="further out section">
+          <section id="further-out" className="out">
+            <FurtherOut />
           </section>
         </ErrorBoundary>
 
         <ErrorBoundary sectionName="contact section">
-          <section id="contact" className="scroll-mt-24">
+          <section id="contact" className="contact">
             <Contact />
           </section>
         </ErrorBoundary>
@@ -73,13 +70,9 @@ function AppContent() {
 function App() {
   return (
     <MotionConfig reducedMotion="user">
-      <ThemeProvider>
-        <UIProvider>
-          <ToastProvider>
-            <AppContent />
-          </ToastProvider>
-        </UIProvider>
-      </ThemeProvider>
+      <ToastProvider>
+        <AppContent />
+      </ToastProvider>
     </MotionConfig>
   );
 }

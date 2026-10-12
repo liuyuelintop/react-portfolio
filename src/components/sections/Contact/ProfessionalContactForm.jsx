@@ -1,8 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { CheckCircle2, Send } from "lucide-react";
 import { CONTACT } from "../../../constants/constants";
-import { focusRingClasses } from "../../../utils/accessibility";
 
 const MESSAGE_TYPES = [
   { id: "role", label: "Full-time role" },
@@ -11,16 +9,11 @@ const MESSAGE_TYPES = [
   { id: "general", label: "General chat" },
 ];
 
-const inputClassName = `w-full rounded-lg border border-neutral-500 bg-neutral-950 px-4 py-3 text-sm text-white placeholder-neutral-500 transition-colors focus:border-cyan-300 focus:outline-none ${focusRingClasses}`;
-
-const FormField = ({ fieldId, label, error = "", children, required = false }) => (
-  <div className="space-y-2">
-    <label htmlFor={fieldId} className="block text-sm font-semibold text-white">
-      {label}
-      {required && <span className="text-cyan-300"> *</span>}
-    </label>
+const FormField = ({ fieldId, label, error = "", children }) => (
+  <div className="field">
+    <label htmlFor={fieldId}>{label}</label>
     {children}
-    {error && <p className="text-xs font-medium text-red-400">{error}</p>}
+    {error && <p className="err">{error}</p>}
   </div>
 );
 
@@ -29,30 +22,20 @@ FormField.propTypes = {
   label: PropTypes.string.isRequired,
   error: PropTypes.string,
   children: PropTypes.node.isRequired,
-  required: PropTypes.bool,
 };
 
 const MessageTypeSelector = ({ selected, onSelect }) => (
-  <div className="grid gap-2 sm:grid-cols-2">
-    {MESSAGE_TYPES.map((type) => {
-      const isSelected = selected === type.id;
-
-      return (
-        <button
-          key={type.id}
-          type="button"
-          onClick={() => onSelect(type.id)}
-          aria-pressed={isSelected}
-          className={`rounded-lg border p-3 text-left text-sm transition-colors ${focusRingClasses} ${
-            isSelected
-              ? "border-cyan-300 font-semibold text-white"
-              : "border-neutral-500 text-neutral-300 hover:border-neutral-300 hover:text-white"
-          }`}
-        >
-          {type.label}
-        </button>
-      );
-    })}
+  <div className="focus">
+    {MESSAGE_TYPES.map((type) => (
+      <button
+        key={type.id}
+        type="button"
+        onClick={() => onSelect(type.id)}
+        aria-pressed={selected === type.id}
+      >
+        {type.label}
+      </button>
+    ))}
   </div>
 );
 
@@ -62,24 +45,15 @@ MessageTypeSelector.propTypes = {
 };
 
 const DraftOpenedNotice = ({ onReset }) => (
-  <div className="rounded-lg border border-neutral-800 p-6">
-    <div className="flex gap-3">
-      <CheckCircle2 size={20} className="mt-0.5 shrink-0 text-cyan-300" aria-hidden="true" />
-      <div>
-        <h3 className="text-lg font-bold text-white">Email draft opened</h3>
-        <p className="mt-2 text-sm leading-relaxed text-neutral-300">
-          Your mail app should now contain a pre-filled message. Review it, attach anything useful, then send it from
-          your own inbox.
-        </p>
-        <button
-          type="button"
-          onClick={onReset}
-          className={`mt-4 rounded-lg border border-neutral-500 px-4 py-2.5 text-sm font-semibold text-neutral-200 transition-colors hover:border-neutral-300 hover:text-white ${focusRingClasses}`}
-        >
-          Prepare another draft
-        </button>
-      </div>
-    </div>
+  <div className="note">
+    <h3>Email draft opened</h3>
+    <p>
+      Your mail app should now contain a pre-filled message. Review it, attach anything useful, then send it from
+      your own inbox.
+    </p>
+    <button type="button" className="tog" style={{ marginTop: 0 }} onClick={onReset}>
+      Prepare another draft
+    </button>
   </div>
 );
 
@@ -156,94 +130,78 @@ export default function ProfessionalContactForm() {
   }
 
   return (
-    <div className="rounded-lg border border-neutral-800 p-6 md:p-7">
-      <h3 className="text-xl font-bold text-white">Prepare a role note</h3>
-      <p className="mt-2 text-sm leading-relaxed text-neutral-300">
-        This opens a pre-filled email draft to {CONTACT.email}. It is intentionally lightweight so recruiters and
-        hiring managers can start a real conversation quickly.
-      </p>
+    <form className="note" onSubmit={handleSubmit}>
+      <h3>Prepare a role note</h3>
+      <p>This opens a pre-filled email draft to {CONTACT.email}. Nothing is sent from this page.</p>
 
-      <form onSubmit={handleSubmit} className="mt-6 space-y-5">
-        <fieldset>
-          <legend className="mb-2 block text-sm font-semibold text-white">
-            Message focus<span className="text-cyan-300"> *</span>
-          </legend>
-          <MessageTypeSelector
-            selected={formData.messageType}
-            onSelect={(messageType) => setFormData((previous) => ({ ...previous, messageType }))}
-          />
-        </fieldset>
+      <fieldset>
+        <legend>Message focus</legend>
+        <MessageTypeSelector
+          selected={formData.messageType}
+          onSelect={(messageType) => setFormData((previous) => ({ ...previous, messageType }))}
+        />
+      </fieldset>
 
-        <div className="grid gap-5 sm:grid-cols-2">
-          <FormField fieldId="contact-name" label="Your name" required error={errors.name}>
-            <input
-              id="contact-name"
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              placeholder="Hiring manager name"
-              className={inputClassName}
-            />
-          </FormField>
-
-          <FormField fieldId="contact-email" label="Email address" required error={errors.email}>
-            <input
-              id="contact-email"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              placeholder="name@company.com"
-              className={inputClassName}
-            />
-          </FormField>
-        </div>
-
-        <FormField fieldId="contact-company" label="Company or team">
+      <div className="pair">
+        <FormField fieldId="contact-name" label="Your name" error={errors.name}>
           <input
-            id="contact-company"
+            id="contact-name"
             type="text"
-            name="company"
-            value={formData.company}
+            name="name"
+            autoComplete="name"
+            value={formData.name}
             onChange={handleInputChange}
-            placeholder="Company name"
-            className={inputClassName}
           />
         </FormField>
 
-        <FormField fieldId="contact-subject" label="Subject" required error={errors.subject}>
+        <FormField fieldId="contact-email" label="Email address" error={errors.email}>
           <input
-            id="contact-subject"
-            type="text"
-            name="subject"
-            value={formData.subject}
+            id="contact-email"
+            type="email"
+            name="email"
+            autoComplete="email"
+            value={formData.email}
             onChange={handleInputChange}
-            placeholder="Full-stack software engineer opportunity"
-            className={inputClassName}
+            placeholder="name@company.com"
           />
         </FormField>
+      </div>
 
-        <FormField fieldId="contact-message" label="Message" required error={errors.message}>
-          <textarea
-            id="contact-message"
-            name="message"
-            value={formData.message}
-            onChange={handleInputChange}
-            placeholder="Share the role, team, stack, interview process or any specific context you want me to respond to."
-            rows={6}
-            className={inputClassName}
-          />
-        </FormField>
+      <FormField fieldId="contact-company" label="Company or team">
+        <input
+          id="contact-company"
+          type="text"
+          name="company"
+          autoComplete="organization"
+          value={formData.company}
+          onChange={handleInputChange}
+        />
+      </FormField>
 
-        <button
-          type="submit"
-          className={`inline-flex w-full items-center justify-center gap-2 rounded-lg bg-white px-4 py-3 text-sm font-semibold text-neutral-950 transition-colors hover:bg-neutral-200 ${focusRingClasses}`}
-        >
-          Open email draft
-          <Send size={16} aria-hidden="true" />
-        </button>
-      </form>
-    </div>
+      <FormField fieldId="contact-subject" label="Subject" error={errors.subject}>
+        <input
+          id="contact-subject"
+          type="text"
+          name="subject"
+          value={formData.subject}
+          onChange={handleInputChange}
+          placeholder="Full-stack software engineer opportunity"
+        />
+      </FormField>
+
+      <FormField fieldId="contact-message" label="Message" error={errors.message}>
+        <textarea
+          id="contact-message"
+          name="message"
+          value={formData.message}
+          onChange={handleInputChange}
+          placeholder="The role, team, stack or interview process"
+        />
+      </FormField>
+
+      <button type="submit" className="btn">
+        Open email draft
+      </button>
+    </form>
   );
 }

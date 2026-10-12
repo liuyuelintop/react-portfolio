@@ -50,8 +50,8 @@ npm run lint
 
 - **React 19** (function components + hooks only) on **Next.js 16 App Router**
 - Fully static production output via `output: "export"`; no server runtime features
-- **Tailwind CSS 3** with a custom theme system (see Theming below)
-- **Framer Motion** for animation and scroll-triggered effects
+- **Tailwind CSS 3** plus palette variables and page styles in `src/index.css` (see Theming below)
+- **Framer Motion** for the toast and error-boundary transitions only; page motion is CSS and SVG
 - **ESLint 9** flat config with Next.js Core Web Vitals, React, and hooks rules
 - **prop-types** for runtime prop validation (no TypeScript)
 - Icons via `lucide-react` and `react-icons`
@@ -62,35 +62,42 @@ npm run lint
 app/                # Route-owned layout, homepage metadata, robots and sitemap
 src/
 ├── components/
-│   ├── layout/      # Navbar
-│   ├── sections/    # Page sections (Hero, Experience, Projects, …)
-│   └── ui/          # Reusable: common/ (Toast, ErrorBoundary,
-│                    #   OptimizedImage, Reveal, …) and animations/
+│   ├── layout/      # Masthead + LampCord (shared with case studies)
+│   ├── sections/    # Hero, Work (+ figures/), FurtherOut, Contact
+│   └── ui/          # Reusable: common/ (Toast, ErrorBoundary, HourMark)
+│                    #   and diagrams/
 ├── constants/       # ALL page content lives here (data-driven)
-├── contexts/        # ThemeContext, UIContext
-├── hooks/           # Custom hooks (animation, UI)
+├── hooks/           # useLight, useKeyboardShortcuts
 ├── utils/           # Accessibility utilities
 ├── assets/          # Bundled images
 └── ../public/resume # Static resume PDF copied into the export
 ```
 
 ### Content is data-driven — edit `constants/`, not JSX
-The single most important thing to know: **page content (hero copy, experiences, projects, How I Build, etc.) is data in `src/constants/`, not hardcoded in components.** To change what the site says, edit the relevant constants file (`constants.js`, `experiences.js`, or `projects.js`). Components map over that data. Homepage constants re-export through `src/constants/index.js`, so import them from the barrel; case-study route data is imported directly from `caseStudies.js` as described below:
+The single most important thing to know: **page content (hero copy, work chapters, figure copy, Further out, etc.) is data in `src/constants/`, not hardcoded in components.** To change what the site says, edit the relevant constants file (`constants.js` or `work.js`). Components map over that data. Homepage constants re-export through `src/constants/index.js`, so import them from the barrel; case-study route data is imported directly from `caseStudies.js` as described below:
 
 ```javascript
-import { HERO_CONTENT, HOW_I_BUILD, PROJECTS } from '../constants';
-import { useKeyboardShortcuts, useUI } from '../hooks';
+import { HERO_CONTENT, TOOLBOX, WORK } from '../constants';
+import { useKeyboardShortcuts, useLight } from '../hooks';
 ```
 
 Hooks are barrelled in `src/hooks/index.js`; UI components are imported from their folder paths.
 
 ### App composition (`app/page.jsx`, `src/App.jsx`)
-`app/page.jsx` is the static Server Component route and owns homepage metadata plus JSON-LD. `src/App.jsx` is the client boundary for motion, contexts, modal state, and browser effects. Provider order is `MotionConfig > ThemeProvider > UIProvider > ToastProvider`. Sections are imported synchronously so the production export contains their meaningful HTML, and each remains wrapped in an `ErrorBoundary`.
+`app/page.jsx` is the static Server Component route and owns homepage metadata plus JSON-LD. `src/App.jsx` is the client boundary for interactive figures, the toast, and browser effects. Provider order is `MotionConfig > ToastProvider`. Sections are imported synchronously so the production export contains their meaningful HTML, and each remains wrapped in an `ErrorBoundary`.
 
 The **currently rendered** sections, in order, are:
-`Hero → Selected Work → Experience → How I Build → Contact`.
+`Hero (#hero) → Work (#projects) → Further out (#further-out) → Contact (#contact)`.
 
-The old unmounted Blog, Chatbot, CareerChatbot, GitHubActivity, PersonalBranding and References sections were removed, and the CareerSnapshot, WorkingStyle and Skills sections were consolidated into HowIBuild. Do not reintroduce a section unless it is mounted in `App.jsx` and backed by current content data.
+The page reads as one day: Morning, Midday, Golden hour, Late. Projects, Experience and How I Build were merged into Work: three chapters, one per working principle, each with one lead story, one interactive figure and compact evidence rows, so a project or role appears once. Do not reintroduce a section unless it is mounted in `App.jsx` and backed by current content data.
+
+Rules that came out of the redesign and are easy to undo by accident:
+- **The work is the loudest thing.** In a chapter the principle is a small label; the project name and the decision headline carry the weight. Personal material supports the work and must not out-engineer it.
+- **Further out is one sideways strip of five places**, each one photograph and one line. The order is the owner's (field, away, town, sill, table). `verify:static` fails if it grows, and the strip must stay a labelled, keyboard-reachable region. It scrolls natively: no parallax or scroll-driven effects. Alcohol stays understated: one bottle, one line about memory, no counts or preferences.
+- **A figure must show the product or the work, not a toy.** All three lead-story figures are one component, `figures/FlowFigure.jsx`: a rail of steps on two lanes and one card per step, with the data in `WORK_FIGURES` (`src/constants/work.js`). Add or change a figure by editing that data; add a payload kind only when no existing one fits. A figure plays once when first seen, never loops, waits while the pointer rests on the card, and does not auto-play under reduced motion. Every step is in the static HTML.
+- **Marshal is self-hosted and MIT-licensed, but its repository is private.** The story may describe how it is run (one machine, Docker, or a server over a private Tailscale network) with the boundary that model calls still send input to the chosen provider. It must not be called open source while the repository is private; `verify:static` rejects that wording.
+- **ByteCroniX is bounded by the owner's evidence register.** The story may say what that register marks as first-person or corroborated (BFF/REST integrations for web, Android and iOS clients; OpenAI function calling; API testing and delivery workflows; the 26.7s to 5.6s local observation). It must not claim service ownership, coverage figures, deployment mechanics, leadership or production results; `verify:static` rejects that wording.
+- **One paper colour.** Every section shares one background, in day and in night. Do not add per-section background colours or a section that is always dark.
 
 ### Case-study routes (`app/work/[slug]/`)
 Case studies are static Server Component routes, not homepage sections. `app/work/[slug]/page.jsx` owns the layout and its own `generateMetadata`; `src/constants/caseStudies.js` owns every word of the copy. To add one, add an entry to `CASE_STUDIES` — `generateStaticParams` and `app/sitemap.js` both derive from that map, so no route or sitemap edit is needed.
@@ -98,16 +105,16 @@ Case studies are static Server Component routes, not homepage sections. `app/wor
 Rules for this route:
 - Keep `dynamicParams = false` so an unknown slug emits no file and 404s instead of rendering another case study's content.
 - `next.config.js` sets `trailingSlash: true`, so output is `out/work/<slug>/index.html`. Canonical URLs, sitemap entries and `scripts/verify-static-output.mjs` must agree with that; don't flip the global setting to satisfy a check.
-- No `"use client"`, no motion, no runtime data. The page must be complete in the exported HTML.
-- A homepage project entry links to its case study by setting `caseStudyHref`; `ProjectCard` then renders a link instead of the modal button. Reference `caseStudies.js` for shared fields rather than restating them in `projects.js`.
+- No `"use client"` in the route, no motion, no runtime data. The page must be complete in the exported HTML. The one client component it renders is the shared `Masthead`'s `LampCord`.
+- A homepage story or evidence row links to its case study with `caseStudyHref`. Reference `caseStudies.js` for shared fields rather than restating them in `work.js`.
 - Claims on a case-study page must trace to a file in a source you can cite. `verify:static` fails the build on absolute-privacy and over-claim wording — extend that list rather than relaxing it.
 
 ### Theming
-The runtime exposes a single hard-coded dark theme via `ThemeContext`. The dormant Neon, Minimal, and Corporate styling branches were removed from the components the content-first redesign rewrote.
+The palette is a set of CSS variables in `src/index.css` (`--paper`, `--ink`, `--body`, `--muted`, `--link`, `--rule`, …), sampled from photographs of Flagstaff Gardens. Day is the default. `data-light="night"` on `<html>` swaps the whole palette, Contact included: the owner found a permanently dark Contact section jarring on the light page. `useLight` and the `LampCord` button own the switch, and an inline script in `app/layout.jsx` restores a stored choice before first paint. Tailwind exposes the same variables as `paper`, `lift`, `ink`, `body`, `muted`, `link` and `rule`, so utility classes follow the light too. Type is Newsreader (serif, headings) and Schibsted Grotesk (sans, body).
 
 ### Accessibility
 Targets WCAG AA. A skip link is injected at runtime, and keyboard shortcuts (defined in `src/hooks/useKeyboardShortcuts.js`) use **Alt + key**:
-`H` hero · `W` selected work · `E` experience · `B` how I build · `C` contact · `?` help.
+`H` hero · `W` work · `F` further out · `C` contact · `?` help.
 
 ### Environment variables
 Next.js loads `.env` automatically. Only variables intentionally exposed to browser code should be `NEXT_PUBLIC_`-prefixed. The current live portfolio does not require environment variables for the resume link.

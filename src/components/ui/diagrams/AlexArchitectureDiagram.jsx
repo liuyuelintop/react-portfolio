@@ -7,15 +7,15 @@ import PropTypes from "prop-types";
 // the commit this was read from, so no arrow joins them.
 //
 // Presentation uses SVG attributes rather than Tailwind classes so the drawing
-// does not depend on utility generation. The site ships one fixed dark theme,
-// so these literals have no light-mode counterpart to track.
-const SURFACE = "#171717";
-const EDGE = "#404040";
-const ACCENT = "#22d3ee";
-const LINE = "#525252";
-const TITLE_FILL = "#e5e5e5";
-const SUBTITLE_FILL = "#a3a3a3";
-const NOTE_FILL = "#737373";
+// does not depend on utility generation. The values are the page's own palette
+// variables (src/index.css), so the drawing follows the day and night light.
+const SURFACE = "var(--paper)";
+const EDGE = "var(--muted)";
+const ACCENT = "var(--link)";
+const LINE = "var(--muted)";
+const TITLE_FILL = "var(--ink)";
+const SUBTITLE_FILL = "var(--body)";
+const NOTE_FILL = "var(--muted)";
 
 function Box({ x, y, width, height, title, subtitle, accent = false }) {
   const centerX = x + width / 2;
@@ -84,7 +84,7 @@ Note.propTypes = {
 
 export default function AlexArchitectureDiagram() {
   return (
-    <div className="overflow-x-auto rounded-lg border border-neutral-800 bg-neutral-900 p-4 md:p-6">
+    <div className="overflow-x-auto rounded-lg border border-rule bg-lift p-4 md:p-6">
       <svg
         viewBox="0 0 880 880"
         role="img"

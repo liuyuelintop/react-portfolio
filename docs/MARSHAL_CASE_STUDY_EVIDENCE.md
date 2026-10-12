@@ -44,8 +44,23 @@ private repository link, personal record, prompt, credential or applicant data.
 
 ## Visual
 
-`public/images/marshal-workflow.svg` is a code-authored implementation diagram,
-explicitly labelled as not a product screenshot in the image, caption and alt
-text. It replaces the previously bundled AI-generated cover, whose pursuit and
-time-budget motifs no longer describe the merged product. The old asset is
-preserved in the repository but is no longer imported into the site.
+The homepage figure (`WORK_FIGURES.marshal` in `src/constants/work.js`, rendered
+by `FlowFigure`) is a code-authored illustration: one job followed through the
+merged workflow in six steps (bring in the job, filter the background, generate
+either document, check the reply, edit on any device, review and export), with
+two switches. "Before: the first workflow" shows the five mandatory steps;
+every step restates the case study's workflow, decisions and simplification
+sections, and the first workflow's steps are named, not described beyond what
+that section says. "Before: copy and paste" is the owner's first-person account
+of applying through a chat assistant before the product existed; it is a
+description of the problem, not a measured comparison, and claims no time saved.
+
+The homepage story's hosting sentence follows the Marshal README and
+`docs/SELF_HOSTING.md` as read at local main `e2abb4b` on 13 October 2026: local
+run, Docker Compose bound to loopback, or a server reached over Tailscale; data
+as JSON files; provider keys held on the server. The GitHub repository was
+private and MIT-licensed on that date, so the site says "MIT-licensed, source
+private while pre-alpha" and does not call the project open source. Its caption labels it as an
+illustration, not the product interface. It replaced the static
+`marshal-workflow.svg` diagram in the October 2026 redesign. The earlier
+AI-generated cover is preserved in the repository but is not imported.

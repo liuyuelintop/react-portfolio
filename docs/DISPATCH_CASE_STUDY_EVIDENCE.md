@@ -109,6 +109,10 @@ files were not used as shipped evidence or modified.
 The homepage now emphasises ingestion, provider operations and failure handling,
 distinguishing Dispatch from its cross-device successor. The existing capture
 is explicitly dated September 2026; it is not represented as the later interface.
+
+October 2026 redesign: Dispatch is a compact evidence row on the homepage and
+the September capture is no longer rendered anywhere on the site, so the case
+study no longer describes it. The asset remains in `src/assets/projects/`.
 The 17 September local tests and 28 September release results remain historical,
 not newly executed checks or a permanent test-count guarantee.
 

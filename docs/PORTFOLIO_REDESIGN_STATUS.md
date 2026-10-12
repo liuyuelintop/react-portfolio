@@ -1,6 +1,6 @@
 # Portfolio Redesign Status
 
-Last updated: 2026-08-10 AEST (How I Build truth alignment — principles and toolbox rebuilt from accepted evidence)
+Last updated: 2026-10-13 AEST ("One day" visual and structural redesign — see the final section)
 Canonical redesign record for `www.liuyuelin.dev`.
 
 ## 1. Goal and non-goals
@@ -485,3 +485,112 @@ Source reviews do not claim that Marshal or MoneyGuard's full suites or live
 providers were exercised here. Current application deployment verification is
 outside the portfolio change. No user decision is needed to review the local
 candidate; publication remains unperformed.
+
+## "One day" redesign — 13 October 2026
+
+Branch `redesign/one-day`, cut from `main` at `d8fbd93`. At the owner's request
+this redesign is one branch worked to completion rather than the one-PR-per-slice
+contract in section 2. Committed and pushed as that branch on 13 October 2026;
+not merged to `main` and not deployed to production.
+
+**What changed.** The dark, card-based homepage (`Hero → Selected Work →
+Experience → How I Build → Contact`) is replaced by a light editorial page that
+reads as one day:
+
+| Act | Anchor | Content |
+| --- | --- | --- |
+| Morning | `#hero` | Headline, summary, résumé/LinkedIn/GitHub, one photograph, at-a-glance strip |
+| Midday | `#projects` | Three chapters: principle → lead story → interactive figure → evidence rows; toolbox |
+| Golden hour | `#further-out` | One disc throw, then a sideways strip of five places (one photograph and one line each) |
+| Late | `#contact` | Contact details and the email-draft form |
+
+Selected Work, Experience and How I Build are merged into the three chapters, so
+each project and role appears once. Section 4's "Information hierarchy" and
+"Visual and motion system" describe the previous design and are historical.
+
+**Design decisions the owner made during discovery** (mockups are local-only in
+`design-exploration/`, excluded from Git because they contain personal photos):
+
+- Direction A, "Window Seat": light paper, green ink, jacaranda lilac.
+- Day is the default; night is a manual switch (the lamp cord).
+- A subtraction pass removed everything that out-shouted the work: the wine
+  interaction, the staggered photo collage, per-section background colours,
+  the work thesis line and the chapter paragraphs. The chapter
+  principle became a small label; the project name and decision headline carry
+  the weight.
+- AI Harness is left off the homepage. Melbourne University Ultimate stays as an
+  evidence row marked "not currently maintained".
+- Alcohol stays understated: one line about memory, no counts or preferences.
+
+**Evidence boundaries kept.** The homepage still states only what the accepted
+evidence supports. The latency observation is one local integration-test
+response, stated once in prose and bounded by the caption beside its figure.
+Figures are labelled as illustrations and show no number the adjacent copy does
+not already support. Two case-study sentences that described homepage visuals
+which no longer exist were corrected (Marshal) or removed (Dispatch).
+
+**One deviation from the approved mockup.** The latency figure opens on its two
+observed totals rather than at zero, so it reads without JavaScript and without
+being played. "Replay both" animates the same totals.
+
+**Verification.** `npm run verify` on this branch: lint clean, static export
+built, `verify:static` passed, and the Playwright journeys passed on desktop and
+mobile Chromium (27 passed, 3 skipped by design).
+
+**Owner review, same day.** Three changes after the first build:
+
+- *Mobile first.* The primary hero action takes the full row on a phone,
+  section spacing is tighter below 900px, and Further out no longer puts a
+  full-width portrait on a small screen.
+- *MoneyGuard's figure.* The one-line "paid hours" calculator made the product
+  look like a script. A static five-row version followed, which the owner found
+  precise but lacking movement. It is now a playable seven-step flow that
+  follows one timecard from a phone, out to a vision model, through the local
+  schema check, calculation and payload minimisation, out to an audit model,
+  and back as a report, with an optional misread the schema rejects. It plays
+  once when first seen. The story copy now names OCR and the AI audit.
+- *Further out.* The single photograph and list became a sideways strip of five
+  places. The bottle is the log's highest-rated entry (Katnook Estate Odyssey
+  Cabernet Sauvignon 2013, by Vivino rating; the owner's own ratings are empty). Parallax was considered and declined: it adds scroll-driven motion to
+  the one section that must stay quieter than the work. The huddle and tram
+  photographs include other people; the owner should confirm they are happy to
+  publish them.
+
+**Owner review, third pass.**
+
+- *Further out* now runs field, away, town, sill, table, at the owner's request.
+  The bottle is the log's highest-rated entry.
+- *One figure component.* Marshal and ByteCroniX were rebuilt on the same flow
+  component as MoneyGuard (`FlowFigure`, data in `WORK_FIGURES`). Marshal follows
+  one job through the merged workflow and can switch to the first workflow's
+  five mandatory steps. ByteCroniX shows the method: the system, the inherited
+  path, timing logs, the finding, one change, and the re-measurement.
+- *ByteCroniX scope.* The owner pointed out that the role was wider than one
+  endpoint and supplied an August 2025 résumé. That résumé is the version the
+  Experience truth rebuild replaced, and the owner's own evidence register
+  (claim register of 1 September 2026 and the 3 August 2026 addendum, both held
+  privately) still marks its ownership, coverage, deployment and `29s` / `81%`
+  claims as needing evidence or not to be used. The story was therefore widened
+  only to what that register marks as first-person or corroborated: BFF routes
+  and REST integrations behind web, Android and iOS clients, OpenAI
+  function-calling flows, and API testing and delivery workflows using Postman,
+  Jest/Supertest, NGINX and multi-service CI/CD. The measurement stays `26.7s`
+  to `5.6s`, one observed local integration-test response. `verify:static` now
+  rejects the unevidenced wording by pattern. Frontend, cloud, documentation and
+  ownership claims can be added if the owner supplies primary evidence.
+
+**Owner review, fourth pass.**
+
+- *Contact follows the light.* A Contact section that stayed dark and gold on
+  the light page read as mismatched, so it now uses the day palette by day and
+  turns night with the rest of the site. The lamp glow shows only at night.
+- *Marshal's story starts with the problem.* The owner's account of applying
+  through a chat assistant (pasting a garbled ad, prompts and background for
+  every job) now opens the story, and the figure can show that loop. The story
+  also says how an instance is run and where the privacy boundary is. The owner
+  described the project as open source; its repository is private, so the site
+  says MIT-licensed with source private while pre-alpha.
+
+**Open.** `public/assets/og-image.png` still shows the previous dark design. The
+legacy `src/constants/technologies.js` and the unused images under
+`src/assets/projects/` predate this work and are untouched.

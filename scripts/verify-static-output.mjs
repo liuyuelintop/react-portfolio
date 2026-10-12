@@ -36,32 +36,29 @@ const html = await readFile(homepagePath, "utf8");
 const text = toText(html);
 
 const requiredContent = [
-  // Hero
+  // Morning: hero and the at-a-glance strip
   "Yuelin Liu",
-  "Melbourne · Software Engineer · Full-stack, Backend & AI",
+  "Morning. Software engineer in Melbourne.",
   "I build full-stack tools with clear workflows and dependable data boundaries.",
   "My work spans self-hosted applications, deterministic finance tools and AI integrations. I design the workflow, build the UI and backend, and test what happens when requests or assumptions fail.",
-  // Selected Work
-  "Selected Work",
+  "Download résumé",
+  "Independent Developer",
+  "Prospective-client demos for a Melbourne consultancy, Sep 2025 to present.",
+  "Full-Stack Developer",
+  "ByteCroniX, an early-stage AI SaaS, Mar to Jun 2025.",
+  "Early-career roles",
+  // Midday: the work. Its chapter contract is asserted section-scoped further down.
+  "Midday. The work.",
   "Marshal",
+  "MoneyGuard",
   "Job Search Dispatch",
   "DSH Conversation Exporter",
-  "MoneyGuard",
-  "More Engineering Work",
-  "AI Harness",
-  "Current work",
   "Melbourne University Ultimate Club Platform",
   "Client Data Delivery Validator",
-  // Experience — exactly two roles, stated at the strength the evidence supports.
-  "Independent Developer",
-  "Prospective Client Demos for a Melbourne Consultancy",
-  "Sep 2025 - Present",
-  "Full-Stack Developer",
-  "ByteCroniX — Early-Stage AI SaaS",
-  "Mar 2025 - Jun 2025",
-  // How I Build — its content contract is asserted section-scoped further down.
-  "How I Build",
-  // Contact
+  // Golden hour
+  "Further out",
+  // Late
+  "Contact",
   "liuyuelintop@gmail.com",
 ];
 
@@ -89,8 +86,7 @@ for (const phrase of removedLanguage) {
 const requiredLinks = [
   'href="#hero"',
   'href="#projects"',
-  'href="#experience"',
-  'href="#how-i-build"',
+  'href="#further-out"',
   'href="https://blog.liuyuelin.dev/"',
   'href="#contact"',
 ];
@@ -102,8 +98,7 @@ for (const link of requiredLinks) {
 const sectionIdsInOrder = [
   'id="hero"',
   'id="projects"',
-  'id="experience"',
-  'id="how-i-build"',
+  'id="further-out"',
   'id="contact"',
 ];
 
@@ -114,6 +109,19 @@ for (const sectionId of sectionIdsInOrder) {
   assert.ok(index > previousIndex, `Section anchor is out of order: ${sectionId}`);
   previousIndex = index;
 }
+
+const sectionHtml = (id, nextId) => {
+  const start = html.indexOf(`id="${id}"`);
+  const end = nextId ? html.indexOf(`id="${nextId}"`) : html.length;
+  assert.ok(start !== -1 && end > start, `Could not isolate the ${id} section`);
+  return html.slice(start, end);
+};
+const heroHtml = sectionHtml("hero", "projects");
+const workHtml = sectionHtml("projects", "further-out");
+const furtherOutHtml = sectionHtml("further-out", "contact");
+const heroText = toText(heroHtml);
+const workText = toText(workHtml);
+const furtherOutText = toText(furtherOutHtml);
 
 const metadataChecks = [
   /<link[^>]+rel="canonical"[^>]+href="https:\/\/www\.liuyuelin\.dev\/"/,
@@ -132,149 +140,183 @@ assert.ok(text.length > 5000, "Homepage text is too small to be a meaningful sta
 assert.ok(!/<main[^>]*>\s*<\/main>/i.test(html), "Homepage contains an empty application shell");
 assert.ok(!/h-screen items-center justify-center bg-neutral-950/.test(html), "Homepage contains the obsolete spinner shell");
 
-// Featured cards link straight to evidence-bearing case studies.
-assert.match(
-  html,
-  /<a[^>]+href="\/work\/dsh-conversation-exporter\/"[^>]*>[\s\S]*?Read case study/,
-  "Homepage is missing the DSH Conversation Exporter 'Read case study' link",
-);
-assert.ok(
-  html.includes('href="https://github.com/liuyuelintop/dsh-conversation-exporter"'),
-  "Homepage is missing the DSH Conversation Exporter public source link",
-);
-assert.match(
-  html,
-  /<a[^>]+href="\/work\/moneyguard\/"[^>]*>[\s\S]*?Read case study/,
-  "Homepage is missing the MoneyGuard 'Read case study' link",
-);
-assert.ok(
-  html.includes('href="https://github.com/liuyuelintop/moneyguard-pipeline"'),
-  "Homepage is missing the MoneyGuard public source link",
-);
-assert.ok(
-  html.includes('href="https://github.com/liuyuelintop/melb-uni-ultimate"'),
-  "Homepage is missing the Melbourne University Ultimate public source link",
-);
-assert.ok(
-  html.includes('href="https://github.com/liuyuelintop/client-data-delivery-validator"'),
-  "Homepage is missing the Client Data Delivery Validator public source link",
-);
-
-const flagshipEvidenceHierarchy = [
-  { title: "Marshal", end: "MoneyGuard", markers: [
-    "A self-hosted application workspace that makes writing and reviewing documents simpler across laptop and phone.",
-    "Designed and built end to end · Personal project · 2026 · Pre-alpha · Private repository",
-    "Removed mandatory AI assessment and approval steps while retaining evidence permissions, independent document editing, guarded export and revision conflicts that protect newer work.",
-    "Stack · TypeScript · React / Vite · Node.js · Docker", "Read case study",
-  ] },
-  { title: "MoneyGuard", end: "Job Search Dispatch", markers: [
-    "A local-first wage planning tool for understanding weekly surplus, purchase costs in paid hours and cash before payday.",
-    "Designed and built · Personal project · 2026 · Web source private; earlier pipeline public",
-    "Built deterministic cash-flow and delayed-payday comparisons with browser-local history. Optional AI explains selected figures; it does not calculate the financial result.",
-    "Stack · TypeScript · Next.js / React · IndexedDB · Vitest / Playwright", "Read case study", "Pipeline source",
-  ] },
-  { title: "Job Search Dispatch", end: "DSH Conversation Exporter", markers: [
-    "A local job-search tool built around resilient job-ad ingestion and inspectable model calls.",
-    "Designed and built end to end · Personal project · 2026 · Private repository",
-    "Combined guarded headless fetching with an open-tab browser fallback, then added provider routing, cancellation and failure diagnostics. The workflow lessons became the starting point for Marshal.",
-    "Stack · React / Vite · TypeScript · Node.js · LLM APIs", "Read case study",
-  ] },
-  { title: "DSH Conversation Exporter", end: "More Engineering Work", markers: [
-    "Exports full DeepSeek Harness conversations or selected whole turns as clean Markdown for reading, Git and cross-assistant handoff.",
-    "Built and packaged as a DSH Web plugin · 2026",
-    "Preserves Markdown and Unicode, keeps selective turn handling bounded, and excludes reasoning, tool activity and runtime metadata from exports.",
-    "Stack · JavaScript · Node.js · DSH plugin APIs · Markdown", "Read case study", "Source",
-  ] },
-];
-
-for (const project of flagshipEvidenceHierarchy) {
-  const start = text.indexOf(project.title);
-  const end = text.indexOf(project.end, start);
-  assert.ok(start !== -1 && end > start, `Could not isolate homepage project: ${project.title}`);
-
-  const projectText = text.slice(start, end);
-  let previousIndex = -1;
-  for (const marker of project.markers) {
-    const index = projectText.indexOf(marker);
-    assert.ok(index !== -1, `${project.title} is missing evidence marker: ${marker}`);
-    assert.ok(index > previousIndex, `${project.title} evidence hierarchy is out of order at: ${marker}`);
-    previousIndex = index;
-  }
-}
-
-assert.ok(
-  !html.includes('aria-label="Read the Melbourne University Ultimate Club Platform case study"'),
-  "Melbourne University Ultimate must not render as a Featured Work card",
-);
-assert.ok(
-  !html.includes('alt="Melbourne University Ultimate Club Platform product screenshot"'),
-  "Melbourne University Ultimate must not render a Featured Work image",
-);
-assert.ok(
-  !html.includes('href="/work/melbourne-ultimate/"'),
-  "The compact Melbourne University Ultimate listing must link to source, not present as a featured case-study action",
-);
-
-// Lead with product simplification and deterministic planning, then integration
-// engineering and developer tooling.
-const orderedHomepageMarkers = [
-  "Marshal",
-  "MoneyGuard",
-  "Job Search Dispatch",
-  "DSH Conversation Exporter",
-  "More Engineering Work",
-  "AI Harness",
-  "Current work",
-  "Melbourne University Ultimate Club Platform",
-  "Client Data Delivery Validator",
-];
-
-let previousMarkerIndex = -1;
-for (const marker of orderedHomepageMarkers) {
-  const index = text.indexOf(marker);
-  assert.ok(index !== -1, `Missing homepage work-hierarchy marker: ${marker}`);
-  assert.ok(
-    index > previousMarkerIndex,
-    `Homepage work hierarchy is out of order at: ${marker}`,
-  );
-  previousMarkerIndex = index;
-}
-
-const projectSectionStart = html.indexOf('id="projects"');
-const projectSectionEnd = html.indexOf('id="experience"');
-assert.ok(
-  projectSectionStart !== -1 && projectSectionEnd > projectSectionStart,
-  "Could not isolate the Selected Work section",
-);
-const projectSectionHtml = html.slice(projectSectionStart, projectSectionEnd);
-assert.equal(
-  (projectSectionHtml.match(/<article\b/g) ?? []).length,
-  4,
-  "Selected Work must render exactly four large Featured Work cards",
-);
-
-const supportingStart = projectSectionHtml.indexOf("More Engineering Work");
-assert.ok(supportingStart !== -1, "Could not isolate More Engineering Work");
-const supportingHtml = projectSectionHtml.slice(supportingStart);
-const supportingText = toText(supportingHtml);
-assert.equal(
-  (supportingHtml.match(/<li\b/g) ?? []).length,
-  3,
-  "More Engineering Work must render exactly three compact list entries",
-);
-for (const summary of [
-  "GitHub-native AI-assisted engineering workflow built around NEXT → IMPLEMENT → ACCEPT → SHIP, exact PR-head SHA acceptance, deterministic verification and explicit human approval.",
-  "Revisited a Next.js/MongoDB application to centralise server-side authorisation and turn authentication and write-path defects into regression tests and CI.",
-  "Python/pandas validation workflow for synthetic client-delivery CSV data with structured validation results and 12 pytest regression cases.",
+// Lead stories and evidence rows link straight to evidence-bearing case studies.
+for (const [title, slug] of [
+  ["Marshal", "marshal"],
+  ["MoneyGuard", "moneyguard"],
 ]) {
-  assert.ok(supportingText.includes(summary), `Supporting work is missing evidence: ${summary}`);
+  assert.match(
+    workHtml,
+    new RegExp(`<a[^>]+href="/work/${slug}/"[^>]*>Read the ${title} case study`),
+    `Homepage is missing the ${title} case-study link`,
+  );
 }
+for (const [title, slug] of [
+  ["Melbourne University Ultimate Club Platform", "melbourne-ultimate"],
+  ["Job Search Dispatch", "job-search-dispatch"],
+  ["DSH Conversation Exporter", "dsh-conversation-exporter"],
+]) {
+  assert.match(
+    workHtml,
+    new RegExp(`<a[^>]+href="/work/${slug}/"[^>]*>${title}</a>`),
+    `Homepage is missing the ${title} case-study link`,
+  );
+}
+for (const [label, href] of [
+  ["DSH Conversation Exporter", "https://github.com/liuyuelintop/dsh-conversation-exporter"],
+  ["MoneyGuard pipeline", "https://github.com/liuyuelintop/moneyguard-pipeline"],
+  ["Client Data Delivery Validator", "https://github.com/liuyuelintop/client-data-delivery-validator"],
+]) {
+  assert.ok(workHtml.includes(`href="${href}"`), `Homepage is missing the ${label} public source link`);
+}
+
+// The work is argued in three chapters, one per principle. Each leads with one
+// story (a decision and its illustration) and lists further evidence under it,
+// so a project or role appears once. Markers are asserted in reading order.
+const chapters = [
+  { principle: "I start with the workflow, not the feature.", markers: [
+    "Marshal",
+    "Self-hosted application workspace for laptop and phone. Personal project, 2026, pre-alpha. MIT-licensed, source private while pre-alpha.",
+    "The useful change was removing steps.",
+    // The problem first, in the owner's words, then the product's own correction.
+    "Applying with a chat assistant meant the same loop for every job",
+    "so most of that repetition is gone. It is still being refined.",
+    "I removed the mandatory chain. A cover letter and a résumé can each be generated directly from the saved job description and permitted background.",
+    // Self-hosting is stated with its boundary: the model still receives input.
+    "Each person runs their own instance: on one machine, with Docker, or on a server reached over a private Tailscale network",
+    "Model calls still send the selected input to the provider you choose.",
+    "TypeScript, React / Vite, Node.js, Docker. Designed and built end to end.",
+    "Read the Marshal case study",
+    // The illustration follows one job through the merged workflow. All six
+    // steps are in the static HTML, not only the one on show.
+    "One job, from a link to a document",
+    "Bring in the job",
+    "Filter the background",
+    "the server removes unconfirmed, expired and out-of-scope claims",
+    "Generate either document",
+    "Check the reply",
+    "These checks catch bounded errors, not semantic truth.",
+    "Edit, on any device",
+    "Review and export",
+    "No AI acceptance step is required.",
+    "An illustration of the change, not the product interface.",
+    "Prospective-client demos",
+    "Demonstration applications for a specialty coffee retailer and a drone training provider, built from informal briefs with Next.js 15 App Router, Clerk OAuth and Convex.",
+    "Sep 2025 to present",
+  ] },
+  { principle: "I measure before I optimise.", markers: [
+    "ByteCroniX",
+    "Full-Stack Developer at an early-stage AI SaaS, Mar to Jun 2025.",
+    "From 26.7 seconds to 5.6.",
+    // The role is wider than one endpoint, and the story has to say so first.
+    "I worked across the BFF routes and REST integrations behind the web, Android and iOS clients",
+    "implemented OpenAI function-calling flows in Node.js/Express",
+    "worked across API testing and delivery workflows using Postman, Jest/Supertest, NGINX and multi-service CI/CD",
+    "I added timing instrumentation to a points-summary request and identified the current and proposed scoring services as the dominant latency contributors",
+    "The observed local integration-test response went from 26.7s to 5.6s.",
+    "Node.js, Express, BFF and REST integrations, OpenAI Function Calling, Postman, Jest/Supertest, NGINX, Docker.",
+    // The illustration is the method: four steps of measuring around one change.
+    "Measure first, then change one layer",
+    "The system",
+    "An inherited path",
+    "Add timing logs",
+    "Find where the time goes",
+    "Parallelise the independent calls",
+    "Measure again",
+    "An observed result, not a production benchmark.",
+    "Totals are the observed local integration-test responses. Nothing else is measured here.",
+    "Melbourne University Ultimate Club Platform",
+    "Traced silent session-role failures to fragmented authentication usage, and centralised session reads behind one database-verified guard.",
+    "Case study, not currently maintained",
+  ] },
+  { principle: "I turn assumptions into enforceable boundaries.", markers: [
+    "MoneyGuard",
+    "Wage planning for hourly workers: an OCR and audit pipeline, then a local-first web workspace. Personal project, 2026. Web source private, pipeline public.",
+    "Keep the financial answer in code.",
+    // The story has to name the whole product, not only its arithmetic.
+    "reads a photographed timecard with a vision model, validates what comes back",
+    "streams an AI-written audit into a report the code lays out",
+    "Model output is treated as untrusted input.",
+    "the optional AI path can explain selected figures; it does not calculate the financial result.",
+    "TypeScript, Next.js / React, IndexedDB, Zod, Gemini and DeepSeek providers, Vitest / Playwright. Designed and built.",
+    "Read the MoneyGuard case study",
+    "Pipeline source",
+    // The illustration follows one timecard across the model boundary and back.
+    // All seven steps are in the static HTML, not only the one on show.
+    "One timecard, from a phone to a report",
+    "Photo arrives",
+    "through a Telegram bot or the CLI",
+    "Vision OCR",
+    "Schema check",
+    "Calculation",
+    "Minimised payload",
+    "Ledger line items are not part of it.",
+    "Audit model",
+    "It explains the figures; it never produces one.",
+    "Report returns",
+    "Sample figures are the pipeline's own mock run on a sample ledger. An illustration, not the product interface.",
+    "Job Search Dispatch",
+    "Restricted drafting to confirmed, permitted evidence, with validation, bounded repair and failure diagnostics before a generated letter replaces saved work.",
+    "DSH Conversation Exporter",
+    "Exports full conversations as clean Markdown, and excludes reasoning, tool activity and runtime metadata from the export.",
+    "Client Data Delivery Validator",
+    "Python/pandas validation workflow for synthetic client-delivery CSV data, with structured validation results and 12 pytest regression cases.",
+  ] },
+];
+
+const chapterText = (index) => {
+  const start = workText.indexOf(chapters[index].principle);
+  const end = index + 1 < chapters.length
+    ? workText.indexOf(chapters[index + 1].principle)
+    : workText.indexOf("Product UI");
+  assert.ok(start !== -1 && end > start, `Could not isolate the chapter: ${chapters[index].principle}`);
+  return workText.slice(start, end);
+};
+
+chapters.forEach((chapter, chapterIndex) => {
+  const text = chapterText(chapterIndex);
+  let previousMarkerIndex = -1;
+  for (const marker of chapter.markers) {
+    const index = text.indexOf(marker, previousMarkerIndex + 1);
+    assert.ok(index !== -1, `"${chapter.principle}" is missing or misorders: ${marker}`);
+    previousMarkerIndex = index;
+  }
+});
+
+assert.equal(
+  (workHtml.match(/<section class="chapter"/g) ?? []).length,
+  3,
+  "The work must render exactly three chapters",
+);
+assert.equal(
+  (workHtml.match(/<article\b/g) ?? []).length,
+  3,
+  "Each chapter must lead with exactly one story",
+);
+assert.equal(
+  (workHtml.match(/<span class="t">/g) ?? []).length,
+  5,
+  "The chapters must list exactly five further-evidence rows",
+);
+
+// Melbourne University Ultimate is not currently maintained: it stays a compact
+// evidence row and must not be promoted to a lead story.
 assert.ok(
-  !supportingHtml.includes("liuyuelintop/ai-harness"),
+  !workHtml.includes("Read the Melbourne University Ultimate Club Platform case study"),
+  "Melbourne University Ultimate must not render as a lead story",
+);
+
+// AI Harness is deliberately left off the homepage, and its repository is private.
+assert.ok(!text.includes("AI Harness"), "AI Harness must not render on the homepage");
+assert.ok(
+  !html.includes("liuyuelintop/ai-harness"),
   "AI Harness must not expose a source link while its repository is private",
 );
 
 for (const removedHomepageWork of [
+  "Selected Work",
+  "More Engineering Work",
+  "How I Build",
   "Learning & Contributions",
   "ALEX — AWS Multi-Agent Architecture Study",
   "Additional Work",
@@ -326,55 +368,66 @@ for (const phrase of bannedAlexLanguage) {
   );
 }
 
-// --- Experience is two roles, stated at evidence strength --------------------
+// --- Roles and the one measurement, stated at evidence strength ---------------
 
-// The Experience section previously carried a third role and a set of metrics
-// the career-fact reconstruction does not support. These assertions are the
-// regression net: the stale wording cannot come back, and neither can a third
-// entry.
-const experienceSectionStart = html.indexOf('id="experience"');
-const experienceSectionEnd = html.indexOf('id="how-i-build"');
-assert.ok(
-  experienceSectionStart !== -1 && experienceSectionEnd > experienceSectionStart,
-  "Could not isolate the Experience section",
-);
-const experienceHtml = html.slice(experienceSectionStart, experienceSectionEnd);
-const experienceText = toText(experienceHtml);
-
+// The page previously carried a third role and a set of metrics the career-fact
+// reconstruction does not support. These assertions are the regression net: the
+// two roles are named once each in the at-a-glance strip, and the stale wording
+// cannot come back.
+const glanceStart = heroHtml.indexOf('aria-label="At a glance"');
+assert.ok(glanceStart !== -1, "Could not isolate the at-a-glance strip");
+const glanceHtml = heroHtml.slice(glanceStart);
 assert.equal(
-  (experienceHtml.match(/<article\b/g) ?? []).length,
-  2,
-  "Experience must render exactly two roles",
+  (glanceHtml.match(/<dt\b/g) ?? []).length,
+  4,
+  "The at-a-glance strip must render exactly four entries",
 );
 
 // The one performance observation the evidence supports, at its exact strength:
-// a single local integration-test response, stated once and nowhere repeated.
+// a single local integration-test response. It is stated once in prose, bounded
+// by the caption beside its illustration, and appears nowhere outside its chapter.
 const observedLatencySentence =
-  "Profiled an inherited points-summary pipeline and parallelised independent service calls, reducing an observed local integration-test response from 26.7s to 5.6s.";
+  "The observed local integration-test response went from 26.7s to 5.6s.";
 assert.equal(
   text.split(observedLatencySentence).length - 1,
   1,
-  "The 26.7s to 5.6s observation must appear exactly once on the homepage",
+  "The 26.7s to 5.6s observation must be stated exactly once on the homepage",
 );
-
-for (const currentRoleEvidence of [
-  "Build demonstration applications for prospective clients, including a specialty coffee retailer and a drone training provider, translating informal briefs into working prototypes for business pitches.",
-  "Implement authenticated, database-backed prototypes with Next.js 15 App Router, Clerk OAuth and Convex as requirements become clearer.",
-]) {
-  assert.ok(
-    experienceText.includes(currentRoleEvidence),
-    `Independent Developer is missing current-role evidence: ${currentRoleEvidence}`,
-  );
-}
+const measuredChapter = chapterText(1);
+const outsideMeasuredChapter = text.replace(measuredChapter, " ");
+assert.ok(outsideMeasuredChapter.length < text.length, "Could not isolate the measured chapter");
+assert.ok(
+  !outsideMeasuredChapter.includes("26.7"),
+  "The latency observation must stay inside the chapter that bounds it",
+);
 
 // Employment type and payment status are unevidenced, so no role may render a
 // type badge. The Contact form's "Freelance build" option is deliberately
-// outside this slice.
+// outside this scope.
+const rolesText = `${heroText} ${workText}`;
 for (const badge of ["Freelance", "Full-time", "Commercial Project", "Contract", "Paid"]) {
   assert.ok(
-    !experienceText.includes(badge),
-    `Experience renders an unevidenced employment-type badge: ${badge}`,
+    !rolesText.includes(badge),
+    `Homepage renders an unevidenced employment-type badge: ${badge}`,
   );
+}
+
+// The owner's evidence register marks these ByteCroniX claims as needing
+// evidence or not to be used: service ownership, coverage, deployment mechanics,
+// leadership, and the superseded 29-second / 81% framing. They come from an
+// August 2025 résumé and must not return without primary evidence.
+for (const pattern of [
+  /\bowned \d+ (?:core )?microservices\b/i,
+  /\b\d+-service\b/i,
+  /\bGKE\b/,
+  /\bblue[–-]green\b/i,
+  /\bzero-downtime\b/i,
+  /\b\d+% test coverage\b/i,
+  /\bled end-to-end\b/i,
+  /\bhalving setup time\b/i,
+  /\b29\s?s\b/,
+]) {
+  assert.ok(!pattern.test(text), `Homepage renders an unevidenced ByteCroniX claim: ${pattern}`);
 }
 
 const staleExperienceWording = [
@@ -399,69 +452,56 @@ const staleExperienceWording = [
 ];
 
 for (const phrase of staleExperienceWording) {
-  assert.ok(!text.includes(phrase), `Homepage still renders stale Experience wording: ${phrase}`);
+  assert.ok(!text.includes(phrase), `Homepage still renders stale role wording: ${phrase}`);
 }
 
-// --- How I Build describes habits the accepted evidence demonstrates ----------
+// --- Principles and toolbox describe habits the evidence demonstrates ---------
 
-// The previous principles predated the evidence reconciliation and cited work
-// that Experience has since removed. These assertions are scoped to the section
-// so that technologies which are accurately attributed elsewhere on the page —
-// Bedrock and AWS Lambda in the ALEX study block, for instance — stay legal
-// where their context is explained.
-const howIBuildStart = html.indexOf('id="how-i-build"');
-const howIBuildEnd = html.indexOf('id="contact"');
-assert.ok(
-  howIBuildStart !== -1 && howIBuildEnd > howIBuildStart,
-  "Could not isolate the How I Build section",
+const toolboxStart = workHtml.indexOf('aria-label="Tools"');
+assert.ok(toolboxStart !== -1, "Could not isolate the toolbox");
+const toolboxHtml = workHtml.slice(toolboxStart);
+const toolboxText = toText(toolboxHtml);
+
+assert.equal(
+  (toolboxHtml.match(/<dt\b/g) ?? []).length,
+  4,
+  "The toolbox must render exactly four groups",
 );
-const howIBuildHtml = html.slice(howIBuildStart, howIBuildEnd);
-const howIBuildText = toText(howIBuildHtml);
-
-const requiredHowIBuildContent = [
-  // Intro.
-  "I make the workflow concrete, measure what is actually happening, and turn fragile assumptions into explicit checks.",
-  // The three principles.
-  "I start with the workflow, not the feature.",
-  "I measure before I optimise.",
-  "I turn assumptions into enforceable boundaries.",
-  // Evidence, one pair per principle, each traceable to accepted material.
-  "Built prospective-client prototypes for a specialty coffee retailer and a drone training provider from informal business briefs.",
-  "Simplified Marshal by removing mandatory AI assessment and approval steps, while retaining evidence permissions and checks at export.",
-  "Instrumented ByteCroniX's inherited points-summary path, identified scoring services as the dominant latency contributors, then parallelised independent calls.",
-  "Revisited Melbourne Ultimate, traced silent session-role failures to fragmented authentication usage, and centralised session reads behind one database-verified guard.",
-  "Restricted Job Search Dispatch drafting to confirmed, permitted evidence and added validation, bounded repair and failure diagnostics before a generated letter replaces saved work.",
-  "Turned Melbourne Ultimate authorization and mass-assignment findings into automated regression tests and CI checks.",
-  // The four restrained toolbox groups.
+for (const content of [
   "Product UI",
-  "APIs & Data",
-  "Auth & Delivery",
-  "AI & Validation",
-  // Named rather than generic, and traceable: Clerk to the prototype stack in
-  // Experience, NextAuth to the Melbourne session guard this section cites.
+  "APIs and data",
+  "Auth and delivery",
+  "AI and validation",
+  // Named rather than generic, and traceable: Clerk to the prototype stack,
+  // NextAuth to the Melbourne session guard the page cites.
   "Clerk OAuth",
   "NextAuth",
-];
+]) {
+  assert.ok(toolboxText.includes(content), `The toolbox is missing required content: ${content}`);
+}
 
-for (const content of requiredHowIBuildContent) {
+// Nothing in the accepted evidence demonstrates these as tools Yuelin builds
+// with. Project rows may still name what a project itself used (Playwright in
+// MoneyGuard, pytest in the validator), so this list is scoped to the toolbox.
+for (const phrase of [
+  "Jest",
+  "GCP/GKE",
+  "GCP GKE",
+  "Kubernetes",
+  "AWS Lambda",
+  "Bedrock",
+  "JWT/OAuth",
+  "pytest",
+  "Playwright",
+  "Structured Outputs",
+]) {
   assert.ok(
-    howIBuildText.includes(content),
-    `How I Build is missing required content: ${content}`,
+    !toolboxText.toLowerCase().includes(phrase.toLowerCase()),
+    `The toolbox still renders an undemonstrated tool: ${phrase}`,
   );
 }
 
-assert.equal(
-  (howIBuildHtml.match(/<article\b/g) ?? []).length,
-  3,
-  "How I Build must render exactly three principles",
-);
-assert.equal(
-  (howIBuildHtml.match(/<dt\b/g) ?? []).length,
-  4,
-  "How I Build must render exactly four toolbox groups",
-);
-
-const staleHowIBuildWording = [
+const staleWorkWording = [
   // Principle titles the reconciliation replaced.
   "I translate messy workflows into shipped product.",
   "I reduce risk between feature branch and production.",
@@ -471,26 +511,9 @@ const staleHowIBuildWording = [
   "Expresso Carwash",
   "Melbourne clients and local sports clubs",
   "Maintained 4 Node.js microservices",
-  "GCP/GKE",
-  "GCP GKE",
   "Added Jest and Playwright coverage",
-  "Jest",
   "masking, retry/backoff and timestamp throttling",
-  // Ownership-oriented cloud wording and course-derived technologies belong to
-  // Learning & Contributions, not to a claim about how Yuelin builds.
-  "Kubernetes",
-  "AWS Lambda",
-  "Bedrock",
-  "JWT/OAuth",
-  // Nothing in the accepted evidence demonstrates these. `pytest` and `Python`
-  // would only trace to the course-based ALEX material; `Playwright` survived
-  // solely in the unrendered legacy `technologies.js`.
-  "pytest",
-  "Playwright",
-  "Structured Outputs",
-  // The one latency observation stays bounded to Experience.
-  "26.7s",
-  "5.6s",
+  // The one latency observation carries no derived statistics.
   "81%",
   "P95",
   "P99",
@@ -507,12 +530,42 @@ const staleHowIBuildWording = [
   "all vulnerabilities",
 ];
 
-const lowerHowIBuildText = howIBuildText.toLowerCase();
-for (const phrase of staleHowIBuildWording) {
+const lowerWorkText = workText.toLowerCase();
+for (const phrase of staleWorkWording) {
   assert.ok(
-    !lowerHowIBuildText.includes(phrase.toLowerCase()),
-    `How I Build still renders rejected wording: ${phrase}`,
+    !lowerWorkText.includes(phrase.toLowerCase()),
+    `The work section still renders rejected wording: ${phrase}`,
   );
+}
+
+// --- Further out stays one strip, not a hobbies list ---------------------------
+
+// Five places, each one photograph and one line, in a single sideways strip.
+assert.equal(
+  (furtherOutHtml.match(/<figcaption\b/g) ?? []).length,
+  5,
+  "Further out must render exactly five one-line places",
+);
+assert.equal(
+  (furtherOutHtml.match(/<img\b/g) ?? []).length,
+  5,
+  "Further out must render exactly one photograph per place",
+);
+assert.match(
+  furtherOutHtml,
+  /<div class="strip" tabindex="0" role="region" aria-label="[^"]+"/,
+  "The photo strip must be a labelled, keyboard-reachable region",
+);
+for (const place of ["On the sill", "At the table", "In town", "On the field", "Away"]) {
+  assert.ok(furtherOutText.includes(place), `Further out is missing the place: ${place}`);
+}
+assert.ok(
+  furtherOutText.includes("A bottle is how an evening gets kept."),
+  "Further out is missing the Wine Log line",
+);
+// Alcohol stays understated: one line about memory, no counts or preferences.
+for (const pattern of [/\b\d+ bottles\b/i, /\bshiraz\b/i, /\bpinot\b/i, /\bbeer\b/i]) {
+  assert.ok(!pattern.test(text), `Homepage overstates drinking: ${pattern}`);
 }
 
 // --- Job Search Dispatch: private source, public evidence-bounded story -------
@@ -522,7 +575,6 @@ const dispatchHtml = await readFile(
 );
 const dispatchText = toText(dispatchHtml);
 assert.ok(html.includes('href="/work/job-search-dispatch/"'), "Homepage must link to Dispatch");
-assert.ok(html.includes("Jobs workspace · Synthetic demo data"), "Dispatch screenshot must disclose synthetic data");
 assert.equal((dispatchHtml.match(/<h1\b/g) ?? []).length, 1);
 assert.match(dispatchHtml, /<title>Job Search Dispatch case study \| Yuelin Liu<\/title>/);
 for (const metadata of [
@@ -546,7 +598,7 @@ for (const marker of [
   "Evolving the workspace without losing saved work",
   "shared Zod boundary contracts",
   "1440, 390 and 320 pixels",
-  "synthetic fixture data",
+  "with synthetic data and no live model calls",
   "Current scope and limitations",
   "Later human edits are not semantically re-verified",
   "private source repository",
@@ -576,8 +628,8 @@ const marshalHtml = await readFile(
 const marshalText = toText(marshalHtml);
 assert.ok(html.includes('href="/work/marshal/"'), "Homepage must link to Marshal");
 assert.ok(
-  html.includes("Merged workflow diagram · Not a product screenshot"),
-  "Marshal visual must be disclosed as a diagram",
+  html.includes("An illustration of the change, not the product interface."),
+  "Marshal visual must be disclosed as an illustration",
 );
 assert.equal((marshalHtml.match(/<h1\b/g) ?? []).length, 1);
 assert.match(marshalHtml, /<title>Marshal case study \| Yuelin Liu<\/title>/);
@@ -614,8 +666,7 @@ for (const markup of [html, marshalHtml]) {
   assert.ok(!markup.includes('href="https://github.com/liuyuelintop/marshal'),
     "Marshal must not link visitors to a private repository");
 }
-const marshalCardStart = text.indexOf("Marshal");
-const marshalCardText = text.slice(marshalCardStart, text.indexOf("MoneyGuard", marshalCardStart));
+const marshalCardText = chapterText(0);
 for (const claimText of [marshalText, marshalCardText]) {
   for (const pattern of [
     /\b(?:open[- ]source|fully offline|zero data leakage|guaranteed accuracy|hallucination[- ]free)\b/i,
@@ -635,11 +686,12 @@ for (const markup of [html, await readFile(caseStudyPath, "utf8")]) {
   assert.ok(!markup.includes('href="https://github.com/liuyuelintop/moneyguard-web'),
     "MoneyGuard must not expose a private web-source CTA");
 }
-for (const diagram of ["marshal-workflow", "moneyguard-planning"]) {
-  const svg = await readFile(path.join(outputDirectory, "images", `${diagram}.svg`), "utf8");
-  assert.ok(svg.includes("Not a product screenshot") && svg.includes("<desc"), "Diagram needs disclosure and description");
-}
-assert.ok(!html.includes('alt="Marshal product screenshot"'), "Marshal diagram must not be called a screenshot in alt text");
+// Homepage figures are illustrations; each must say so beside the figure.
+assert.equal(
+  (workHtml.match(/<figcaption\b/g) ?? []).length,
+  3,
+  "Every lead-story figure must carry its disclosure caption",
+);
 
 // --- DSH Conversation Exporter case study -----------------------------------
 
@@ -1191,13 +1243,13 @@ for (const limitation of [
 // "Open Source" — the "Source" call-to-action label is required copy and must
 // survive this check. Other projects may legitimately use these words, so the
 // homepage side is narrowed to the Melbourne card.
-const melbourneCardStart = supportingText.indexOf("Melbourne University Ultimate Club Platform");
-const melbourneCardEnd = supportingText.indexOf("Client Data Delivery Validator");
+const melbourneCardStart = workText.indexOf("Melbourne University Ultimate Club Platform");
+const melbourneCardEnd = workText.indexOf("I turn assumptions into enforceable boundaries.");
 assert.ok(
   melbourneCardStart !== -1 && melbourneCardEnd > melbourneCardStart,
-  "Could not isolate the Melbourne supporting-work listing on the homepage",
+  "Could not isolate the Melbourne evidence row on the homepage",
 );
-const melbourneCardText = supportingText.slice(melbourneCardStart, melbourneCardEnd);
+const melbourneCardText = workText.slice(melbourneCardStart, melbourneCardEnd);
 
 const contradictedMelbourneWording = [
   /\bopen[-\s]source\b/i,
@@ -1232,6 +1284,13 @@ const emittedFiles = [
   "resume/yuelin-liu-resume.pdf",
   "assets/og-image.png",
   "vite.svg",
+  "images/photos/flagstaff-jacaranda.webp",
+  "images/photos/cat-lamp.webp",
+  "images/photos/forehand.webp",
+  "images/photos/cat-window.webp",
+  "images/photos/wine-log-bottle.webp",
+  "images/photos/park-tram.webp",
+  "images/photos/huddle.webp",
 ];
 
 for (const file of emittedFiles) {
@@ -1281,19 +1340,12 @@ assert.deepEqual(
 assert.ok(sitemap.includes("<loc>https://www.liuyuelin.dev/work/job-search-dispatch/</loc>"),
   "Sitemap is missing Dispatch");
 
-const emittedMedia = await readdir(path.join(outputDirectory, "_next/static/media"));
-assert.ok(emittedMedia.some((file) => file.startsWith("job-search-dispatch.") && file.endsWith(".png")),
-  "Bundled Dispatch screenshot is missing");
-for (const imageName of ["dsh-conversation-exporter"]) {
-  assert.ok(
-    emittedMedia.some((file) => file.startsWith(`${imageName}.`) && file.endsWith(".webp")),
-    `Bundled project image is missing: ${imageName}`,
-  );
-}
-
+// The homepage no longer bundles project screenshots, so the media directory
+// may not be emitted at all.
+const emittedMedia = await readdir(path.join(outputDirectory, "_next/static/media")).catch(() => []);
 assert.ok(
   emittedMedia.every((file) => !file.startsWith("melbUniUltimate.")),
-  "The Melbourne Ultimate screenshot must no longer be bundled as Featured Work media",
+  "The Melbourne Ultimate screenshot must not be bundled into the static export",
 );
 assert.ok(
   emittedMedia.every((file) => !file.startsWith("alex-aws-multi-agent-wealth-platform.")),

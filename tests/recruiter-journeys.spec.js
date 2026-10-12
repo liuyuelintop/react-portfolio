@@ -4,7 +4,7 @@ const BASE_URL = "http://127.0.0.1:4173";
 const CONTACT_EMAIL = "liuyuelintop@gmail.com";
 
 const CORE_ROUTES = [
-  { path: "/", marker: "Selected Work", minimumTextLength: 5_000 },
+  { path: "/", marker: "Midday. The work.", minimumTextLength: 5_000 },
   { path: "/work/marshal/", marker: "Built to be shared", minimumTextLength: 5_000 },
   { path: "/work/job-search-dispatch/", marker: "Current scope and limitations", minimumTextLength: 5_000 },
   { path: "/work/dsh-conversation-exporter/", marker: "Current limitations", minimumTextLength: 3_000 },
@@ -91,27 +91,24 @@ test.describe("static export contract", () => {
   }
 });
 
-test("desktop and mobile navigation preserve the recruiter path", async ({ page }, testInfo) => {
-  const mobile = testInfo.project.name.startsWith("mobile");
+test("desktop and mobile navigation preserve the recruiter path", async ({ page }) => {
   const errors = observeOwnedBrowserErrors(page);
   await page.goto("/");
   await waitForHydration(page);
 
+  // Three links fit on one line at every supported width, so there is no menu to open.
   for (const [label, hash] of [
     ["Work", "#projects"],
-    ["Experience", "#experience"],
-    ["How I Build", "#how-i-build"],
+    ["Further out", "#further-out"],
     ["Contact", "#contact"],
   ]) {
-    if (mobile) {
-      await page.getByRole("button", { name: "Toggle navigation menu" }).click();
-    }
-
-    await page.getByRole("navigation").getByRole("link", { name: label, exact: true }).click();
+    const link = page.getByRole("navigation").getByRole("link", { name: label, exact: true });
+    await expect(link).toBeVisible();
+    await link.click();
     await expect(page).toHaveURL(new RegExp(`${hash}$`));
   }
 
-  const writing = page.getByRole("navigation").getByRole("link", { name: "Writing", exact: true });
+  const writing = page.locator("#contact").getByRole("link", { name: "Writing", exact: true });
   await expect(writing).toHaveAttribute("href", "https://blog.liuyuelin.dev/");
   await expect(writing).toHaveAttribute("target", "_blank");
   expect(errors).toEqual([]);
@@ -122,19 +119,21 @@ test("case-study entry, return, resume, and source actions stay usable", async (
   await page.goto("/");
   await waitForHydration(page);
 
-  for (const [title, slug] of [
-    ["Marshal", "marshal"],
-    ["MoneyGuard", "moneyguard"],
+  // Lead stories name the case study in the link; evidence rows link from the title.
+  for (const [name, slug] of [
+    ["Read the Marshal case study", "marshal"],
+    ["Read the MoneyGuard case study", "moneyguard"],
+    ["Melbourne University Ultimate Club Platform", "melbourne-ultimate"],
     ["Job Search Dispatch", "job-search-dispatch"],
     ["DSH Conversation Exporter", "dsh-conversation-exporter"],
   ]) {
-    await page.getByRole("link", { name: `Read the ${title} case study` }).click();
+    await page.locator("#projects").getByRole("link", { name, exact: true }).click();
     await expect(page).toHaveURL(new RegExp(`/work/${slug}/$`));
-    await page.getByRole("link", { name: "Back to Selected Work" }).first().click();
+    await page.getByRole("link", { name: "Back to all work" }).first().click();
     await expect(page).toHaveURL(/\/#projects$/);
   }
 
-  const resume = page.getByRole("link", { name: /download.*resume/i });
+  const resume = page.getByRole("link", { name: "Download résumé" });
   await expect(resume).toHaveAttribute("href", "/resume/yuelin-liu-resume.pdf");
   const resumeResponse = await request.get("/resume/yuelin-liu-resume.pdf");
   expect(resumeResponse.status()).toBe(200);
@@ -280,7 +279,7 @@ test("reduced motion keeps content and actions available", async ({ browser }, t
 
   await expect(page.locator("#hero h1")).toBeVisible();
   await expect(page.locator("#projects h2")).toBeVisible();
-  await expect(page.getByRole("link", { name: /download.*resume/i })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Download résumé" })).toBeVisible();
   const runningAnimations = await page.evaluate(() => document.getAnimations()
     .filter((animation) => animation.playState === "running").length);
   expect(runningAnimations).toBe(0);
