@@ -1,3 +1,5 @@
+"use client";
+
 import { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import { useFirstSight } from "../../../../hooks";

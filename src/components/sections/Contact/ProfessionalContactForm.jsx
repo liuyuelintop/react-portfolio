@@ -142,7 +142,7 @@ export default function ProfessionalContactForm() {
         />
       </fieldset>
 
-      <div className="pair">
+      <div className="fields">
         <FormField fieldId="contact-name" label="Your name" error={errors.name}>
           <input
             id="contact-name"

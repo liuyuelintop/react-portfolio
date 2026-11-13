@@ -3,8 +3,8 @@ const tailwindConfig = {
   content: ["./app/**/*.{js,jsx}", "./src/**/*.{js,jsx}"],
   theme: {
     extend: {
-      // The palette lives in src/index.css as CSS variables so that the lamp
-      // cord can switch it; these names only point at it.
+      // The palette lives in src/index.css as CSS variables so that the light
+      // switch can change it; these names only point at it.
       colors: {
         paper: "var(--paper)",
         lift: "var(--lift)",
@@ -16,7 +16,7 @@ const tailwindConfig = {
       },
       fontFamily: {
         sans: ['"Schibsted Grotesk"', '"Helvetica Neue"', "Arial", "sans-serif"],
-        serif: ["Newsreader", '"Iowan Old Style"', "Georgia", "serif"],
+        display: ["Archivo", '"Helvetica Neue"', "Arial", "sans-serif"],
       },
     },
   },

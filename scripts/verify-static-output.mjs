@@ -14,6 +14,7 @@ const dshStudyPath = path.join(
   "index.html",
 );
 const alexStudyPath = path.join(outputDirectory, "work", "alex", "index.html");
+const flicksideStudyPath = path.join(outputDirectory, "work", "flickside", "index.html");
 const melbourneStudyPath = path.join(
   outputDirectory,
   "work",
@@ -36,28 +37,31 @@ const html = await readFile(homepagePath, "utf8");
 const text = toText(html);
 
 const requiredContent = [
-  // Morning: hero and the at-a-glance strip
+  // The first screen is about the person: who, what kind of work, how far it ranges
   "Yuelin Liu",
-  "Morning. Software engineer in Melbourne.",
-  "I build full-stack tools with clear workflows and dependable data boundaries.",
-  "My work spans self-hosted applications, deterministic finance tools and AI integrations. I design the workflow, build the UI and backend, and test what happens when requests or assumptions fail.",
+  "Software engineer in Melbourne",
+  "I design the interfaces and build the systems behind them.",
+  "My recent work includes an iPhone app for ultimate frisbee players",
+  "Before those, I was a full-stack developer at ByteCroniX, an early-stage AI SaaS.",
+  "Browse the work",
   "Download résumé",
+  // Roles, in the plain-facts strip that closes Work
   "Independent Developer",
   "Prospective-client demos for a Melbourne consultancy, Sep 2025 to present.",
   "Full-Stack Developer",
   "ByteCroniX, an early-stage AI SaaS, Mar to Jun 2025.",
   "Early-career roles",
-  // Midday: the work. Its chapter contract is asserted section-scoped further down.
-  "Midday. The work.",
+  // The work. Its overview contract is asserted section-scoped further down.
+  "Flickside",
+  "ByteCroniX",
   "Marshal",
   "MoneyGuard",
   "Job Search Dispatch",
   "DSH Conversation Exporter",
   "Melbourne University Ultimate Club Platform",
   "Client Data Delivery Validator",
-  // Golden hour
+  "More evidence",
   "Further out",
-  // Late
   "Contact",
   "liuyuelintop@gmail.com",
 ];
@@ -123,6 +127,131 @@ const heroText = toText(heroHtml);
 const workText = toText(workHtml);
 const furtherOutText = toText(furtherOutHtml);
 
+// --- The opening belongs to the person ------------------------------------------
+
+// The first screen says who Yuelin is and what kind of work he does. Its two
+// actions are the work and the résumé; no single project owns it.
+assert.match(heroHtml, /<h1[^>]*>I design the interfaces and build the systems behind them\.<\/h1>/);
+assert.match(heroHtml, /<a class="btn" href="#projects">Browse the work<\/a>/);
+assert.match(heroHtml, /<a class="btn ghost" href="\/resume\/yuelin-liu-resume\.pdf"[^>]*>Download résumé<\/a>/);
+assert.ok(!heroText.includes("For two hours."), "The Flickside headline belongs to its case study, not the hero");
+assert.ok(!heroHtml.includes("/images/flickside/"), "The hero must not lead with a product screen");
+// The field photograph stays on the first screen: it is where Flickside came from.
+assert.ok(heroHtml.includes("/images/photos/forehand.webp"), "The hero must show the field photograph");
+assert.ok(
+  heroText.includes("About ten years of ultimate frisbee, and the friends that came with it."),
+  "The hero is missing the field line",
+);
+
+// --- Work is an overview first -------------------------------------------------
+
+// Work opens on four pieces of work, each a different kind, so a reader can
+// compare them before opening one. The overview is the first thing inside
+// #projects, which is where the hero button, the Work link and every case
+// study's "Back to all work" land. Nothing may sit between the anchor and it.
+const boardStart = workHtml.indexOf('<ul class="board"');
+const boardEnd = workHtml.indexOf('<section class="chapter"');
+assert.ok(boardStart !== -1 && boardEnd > boardStart, "Could not isolate the work overview");
+assert.match(
+  workHtml.slice(0, boardStart),
+  /^id="projects"[^>]*>\s*<div class="wrap">\s*<header class="work-head"><h2[^>]*>Work<\/h2>/,
+  "The Work heading must be the first thing inside #projects",
+);
+assert.ok(!html.includes('id="flickside"'), "Flickside must not be a homepage section above or inside Work");
+const boardHtml = workHtml.slice(boardStart, boardEnd);
+// A card runs from its own opening tag to the next card's.
+const cards = boardHtml.split(/(?=<li class="card(?: lead)?" id="work-)/).slice(1).map((markup) => ({
+  id: markup.match(/id="work-([a-z]+)"/)[1],
+  html: markup,
+  text: toText(markup),
+  lead: markup.startsWith('<li class="card lead"'),
+}));
+assert.deepEqual(
+  cards.map((card) => card.id),
+  ["flickside", "bytecronix", "marshal", "moneyguard"],
+  "The overview must list the four pieces of work in order",
+);
+assert.deepEqual(cards.map((card) => card.lead), [true, false, false, false], "Only Flickside takes the lead place");
+const card = Object.fromEntries(cards.map((entry) => [entry.id, entry]));
+
+// Each card states its kind, its name and one decision, and offers one way in.
+for (const [id, markers] of Object.entries({
+  flickside: [
+    "Mobile product",
+    "Flickside",
+    "Who’s out throwing?",
+    // The owner's account of the product and of the decision, unchanged.
+    "I built Flickside so ultimate frisbee players can tell friends they’re at the field with one tap.",
+    "Sharing a precise spot is optional. The backend lets accepted friends see it until the throw ends or two hours pass.",
+    "Private iPhone beta on TestFlight",
+    "Read the Flickside story",
+    "App demo with fictional people.",
+  ],
+  bytecronix: [
+    "Work experience",
+    "Full-Stack Developer, AI SaaS · Mar to Jun 2025",
+    "ByteCroniX",
+    "From 26.7 seconds to 5.6.",
+    "Read about the role",
+    // The two totals are one observation, and the card says so beside them.
+    "One local integration-test observation, drawn to one scale.",
+  ],
+  marshal: [
+    "Workflow design",
+    "Self-hosted workspace · Pre-alpha",
+    "Marshal",
+    "The useful change was removing steps.",
+    "Read the Marshal case study",
+    "An illustration of the change.",
+  ],
+  moneyguard: [
+    "Calculation boundary",
+    "Wage planner · Personal project",
+    "MoneyGuard",
+    "Keep the financial answer in code.",
+    "Read the MoneyGuard case study",
+    "Pipeline source",
+    "Sample figures from the pipeline’s own mock run.",
+  ],
+})) {
+  let previousIndex = -1;
+  for (const marker of markers) {
+    const index = card[id].text.indexOf(marker, previousIndex + 1);
+    assert.ok(index !== -1, `The ${id} card is missing or misorders: ${marker}`);
+    previousIndex = index;
+  }
+}
+for (const [id, href] of Object.entries({
+  flickside: "/work/flickside/",
+  bytecronix: "#bytecronix",
+  marshal: "/work/marshal/",
+  moneyguard: "/work/moneyguard/",
+})) {
+  assert.ok(card[id].html.includes(`<a class="go" href="${href}"`), `The ${id} card must lead to ${href}`);
+}
+// Flickside is the only card that shows the product itself, in the app's own screens.
+for (const image of ["now-idle", "place-shared", "stamps"]) {
+  assert.ok(card.flickside.html.includes(`/images/flickside/${image}.webp`), `The Flickside card is missing: ${image}`);
+}
+assert.equal(
+  (boardHtml.match(/\/images\/flickside\//g) ?? []).length,
+  3,
+  "Only the Flickside card carries product screens, and only three",
+);
+// The homepage card does not repeat the study: the flow, the limit's proof and
+// the website live on /work/flickside/.
+for (const moved of ["Tap the disc", "The limit lives on the server", "Row-level security", "Try the location demo"]) {
+  assert.ok(!text.includes(moved), `Flickside depth belongs to its case study, not the homepage: ${moved}`);
+}
+// Flickside is a private beta: no store listing, user counts or tracking claims.
+const flicksideClaimPatterns = [
+  /\bon the App Store\b/i, /\bdownload (?:it|the app)\b/i, /\blive[- ]track(?:s|ed)\b/i,
+  /\b\d[\d,]*\+? (?:users|players|friends|downloads)\b/, /\b(?:anonymous|end-to-end encrypted)\b/i,
+];
+for (const pattern of flicksideClaimPatterns) {
+  assert.ok(!pattern.test(`${heroText} ${card.flickside.text}`), `Flickside contains an unsupported claim: ${pattern}`);
+}
+
 const metadataChecks = [
   /<link[^>]+rel="canonical"[^>]+href="https:\/\/www\.liuyuelin\.dev\/"/,
   /<meta[^>]+property="og:url"[^>]+content="https:\/\/www\.liuyuelin\.dev\/"/,
@@ -170,143 +299,87 @@ for (const [label, href] of [
   assert.ok(workHtml.includes(`href="${href}"`), `Homepage is missing the ${label} public source link`);
 }
 
-// The work is argued in three chapters, one per principle. Each leads with one
-// story (a decision and its illustration) and lists further evidence under it,
-// so a project or role appears once. Markers are asserted in reading order.
-const chapters = [
-  { principle: "I start with the workflow, not the feature.", markers: [
-    "Marshal",
-    "Self-hosted application workspace for laptop and phone. Personal project, 2026, pre-alpha. MIT-licensed, source private while pre-alpha.",
-    "The useful change was removing steps.",
-    // The problem first, in the owner's words, then the product's own correction.
-    "Applying with a chat assistant meant the same loop for every job",
-    "so most of that repetition is gone. It is still being refined.",
-    "I removed the mandatory chain. A cover letter and a résumé can each be generated directly from the saved job description and permitted background.",
-    // Self-hosting is stated with its boundary: the model still receives input.
-    "Each person runs their own instance: on one machine, with Docker, or on a server reached over a private Tailscale network",
-    "Model calls still send the selected input to the provider you choose.",
-    "TypeScript, React / Vite, Node.js, Docker. Designed and built end to end.",
-    "Read the Marshal case study",
-    // The illustration is the workflow under tracked changes: the chat loop's
-    // steps struck, Marshal's six lines added, the checks among them in code.
-    "One job, with the edits shown",
-    "Copy and paste the job ad",
-    "Bring in the job",
-    "Filter the background",
-    "the server removes unconfirmed, expired and out-of-scope claims",
-    "Generate either document",
-    "Check the reply",
-    "These checks catch bounded errors, not semantic truth.",
-    "Edit and review, on any device",
-    "No AI acceptance step is required.",
-    "Six steps by hand, for every job, struck.",
-    "Accept all changes",
-    "An illustration of the change, not the product interface.",
-    "Prospective-client demos",
-    "Demonstration applications for a specialty coffee retailer and a drone training provider, built from informal briefs with Next.js 15 App Router, Clerk OAuth and Convex.",
-    "Sep 2025 to present",
-  ] },
-  { principle: "I measure before I optimise.", markers: [
-    "ByteCroniX",
-    "Full-Stack Developer at an early-stage AI SaaS, Mar to Jun 2025.",
-    "From 26.7 seconds to 5.6.",
-    // The role is wider than one endpoint, and the story has to say so first.
-    "I worked across the BFF routes and REST integrations behind the web, Android and iOS clients",
-    "implemented OpenAI function-calling flows in Node.js/Express",
-    "worked across API testing and delivery workflows using Postman, Jest/Supertest, NGINX and multi-service CI/CD",
-    "I added timing instrumentation to a points-summary request and identified the current and proposed scoring services as the dominant latency contributors",
-    "The observed local integration-test response went from 26.7s to 5.6s.",
-    "Node.js, Express, BFF and REST integrations, OpenAI Function Calling, Postman, Jest/Supertest, NGINX, Docker.",
-    // The illustration is one request as a trace, walked through the method.
-    // Every step is in the static HTML, not only the one on show.
-    "One request, opened up",
-    "Totals are to scale. The spans inside them are a sketch.",
-    "Current scoring service",
-    "Proposed scoring service",
-    "An inherited path",
-    "Add timing logs",
-    "Find where the time goes",
-    "Parallelise the independent calls",
-    "A change is not a result until it is measured.",
-    "Measure again",
-    "An observed result, not a production benchmark.",
-    "Totals are the observed local integration-test responses; the spans inside them are a sketch. Nothing else is measured here.",
-    "Melbourne University Ultimate Club Platform",
-    "Traced silent session-role failures to fragmented authentication usage, and centralised session reads behind one database-verified guard.",
-    "Case study, not currently maintained",
-  ] },
-  { principle: "I turn assumptions into enforceable boundaries.", markers: [
-    "MoneyGuard",
-    "Wage planning for hourly workers: an OCR and audit pipeline, then a local-first web workspace. Personal project, 2026. Web source private, pipeline public.",
-    "Keep the financial answer in code.",
-    // The story has to name the whole product, not only its arithmetic.
-    "reads a photographed timecard with a vision model, validates what comes back",
-    "streams an AI-written audit into a report the code lays out",
-    "Model output is treated as untrusted input.",
-    "the optional AI path can explain selected figures; it does not calculate the financial result.",
-    "TypeScript, Next.js / React, IndexedDB, Zod, Gemini and DeepSeek providers, Vitest / Playwright. Designed and built.",
-    "Read the MoneyGuard case study",
-    "Pipeline source",
-    // The illustration is the report as a receipt; every line can be traced
-    // back to whoever wrote it. Every trace is in the static HTML.
-    "Who wrote each line of the report?",
-    "Wage Audit (2026-W26)",
-    "Schema check",
-    "The model boundary",
-    "Vision OCR",
-    "through a Telegram bot or the CLI",
-    "Calculation",
-    "Its line items are never sent to a model.",
-    "This line never crosses the model boundary.",
-    "Audit model",
-    "It explains the figures; it never produces one.",
-    "Minimised payload",
-    "Ledger line items are not part of it.",
-    "Rejected: no week has 380 hours.",
-    "Sample figures are the pipeline's own mock run on a sample ledger. An illustration, not the product interface.",
-    "Job Search Dispatch",
-    "Restricted drafting to confirmed, permitted evidence, with validation, bounded repair and failure diagnostics before a generated letter replaces saved work.",
-    "DSH Conversation Exporter",
-    "Exports full conversations as clean Markdown, and excludes reasoning, tool activity and runtime metadata from the export.",
-    "Client Data Delivery Validator",
-    "Python/pandas validation workflow for synthetic client-delivery CSV data, with structured validation results and 12 pytest regression cases.",
-  ] },
-];
+// --- Work experience stays on the homepage in full -----------------------------
 
-const chapterText = (index) => {
-  const start = workText.indexOf(chapters[index].principle);
-  const end = index + 1 < chapters.length
-    ? workText.indexOf(chapters[index + 1].principle)
-    : workText.indexOf("Product UI");
-  assert.ok(start !== -1 && end > start, `Could not isolate the chapter: ${chapters[index].principle}`);
-  return workText.slice(start, end);
-};
-
-chapters.forEach((chapter, chapterIndex) => {
-  const text = chapterText(chapterIndex);
-  let previousMarkerIndex = -1;
-  for (const marker of chapter.markers) {
-    const index = text.indexOf(marker, previousMarkerIndex + 1);
-    assert.ok(index !== -1, `"${chapter.principle}" is missing or misorders: ${marker}`);
-    previousMarkerIndex = index;
-  }
-});
-
+// ByteCroniX is employment and has no case-study page, so its account follows
+// the overview: the role first, then one observation and the method behind it.
+// Markers are asserted in reading order.
+const experienceStart = workText.indexOf("Work experience", toText(workHtml.slice(0, boardEnd)).length);
+const experienceEnd = workText.indexOf("More evidence");
+assert.ok(experienceStart !== -1 && experienceEnd > experienceStart, "Could not isolate the work-experience account");
+const experienceText = workText.slice(experienceStart, experienceEnd);
+let previousExperienceIndex = -1;
+for (const marker of [
+  "Work experience",
+  "ByteCroniX",
+  "Full-Stack Developer at an early-stage AI SaaS, Mar to Jun 2025.",
+  "From 26.7 seconds to 5.6.",
+  // The role is wider than one endpoint, and the account has to say so first.
+  "I worked across the BFF routes and REST integrations behind the web, Android and iOS clients",
+  "implemented OpenAI function-calling flows in Node.js/Express",
+  "worked across API testing and delivery workflows using Postman, Jest/Supertest, NGINX and multi-service CI/CD",
+  // The illustration is one request as a trace, walked through the method.
+  // Every step is in the static HTML, not only the one on show.
+  "One request, opened up",
+  "Totals are to scale. The spans inside them are a sketch.",
+  "Current scoring service",
+  "Proposed scoring service",
+  "An inherited path",
+  "Add timing logs",
+  "Find where the time goes",
+  "Parallelise the independent calls",
+  "A change is not a result until it is measured.",
+  "Measure again",
+  "An observed result, not a production benchmark.",
+  "Totals are the observed local integration-test responses; the spans inside them are a sketch. Nothing else is measured here.",
+  "I added timing instrumentation to a points-summary request and identified the current and proposed scoring services as the dominant latency contributors",
+  "The observed local integration-test response went from 26.7s to 5.6s.",
+  "Node.js, Express, BFF and REST integrations, OpenAI Function Calling, Postman, Jest/Supertest, NGINX, Docker.",
+]) {
+  const index = experienceText.indexOf(marker, previousExperienceIndex + 1);
+  assert.ok(index !== -1, `The work-experience account is missing or misorders: ${marker}`);
+  previousExperienceIndex = index;
+}
 assert.equal(
   (workHtml.match(/<section class="chapter"/g) ?? []).length,
-  3,
-  "The work must render exactly three chapters",
+  1,
+  "Only the work-experience account is expanded on the homepage",
 );
-assert.equal(
-  (workHtml.match(/<article\b/g) ?? []).length,
-  3,
-  "Each chapter must lead with exactly one story",
-);
+assert.equal((workHtml.match(/<article\b/g) ?? []).length, 1, "The homepage expands exactly one account");
+// Marshal's and MoneyGuard's full figures live on their case-study pages.
+for (const moved of ["One job, with the edits shown", "Accept all changes", "Who wrote each line of the report?", "Rejected: no week has 380 hours."]) {
+  assert.ok(!text.includes(moved), `A case study's figure must not be repeated on the homepage: ${moved}`);
+}
 assert.equal(
   (workHtml.match(/<span class="t">/g) ?? []).length,
   5,
-  "The chapters must list exactly five further-evidence rows",
+  "Work must list exactly five further-evidence rows",
 );
+// Further evidence is one list after the chapters: case studies first, then
+// public source, then the ongoing demo work. Markers are asserted in order.
+const evidenceStart = workText.indexOf("More evidence");
+const evidenceEnd = workText.indexOf("Independent Developer");
+assert.ok(evidenceStart !== -1 && evidenceEnd > evidenceStart, "Could not isolate the evidence list");
+const evidenceText = workText.slice(evidenceStart, evidenceEnd);
+let previousEvidenceIndex = -1;
+for (const marker of [
+  "Job Search Dispatch",
+  "Restricted drafting to confirmed, permitted evidence, with validation, bounded repair and failure diagnostics before a generated letter replaces saved work.",
+  "DSH Conversation Exporter",
+  "Exports full conversations as clean Markdown, and excludes reasoning, tool activity and runtime metadata from the export.",
+  "Melbourne University Ultimate Club Platform",
+  "Traced silent session-role failures to fragmented authentication usage, and centralised session reads behind one database-verified guard.",
+  "Case study, not currently maintained",
+  "Client Data Delivery Validator",
+  "Python/pandas validation workflow for synthetic client-delivery CSV data, with structured validation results and 12 pytest regression cases.",
+  "Prospective-client demos",
+  "Demonstration applications for a specialty coffee retailer and a drone training provider, built from informal briefs with Next.js 15 App Router, Clerk OAuth and Convex.",
+  "Sep 2025 to present",
+]) {
+  const index = evidenceText.indexOf(marker, previousEvidenceIndex + 1);
+  assert.ok(index !== -1, `The evidence list is missing or misorders: ${marker}`);
+  previousEvidenceIndex = index;
+}
 
 // Melbourne University Ultimate is not currently maintained: it stays a compact
 // evidence row and must not be promoted to a lead story.
@@ -381,11 +454,12 @@ for (const phrase of bannedAlexLanguage) {
 
 // The page previously carried a third role and a set of metrics the career-fact
 // reconstruction does not support. These assertions are the regression net: the
-// two roles are named once each in the at-a-glance strip, and the stale wording
-// cannot come back.
-const glanceStart = heroHtml.indexOf('aria-label="At a glance"');
-assert.ok(glanceStart !== -1, "Could not isolate the at-a-glance strip");
-const glanceHtml = heroHtml.slice(glanceStart);
+// two roles are named once each in the at-a-glance strip, which now closes Work
+// beside the toolbox, and the stale wording cannot come back.
+const glanceStart = workHtml.indexOf('aria-label="At a glance"');
+const glanceEnd = workHtml.indexOf('aria-label="Tools"');
+assert.ok(glanceStart !== -1 && glanceEnd > glanceStart, "Could not isolate the at-a-glance strip");
+const glanceHtml = workHtml.slice(glanceStart, glanceEnd);
 assert.equal(
   (glanceHtml.match(/<dt\b/g) ?? []).length,
   4,
@@ -394,7 +468,8 @@ assert.equal(
 
 // The one performance observation the evidence supports, at its exact strength:
 // a single local integration-test response. It is stated once in prose, bounded
-// by the caption beside its illustration, and appears nowhere outside its chapter.
+// by the caption beside its illustration, and appears nowhere outside the
+// ByteCroniX card, which labels it as one observation, and the account itself.
 const observedLatencySentence =
   "The observed local integration-test response went from 26.7s to 5.6s.";
 assert.equal(
@@ -402,12 +477,11 @@ assert.equal(
   1,
   "The 26.7s to 5.6s observation must be stated exactly once on the homepage",
 );
-const measuredChapter = chapterText(1);
-const outsideMeasuredChapter = text.replace(measuredChapter, " ");
-assert.ok(outsideMeasuredChapter.length < text.length, "Could not isolate the measured chapter");
+const outsideMeasuredChapter = text.replace(experienceText, " ").replace(card.bytecronix.text, " ");
+assert.ok(outsideMeasuredChapter.length < text.length, "Could not isolate the measured account");
 assert.ok(
   !outsideMeasuredChapter.includes("26.7"),
-  "The latency observation must stay inside the chapter that bounds it",
+  "The latency observation must stay inside the card and account that bound it",
 );
 
 // Employment type and payment status are unevidenced, so no role may render a
@@ -549,23 +623,29 @@ for (const phrase of staleWorkWording) {
 
 // --- Further out stays one strip, not a hobbies list ---------------------------
 
-// Five places, each one photograph and one line, in a single sideways strip.
+// Four places, each one photograph and one line, in a single sideways strip.
+// The field photograph opens the page beside Flickside, so it is not repeated here.
 assert.equal(
   (furtherOutHtml.match(/<figcaption\b/g) ?? []).length,
-  5,
-  "Further out must render exactly five one-line places",
+  4,
+  "Further out must render exactly four one-line places",
 );
 assert.equal(
   (furtherOutHtml.match(/<img\b/g) ?? []).length,
-  5,
+  4,
   "Further out must render exactly one photograph per place",
+);
+assert.equal(
+  (html.match(/<img[^>]+src="\/images\/photos\/forehand\.webp"/g) ?? []).length,
+  1,
+  "The field photograph must appear once on the homepage, in the hero",
 );
 assert.match(
   furtherOutHtml,
   /<div class="strip" tabindex="0" role="region" aria-label="[^"]+"/,
   "The photo strip must be a labelled, keyboard-reachable region",
 );
-for (const place of ["On the sill", "At the table", "In town", "On the field", "Away"]) {
+for (const place of ["On the sill", "At the table", "In town", "Away"]) {
   assert.ok(furtherOutText.includes(place), `Further out is missing the place: ${place}`);
 }
 assert.ok(
@@ -636,10 +716,13 @@ const marshalHtml = await readFile(
 );
 const marshalText = toText(marshalHtml);
 assert.ok(html.includes('href="/work/marshal/"'), "Homepage must link to Marshal");
+// The figure moved to this page, and its disclosure with it. The homepage card
+// keeps three of its lines, labelled as an illustration.
 assert.ok(
-  html.includes("An illustration of the change, not the product interface."),
+  marshalText.includes("An illustration of the change, not the product interface."),
   "Marshal visual must be disclosed as an illustration",
 );
+assert.ok(card.marshal.text.includes("An illustration of the change."), "Marshal's card must label its picture");
 assert.equal((marshalHtml.match(/<h1\b/g) ?? []).length, 1);
 assert.match(marshalHtml, /<title>Marshal case study \| Yuelin Liu<\/title>/);
 for (const metadata of [
@@ -675,7 +758,7 @@ for (const markup of [html, marshalHtml]) {
   assert.ok(!markup.includes('href="https://github.com/liuyuelintop/marshal'),
     "Marshal must not link visitors to a private repository");
 }
-const marshalCardText = chapterText(0);
+const marshalCardText = card.marshal.text;
 for (const claimText of [marshalText, marshalCardText]) {
   for (const pattern of [
     /\b(?:open[- ]source|fully offline|zero data leakage|guaranteed accuracy|hallucination[- ]free)\b/i,
@@ -695,12 +778,135 @@ for (const markup of [html, await readFile(caseStudyPath, "utf8")]) {
   assert.ok(!markup.includes('href="https://github.com/liuyuelintop/moneyguard-web'),
     "MoneyGuard must not expose a private web-source CTA");
 }
-// Homepage figures are illustrations; each must say so beside the figure.
+// Illustrations carry their disclosure where they are drawn: the trace on the
+// homepage, the tracked-changes sheet on Marshal's page and the receipt on
+// MoneyGuard's. Every step and trace is in the static HTML.
 assert.equal(
-  (workHtml.match(/<figcaption\b/g) ?? []).length,
-  3,
-  "Every lead-story figure must carry its disclosure caption",
+  (workHtml.slice(boardEnd).match(/<figcaption\b/g) ?? []).length,
+  1,
+  "The homepage trace must carry its disclosure caption",
 );
+let previousMarshalFigureIndex = -1;
+for (const marker of [
+  "The change, line by line",
+  "One job, with the edits shown",
+  "Copy and paste the job ad",
+  "Bring in the job",
+  "Filter the background",
+  "the server removes unconfirmed, expired and out-of-scope claims",
+  "Generate either document",
+  "Check the reply",
+  "These checks catch bounded errors, not semantic truth.",
+  "Edit and review, on any device",
+  "No AI acceptance step is required.",
+  "Six steps by hand, for every job, struck.",
+  "Accept all changes",
+  "An illustration of the change, not the product interface.",
+]) {
+  const index = marshalText.indexOf(marker, previousMarshalFigureIndex + 1);
+  assert.ok(index !== -1, `Marshal's figure is missing or misorders: ${marker}`);
+  previousMarshalFigureIndex = index;
+}
+const moneyguardFigureText = toText(await readFile(caseStudyPath, "utf8"));
+let previousReceiptIndex = -1;
+for (const marker of [
+  "The same rule, on the earlier pipeline's report",
+  "Who wrote each line of the report?",
+  "Wage Audit (2026-W26)",
+  "Schema check",
+  "The model boundary",
+  "Vision OCR",
+  "through a Telegram bot or the CLI",
+  "Its line items are never sent to a model.",
+  "This line never crosses the model boundary.",
+  "Audit model",
+  "It explains the figures; it never produces one.",
+  "Minimised payload",
+  "Ledger line items are not part of it.",
+  "Rejected: no week has 380 hours.",
+  "Sample figures are the pipeline's own mock run on a sample ledger. An illustration, not the product interface.",
+]) {
+  const index = moneyguardFigureText.indexOf(marker, previousReceiptIndex + 1);
+  assert.ok(index !== -1, `MoneyGuard's figure is missing or misorders: ${marker}`);
+  previousReceiptIndex = index;
+}
+
+// --- Flickside: the product shown through its own screens ----------------------
+
+const flicksideHtml = await readFile(flicksideStudyPath, "utf8");
+const flicksideText = toText(flicksideHtml);
+assert.equal((flicksideHtml.match(/<h1\b/g) ?? []).length, 1);
+assert.match(flicksideHtml, /<title>Flickside case study \| Yuelin Liu<\/title>/);
+for (const metadata of [
+  '<link rel="canonical" href="https://www.liuyuelin.dev/work/flickside/"',
+  '<meta property="og:url" content="https://www.liuyuelin.dev/work/flickside/"',
+]) {
+  assert.ok(flicksideHtml.includes(metadata), `Flickside metadata is missing: ${metadata}`);
+}
+// The page's headline is the decision.
+assert.match(
+  flicksideHtml,
+  /<h1[^>]*>Friends can see where I’m throwing\.<span class="limit">\s*(?:<!-- -->)?\s*For two hours\.<\/span><\/h1>/,
+  "Flickside must open on its decision",
+);
+let previousFlicksideIndex = -1;
+for (const marker of [
+  "I play ultimate, so I designed and built Flickside for the people I throw with.",
+  "The backend enforces that limit, whether or not the app is open.",
+  "Private iPhone beta on TestFlight",
+  // Where it came from.
+  "It started on the field",
+  "About ten years of ultimate frisbee, and the friends that came with it.",
+  "I built Flickside so ultimate frisbee players can tell friends they’re at the field with one tap.",
+  // One throw in the app's own screens.
+  "One throw, start to finish",
+  "Tap the disc",
+  "The ring runs",
+  "A friend replies",
+  "It’s kept",
+  "Screens from the app’s demo, with fictional people and example places.",
+  // The decision, at the strength the app's backend notes support.
+  "The limit lives on the server",
+  "Sharing a precise spot is optional. The backend lets accepted friends see it until the throw ends or two hours pass.",
+  "Near Princes Park",
+  "2 hours",
+  "Melbourne",
+  "The exact point lives in its own table.",
+  "Row-level security checks four things each time a friend’s phone asks",
+  "An expired point cannot be read, even if the app is closed and nothing has cleaned up yet.",
+  // The public website and the demo a visitor can try.
+  "Try it on the public website",
+  "Try the location demo",
+  "Visit the official website",
+  "Current scope and limitations",
+  "The iPhone app is in a private TestFlight beta, so there is no public install link.",
+  "Every screen on this page is a capture of the app’s demo, with fictional people and example places.",
+]) {
+  const index = flicksideText.indexOf(marker, previousFlicksideIndex + 1);
+  assert.ok(index !== -1, `Flickside case study is missing or misorders: ${marker}`);
+  previousFlicksideIndex = index;
+}
+for (const marker of [
+  'href="https://out-throwing.pages.dev/"',
+  'href="https://out-throwing.pages.dev/#tile-place"',
+  "/images/photos/forehand.webp",
+  "/images/flickside/place-shared.webp",
+  "/images/flickside/now-idle.webp",
+  "/images/flickside/out-active.webp",
+  "/images/flickside/friend-reply.webp",
+  "/images/flickside/stamps.webp",
+  "/images/flickside/friend-during.webp",
+  "/images/flickside/friend-after.webp",
+  "/images/flickside/website.webp",
+]) {
+  assert.ok(flicksideHtml.includes(marker), `Flickside case study is missing: ${marker}`);
+}
+assert.ok(html.includes('href="/work/flickside/"'), "Homepage must link to Flickside");
+assert.ok(flicksideHtml.includes('href="/#projects"'), "Flickside must return to the work overview");
+assert.ok(flicksideText.length > 3000, "Flickside must render a complete static story");
+for (const pattern of flicksideClaimPatterns) {
+  assert.ok(!pattern.test(flicksideText), `Flickside contains an unsupported claim: ${pattern}`);
+}
 
 // --- DSH Conversation Exporter case study -----------------------------------
 
@@ -976,7 +1182,7 @@ const emittedCaseStudyDirectories = (await readdir(path.join(outputDirectory, "w
   .sort();
 assert.deepEqual(
   emittedCaseStudyDirectories,
-  ["alex", "dsh-conversation-exporter", "job-search-dispatch", "marshal", "melbourne-ultimate", "moneyguard"],
+  ["alex", "dsh-conversation-exporter", "flickside", "job-search-dispatch", "marshal", "melbourne-ultimate", "moneyguard"],
   "Static export must contain exactly the approved case-study directories",
 );
 
@@ -1253,7 +1459,7 @@ for (const limitation of [
 // survive this check. Other projects may legitimately use these words, so the
 // homepage side is narrowed to the Melbourne card.
 const melbourneCardStart = workText.indexOf("Melbourne University Ultimate Club Platform");
-const melbourneCardEnd = workText.indexOf("I turn assumptions into enforceable boundaries.");
+const melbourneCardEnd = workText.indexOf("Client Data Delivery Validator", melbourneCardStart);
 assert.ok(
   melbourneCardStart !== -1 && melbourneCardEnd > melbourneCardStart,
   "Could not isolate the Melbourne evidence row on the homepage",
@@ -1300,6 +1506,14 @@ const emittedFiles = [
   "images/photos/wine-log-bottle.webp",
   "images/photos/park-tram.webp",
   "images/photos/huddle.webp",
+  "images/flickside/place-shared.webp",
+  "images/flickside/now-idle.webp",
+  "images/flickside/out-active.webp",
+  "images/flickside/friend-reply.webp",
+  "images/flickside/stamps.webp",
+  "images/flickside/friend-during.webp",
+  "images/flickside/friend-after.webp",
+  "images/flickside/website.webp",
 ];
 
 for (const file of emittedFiles) {
@@ -1338,6 +1552,7 @@ assert.deepEqual(
   [
     "/work/alex/",
     "/work/dsh-conversation-exporter/",
+    "/work/flickside/",
     "/work/job-search-dispatch/",
     "/work/marshal/",
     "/work/melbourne-ultimate/",
@@ -1362,5 +1577,5 @@ assert.ok(
 );
 
 console.log(
-  "Static output verified: the homepage evidence hierarchy and all six case studies render meaningful HTML with correct metadata, source boundaries, stated limitations and public assets.",
+  "Static output verified: the homepage overview and all seven case studies render meaningful HTML with correct metadata, source boundaries, stated limitations and public assets.",
 );

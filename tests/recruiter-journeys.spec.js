@@ -4,7 +4,8 @@ const BASE_URL = "http://127.0.0.1:4173";
 const CONTACT_EMAIL = "liuyuelintop@gmail.com";
 
 const CORE_ROUTES = [
-  { path: "/", marker: "Midday. The work.", minimumTextLength: 5_000 },
+  { path: "/", marker: "More evidence", minimumTextLength: 5_000 },
+  { path: "/work/flickside/", marker: "The limit lives on the server", minimumTextLength: 3_000 },
   { path: "/work/marshal/", marker: "Built to be shared", minimumTextLength: 5_000 },
   { path: "/work/job-search-dispatch/", marker: "Current scope and limitations", minimumTextLength: 5_000 },
   { path: "/work/dsh-conversation-exporter/", marker: "Current limitations", minimumTextLength: 3_000 },
@@ -119,8 +120,16 @@ test("case-study entry, return, resume, and source actions stay usable", async (
   await page.goto("/");
   await waitForHydration(page);
 
-  // Lead stories name the case study in the link; evidence rows link from the title.
+  // The hero's first action lands on the work overview, with its heading in view.
+  const overview = page.locator("#projects h2");
+  await page.getByRole("link", { name: "Browse the work", exact: true }).click();
+  await expect(page).toHaveURL(/\/#projects$/);
+  await expect(overview).toBeInViewport();
+
+  // Overview cards name the case study in the link; evidence rows link from the title.
+  // Every case study returns to the overview, not to one project.
   for (const [name, slug] of [
+    ["Read the Flickside story", "flickside"],
     ["Read the Marshal case study", "marshal"],
     ["Read the MoneyGuard case study", "moneyguard"],
     ["Melbourne University Ultimate Club Platform", "melbourne-ultimate"],
@@ -131,7 +140,29 @@ test("case-study entry, return, resume, and source actions stay usable", async (
     await expect(page).toHaveURL(new RegExp(`/work/${slug}/$`));
     await page.getByRole("link", { name: "Back to all work" }).first().click();
     await expect(page).toHaveURL(/\/#projects$/);
+    await expect(overview).toBeInViewport();
+    for (const piece of ["Flickside", "ByteCroniX", "Marshal", "MoneyGuard"]) {
+      await expect(page.locator(".board").getByRole("heading", { name: piece, exact: true })).toBeVisible();
+    }
   }
+
+  // The role has no page of its own: its card opens the account further down.
+  await page.locator("#projects").getByRole("link", { name: "Read about the role", exact: true }).click();
+  await expect(page).toHaveURL(/\/#bytecronix$/);
+  await expect(page.locator("#bytecronix").getByText("Full-Stack Developer at an early-stage AI SaaS")).toBeInViewport();
+
+  // Flickside's public website and location demo are reachable from its study.
+  await page.goto("/work/flickside/");
+  for (const [name, href] of [
+    ["Try the location demo", "https://out-throwing.pages.dev/#tile-place"],
+    ["Visit the official website", "https://out-throwing.pages.dev/"],
+  ]) {
+    const link = page.locator("main").getByRole("link", { name, exact: true });
+    await expect(link).toHaveAttribute("href", href);
+    await expect(link).toHaveAttribute("target", "_blank");
+  }
+  await page.goto("/");
+  await waitForHydration(page);
 
   const resume = page.getByRole("link", { name: "Download résumé" });
   await expect(resume).toHaveAttribute("href", "/resume/yuelin-liu-resume.pdf");

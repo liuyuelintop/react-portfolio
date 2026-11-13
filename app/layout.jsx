@@ -5,7 +5,7 @@ export const viewport = {
   width: "device-width",
   initialScale: 1,
   minimumScale: 1,
-  themeColor: "#eeebf3",
+  themeColor: "#f5f6f2",
 };
 
 // Restores a visitor's night choice before first paint. Day is the default,
@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=Schibsted+Grotesk:wght@400;500;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Schibsted+Grotesk:wght@400;500;600&display=swap"
           media="all"
         />
         <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />

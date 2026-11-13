@@ -6,15 +6,18 @@ A personal software-engineering portfolio published at [www.liuyuelin.dev](https
 
 The mounted homepage is ordered as follows:
 
-1. Morning — hero, with an at-a-glance strip (current role, previous role, stack, what I am open to)
-2. Midday — the work, argued in three chapters. Each chapter is one working principle, one lead story with an interactive illustration, and further evidence rows. Projects, experience and principles are merged here so each appears once.
-3. Golden hour — Further out: a sideways strip of five photographs, one per place, running from the windowsill outwards
-4. Late — Contact
+1. Hero — who I am: name, role, one sentence about the kind of work, the range in a paragraph, and two actions (browse the work, download the résumé), beside the photograph from the field
+2. Work — an overview first: four cards, each a different kind of work (Flickside as the mobile product and lead, ByteCroniX as work experience, Marshal as workflow design, MoneyGuard as a calculation boundary). The ByteCroniX account follows in full, then one list of further evidence and a plain-facts strip (roles, stack, what I am open to)
+3. Further out — a sideways strip of four photographs, one per place
+4. Contact
 
-The page reads as one day. Day is the default light; the lamp cord in the masthead switches the whole site, case studies included, to night.
+The hero button, the Work link and every case study's "Back to all work" land on the overview. Depth lives on the case-study pages: Flickside's flow, limit and website on `/work/flickside/`, and the interactive figures for Marshal and MoneyGuard on theirs.
+
+Day is the default light; the switch in the masthead changes the whole site, case studies included, to night. On a phone the navigation sits in a bar at the bottom of the screen.
 
 The current static export emits these case-study routes from source data:
 
+- `/work/flickside/`
 - `/work/marshal/`
 - `/work/job-search-dispatch/`
 - `/work/dsh-conversation-exporter/`
@@ -38,7 +41,7 @@ The current static export emits these case-study routes from source data:
 Current public content is maintained in these authoritative files:
 
 - `src/constants/constants.js` — hero, at-a-glance strip, toolbox, Further out and Contact content.
-- `src/constants/work.js` — the three work chapters, their lead stories, evidence rows and figure copy.
+- `src/constants/work.js` — the work overview cards, the ByteCroniX account, the evidence list and figure copy.
 - `src/constants/caseStudies.js` — case-study routes, metadata and page copy.
 
 Public claims are kept evidence-bounded. Changes should preserve the distinctions between verified work, owner-attested facts, learning material and stated limitations.
@@ -47,7 +50,7 @@ Public claims are kept evidence-bounded. Changes should preserve the distinction
 
 `app/work/[slug]/page.jsx` is the reusable static case-study renderer. `CASE_STUDIES` in `src/constants/caseStudies.js` supplies the approved slugs and content; `generateStaticParams()` emits one route per slug, `dynamicParams = false` prevents unknown slugs from generating content, and each page owns its metadata.
 
-Homepage stories and evidence rows link to case studies through `caseStudyHref`. The sitemap derives the same canonical route set from `CASE_STUDIES`.
+Homepage cards and evidence rows link to case studies through `caseStudyHref`. The sitemap derives the same canonical route set from `CASE_STUDIES`.
 
 ## Resume
 
@@ -130,8 +133,6 @@ npm run preview
 Before changing the repository, read:
 
 - `AGENTS.md`
-- `CLAUDE.md`
-- `docs/PORTFOLIO_REDESIGN_STATUS.md`
 
 Content changes must preserve evidence fidelity and avoid speculative claims.
 

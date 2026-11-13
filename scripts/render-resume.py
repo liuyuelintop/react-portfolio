@@ -24,8 +24,8 @@ for name, file in [("Resume", "Vera.ttf"), ("Resume-Bold", "VeraBd.ttf"),
 
 ROOT = Path(__file__).resolve().parents[1]
 DIRECTORY = ROOT / "public" / "resume"
-SOURCE = DIRECTORY / "Yuelin_Liu_Resume_2026-10.md"
-TARGET = DIRECTORY / "Yuelin_Liu_Resume_2026-10.pdf"
+SOURCE = DIRECTORY / "Yuelin_Liu_Resume_2026-11.md"
+TARGET = SOURCE.with_suffix(".pdf")
 
 pdfmetrics.registerFontFamily("Resume", normal="Resume", bold="Resume-Bold",
                               italic="Resume-Oblique", boldItalic="Resume-BoldOblique")
@@ -61,7 +61,7 @@ story = []
 for line in SOURCE.read_text().splitlines():
     if not line.strip():
         continue
-    if line.startswith("### Job Search Dispatch"):
+    if line.startswith("### Marshal"):
         story.append(PageBreak())
     if line.startswith("# "):
         kind, text = "name", line[2:]

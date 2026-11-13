@@ -1,5 +1,4 @@
 import { CONTACT } from "../../../constants/constants";
-import HourMark from "../../ui/common/HourMark";
 import ProfessionalContactForm from "./ProfessionalContactForm";
 
 const ELSEWHERE = [
@@ -11,15 +10,9 @@ const ELSEWHERE = [
 export default function Contact() {
   return (
     <div className="wrap">
-      <HourMark at="late">
-        <span className="when-day">Late. Still light out.</span>
-        <span className="when-night">Late. The lamp is on.</span>
-      </HourMark>
       <div className="contact-grid">
         <div className="lead">
-          <h2 className="sec" style={{ marginTop: 0 }}>
-            Contact
-          </h2>
+          <h2 className="sec">Contact</h2>
           <p className="standfirst">{CONTACT.intro}</p>
           <a className="mail" href={`mailto:${CONTACT.email}`}>
             {CONTACT.email}
@@ -55,10 +48,7 @@ export default function Contact() {
 
       <footer className="colophon">
         <p>Yuelin Liu, Melbourne, 2026.</p>
-        <p>
-          Set in Newsreader and Schibsted Grotesk. Colours sampled from an afternoon in Flagstaff
-          Gardens.
-        </p>
+        <p>Set in Archivo and Schibsted Grotesk.</p>
       </footer>
     </div>
   );

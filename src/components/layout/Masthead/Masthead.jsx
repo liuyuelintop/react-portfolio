@@ -1,25 +1,26 @@
 import PropTypes from "prop-types";
-import LampCord from "./LampCord";
+import LightSwitch from "./LightSwitch";
 
 // Shared by the homepage and the case-study routes, so it stays free of hooks:
-// only the cord is a client component.
+// only the light switch is a client component. On a phone the links sit in a
+// bar at the bottom of the screen, within reach of a thumb.
 export default function Masthead({ homeHref, links }) {
   return (
-    <div className="wrap">
-      <header className="top">
+    <header className="top">
+      <div className="wrap">
         <a className="name" href={homeHref}>
-          Yuelin Liu
+          Yuelin Liu <span>Software engineer, Melbourne</span>
         </a>
         <nav aria-label="Primary">
           {links.map((link) => (
-            <a key={link.label} href={link.href}>
+            <a key={link.label} href={link.href} download={link.download}>
               {link.label}
             </a>
           ))}
         </nav>
-      </header>
-      <LampCord />
-    </div>
+        <LightSwitch />
+      </div>
+    </header>
   );
 }
 
@@ -29,6 +30,7 @@ Masthead.propTypes = {
     PropTypes.shape({
       label: PropTypes.string.isRequired,
       href: PropTypes.string.isRequired,
+      download: PropTypes.string,
     }),
   ).isRequired,
 };

@@ -1,23 +1,25 @@
 export const HERO_CONTENT = {
   name: "Yuelin Liu",
+  role: "Software engineer in Melbourne",
   resumeUrl: "/resume/yuelin-liu-resume.pdf",
-  eyebrow: "Morning. Software engineer in Melbourne.",
-  headline:
-    "I build full-stack tools with clear workflows and dependable data boundaries.",
+  // The opening is about the person: who, what kind of work, and how far it
+  // ranges. Individual pieces of work start one screen down, in the overview.
+  headline: "I design the interfaces and build the systems behind them.",
   summary:
-    "My work spans self-hosted applications, deterministic finance tools and AI integrations. I design the workflow, build the UI and backend, and test what happens when requests or assumptions fail.",
-  // The frame shows the same window twice: by day, and once the lamp is on.
-  view: {
-    day: {
-      src: "/images/photos/flagstaff-jacaranda.webp",
-      alt: "A jacaranda in full flower on a city lawn, people sitting in the sun, office towers behind",
-      caption: "Jacaranda season, Flagstaff Gardens.",
-    },
-    night: {
-      src: "/images/photos/cat-lamp.webp",
-      alt: "A tabby cat sitting on a stack of books beside a lit lamp at night",
-      caption: "Same window, later.",
-    },
+    "My recent work includes an iPhone app for ultimate frisbee players, a self-hosted job application workspace and a wage planner for hourly workers.",
+  before: "Before those, I was a full-stack developer at ByteCroniX, an early-stage AI SaaS.",
+  workLink: "Browse the work",
+  // The field stays on the first screen: it is where Flickside came from.
+  photo: {
+    src: "/images/photos/forehand.webp",
+    alt: "Yuelin mid-throw on a grass field at golden hour, releasing a white disc",
+    width: 1000,
+    height: 1334,
+  },
+  caption: {
+    place: "On the field.",
+    detail: "About ten years of ultimate frisbee, and the friends that came with it.",
+    note: "They are who I built Flickside for.",
   },
 };
 
@@ -79,32 +81,18 @@ export const TOOLBOX = [
   },
 ];
 
-// Life away from the desk, as one sideways strip. The order is the owner's:
-// it opens on the field, where the disc above lands, and comes home to the
-// table for the evening, just before the page turns to night. One photograph
-// and one line per place. This section supports the work above and must never
+// Life away from the desk, as one sideways strip. The order is the owner's.
+// The field opens the page beside Flickside, so the strip starts one place
+// further out and comes home to the table. One photograph and one line per place. This section supports the work above and must never
 // grow into a hobbies list.
 // `ratio` is width / height and sizes the card on wide screens; on phones every
 // card is cropped to 4:5, so `focus` says which part of the frame to keep.
 export const FURTHER_OUT = {
-  hour: "Golden hour. Laptop closed.",
   heading: "Further out",
   standfirst:
     "Most of what I build starts at a desk by a window. The rest of the day happens a little further from it each time.",
-  stripLabel: "Further out, in five photographs",
+  stripLabel: "Further out, in four photographs",
   places: [
-    {
-      place: "On the field",
-      detail: "About ten years of ultimate frisbee, and the friends that came with it.",
-      photo: {
-        src: "/images/photos/forehand.webp",
-        alt: "Yuelin mid-throw on a grass field at golden hour, releasing a white disc",
-        width: 1000,
-        height: 1334,
-        ratio: 0.75,
-        focus: "45% 30%",
-      },
-    },
     {
       place: "Away",
       detail: "Tournaments that turned into travel.",

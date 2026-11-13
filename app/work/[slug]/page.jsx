@@ -3,6 +3,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { CASE_STUDIES, CASE_STUDY_SLUGS } from "../../../src/constants/caseStudies";
+import { WORK_FIGURES } from "../../../src/constants/work";
+import { Moments, Origin, Pair, Site } from "../../../src/components/sections/Work/FlicksideStory";
+import ReceiptFigure from "../../../src/components/sections/Work/figures/ReceiptFigure";
+import RevisionFigure from "../../../src/components/sections/Work/figures/RevisionFigure";
 import AlexArchitectureDiagram from "../../../src/components/ui/diagrams/AlexArchitectureDiagram";
 import Masthead from "../../../src/components/layout/Masthead/Masthead";
 import { focusRingClasses } from "../../../src/utils/accessibility";
@@ -68,9 +72,16 @@ const DIAGRAMS = {
   alex: AlexArchitectureDiagram,
 };
 
+// A figure is the one interactive part of a study: a client component drawn
+// from WORK_FIGURES. Every step and trace it holds is in the exported HTML.
+const FIGURES = {
+  marshal: RevisionFigure,
+  timecard: ReceiptFigure,
+};
+
 function SectionHeading({ id, children }) {
   return (
-    <h2 id={id} className="font-serif text-3xl font-normal leading-tight tracking-tight text-ink md:text-4xl">
+    <h2 id={id} className="font-display text-3xl font-semibold leading-tight tracking-tight text-ink md:text-4xl">
       {children}
     </h2>
   );
@@ -99,7 +110,7 @@ function SectionBody({ section }) {
           </summary>
           {section.sections.map((child, index) => (
             <div key={child.id || index} className="mt-10">
-              {child.heading && <h3 className="font-serif text-2xl font-medium text-ink">{child.heading}</h3>}
+              {child.heading && <h3 className="font-display text-2xl font-semibold text-ink">{child.heading}</h3>}
               <SectionBody section={child} />
             </div>
           ))}
@@ -173,7 +184,7 @@ function SectionBody({ section }) {
           <p className="mt-5 leading-relaxed text-body">{section.intro}</p>
           {section.groups.map((group) => (
             <div key={group.heading} className="mt-10">
-              <h3 className="font-serif text-xl font-medium text-ink">{group.heading}</h3>
+              <h3 className="font-display text-xl font-semibold text-ink">{group.heading}</h3>
               <ul className="mt-4 space-y-3">
                 {group.points.map((point) => (
                   <li key={point} className="leading-relaxed text-body">
@@ -242,6 +253,32 @@ function SectionBody({ section }) {
         </>
       );
 
+    case "figure": {
+      const Figure = FIGURES[section.figure];
+
+      return (
+        Figure && (
+          <figure className="fig mt-6">
+            <Figure figure={WORK_FIGURES[section.figure]} />
+            <figcaption className="cap">{section.caption}</figcaption>
+          </figure>
+        )
+      );
+    }
+
+    // Flickside's own kinds: the product shown through its screens.
+    case "origin":
+      return <Origin section={section} />;
+
+    case "moments":
+      return <Moments section={section} />;
+
+    case "pair":
+      return <Pair section={section} />;
+
+    case "site":
+      return <Site section={section} />;
+
     case "diagram": {
       const Diagram = DIAGRAMS[section.diagram];
 
@@ -286,15 +323,18 @@ export default async function CaseStudyPage({ params }) {
     <div className="min-h-screen overflow-x-clip bg-paper text-body antialiased">
       <Masthead homeHref="/" links={NAV_LINKS} />
 
-      <main id="main-content" className="mx-auto max-w-3xl px-4 pb-24 pt-10 md:px-8 md:pt-14">
+      <main id="main-content" className="study mx-auto max-w-3xl px-4 pb-24 pt-10 md:px-8 md:pt-14">
         <Link href={BACK_HREF} className={backLinkClasses}>
           <ArrowLeft size={16} aria-hidden="true" />
           {BACK_LABEL}
         </Link>
 
         <article className="mt-6">
-          <h1 className="font-serif text-4xl font-normal leading-[1.05] tracking-tight text-ink md:text-6xl">
-            {caseStudy.title}
+          {/* A study may open on its decision rather than its name. */}
+          {caseStudy.eyebrow && <p className="eyebrow">{caseStudy.eyebrow}</p>}
+          <h1 className="font-display text-4xl font-semibold leading-[1.02] tracking-tight text-ink md:text-6xl">
+            {caseStudy.headline ?? caseStudy.title}
+            {caseStudy.limit && <span className="limit"> {caseStudy.limit}</span>}
           </h1>
           <p className="mt-5 text-lg leading-relaxed text-body">{caseStudy.summary}</p>
 

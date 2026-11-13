@@ -8,6 +8,155 @@
 
 const SITE_URL = "https://www.liuyuelin.dev";
 
+// Flickside is the one study shown through the product's own screens, so it
+// carries section kinds the others do not: `origin` (the field photograph beside
+// the app), `moments` (one throw in four screens), `pair` (a friend's view
+// either side of the limit) and `site`. Every picture is a capture of the app's
+// demo, with fictional people and example places, and the page says so.
+// The limit's claims are bounded by the app repository's docs/backend.md
+// (sessions, active_locations) and the two-hour constraint in supabase/migrations.
+const FLICKSIDE_SITE_URL = "https://out-throwing.pages.dev/";
+
+export const FLICKSIDE_CASE_STUDY = {
+  slug: "flickside",
+  title: "Flickside",
+  eyebrow: "Flickside · iPhone app and website, 2026",
+  // The page's headline is the decision. Its second sentence is the limit, set
+  // in the colour of the app's two-hour ring.
+  headline: "Friends can see where I’m throwing.",
+  limit: "For two hours.",
+  summary:
+    "I play ultimate, so I designed and built Flickside for the people I throw with. One tap says I’m out. If I add a place, accepted friends can see it until I finish or two hours pass. The backend enforces that limit, whether or not the app is open.",
+  ownership:
+    "Designed and built end to end · iPhone app and official website · 2026 · Private iPhone beta on TestFlight",
+  stack: "React Native, Expo, Supabase · Private iPhone beta on TestFlight",
+  metaTitle: "Flickside case study | Yuelin Liu",
+  metaDescription:
+    "How I designed and built an iPhone app for ultimate frisbee friends, with a precise check-in point that the backend stops sharing after two hours.",
+  canonical: `${SITE_URL}/work/flickside/`,
+  sourceUrl: FLICKSIDE_SITE_URL,
+  sourceLabel: "Visit the Flickside website",
+  sections: [
+    {
+      kind: "origin",
+      id: "field",
+      heading: "It started on the field",
+      photo: {
+        src: "/images/photos/forehand.webp",
+        alt: "Yuelin mid-throw on a grass field at golden hour, releasing a white disc",
+        width: 1000,
+        height: 1334,
+      },
+      screen: {
+        src: "/images/flickside/place-shared.webp",
+        alt: "The Flickside Now screen at golden hour: ‘You’re out throwing’, a ring at 1:52 of two hours, and ‘One check-in location saved. No live tracking.’",
+      },
+      caption: "About ten years of ultimate frisbee, and the friends that came with it.",
+      paragraphs: [
+        "I built Flickside so ultimate frisbee players can tell friends they’re at the field with one tap. A friend can ask to join. When the throw ends, the player keeps a dated stamp in their journal.",
+        "I designed the screens and built the app with React Native and Expo on a Supabase backend, along with the official website. It leaves out streaks, scores, leaderboards, chat and public discovery on purpose: a quiet throw is worth keeping on its own.",
+      ],
+    },
+    {
+      kind: "moments",
+      id: "throw",
+      heading: "One throw, start to finish",
+      label: "One throw in four screens",
+      // The light in each capture is the app's: afternoon, golden hour, then under lights.
+      items: [
+        {
+          src: "/images/flickside/now-idle.webp",
+          alt: "The Now screen in afternoon light: a white disc labelled ‘I’m throwing’, and two friends listed as out now.",
+          title: "Tap the disc",
+          text: "One tap says you’re out. The throw is saved straight away; adding a place is a separate, optional tap.",
+        },
+        {
+          src: "/images/flickside/out-active.webp",
+          alt: "The Now screen at golden hour: ‘You’re out throwing’, a ring showing 0:47 of two hours, with Finish throw and Add place buttons.",
+          title: "The ring runs",
+          text: "A throw is shared for up to two hours, so “out now” stays about now. Then it ends itself.",
+        },
+        {
+          src: "/images/flickside/friend-reply.webp",
+          alt: "A friend’s throw opened as a sheet: Maya Chen, out for 23 minutes near Princes Park, with Can I join, a sent Nice and Next time.",
+          title: "A friend replies",
+          text: "Accepted friends see who’s out, and can ask to join or send a short fixed reply. There are no chat threads to keep up with.",
+        },
+        {
+          src: "/images/flickside/stamps.webp",
+          alt: "The My Throws journal at night: four dated stamps for November, two golden hour and two under lights.",
+          title: "It’s kept",
+          text: "A finished throw becomes a dated stamp in My Throws. No streaks, no scores.",
+        },
+      ],
+      note: "Screens from the app’s demo, with fictional people and example places.",
+    },
+    {
+      kind: "pair",
+      id: "limit",
+      heading: "The limit lives on the server",
+      lede:
+        "Sharing a precise spot is optional. The backend lets accepted friends see it until the throw ends or two hours pass. I built that timer into the public website so visitors can try it for themselves.",
+      span: "2 hours",
+      before: {
+        src: "/images/flickside/friend-during.webp",
+        alt: "A friend’s view while Maya is out: ‘Near Princes Park. A check-in point, not live tracking.’",
+        when: "While Maya is out",
+        reads: "Near Princes Park",
+        what: "One check-in point.",
+      },
+      after: {
+        src: "/images/flickside/friend-after.webp",
+        alt: "The same friend’s view later: ‘Maya was out earlier. Melbourne, 2 hours ago.’",
+        when: "Two hours later",
+        reads: "Melbourne",
+        what: "A coarse area, nothing closer.",
+      },
+      points: [
+        {
+          head: "Stored apart",
+          text: "The exact point lives in its own table. A throw’s history only ever holds a coarse area, rounded on the server to a quarter-degree grid.",
+        },
+        {
+          head: "Checked on every read",
+          text: "Row-level security checks four things each time a friend’s phone asks: an accepted friendship, precise sharing still on, the throw unfinished, and under two hours on the server’s clock.",
+        },
+        {
+          head: "Nobody has to tap Finish",
+          text: "An expired point cannot be read, even if the app is closed and nothing has cleaned up yet. Finishing early deletes it.",
+        },
+      ],
+    },
+    {
+      kind: "site",
+      id: "website",
+      heading: "Try it on the public website",
+      line: "The official website is open to anyone, with the two-hour timer built into the page.",
+      image: {
+        src: "/images/flickside/website.webp",
+        width: 1008,
+        height: 630,
+        alt: "The Flickside website pairs ‘Somewhere, someone is throwing’ with the app’s two-hour timer.",
+      },
+      links: [
+        { label: "Try the location demo", href: `${FLICKSIDE_SITE_URL}#tile-place` },
+        { label: "Visit the official website", href: FLICKSIDE_SITE_URL },
+      ],
+    },
+    {
+      kind: "bullets",
+      id: "scope",
+      heading: "Current scope and limitations",
+      items: [
+        "The iPhone app is in a private TestFlight beta, so there is no public install link. The website and its location demo are public.",
+        "Every screen on this page is a capture of the app’s demo, with fictional people and example places.",
+        "The two-hour limit covers the precise check-in point. A finished throw keeps a coarse area in its history, and the player keeps their own stamp.",
+        "An expired point may stay in restricted server storage until cleanup runs. Friends’ access ends independently of that cleanup.",
+      ],
+    },
+  ],
+};
+
 // Claims are traced in docs/DISPATCH_CASE_STUDY_EVIDENCE.md.
 export const DISPATCH_CASE_STUDY = {
   slug: "job-search-dispatch",
@@ -192,6 +341,15 @@ export const MARSHAL_CASE_STUDY = {
         "This is a deliberate tradeoff. Fewer steps also means fewer model review layers. I kept permission filtering, bounded output validation and export checks in code, and made human review explicit. A shorter workflow does not make a model's writing inherently more accurate.",
       ],
     },
+    // The workflow under tracked changes, drawn by RevisionFigure from
+    // WORK_FIGURES.marshal. It restates the section above; it adds no facts.
+    {
+      kind: "figure",
+      id: "edits",
+      heading: "The change, line by line",
+      figure: "marshal",
+      caption: "An illustration of the change, not the product interface.",
+    },
     {
       kind: "steps",
       id: "workflow",
@@ -258,7 +416,7 @@ export const MARSHAL_CASE_STUDY = {
       paragraphs: [
         "This review uses merged main at 67379b5, checked against GitHub on 12 October 2026. Its CI run completed successfully. The source contains contract checks for independent document generation and export, and browser cases for edits during generation, partial failure, retry and save conflicts. I did not rerun the Marshal suite for this portfolio update.",
         "The automated journeys use a stubbed model. They test application behaviour and validation rules, not the quality or reliability of live-model writing. The newer triage-repair branch and uncommitted work are excluded from this account.",
-        "The homepage figure is an illustration of the step removal, drawn from this merged implementation; it is not a screenshot. It contains no applicant records, generated application text or private interface capture.",
+        "The figure on this page is an illustration of the step removal, drawn from this merged implementation; it is not a screenshot. It contains no applicant records, generated application text or private interface capture.",
       ],
     },
     {
@@ -432,6 +590,18 @@ export const MONEYGUARD_CASE_STUDY = {
           tradeoff: "The free-text question itself can contain personal information. Masking the audit fields does not make that question private or prove the aggregate figures cannot be inferred from. Model prose still needs review."
         },
       ],
+    },
+    // The rule above, shown on the earlier pipeline's report: a receipt drawn by
+    // ReceiptFigure from WORK_FIGURES.timecard, every line traced back to
+    // whoever wrote it. It sits outside the disclosure so its controls are
+    // reachable without opening anything.
+    {
+      kind: "figure",
+      id: "report-lines",
+      heading: "The same rule, on the earlier pipeline's report",
+      figure: "timecard",
+      caption:
+        "Sample figures are the pipeline's own mock run on a sample ledger. An illustration, not the product interface.",
     },
     {
       kind: "prose",
@@ -1057,6 +1227,7 @@ export const MELBOURNE_CASE_STUDY = {
 };
 
 export const CASE_STUDIES = {
+  [FLICKSIDE_CASE_STUDY.slug]: FLICKSIDE_CASE_STUDY,
   [MARSHAL_CASE_STUDY.slug]: MARSHAL_CASE_STUDY,
   [DISPATCH_CASE_STUDY.slug]: DISPATCH_CASE_STUDY,
   [DSH_CASE_STUDY.slug]: DSH_CASE_STUDY,

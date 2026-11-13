@@ -1,143 +1,170 @@
 import {
   DISPATCH_CASE_STUDY,
   DSH_CASE_STUDY,
+  FLICKSIDE_CASE_STUDY,
   MARSHAL_CASE_STUDY,
   MELBOURNE_CASE_STUDY,
   MONEYGUARD_CASE_STUDY,
   caseStudyHref,
 } from "./caseStudies";
 
-// The work is argued in three chapters, one per working principle. Each chapter
-// leads with one story (a decision, and a figure the reader can use) and lists
-// further evidence under it, so a project or role appears once on the page.
+// Work is an overview first: four pieces, each a different kind of work, so a
+// reader can compare them before opening one. Flickside leads and takes the
+// largest place. Depth lives on the case-study pages; the homepage keeps only
+// what a reader needs to decide whether to open one. ByteCroniX is employment,
+// not a project with a page of its own, so its account follows the overview
+// under `experience`. Smaller evidence is listed once, after that.
 //
-// `figure` names a figure in WORK_FIGURES, drawn by its own component in
-// components/sections/Work/figures. `layout: "wide"` stacks the figure under the
-// story at full width instead of beside it. Every number a figure shows must
-// already be supported by the copy beside it.
+// A card is a kind, a name, one decision and a small picture: enough to choose
+// by. `teaser` names that picture, one kind per piece: the
+// app's own screens, two observed totals on one scale, three lines of the
+// tracked-changes sheet, and three lines of the receipt. Every number a teaser
+// shows must already be supported by the copy or figure it comes from.
 export const WORK = {
-  hour: "Midday. The work.",
   heading: "Work",
-  chapters: [
+  intro: "Four pieces of work, four kinds of problem. Each one opens on a decision I made.",
+  overviewLabel: "Choose a piece of work",
+  overview: [
     {
-      principle: "I start with the workflow, not the feature.",
-      lead: {
-        name: MARSHAL_CASE_STUDY.title,
-        context:
-          "Self-hosted application workspace for laptop and phone. Personal project, 2026, pre-alpha. MIT-licensed, source private while pre-alpha.",
-        headline: "The useful change was removing steps.",
-        // The first paragraph is the owner's account of the problem. The hosting
-        // and privacy sentences follow Marshal's README and SELF_HOSTING guide;
-        // the repository is private, so the story must not call it open source.
-        paragraphs: [
-          "Applying with a chat assistant meant the same loop for every job: paste in a job ad that arrives garbled, paste my prompts, paste my résumé and background, then ask for a fit analysis, a résumé and a cover letter. Marshal keeps the job, my confirmed background and both documents in one workspace, so most of that repetition is gone. It is still being refined.",
-          "Its first workflow repeated the mistake in a new form: an assessment, a pursuit decision, a letter plan, an audit or waiver, and acceptance before export. I removed the mandatory chain. A cover letter and a résumé can each be generated directly from the saved job description and permitted background.",
-          "Each person runs their own instance: on one machine, with Docker, or on a server reached over a private Tailscale network from a laptop and a phone. Data is plain files and the model key stays on the server. Model calls still send the selected input to the provider you choose.",
-        ],
-        stack: "TypeScript, React / Vite, Node.js, Docker. Designed and built end to end.",
-        links: [
-          {
-            label: `Read the ${MARSHAL_CASE_STUDY.title} case study`,
-            href: caseStudyHref(MARSHAL_CASE_STUDY.slug),
-          },
-        ],
-        figure: "marshal",
-        figureCaption: "An illustration of the change, not the product interface.",
-      },
-      also: [
+      id: "flickside",
+      kind: "Mobile product",
+      name: FLICKSIDE_CASE_STUDY.title,
+      lead: true,
+      context: "iPhone app and website · 2026",
+      line: "Who’s out throwing?",
+      summary:
+        "I built Flickside so ultimate frisbee players can tell friends they’re at the field with one tap. A friend can ask to join. When the throw ends, the player keeps a dated stamp in their journal.",
+      decision:
+        "Sharing a precise spot is optional. The backend lets accepted friends see it until the throw ends or two hours pass.",
+      status: FLICKSIDE_CASE_STUDY.stack,
+      link: { label: "Read the Flickside story", href: caseStudyHref(FLICKSIDE_CASE_STUDY.slug) },
+      teaser: "screens",
+      // The app's own light, left to right: afternoon, golden hour, under lights.
+      screens: [
         {
-          title: "Prospective-client demos",
-          summary:
-            "Demonstration applications for a specialty coffee retailer and a drone training provider, built from informal briefs with Next.js 15 App Router, Clerk OAuth and Convex.",
-          meta: "Sep 2025 to present",
+          src: "/images/flickside/now-idle.webp",
+          alt: "The Flickside Now screen in afternoon light: a white disc labelled ‘I’m throwing’, and two friends listed as out now.",
+        },
+        {
+          src: "/images/flickside/place-shared.webp",
+          alt: "The Now screen at golden hour: ‘You’re out throwing’, a ring at 1:52 of two hours.",
+        },
+        {
+          src: "/images/flickside/stamps.webp",
+          alt: "The My Throws journal at night: four dated stamps for November.",
         },
       ],
+      note: "App demo with fictional people.",
     },
     {
-      principle: "I measure before I optimise.",
-      lead: {
-        name: "ByteCroniX",
-        context: "Full-Stack Developer at an early-stage AI SaaS, Mar to Jun 2025.",
-        headline: "From 26.7 seconds to 5.6.",
-        // Bounded by the owner's evidence register: BFF/REST, function calling and
-        // testing/delivery are first-person; the timing observation is corroborated.
-        // Service ownership, coverage figures and production results are not claimed.
-        paragraphs: [
-          "I worked across the BFF routes and REST integrations behind the web, Android and iOS clients, implemented OpenAI function-calling flows in Node.js/Express, and worked across API testing and delivery workflows using Postman, Jest/Supertest, NGINX and multi-service CI/CD.",
-          "One inherited path shows how I work. I added timing instrumentation to a points-summary request and identified the current and proposed scoring services as the dominant latency contributors, then parallelised the independent service calls. The observed local integration-test response went from 26.7s to 5.6s.",
-        ],
-        stack: "Node.js, Express, BFF and REST integrations, OpenAI Function Calling, Postman, Jest/Supertest, NGINX, Docker.",
-        links: [],
-        figure: "latency",
-        layout: "wide",
-        figureCaption:
-          "Totals are the observed local integration-test responses; the spans inside them are a sketch. Nothing else is measured here.",
-      },
-      also: [
-        {
-          title: MELBOURNE_CASE_STUDY.title,
-          summary:
-            "Traced silent session-role failures to fragmented authentication usage, and centralised session reads behind one database-verified guard.",
-          meta: "Case study, not currently maintained",
-          href: caseStudyHref(MELBOURNE_CASE_STUDY.slug),
-        },
-      ],
+      id: "bytecronix",
+      kind: "Work experience",
+      name: "ByteCroniX",
+      context: "Full-Stack Developer, AI SaaS · Mar to Jun 2025",
+      headline: "From 26.7 seconds to 5.6.",
+      link: { label: "Read about the role", href: "#bytecronix" },
+      teaser: "scale",
+      scale: { before: "Before", after: "After" },
+      note: "One local integration-test observation, drawn to one scale.",
     },
     {
-      principle: "I turn assumptions into enforceable boundaries.",
-      lead: {
-        name: MONEYGUARD_CASE_STUDY.title,
-        context:
-          "Wage planning for hourly workers: an OCR and audit pipeline, then a local-first web workspace. Personal project, 2026. Web source private, pipeline public.",
-        headline: "Keep the financial answer in code.",
-        paragraphs: [
-          "MoneyGuard reads a photographed timecard with a vision model, validates what comes back, computes pay, weekly burn and surplus in local code, and streams an AI-written audit into a report the code lays out. A web workspace builds on that pipeline to answer what is left from this week's work, how much work a purchase costs, and whether cash lasts if payday moves.",
-          "Model output is treated as untrusted input. Reviewed inputs feed pure calculation functions, and the optional AI path can explain selected figures; it does not calculate the financial result.",
-        ],
-        stack:
-          "TypeScript, Next.js / React, IndexedDB, Zod, Gemini and DeepSeek providers, Vitest / Playwright. Designed and built.",
-        links: [
-          {
-            label: `Read the ${MONEYGUARD_CASE_STUDY.title} case study`,
-            href: caseStudyHref(MONEYGUARD_CASE_STUDY.slug),
-          },
-          { label: "Pipeline source", href: MONEYGUARD_CASE_STUDY.sourceUrl, external: true },
-        ],
-        figure: "timecard",
-        figureCaption:
-          "Sample figures are the pipeline's own mock run on a sample ledger. An illustration, not the product interface.",
+      id: "marshal",
+      kind: "Workflow design",
+      name: MARSHAL_CASE_STUDY.title,
+      context: "Self-hosted workspace · Pre-alpha",
+      headline: "The useful change was removing steps.",
+      link: {
+        label: `Read the ${MARSHAL_CASE_STUDY.title} case study`,
+        href: caseStudyHref(MARSHAL_CASE_STUDY.slug),
       },
-      also: [
-        {
-          title: DISPATCH_CASE_STUDY.title,
-          summary:
-            "Restricted drafting to confirmed, permitted evidence, with validation, bounded repair and failure diagnostics before a generated letter replaces saved work.",
-          meta: "Case study",
-          href: caseStudyHref(DISPATCH_CASE_STUDY.slug),
-        },
-        {
-          title: DSH_CASE_STUDY.title,
-          summary:
-            "Exports full conversations as clean Markdown, and excludes reasoning, tool activity and runtime metadata from the export.",
-          meta: "Case study",
-          href: caseStudyHref(DSH_CASE_STUDY.slug),
-          source: DSH_CASE_STUDY.sourceUrl,
-        },
-        {
-          title: "Client Data Delivery Validator",
-          summary:
-            "Python/pandas validation workflow for synthetic client-delivery CSV data, with structured validation results and 12 pytest regression cases.",
-          meta: "Source",
-          href: "https://github.com/liuyuelintop/client-data-delivery-validator",
-          external: true,
-        },
-      ],
+      teaser: "edits",
+      // Three lines of the tracked-changes sheet on the case-study page.
+      edits: ["prompt", "ask", "generate"],
+      note: "An illustration of the change.",
     },
+    {
+      id: "moneyguard",
+      kind: "Calculation boundary",
+      name: MONEYGUARD_CASE_STUDY.title,
+      context: "Wage planner · Personal project",
+      headline: "Keep the financial answer in code.",
+      link: {
+        label: `Read the ${MONEYGUARD_CASE_STUDY.title} case study`,
+        href: caseStudyHref(MONEYGUARD_CASE_STUDY.slug),
+      },
+      source: { label: "Pipeline source", href: MONEYGUARD_CASE_STUDY.sourceUrl },
+      teaser: "receipt",
+      // Three lines of the receipt on the case-study page.
+      receipt: ["gross", "surplus", "audit"],
+      note: "Sample figures from the pipeline’s own mock run.",
+    },
+  ],
+  // The one account that stays on the homepage in full: a job has no case-study
+  // page, and a reader who hires wants the role stated plainly.
+  experience: {
+    id: "bytecronix",
+    label: "Work experience",
+    name: "ByteCroniX",
+    context: "Full-Stack Developer at an early-stage AI SaaS, Mar to Jun 2025.",
+    headline: "From 26.7 seconds to 5.6.",
+    // Bounded by the owner's evidence register: BFF/REST, function calling and
+    // testing/delivery are first-person; the timing observation is corroborated.
+    // Service ownership, coverage figures and production results are not claimed.
+    paragraphs: [
+      "I worked across the BFF routes and REST integrations behind the web, Android and iOS clients, implemented OpenAI function-calling flows in Node.js/Express, and worked across API testing and delivery workflows using Postman, Jest/Supertest, NGINX and multi-service CI/CD.",
+      "One inherited path shows how I work. I added timing instrumentation to a points-summary request and identified the current and proposed scoring services as the dominant latency contributors, then parallelised the independent service calls. The observed local integration-test response went from 26.7s to 5.6s.",
+    ],
+    stack: "Node.js, Express, BFF and REST integrations, OpenAI Function Calling, Postman, Jest/Supertest, NGINX, Docker.",
+    figure: "latency",
+    figureCaption:
+      "Totals are the observed local integration-test responses; the spans inside them are a sketch. Nothing else is measured here.",
+  },
+  // Further evidence, listed once: case studies first, then public source,
+  // then the ongoing demo work.
+  evidenceTitle: "More evidence",
+  evidence: [
+      {
+        title: DISPATCH_CASE_STUDY.title,
+        summary:
+          "Restricted drafting to confirmed, permitted evidence, with validation, bounded repair and failure diagnostics before a generated letter replaces saved work.",
+        meta: "Case study",
+        href: caseStudyHref(DISPATCH_CASE_STUDY.slug),
+      },
+      {
+        title: DSH_CASE_STUDY.title,
+        summary:
+          "Exports full conversations as clean Markdown, and excludes reasoning, tool activity and runtime metadata from the export.",
+        meta: "Case study",
+        href: caseStudyHref(DSH_CASE_STUDY.slug),
+        source: DSH_CASE_STUDY.sourceUrl,
+      },
+      {
+        title: MELBOURNE_CASE_STUDY.title,
+        summary:
+          "Traced silent session-role failures to fragmented authentication usage, and centralised session reads behind one database-verified guard.",
+        meta: "Case study, not currently maintained",
+        href: caseStudyHref(MELBOURNE_CASE_STUDY.slug),
+      },
+      {
+        title: "Client Data Delivery Validator",
+        summary:
+          "Python/pandas validation workflow for synthetic client-delivery CSV data, with structured validation results and 12 pytest regression cases.",
+        meta: "Source",
+        href: "https://github.com/liuyuelintop/client-data-delivery-validator",
+        external: true,
+      },
+      {
+        title: "Prospective-client demos",
+        summary:
+          "Demonstration applications for a specialty coffee retailer and a drone training provider, built from informal briefs with Next.js 15 App Router, Clerk OAuth and Convex.",
+        meta: "Sep 2025 to present",
+      },
   ],
 };
 
-// Each lead story has its own kind of figure, chosen to match what the story
-// argues: Marshal's is an edited document (the change was removing steps),
+// Each story has its own kind of figure, chosen to match what the story
+// argues. Marshal's and MoneyGuard's are drawn on their case-study pages, and
+// ByteCroniX's on the homepage beside its account: Marshal's is an edited document (the change was removing steps),
 // ByteCroniX's is a request trace (measure first), and MoneyGuard's is a report
 // whose every line can be traced back to whoever wrote it (keep the answer in
 // code). The illustrations restate what the stories and case studies already

@@ -6,6 +6,7 @@ import ErrorBoundary from "./components/ui/common/ErrorBoundary";
 import useKeyboardShortcuts from "./hooks/useKeyboardShortcuts";
 import { createSkipLink } from "./utils/accessibility";
 import { ToastProvider } from "./components/ui/common/Toast";
+import { HERO_CONTENT } from "./constants/constants";
 import Masthead from "./components/layout/Masthead/Masthead";
 import Hero from "./components/sections/Hero/Hero";
 import Work from "./components/sections/Work/Work";
@@ -16,6 +17,7 @@ const NAV_LINKS = [
   { label: "Work", href: "#projects" },
   { label: "Further out", href: "#further-out" },
   { label: "Contact", href: "#contact" },
+  { label: "Résumé", href: HERO_CONTENT.resumeUrl, download: "Yuelin-Liu-Resume.pdf" },
 ];
 
 function AppContent() {
@@ -46,7 +48,7 @@ function AppContent() {
         </ErrorBoundary>
 
         <ErrorBoundary sectionName="work section">
-          <section id="projects" className="day">
+          <section id="projects" className="work">
             <Work />
           </section>
         </ErrorBoundary>
